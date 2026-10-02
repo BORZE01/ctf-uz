@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber ID — CTF.UZ</title>
+    <link rel="stylesheet" href="/css/design-system.css">
+    <link rel="stylesheet" href="/css/animations.css">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="girih-bg"></div>
+
+<header class="header">
+    <a href="/" class="logo"><div class="logo-mark">CU</div><div class="logo-text">CTF<span>.UZ</span></div></a>
+    <nav class="nav">
+        <a href="/arena">Arena</a>
+        <a href="/leaderboard">Reyting</a>
+        <a href="/welcome">Dashboard</a>
+        <a id="auth-link" class="nav-cta" href="/login">Kirish</a>
+    </nav>
+</header>
+
+<div class="container-narrow">
+    <div id="public-profile">
+        <div class="spinner"></div>
+    </div>
+</div>
+
+<script>
+async function loadPublicProfile() {
+    const username = window.location.pathname.split('/u/')[1];
+    if (!username) {
+        window.location.href = '/';
+        return;
+    }
+
+    const res = await fetch(`/api/users/u/${username}`);
+    const data = await res.json();
+
+    if (!data.success) {
+        document.getElementById('public-profile').innerHTML = `
+            <div class="card-glass" style="padding: 60px; text-align: center;">
+                <h2 style="color: var(--error);">❌ Foydalanuvchi topilmadi</h2>
+                <a href="/" class="btn btn-primary" style="margin-top: 20px;">Bosh sahifa</a>
+            </div>
+        `;
+        return;
+    }
+
+    const u = data.profile;
+    const location = [u.region, u.city].filter(Boolean).join(' · ') || 'Noma\'lum';
+
+    document.getElementById('public-profile').innerHTML = `
+        <div class="card-glass fade-in-up" style="padding: 40px;">
+            <div style="text-align: center; margin-bottom: 32px;">
+                <img src="${u.avatar || '/assets/default-avatar.svg'}" 
+                     style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 4px solid var(--uz-blue); box-shadow: 0 0 40px rgba(37,99,235,0.3);"
+                     onerror="this.src='/assets/default-avatar.svg'">
+                <h1 style="font-family: Manrope; font-size: 1.8rem; font-weight: 900; margin: 16px 0 8px;">${u.name}</h1>
+                <div style="color: var(--text-secondary); font-family: JetBrains Mono;">@${u.username}</div>
+                <div style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 12px;">🇺🇿 ${location}</div>
+                ${u.bio ? `<p style="color: var(--text-secondary); margin-top: 16px; max-width: 500px; margin-left: auto; margin-right: auto;">${u.bio}</p>` : ''}
+            </div>
+
+            <!-- QUICK STATS -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 16px; margin-bottom: 32px;">
+                <div class="stat-mini">
+                    <div class="stat-mini-value">#${u.globalRank}</div>
+                    <div class="stat-mini-label">Global rank</div>
+                </div>
+                <div class="stat-mini">
+                    <div class="stat-mini-value">${u.level}</div>
+                    <div class="stat-mini-label">Level</div>
+                </div>
+                <div class="stat-mini">
+                    <div class="stat-mini-value">${u.solvedCount}</div>
+                    <div class="stat-mini-label">Yechilgan</div>
+                </div>
+                <div class="stat-mini">
+                    <div class="stat-mini-value">${u.streak}🔥</div>
+                    <div class="stat-mini-label">Streak</div>
+                </div>
+            </div>
+
+            <!-- SKILLS -->
+            <div style="padding: 24px; background: rgba(37,99,235,0.05); border-radius: 16px; margin-bottom: 24px;">
+                <h3 style="font-family: Manrope; font-weight: 800; margin-bottom: 20px;">🧠 Ko'nikmalar</h3>
+                ${Object.entries(u.skills).map(([key, val]) => `
+                    <div class="skill-bar">
+                        <div class="skill-name">${key.charAt(0).toUpperCase() + key.slice(1)}</div>
+                        <div class="skill-progress"><div class="skill-progress-fill" style="width: ${val}%;"></div></div>
+                        <div class="skill-value">${Math.round(val)}</div>
+                    </div>
+                `).join('')}
+            </div>
+
+            <!-- ACHIEVEMENTS -->
+            ${u.achievements.length > 0 ? `
+                <div style="padding: 24px; background: rgba(37,99,235,0.05); border-radius: 16px; margin-bottom: 24px;">
+                    <h3 style="font-family: Manrope; font-weight: 800; margin-bottom: 20px;">🏆 Yutuqlar (${u.achievements.length})</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 12px;">
+                        ${u.achievements.map(a => `
+                            <div style="text-align: center; padding: 12px; background: var(--surface); border-radius: 8px;">
+                                <div style="font-size: 1.8rem;">${a.icon}</div>
+                                <div style="font-size: 0.7rem; margin-top: 4px; font-weight: 700;">${a.name}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            ` : ''}
+
+            <!-- LINKS -->
+            <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+                ${u.github ? `<a href="https://github.com/${u.github}" target="_blank" class="btn btn-secondary">🐙 GitHub</a>` : ''}
+                ${u.telegram ? `<a href="https://t.me/${u.telegram}" target="_blank" class="btn btn-secondary">💬 Telegram</a>` : ''}
+                ${u.website ? `<a href="${u.website}" target="_blank" class="btn btn-secondary">🌐 Website</a>` : ''}
+            </div>
+        </div>
+    `;
+}
+
+window.addEventListener('load', loadPublicProfile);
+</script>
+</body>
+</html>

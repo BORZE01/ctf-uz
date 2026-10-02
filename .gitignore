@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Secrets
+.env
+.env.local
+.env.production
+.env.*
+
+# Data
+data/
+backups/
+logs/
+public/uploads/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Tests
+coverage/
+tests/tmp/

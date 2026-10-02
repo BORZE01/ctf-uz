@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber ID — CTF.UZ</title>
+    <link rel="stylesheet" href="/css/design-system.css">
+    <link rel="stylesheet" href="/css/animations.css">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="girih-bg"></div>
+
+<header class="header">
+    <a href="/" class="logo"><div class="logo-mark">CU</div><div class="logo-text">CTF<span>.UZ</span></div></a>
+    <nav class="nav">
+        <a href="/dashboard">Dashboard</a>
+        <a href="/arena">Arena</a>
+        <a href="/battle">Battle</a>
+        <a href="/leaderboard">Reyting</a>
+        <a href="/career">Karyera</a>
+        <a id="auth-link" class="nav-cta"></a>
+    </nav>
+</header>
+
+<div class="container-narrow">
+    <div id="cyber-id-content">
+        <div class="spinner"></div>
+    </div>
+</div>
+
+<script src="/js/api.js"></script>
+<script src="/js/guard.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/app.js"></script>
+<script>
+window.addEventListener('load', async () => {
+    const user = await requireAuth();
+    if (!user) return;
+    await checkSession();
+    const res = await API.get('/users/profile');
+    if (!res.success) return;
+
+    const u = res.user;
+    document.getElementById('cyber-id-content').innerHTML = `
+        <div class="card-glass fade-in-up" style="padding: 40px;">
+            <div style="display: flex; align-items: center; gap: 32px; margin-bottom: 40px; padding-bottom: 32px; border-bottom: 1px solid rgba(30,94,255,0.1);">
+                <div style="width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, var(--uz-blue), var(--accent-cyan)); display: flex; align-items: center; justify-content: center; font-family: Manrope; font-size: 3rem; font-weight: 900; color: white; box-shadow: var(--glow-blue);">
+                    ${u.username[0].toUpperCase()}
+                </div>
+                <div style="flex: 1;">
+                    <h1 style="margin-bottom: 8px;">${u.name}</h1>
+                    <div style="color: var(--text-secondary); margin-bottom: 12px;">@${u.username}</div>
+                    <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                        <span class="cyber-level">⚡ Cyber Level ${u.cyberLevel}</span>
+                        <span class="badge" style="background: rgba(245,185,66,0.15); color: var(--gold); border: 1px solid rgba(245,185,66,0.3);">
+                            ${u.rank.icon} ${u.rank.name}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">${u.score}</div>
+                    <div class="stat-label">Umumiy ball</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${u.solvedChallenges.length}</div>
+                    <div class="stat-label">Yechilgan</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${u.battleRating}</div>
+                    <div class="stat-label">Battle Rating</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${u.streak}🔥</div>
+                    <div class="stat-label">Streak</div>
+                </div>
+            </div>
+
+            <h2 class="section-title" style="margin-top: 40px; font-size: 1.5rem;">Skill Graph</h2>
+            <div style="margin-top: 24px;">
+                ${Object.entries(u.skills).map(([key, value]) => `
+                    <div class="skill-bar">
+                        <div class="skill-name">${key.charAt(0).toUpperCase() + key.slice(1)}</div>
+                        <div class="skill-progress"><div class="skill-progress-fill" style="width: ${value}%;"></div></div>
+                        <div class="skill-value">${Math.round(value)}</div>
+                    </div>
+                `).join('')}
+            </div>
+
+            <div style="margin-top: 40px; padding: 24px; background: rgba(30,94,255,0.05); border-radius: 12px; border: 1px solid rgba(30,94,255,0.15);">
+                <h3 style="margin-bottom: 16px;">💼 Ish beruvchilarga ko'rinish</h3>
+                <label style="display: flex; align-items: center; gap: 12px; cursor: pointer;">
+                    <input type="checkbox" id="open-to-opps" ${u.openToOpportunities ? 'checked' : ''} onchange="toggleOpportunities(this.checked)">
+                    <span>Men ish takliflariga ochiqman</span>
+                </label>
+            </div>
+        </div>
+    `;
+});
+
+async function toggleOpportunities(value) {
+    await API.put('/users/profile', { openToOpportunities: value });
+}
+</script>
+</body>
+</html>

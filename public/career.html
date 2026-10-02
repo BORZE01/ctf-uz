@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karyera — CTF.UZ</title>
+    <link rel="stylesheet" href="/css/design-system.css">
+    <link rel="stylesheet" href="/css/animations.css">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="girih-bg"></div>
+
+<header class="header">
+    <a href="/" class="logo">
+        <div class="logo-mark">CU</div>
+        <div class="logo-text">CTF<span>.UZ</span></div>
+    </a>
+    <nav class="nav">
+        <a href="/dashboard">Dashboard</a>
+        <a href="/arena">Arena</a>
+        <a href="/leaderboard">Reyting</a>
+        <a href="/career" class="active">Karyera</a>
+        <a id="auth-link" class="nav-cta"></a>
+    </nav>
+</header>
+
+<div class="container">
+    <!-- HERO -->
+    <div style="text-align: center; padding: 40px 20px 60px;">
+        <div style="display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; background: rgba(37,99,235,0.1); border: 1px solid rgba(74,127,255,0.3); border-radius: 999px; margin-bottom: 20px; font-size: 0.8rem; color: var(--uz-blue);">
+            💼 CTF.UZ Karyera
+        </div>
+        <h1 style="font-family: Manrope; font-size: 3rem; font-weight: 900; letter-spacing: -1.5px; margin-bottom: 16px;">
+            Cybersecurity'da keyingi<br>
+            <span style="background: linear-gradient(135deg, #2563EB, #22D3EE); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">bosqichingizni toping</span>
+        </h1>
+        <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto; font-size: 1.05rem; line-height: 1.7;">
+            CTF'dagi skill'laringizni portfolio sifatida ko'rsatib, real ish imkoniyatlariga ega bo'ling.
+        </p>
+    </div>
+
+    <!-- SEARCH & FILTER -->
+    <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 24px; margin-bottom: 32px;">
+        <div style="display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 280px; position: relative;">
+                <span style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-size: 1.1rem;">🔍</span>
+                <input type="text" id="searchInput" placeholder="Lavozim, skill yoki kompaniya qidirish..." 
+                    style="width: 100%; padding: 14px 16px 14px 48px; background: var(--bg-deep); border: 1px solid var(--border); border-radius: 12px; color: var(--text-primary); font-family: inherit; font-size: 0.95rem; outline: none;">
+            </div>
+            <button class="btn btn-primary" onclick="searchJobs()" style="padding: 14px 28px;">Qidirish</button>
+        </div>
+
+        <!-- Level filters -->
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button class="filter-pill active" onclick="filterBy('level', '', this)">Barchasi</button>
+            <button class="filter-pill" onclick="filterBy('level', 'internship', this)">Internship</button>
+            <button class="filter-pill" onclick="filterBy('level', 'junior', this)">Junior</button>
+            <button class="filter-pill" onclick="filterBy('level', 'middle', this)">Middle</button>
+            <button class="filter-pill" onclick="filterBy('level', 'senior', this)">Senior</button>
+        </div>
+    </div>
+
+    <!-- FEATURED -->
+    <div id="featuredSection" style="margin-bottom: 48px;">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
+            <span style="font-size: 1.5rem;">🔥</span>
+            <h2 style="font-family: Manrope; font-weight: 800; font-size: 1.3rem;">Tavsiya etilgan vakansiyalar</h2>
+        </div>
+        <div id="featuredJobs" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px;">
+            <div class="spinner"></div>
+        </div>
+    </div>
+
+    <!-- ALL JOBS -->
+    <div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+            <h2 style="font-family: Manrope; font-weight: 800; font-size: 1.3rem;">Barcha vakansiyalar</h2>
+            <span id="resultCount" style="color: var(--text-secondary); font-size: 0.85rem;"></span>
+        </div>
+        <div id="allJobs" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px;">
+            <div class="spinner"></div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .filter-pill {
+        padding: 8px 18px;
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--text-secondary);
+        border-radius: 999px;
+        font-family: inherit;
+        font-size: 0.82rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .filter-pill:hover { border-color: var(--uz-blue); color: var(--uz-blue); }
+    .filter-pill.active {
+        background: var(--uz-blue);
+        color: white;
+        border-color: var(--uz-blue);
+    }
+
+    .job-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 24px;
+        transition: all 0.3s;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+    .job-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0;
+        width: 3px;
+        height: 100%;
+        background: var(--uz-blue);
+        transform: scaleY(0);
+        transition: transform 0.3s;
+    }
+    .job-card:hover::before { transform: scaleY(1); }
+    .job-card:hover {
+        border-color: rgba(37,99,235,0.5);
+        transform: translateY(-4px);
+        box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+    }
+    .job-card.featured {
+        border-color: rgba(245,185,66,0.3);
+    }
+    .job-card.featured::before {
+        background: var(--gold);
+    }
+
+    .job-badge {
+        display: inline-flex;
+        padding: 3px 10px;
+        border-radius: 999px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    .badge-internship { background: rgba(16,185,129,0.15); color: var(--success); }
+    .badge-junior { background: rgba(37,99,235,0.15); color: var(--uz-blue); }
+    .badge-middle { background: rgba(245,185,66,0.15); color: var(--gold); }
+    .badge-senior { background: rgba(168,85,247,0.15); color: #A855F7; }
+    .badge-featured { background: rgba(245,185,66,0.15); color: var(--gold); }
+
+    .job-skill {
+        display: inline-flex;
+        padding: 3px 10px;
+        background: rgba(74,127,255,0.08);
+        border: 1px solid rgba(74,127,255,0.15);
+        border-radius: 6px;
+        font-size: 0.72rem;
+        color: var(--uz-blue-light);
+        margin-right: 6px;
+        margin-bottom: 6px;
+        font-weight: 500;
+    }
+</style>
+
+<script>
+let currentFilters = { level: '', format: '', location: '' };
+
+async function loadFeatured() {
+    const res = await fetch('/api/career/jobs?featured=true&limit=6');
+    const data = await res.json();
+    if (data.success) {
+        document.getElementById('featuredJobs').innerHTML = data.jobs.length === 0
+            ? '<p style="color: var(--text-muted); grid-column: 1/-1; text-align: center; padding: 40px;">Tavsiya etilgan ishlar yo\'q</p>'
+            : data.jobs.map(j => renderJobCard(j, true)).join('');
+    }
+}
+
+async function loadJobs() {
+    const params = new URLSearchParams();
+    if (currentFilters.level) params.append('level', currentFilters.level);
+    if (currentFilters.format) params.append('format', currentFilters.format);
+    if (currentFilters.location) params.append('location', currentFilters.location);
+
+    const search = document.getElementById('searchInput').value;
+    if (search) params.append('search', search);
+
+    const res = await fetch('/api/career/jobs?' + params.toString());
+    const data = await res.json();
+
+    if (data.success) {
+        document.getElementById('resultCount').innerText = `${data.total} ta topildi`;
+        document.getElementById('allJobs').innerHTML = data.jobs.length === 0
+            ? '<div style="grid-column: 1/-1; text-align: center; padding: 60px; color: var(--text-muted);"><div style="font-size: 3rem; margin-bottom: 16px;">🔍</div><p>Hech narsa topilmadi</p></div>'
+            : data.jobs.map(j => renderJobCard(j)).join('');
+    }
+}
+
+function renderJobCard(job, featured) {
+    const levelClass = 'badge-' + (job.level || 'junior');
+    const levelName = { internship: 'Internship', junior: 'Junior', middle: 'Middle', senior: 'Senior', 'entry-level': 'Entry' }[job.level] || job.level;
+    const formatIcon = { remote: '🌐', office: '🏢', hybrid: '🔄' }[job.format] || '';
+
+    return `
+        <div class="job-card ${featured || job.featured ? 'featured' : ''}" onclick="location.href='/job?id=${job.id}'">
+            ${job.featured ? '<div style="position: absolute; top: 16px; right: 16px; font-size: 1.2rem;">⭐</div>' : ''}
+            <div style="display: flex; gap: 12px; margin-bottom: 16px;">
+                <div style="width: 48px; height: 48px; background: linear-gradient(135deg, var(--uz-blue), var(--accent-cyan)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-family: Manrope; font-weight: 900; color: white; font-size: 1.3rem; flex-shrink: 0;">
+                    ${job.company?.name?.[0] || '?'}
+                </div>
+                <div style="flex: 1;">
+                    <h3 style="font-family: Manrope; font-weight: 700; font-size: 1rem; margin-bottom: 4px; color: var(--text-primary);">${job.title}</h3>
+                    <div style="color: var(--text-secondary); font-size: 0.85rem;">${job.company?.name || ''}</div>
+                </div>
+            </div>
+            <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
+                <span class="job-badge ${levelClass}">${levelName}</span>
+                <span style="color: var(--text-secondary); font-size: 0.75rem; display: inline-flex; align-items: center; gap: 4px;">
+                    ${formatIcon} ${job.location}
+                </span>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 0.82rem; line-height: 1.6; margin-bottom: 16px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                ${job.description || ''}
+            </p>
+            <div style="margin-bottom: 16px;">
+                ${(job.skills || []).slice(0, 3).map(s => `<span class="job-skill">${s}</span>`).join('')}
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 16px; border-top: 1px solid var(--border);">
+                <span style="color: var(--gold); font-weight: 700; font-family: JetBrains Mono; font-size: 0.85rem;">${job.salary || '—'}</span>
+                <span style="color: var(--uz-blue); font-weight: 600; font-size: 0.8rem;">Batafsil →</span>
+            </div>
+        </div>
+    `;
+}
+
+function filterBy(key, value, el) {
+    currentFilters[key] = value;
+    document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+    el.classList.add('active');
+    loadJobs();
+}
+
+function searchJobs() {
+    loadJobs();
+}
+
+// Enter bosilganda
+document.getElementById('searchInput').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') loadJobs();
+});
+
+// Session tekshirish
+(async () => {
+    try {
+        const res = await fetch('/api/auth/session', { credentials: 'include' });
+        const data = await res.json();
+        const authLink = document.getElementById('auth-link');
+        if (data.success && data.user) {
+            authLink.innerHTML = `<img src="${data.user.avatar || '/assets/default-avatar.svg'}" style="width:22px;height:22px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-right:6px;" onerror="this.src='/assets/default-avatar.svg'"> ${data.user.username}`;
+            authLink.href = '/profile';
+        } else {
+            authLink.innerText = 'Kirish';
+            authLink.href = '/login';
+        }
+    } catch (e) {}
+})();
+
+loadFeatured();
+loadJobs();
+</script>
+</body>
+</html>

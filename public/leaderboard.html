@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reyting — CTF.UZ</title>
+    <link rel="stylesheet" href="/css/design-system.css">
+    <link rel="stylesheet" href="/css/animations.css">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="girih-bg"></div>
+
+<header class="header">
+    <a href="/" class="logo"><div class="logo-mark">CU</div><div class="logo-text">CTF<span>.UZ</span></div></a>
+    <nav class="nav">
+        <a href="/dashboard">Dashboard</a>
+        <a href="/arena">Arena</a>
+        <a href="/battle">Battle</a>
+        <a href="/leaderboard" class="active">Reyting</a>
+        <a href="/career">Karyera</a>
+        <a id="auth-link" href="/profile">Profil</a>
+    </nav>
+</header>
+
+<div class="container">
+    <h1 style="margin-bottom: 8px;">Leaderboard</h1>
+    <p style="color: var(--text-secondary); margin-bottom: 40px;">O'zbekistonning eng kuchli cyber operatorlari.</p>
+
+    <!-- STATS -->
+    <div class="stats-grid" style="margin-bottom: 40px;">
+        <div class="stat-card">
+            <div class="stat-value" id="total-players">0</div>
+            <div class="stat-label">Jami o'yinchilar</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="total-score">0</div>
+            <div class="stat-label">Umumiy ball</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="top-score">0</div>
+            <div class="stat-label">Eng yuqori ball</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="avg-level">0</div>
+            <div class="stat-label">O'rtacha level</div>
+        </div>
+    </div>
+
+    <!-- FILTER -->
+    <div style="display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap;" id="filter-bar">
+        <button class="btn btn-primary btn-sm" onclick="filterLeaderboard('all', this)">Barchasi</button>
+        <button class="btn btn-secondary btn-sm" onclick="filterLeaderboard('tashkent', this)">Toshkent</button>
+        <button class="btn btn-secondary btn-sm" onclick="filterLeaderboard('samarqand', this)">Samarqand</button>
+        <button class="btn btn-secondary btn-sm" onclick="filterLeaderboard('buxoro', this)">Buxoro</button>
+        <button class="btn btn-secondary btn-sm" onclick="filterLeaderboard('fargona', this)">Farg'ona</button>
+    </div>
+
+    <!-- LEADERBOARD -->
+    <div class="leaderboard" id="leaderboard-list">
+        <div class="spinner"></div>
+    </div>
+</div>
+
+<script>
+let allUsers = [];
+
+async function loadLeaderboard() {
+    try {
+        const res = await fetch('/api/challenges/leaderboard');
+        const data = await res.json();
+
+        if (!data.success) {
+            document.getElementById('leaderboard-list').innerHTML = `
+                <div style="padding: 60px; text-align: center; color: var(--text-muted);">
+                    <div style="font-size: 3rem; margin-bottom: 16px;">📊</div>
+                    <p>Leaderboard hozircha bo'sh</p>
+                </div>
+            `;
+            return;
+        }
+
+        allUsers = data.leaderboard || [];
+        renderStats();
+        renderLeaderboard(allUsers);
+    } catch (err) {
+        console.error('Xatosi:', err);
+        document.getElementById('leaderboard-list').innerHTML = `
+            <div style="padding: 60px; text-align: center; color: var(--error);">
+                <p>❌ Leaderboard yuklanmadi</p>
+            </div>
+        `;
+    }
+}
+
+function renderStats() {
+    const totalScore = allUsers.reduce((s, u) => s + (u.score || 0), 0);
+    const topScore = allUsers.length > 0 ? Math.max(...allUsers.map(u => u.score || 0)) : 0;
+    const avgLevel = allUsers.length > 0 
+        ? Math.round(allUsers.reduce((s, u) => s + (u.cyberLevel || 1), 0) / allUsers.length) 
+        : 0;
+
+    document.getElementById('total-players').innerText = allUsers.length;
+    document.getElementById('total-score').innerText = totalScore.toLocaleString();
+    document.getElementById('top-score').innerText = topScore.toLocaleString();
+    document.getElementById('avg-level').innerText = avgLevel;
+}
+
+function renderLeaderboard(users) {
+    const list = document.getElementById('leaderboard-list');
+
+    if (!users || users.length === 0) {
+        list.innerHTML = `
+            <div style="padding: 60px; text-align: center; color: var(--text-muted);">
+                <p>Ma'lumot topilmadi</p>
+            </div>
+        `;
+        return;
+    }
+
+    list.innerHTML = users.map((u, i) => `
+        <div class="leaderboard-row ${i < 3 ? 'top-' + (i + 1) : ''}">
+            <div class="leaderboard-rank">${i + 1}</div>
+            <div class="leaderboard-user">
+                <div class="leaderboard-avatar" style="overflow: hidden;">
+                    ${u.avatar 
+                        ? `<img src="${u.avatar}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.replaceWith('${u.username[0].toUpperCase()}')">` 
+                        : u.username[0].toUpperCase()}
+                </div>
+                <div>
+                    <div class="leaderboard-name">${u.name || u.username}</div>
+                    <div class="leaderboard-username">
+                        @${u.username} • Lvl ${u.cyberLevel || 1}
+                        ${u.region ? ` • 📍 ${u.city || u.district || u.region}` : ''}
+                    </div>
+                </div>
+            </div>
+            <div class="leaderboard-score">${(u.score || 0).toLocaleString()}</div>
+            <div class="leaderboard-solved">${u.cyberLevel || 1}</div>
+        </div>
+    `).join('');
+}
+
+function filterLeaderboard(region, el) {
+    document.querySelectorAll('#filter-bar button').forEach(b => {
+        b.className = b.className.replace('btn-primary', 'btn-secondary');
+    });
+    el.className = el.className.replace('btn-secondary', 'btn-primary');
+
+    if (region === 'all') {
+        renderLeaderboard(allUsers);
+        return;
+    }
+
+    const regionMap = {
+        'tashkent': ['Toshkent shahri', 'Toshkent viloyati'],
+        'samarqand': ['Samarqand viloyati'],
+        'buxoro': ['Buxoro viloyati'],
+        'fargona': ['Farg\'ona viloyati']
+    };
+
+    const filterRegions = regionMap[region] || [];
+    const filtered = allUsers.filter(u => filterRegions.includes(u.region));
+    renderLeaderboard(filtered);
+}
+
+// Session tekshirish (header uchun)
+(async () => {
+    try {
+        const res = await fetch('/api/auth/session', { credentials: 'include' });
+        const data = await res.json();
+        const authLink = document.getElementById('auth-link');
+        
+        if (data.success && data.user) {
+            authLink.innerHTML = `
+                <img src="${data.user.avatar || '/assets/default-avatar.svg'}" 
+                     style="width:22px;height:22px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-right:6px;border:1px solid #2563EB;"
+                     onerror="this.src='/assets/default-avatar.svg'">
+                ${data.user.username}
+            `;
+            authLink.href = '/profile';
+        } else {
+            authLink.innerText = 'Kirish';
+            authLink.href = '/login';
+        }
+    } catch (err) {}
+})();
+
+window.addEventListener('load', loadLeaderboard);
+</script>
+</body>
+</html>

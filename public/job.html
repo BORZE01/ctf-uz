@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vakansiya — CTF.UZ</title>
+    <link rel="stylesheet" href="/css/design-system.css">
+    <link rel="stylesheet" href="/css/animations.css">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="girih-bg"></div>
+
+<header class="header">
+    <a href="/" class="logo"><div class="logo-mark">CU</div><div class="logo-text">CTF<span>.UZ</span></div></a>
+    <nav class="nav">
+        <a href="/dashboard">Dashboard</a>
+        <a href="/arena">Arena</a>
+        <a href="/career">Karyera</a>
+        <a id="auth-link" class="nav-cta"></a>
+    </nav>
+</header>
+
+<div class="container-narrow">
+    <div id="jobContent">
+        <div class="spinner"></div>
+    </div>
+</div>
+
+<script>
+let jobData = null;
+
+async function loadJob() {
+    const id = new URLSearchParams(window.location.search).get('id');
+    if (!id) { window.location.href = '/career'; return; }
+
+    const res = await fetch(`/api/career/jobs/${id}`);
+    const data = await res.json();
+
+    if (!data.success) {
+        document.getElementById('jobContent').innerHTML = `
+            <div class="card-glass" style="padding: 60px; text-align: center;">
+                <h2 style="color: var(--error);">❌ Vakansiya topilmadi</h2>
+                <a href="/career" class="btn btn-primary" style="margin-top: 20px;">Karyera bo'limiga qaytish</a>
+            </div>
+        `;
+        return;
+    }
+
+    jobData = data.job;
+    const j = data.job;
+    const levelName = { internship: 'Internship', junior: 'Junior', middle: 'Middle', senior: 'Senior' }[j.level] || j.level;
+    const formatIcon = { remote: '🌐 Remote', office: '🏢 Office', hybrid: '🔄 Hybrid' }[j.format] || '';
+
+    document.getElementById('jobContent').innerHTML = `
+        <a href="/career" style="color: var(--text-secondary); text-decoration: none; font-size: 0.85rem; display: inline-block; margin-bottom: 24px;">← Karyera bo'limiga qaytish</a>
+
+        <div class="card-glass fade-in-up" style="padding: 40px; margin-bottom: 24px;">
+            <div style="display: flex; gap: 24px; margin-bottom: 32px; flex-wrap: wrap;">
+                <div style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--uz-blue), var(--accent-cyan)); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-family: Manrope; font-weight: 900; color: white; font-size: 2.2rem; flex-shrink: 0;">
+                    ${j.company?.name?.[0] || '?'}
+                </div>
+                <div style="flex: 1; min-width: 250px;">
+                    <h1 style="font-family: Manrope; font-size: 1.8rem; font-weight: 900; margin-bottom: 8px;">${j.title}</h1>
+                    <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 12px;">
+                        <span style="color: var(--text-secondary); font-weight: 600;">${j.company?.name || ''}</span>
+                        ${j.company?.verified ? '<span style="color: var(--uz-blue); font-size: 0.75rem;">✓ Verified</span>' : ''}
+                    </div>
+                    <div style="display: flex; gap: 16px; flex-wrap: wrap; color: var(--text-secondary); font-size: 0.85rem;">
+                        <span>📍 ${j.location}</span>
+                        <span>${formatIcon}</span>
+                        <span>💰 ${j.salary || '—'}</span>
+                    </div>
+                </div>
+                <div style="text-align: right;">
+                    <span class="badge badge-${j.level === 'internship' ? 'easy' : j.level === 'junior' ? 'web' : j.level === 'middle' ? 'medium' : 'expert'}" style="font-size: 0.8rem; padding: 6px 14px;">${levelName}</span>
+                </div>
+            </div>
+
+            ${j.matchScore > 0 ? `
+                <div style="padding: 20px; background: rgba(37,99,235,0.05); border: 1px solid rgba(74,127,255,0.2); border-radius: 12px; margin-bottom: 24px;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <span style="font-size: 1.5rem;">🎯</span>
+                        <div>
+                            <div style="font-weight: 700;">Sizning CTF profilingiz ${j.matchedSkills.length}/${j.skills.length} skill'ga mos keladi</div>
+                            <div style="color: var(--text-secondary); font-size: 0.82rem; margin-top: 4px;">Mos: ${j.matchedSkills.join(', ') || '—'}</div>
+                        </div>
+                    </div>
+                </div>
+            ` : ''}
+        </div>
+
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;">
+            <div>
+                <div class="card-glass" style="padding: 32px; margin-bottom: 20px;">
+                    <h3 style="font-family: Manrope; font-weight: 800; margin-bottom: 16px;">📄 Lavozim haqida</h3>
+                    <p style="color: var(--text-secondary); line-height: 1.8; white-space: pre-wrap;">${j.description}</p>
+                </div>
+
+                <div class="card-glass" style="padding: 32px; margin-bottom: 20px;">
+                    <h3 style="font-family: Manrope; font-weight: 800; margin-bottom: 16px;">✅ Talablar</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        ${(j.requirements || []).map(r => `
+                            <li style="padding: 8px 0; color: var(--text-secondary); display: flex; align-items: center; gap: 8px;">
+                                <span style="color: var(--success);">✓</span> ${r}
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+
+                ${(j.niceToHave || []).length > 0 ? `
+                    <div class="card-glass" style="padding: 32px;">
+                        <h3 style="font-family: Manrope; font-weight: 800; margin-bottom: 16px;">⭐ Qo'shimcha afzalliklar</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            ${j.niceToHave.map(n => `
+                                <li style="padding: 8px 0; color: var(--text-secondary); display: flex; align-items: center; gap: 8px;">
+                                    <span style="color: var(--gold);">•</span> ${n}
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                ` : ''}
+            </div>
+
+            <div>
+                <div class="card-glass" style="padding: 28px; position: sticky; top: 100px;">
+                    <button id="applyBtn" class="btn btn-primary btn-lg" style="width: 100%; margin-bottom: 12px;">
+                        📝 Ariza topshirish
+                    </button>
+                    <button id="saveBtn" class="btn btn-secondary" style="width: 100%; margin-bottom: 16px;">
+                        ♡ Saqlash
+                    </button>
+
+                    <div style="padding-top: 20px; border-top: 1px solid var(--border); font-size: 0.82rem; color: var(--text-secondary);">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span>👁 Ko'rishlar</span>
+                            <span style="color: var(--text-primary); font-family: JetBrains Mono;">${j.views}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span>📮 Arizalar</span>
+                            <span style="color: var(--text-primary); font-family: JetBrains Mono;">${j.applications}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>📅 Yopiladi</span>
+                            <span style="color: var(--text-primary); font-family: JetBrains Mono;">${new Date(j.expiresAt).toLocaleDateString('uz-UZ')}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.getElementById('applyBtn').addEventListener('click', applyJob);
+    document.getElementById('saveBtn').addEventListener('click', saveJob);
+}
+
+async function applyJob() {
+    const coverLetter = prompt('Cover letter (ixtiyoriy):');
+    if (coverLetter === null) return;
+
+    const res = await fetch(`/api/career/jobs/${jobData.id}/apply`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ coverLetter })
+    });
+    const data = await res.json();
+    alert(data.message);
+}
+
+async function saveJob() {
+    const res = await fetch(`/api/career/jobs/${jobData.id}/save`, {
+        method: 'POST',
+        credentials: 'include'
+    });
+    const data = await res.json();
+    if (data.success) {
+        document.getElementById('saveBtn').innerText = data.saved ? '✓ Saqlangan' : '♡ Saqlash';
+    } else {
+        alert(data.message);
+    }
+}
+
+(async () => {
+    const res = await fetch('/api/auth/session', { credentials: 'include' });
+    const data = await res.json();
+    const authLink = document.getElementById('auth-link');
+    if (data.success && data.user) {
+        authLink.innerHTML = `<img src="${data.user.avatar || '/assets/default-avatar.svg'}" style="width:22px;height:22px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-right:6px;" onerror="this.src='/assets/default-avatar.svg'"> ${data.user.username}`;
+        authLink.href = '/profile';
+    } else {
+        authLink.innerText = 'Kirish';
+        authLink.href = '/login';
+    }
+})();
+
+loadJob();
+</script>
+</body>
+</html>

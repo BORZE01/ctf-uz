@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arena — CTF.UZ</title>
+    <link rel="stylesheet" href="/css/design-system.css">
+    <link rel="stylesheet" href="/css/animations.css">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="girih-bg"></div>
+
+<header class="header">
+    <a href="/" class="logo"><div class="logo-mark">CU</div><div class="logo-text">CTF<span>.UZ</span></div></a>
+    <nav class="nav">
+        <a href="/dashboard">Dashboard</a>
+        <a href="/arena" class="active">Arena</a>
+        <a href="/battle">Battle</a>
+        <a href="/leaderboard">Reyting</a>
+        <a href="/career">Karyera</a>
+        <a href="/profile">Profil</a>
+        <a id="auth-link" class="nav-cta"></a>
+    </nav>
+</header>
+
+<div class="container">
+    <h1 style="margin-bottom: 8px;">Arena</h1>
+    <p style="color: var(--text-secondary); margin-bottom: 40px;">Real-world cyber incidents. Har bir challenge — missiya.</p>
+
+    <div style="display: flex; gap: 8px; margin-bottom: 32px; flex-wrap: wrap;" id="filter-bar">
+        <button class="btn btn-primary btn-sm" onclick="filterChallenges('all', this)">Barchasi</button>
+        <button class="btn btn-secondary btn-sm" onclick="filterChallenges('Web', this)">Web</button>
+        <button class="btn btn-secondary btn-sm" onclick="filterChallenges('Pwn', this)">Pwn</button>
+        <button class="btn btn-secondary btn-sm" onclick="filterChallenges('Reverse', this)">Reverse</button>
+        <button class="btn btn-secondary btn-sm" onclick="filterChallenges('Crypto', this)">Crypto</button>
+        <button class="btn btn-secondary btn-sm" onclick="filterChallenges('Forensics', this)">Forensics</button>
+        <button class="btn btn-secondary btn-sm" onclick="filterChallenges('OSINT', this)">OSINT</button>
+    </div>
+
+    <div id="challenges-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 24px;">
+        <div class="spinner"></div>
+    </div>
+</div>
+
+<script src="/js/api.js"></script>
+<script src="/js/guard.js"></script>
+<script>
+let allChallenges = [];
+
+async function loadChallenges() {
+    const res = await API.get('/challenges');
+    if (!res.success) {
+        if (res.message?.includes('tizimga kiring')) {
+            window.location.href = '/welcome';
+        }
+        return;
+    }
+    allChallenges = res.challenges;
+    renderChallenges('all');
+}
+
+function renderChallenges(cat) {
+    const list = document.getElementById('challenges-list');
+    let filtered = cat === 'all' ? allChallenges : allChallenges.filter(c => c.category === cat);
+
+    if (filtered.length === 0) {
+        list.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 60px; color: var(--text-muted);">Bu kategoriyada challenge yo\'q</div>';
+        return;
+    }
+
+    list.innerHTML = filtered.map(c => `
+        <div class="challenge-card ${c.solved ? 'solved' : ''} fade-in-up" onclick="window.location.href='/challenge?id=${c.id}'">
+            <div class="challenge-header">
+                <div>
+                    <div class="challenge-title">${c.title}</div>
+                </div>
+                <div class="challenge-points">${c.points} XP</div>
+            </div>
+            <div class="challenge-meta">
+                <span class="badge badge-${c.category.toLowerCase()}">${c.category}</span>
+                <span class="badge badge-${c.difficulty.toLowerCase()}">${c.difficulty}</span>
+                ${c.solved ? '<span class="badge badge-easy">✅ YECHILGAN</span>' : ''}
+            </div>
+            <div class="challenge-story">${c.story || 'Tavsif yo\'q'}</div>
+            <div class="challenge-footer">
+                <span style="color: var(--text-muted); font-size: 0.75rem;">
+                    ${c.solved ? '✅ Yechilgan' : '⏳ Yechilmagan'}
+                </span>
+                <span style="color: var(--uz-blue); font-weight: 700; font-size: 0.85rem;">ENTER →</span>
+            </div>
+        </div>
+    `).join('');
+}
+
+function filterChallenges(cat, el) {
+    document.querySelectorAll('#filter-bar button').forEach(b => {
+        b.className = b.className.replace('btn-primary', 'btn-secondary');
+    });
+    el.className = el.className.replace('btn-secondary', 'btn-primary');
+    renderChallenges(cat);
+}
+
+window.addEventListener('load', async () => {
+    const user = await requireAuth();
+    if (!user) return;
+    loadChallenges();
+});
+</script>
+</body>
+</html>

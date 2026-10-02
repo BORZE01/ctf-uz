@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xush kelibsiz — CTF.UZ</title>
+    <link rel="stylesheet" href="/css/design-system.css">
+    <link rel="stylesheet" href="/css/animations.css">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        .welcome-hero {
+            text-align: center;
+            padding: 60px 20px;
+            margin-bottom: 40px;
+        }
+        .welcome-hero h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            letter-spacing: -1.5px;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #F1F5F9 0%, #2563EB 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .welcome-hero p {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            max-width: 600px;
+            margin: 0 auto 32px;
+            line-height: 1.7;
+        }
+        .welcome-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .preview-card {
+            position: relative;
+            overflow: hidden;
+        }
+        .preview-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent 40%, rgba(37,99,235,0.05) 100%);
+            pointer-events: none;
+        }
+        .locked-overlay {
+            position: relative;
+        }
+        .locked-overlay::before {
+            content: '🔒';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2rem;
+            z-index: 2;
+            opacity: 0.3;
+        }
+        .blur-content {
+            filter: blur(4px);
+            user-select: none;
+            pointer-events: none;
+        }
+        .step-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 28px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .step-card:hover {
+            border-color: var(--uz-blue);
+            transform: translateY(-4px);
+        }
+        .step-number {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 16px;
+            background: linear-gradient(135deg, var(--uz-blue), var(--accent-cyan));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Manrope';
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: white;
+            box-shadow: var(--glow-blue);
+        }
+    </style>
+</head>
+<body>
+
+<div class="girih-bg"></div>
+
+<header class="header">
+    <a href="/" class="logo">
+        <div class="logo-mark">CU</div>
+        <div class="logo-text">CTF<span>.UZ</span></div>
+    </a>
+    <nav class="nav">
+        <a href="/">Bosh sahifa</a>
+        <a href="/arena">Arena</a>
+        <a href="/leaderboard">Reyting</a>
+        <a href="/events">Events</a>
+        <a href="/login" class="nav-cta">Kirish</a>
+    </nav>
+</header>
+
+<div class="container">
+
+    <!-- WELCOME HERO -->
+    <div class="welcome-hero fade-in-up">
+        <div style="display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; background: rgba(37,99,235,0.1); border: 1px solid rgba(74,127,255,0.3); border-radius: 999px; margin-bottom: 24px; font-size: 0.8rem; color: var(--uz-blue);">
+            <span class="live-pulse"></span>
+            Xush kelibsiz, mehmon!
+        </div>
+        
+        <h1>Sizni CTF-UZ'da ko'rishdan xursandmiz</h1>
+        <p>
+            Bu sahifa sizga platformamizni tanishtiradi. 
+            To'liq imkoniyatlardan foydalanish uchun <strong>tizimga kiring</strong> yoki 
+            <strong>ro'yxatdan o'ting</strong>.
+        </p>
+        
+        <div class="welcome-buttons">
+            <a href="/login" class="btn btn-primary btn-lg">🔐 Kirish</a>
+            <a href="/register" class="btn btn-secondary btn-lg">📝 Ro'yxatdan o'tish</a>
+        </div>
+    </div>
+
+    <!-- STATS PREVIEW -->
+    <div class="stats-grid" style="margin-bottom: 60px;">
+        <div class="stat-card fade-in-up">
+            <div class="stat-value">8</div>
+            <div class="stat-label">Faol musobaqalar</div>
+        </div>
+        <div class="stat-card fade-in-up">
+            <div class="stat-value">548</div>
+            <div class="stat-label">Foydalanuvchilar</div>
+        </div>
+        <div class="stat-card fade-in-up">
+            <div class="stat-value">86</div>
+            <div class="stat-label">Yechilgan</div>
+        </div>
+        <div class="stat-card fade-in-up">
+            <div class="stat-value">43</div>
+            <div class="stat-label">Resurslar</div>
+        </div>
+    </div>
+
+    <!-- NIMA UCHUN RO'YXATDAN O'TISH -->
+    <div style="text-align: center; margin-bottom: 60px;">
+        <h2 style="font-family: Manrope; font-size: 2rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 12px;">
+            Nima uchun ro'yxatdan o'tish kerak?
+        </h2>
+        <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto; line-height: 1.7;">
+            CTF-UZ'da hisobingiz bo'lsa, quyidagi imkoniyatlarga ega bo'lasiz
+        </p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 60px;">
+        <div class="step-card fade-in-up">
+            <div class="step-number">1</div>
+            <h3 style="font-family: Manrope; font-weight: 700; margin-bottom: 12px;">🎯 Challenge yechish</h3>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.7;">
+                Real-world cyber incidents va missiyalarda ishtirok eting
+            </p>
+        </div>
+        
+        <div class="step-card fade-in-up">
+            <div class="step-number">2</div>
+            <h3 style="font-family: Manrope; font-weight: 700; margin-bottom: 12px;">📊 Skill Graph</h3>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.7;">
+                Shaxsiy Cyber ID va ko'nikmalar profilingizni yarating
+            </p>
+        </div>
+        
+        <div class="step-card fade-in-up">
+            <div class="step-number">3</div>
+            <h3 style="font-family: Manrope; font-weight: 700; margin-bottom: 12px;">⚔️ Battle Arena</h3>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.7;">
+                Boshqa foydalanuvchilar bilan 1v1 bellashing
+            </p>
+        </div>
+        
+        <div class="step-card fade-in-up">
+            <div class="step-number">4</div>
+            <h3 style="font-family: Manrope; font-weight: 700; margin-bottom: 12px;">💼 Ish imkoniyatlari</h3>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.7;">
+                Kompaniyalar sizning profilingizni ko'rib, ishga taklif qiladi
+            </p>
+        </div>
+    </div>
+
+    <!-- LOCKED DASHBOARD PREVIEW -->
+    <div style="margin-bottom: 60px;">
+        <h2 style="font-family: Manrope; font-size: 2rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 12px; text-align: center;">
+            Dashboard ko'rinishi
+        </h2>
+        <p style="color: var(--text-secondary); text-align: center; margin-bottom: 40px;">
+            Bu sizning shaxsiy dashboardingiz bo'ladi (login qilgandan keyin)
+        </p>
+
+        <div class="card-glass preview-card" style="padding: 40px; position: relative;">
+            
+            <!-- BLUR OVERLAY -->
+            <div style="position: absolute; inset: 0; z-index: 10; display: flex; align-items: center; justify-content: center; background: rgba(6,11,24,0.7); backdrop-filter: blur(2px); border-radius: inherit;">
+                <div style="text-align: center; padding: 40px;">
+                    <div style="font-size: 4rem; margin-bottom: 16px;">🔒</div>
+                    <h3 style="font-family: Manrope; font-weight: 800; font-size: 1.3rem; margin-bottom: 12px;">
+                        Dashboard yopiq
+                    </h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 24px; max-width: 400px;">
+                        Dashboardni ko'rish uchun tizimga kiring yoki ro'yxatdan o'ting
+                    </p>
+                    <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+                        <a href="/login" class="btn btn-primary">🔐 Kirish</a>
+                        <a href="/register" class="btn btn-secondary">📝 Ro'yxatdan o'tish</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BLURRED PREVIEW CONTENT -->
+            <div class="blur-content">
+                <h1 style="margin-bottom: 8px;">Xayrli kun, <span style="color: var(--uz-blue);">Foydalanuvchi</span></h1>
+                <p style="color: var(--text-secondary); margin-bottom: 32px;">Cyber Level 12 • ⭐ Expert</p>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">2,450</div>
+                        <div class="stat-label">Umumiy ball</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">18</div>
+                        <div class="stat-label">Yechilgan</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">1,640</div>
+                        <div class="stat-label">Battle Rating</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">7🔥</div>
+                        <div class="stat-label">Streak</div>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px; margin-top: 32px;">
+                    <div class="card-glass">
+                        <h3 style="margin-bottom: 20px;">📊 Skill Graph</h3>
+                        <div class="skill-bar">
+                            <div class="skill-name">Web</div>
+                            <div class="skill-progress"><div class="skill-progress-fill" style="width: 85%;"></div></div>
+                            <div class="skill-value">85</div>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-name">Forensics</div>
+                            <div class="skill-progress"><div class="skill-progress-fill" style="width: 72%;"></div></div>
+                            <div class="skill-value">72</div>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-name">Crypto</div>
+                            <div class="skill-progress"><div class="skill-progress-fill" style="width: 64%;"></div></div>
+                            <div class="skill-value">64</div>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-name">OSINT</div>
+                            <div class="skill-progress"><div class="skill-progress-fill" style="width: 90%;"></div></div>
+                            <div class="skill-value">90</div>
+                        </div>
+                    </div>
+
+                    <div class="card-glass">
+                        <h3 style="margin-bottom: 20px;">🎯 Keyingi missiya</h3>
+                        <span class="badge badge-web" style="margin-bottom: 12px;">Web</span>
+                        <h4 style="margin-bottom: 8px;">Cyber Ministry Incident #042</h4>
+                        <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 20px;">
+                            Toshkentdagi fintech kompaniyasining API'sida shubhali trafik.
+                        </p>
+                        <button class="btn btn-primary" style="width: 100%;">Boshlash →</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA SECTION -->
+    <div class="card-glass fade-in-up" style="padding: 60px 40px; text-align: center; background: linear-gradient(135deg, rgba(37,99,235,0.1), rgba(124,58,237,0.1)); border: 1px solid rgba(74,127,255,0.3);">
+        <div style="font-size: 3rem; margin-bottom: 16px;">🚀</div>
+        <h2 style="font-family: Manrope; font-size: 2rem; font-weight: 900; letter-spacing: -1px; margin-bottom: 16px;">
+            Hoziroq boshlang
+        </h2>
+        <p style="color: var(--text-secondary); max-width: 500px; margin: 0 auto 32px; line-height: 1.7;">
+            O'zbekistonning eng kuchli cyber talentlari bilan bellashing.
+            Birinchi challenge'ni yechib, Cyber ID yarating.
+        </p>
+        <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+            <a href="/register" class="btn btn-primary btn-lg">📝 Hoziroq ro'yxatdan o'tish</a>
+            <a href="/arena" class="btn btn-secondary btn-lg">🏆 Arenani ko'rish</a>
+        </div>
+    </div>
+
+</div>
+
+<footer class="footer">
+    <div class="footer-inner">
+        <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+            <p>© 2025 CTF-UZ. Barcha huquqlar himoyalangan.</p>
+            <p>Made with <span class="heart">❤</span> in Uzbekistan</p>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

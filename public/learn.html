@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O'rganish — CTF.UZ</title>
+    <link rel="stylesheet" href="/css/design-system.css">
+    <link rel="stylesheet" href="/css/animations.css">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="girih-bg"></div>
+
+<header class="header">
+    <a href="/" class="logo"><div class="logo-mark">CU</div><div class="logo-text">CTF<span>.UZ</span></div></a>
+    <nav class="nav">
+        <a href="/dashboard">Dashboard</a>
+        <a href="/arena">Arena</a>
+        <a href="/battle">Battle</a>
+        <a href="/leaderboard">Reyting</a>
+        <a href="/career">Karyera</a>
+        <a id="auth-link" class="nav-cta"></a>
+    </nav>
+</header>
+
+<div class="container">
+    <div style="text-align: center; margin-bottom: 60px;">
+        <h1 style="margin-bottom: 16px;">O'zbek tilidagi cyber ta'lim</h1>
+        <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto 32px; font-size: 1.05rem; line-height: 1.8;">
+            Noldan professionallikka. Duolingo + HackTheBox modeli.
+            Har bir dars: nazariya → amaliyot → mini-lab → challenge → XP.
+        </p>
+        <div style="display: inline-flex; gap: 12px; padding: 8px 20px; background: rgba(30,94,255,0.1); border: 1px solid rgba(30,94,255,0.3); border-radius: 999px; font-size: 0.85rem;">
+            <span class="live-pulse"></span>
+            <span>Hozir <strong id="learners-count">0</strong> kishi o'rganmoqda</span>
+        </div>
+    </div>
+
+    <h2 class="section-title" style="font-size: 1.5rem;">Learning Paths</h2>
+    <div id="paths-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 24px;">
+        <div class="spinner"></div>
+    </div>
+
+    <div class="card-glass" style="margin-top: 60px; padding: 40px; text-align: center;">
+        <div style="font-size: 3rem; margin-bottom: 16px;">🎓</div>
+        <h2 style="margin-bottom: 16px;">O'z yo'lingizni tanlang</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 32px; max-width: 500px; margin-left: auto; margin-right: auto;">
+            Qanday cyber operator bo'lishni xohlaysiz? Tizim sizga mos learning pathni tayyorlaydi.
+        </p>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;">
+            <button class="btn btn-secondary" onclick="selectPath('offensive')">⚔️ Offensive Security</button>
+            <button class="btn btn-secondary" onclick="selectPath('defensive')">🛡️ Defensive Security</button>
+            <button class="btn btn-secondary" onclick="selectPath('forensics')">🔬 Digital Forensics</button>
+            <button class="btn btn-secondary" onclick="selectPath('osint')">🕵️ Intelligence / OSINT</button>
+            <button class="btn btn-secondary" onclick="selectPath('crypto')">🔐 Cryptography</button>
+            <button class="btn btn-secondary" onclick="selectPath('exploring')">🌱 Hali o'rganmoqdaman</button>
+        </div>
+    </div>
+</div>
+
+<script src="/js/api.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/app.js"></script>
+<script>
+window.addEventListener('load', async () => {
+    await checkSession();
+    loadPaths();
+    document.getElementById('learners-count').innerText = Math.floor(Math.random() * 200) + 50;
+});
+
+async function loadPaths() {
+    const res = await API.get('/learn/paths');
+    if (!res.success) return;
+
+    document.getElementById('paths-list').innerHTML = res.paths.map(p => `
+        <div class="card-glass fade-in-up" style="position: relative; overflow: hidden;">
+            <div style="position: absolute; top: 16px; right: 16px; font-family: JetBrains Mono; font-size: 0.7rem; color: var(--text-muted);">
+                LEVEL ${p.level}
+            </div>
+            <div style="font-size: 2.5rem; margin-bottom: 16px;">${p.icon}</div>
+            <h3 style="margin-bottom: 8px;">${p.title}</h3>
+            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 20px;">${p.description}</p>
+            <div style="display: flex; gap: 16px; padding-top: 16px; border-top: 1px solid rgba(30,94,255,0.1); font-size: 0.75rem; color: var(--text-muted);">
+                <span>📚 ${p.lessons} dars</span>
+                <span>⏱️ ${p.duration}</span>
+            </div>
+            <button class="btn btn-primary" style="width: 100%; margin-top: 20px;" onclick="startPath(${p.id})">Boshlash →</button>
+        </div>
+    `).join('');
+}
+
+function startPath(id) {
+    alert('🎓 Learning path #' + id + ' boshlanmoqda...');
+}
+
+function selectPath(path) {
+    alert('✅ Sizning cyber route tayyorlandi: ' + path);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Kirish — CTF.UZ</title>
+    <link rel="stylesheet" href="/css/design-system.css">
+    <link rel="stylesheet" href="/css/animations.css">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="girih-bg"></div>
+
+<div class="container-narrow">
+    <div class="card-glass fade-in-up" style="max-width: 450px; margin: 100px auto; padding: 40px;">
+        
+        <div style="text-align: center; margin-bottom: 32px;">
+            <div style="width: 70px; height: 70px; margin: 0 auto 16px; background: linear-gradient(135deg, #EF4444, #7C3AED); border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 0 40px rgba(239,68,68,0.3);">
+                🛡️
+            </div>
+            <h2 style="font-family: Manrope; margin-bottom: 8px;">ADMIN PANEL</h2>
+            <p style="color: var(--text-secondary); font-size: 0.85rem;">
+                Faqat administratorlar uchun
+            </p>
+        </div>
+
+        <form id="admin-login-form">
+            <div class="input-group">
+                <input type="text" id="admin-user" placeholder=" " required autocomplete="username">
+                <label>Admin username</label>
+            </div>
+            <div class="input-group">
+                <input type="password" id="admin-pass" placeholder=" " required autocomplete="current-password">
+                <label>Parol</label>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; background: linear-gradient(135deg, #EF4444, #7C3AED); border: none;">
+                🛡️ Kirish
+            </button>
+        </form>
+
+        <div id="admin-login-message" class="msg-box"></div>
+
+        <p style="text-align: center; margin-top: 24px; color: var(--text-muted); font-size: 0.75rem;">
+            ⚠️ Bu sahifaga kirish urinishlari jurnalga yoziladi
+        </p>
+
+    </div>
+</div>
+
+<script>
+document.getElementById('admin-login-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const username = document.getElementById('admin-user').value.trim();
+    const password = document.getElementById('admin-pass').value;
+    const msg = document.getElementById('admin-login-message');
+    const btn = e.target.querySelector('button[type="submit"]');
+
+    if (!username || !password) {
+        msg.className = 'msg-box error';
+        msg.innerText = '❌ Barcha maydonlarni to\'ldiring';
+        return;
+    }
+
+    btn.disabled = true;
+    btn.innerText = 'Tekshirilmoqda...';
+
+    try {
+        const res = await fetch('/api/auth/admin-login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({ username, password })
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+            msg.className = 'msg-box success';
+            msg.innerText = '✅ ' + data.message;
+            setTimeout(() => window.location.href = '/admin', 800);
+        } else {
+            msg.className = 'msg-box error';
+            msg.innerText = '❌ ' + data.message;
+            btn.disabled = false;
+            btn.innerText = '🛡️ Kirish';
+        }
+    } catch (err) {
+        msg.className = 'msg-box error';
+        msg.innerText = '❌ Ulanish xatosi';
+        btn.disabled = false;
+        btn.innerText = '🛡️ Kirish';
+    }
+});
+</script>
+</body>
+</html>

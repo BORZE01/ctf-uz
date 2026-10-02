@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge — CTF.UZ</title>
+    <link rel="stylesheet" href="/css/design-system.css">
+    <link rel="stylesheet" href="/css/animations.css">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="girih-bg"></div>
+
+<header class="header">
+    <a href="/" class="logo"><div class="logo-mark">CU</div><div class="logo-text">CTF<span>.UZ</span></div></a>
+    <nav class="nav">
+        <a href="/dashboard">Dashboard</a>
+        <a href="/arena" class="active">Arena</a>
+        <a href="/battle">Battle</a>
+        <a href="/leaderboard">Reyting</a>
+        <a href="/profile">Profil</a>
+        <a id="auth-link" class="nav-cta"></a>
+    </nav>
+</header>
+
+<div class="container-narrow">
+    <div id="challenge-content">
+        <div class="spinner"></div>
+    </div>
+</div>
+
+<script src="/js/api.js"></script>
+<script src="/js/guard.js"></script>
+<script>
+let challengeId = null;
+
+async function loadChallenge() {
+    const url = new URL(window.location.href);
+    const id = url.searchParams.get('id');
+
+    if (!id) {
+        window.location.href = '/arena';
+        return;
+    }
+
+    challengeId = parseInt(id);
+
+    const res = await API.get('/challenges/' + id);
+    if (!res.success) {
+        document.getElementById('challenge-content').innerHTML = `
+            <div class="card-glass" style="padding: 60px; text-align: center;">
+                <h2 style="color: var(--error); margin-bottom: 16px;">❌ Challenge topilmadi</h2>
+                <a href="/arena" class="btn btn-primary">Arenaga qaytish</a>
+            </div>
+        `;
+        return;
+    }
+
+    const c = res.challenge;
+
+    document.getElementById('challenge-content').innerHTML = `
+        <a href="/arena" style="color: var(--text-secondary); text-decoration: none; font-size: 0.85rem; display: inline-block; margin-bottom: 24px;">
+            ← Arenaga qaytish
+        </a>
+
+        <div class="card-glass fade-in-up" style="padding: 40px; margin-bottom: 24px;">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
+                <div>
+                    <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
+                        <span class="badge badge-${c.category.toLowerCase()}">${c.category}</span>
+                        <span class="badge badge-${c.difficulty.toLowerCase()}">${c.difficulty}</span>
+                        ${c.solved ? '<span class="badge badge-easy">✅ YECHILGAN</span>' : ''}
+                    </div>
+                    <h1 style="margin: 0;">${c.title}</h1>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-family: JetBrains Mono; font-size: 2rem; color: var(--gold); font-weight: 700;">${c.points}</div>
+                    <div style="color: var(--text-muted); font-size: 0.75rem; letter-spacing: 1px;">XP</div>
+                </div>
+            </div>
+
+            <div style="padding: 24px; background: rgba(30,94,255,0.05); border-left: 4px solid var(--uz-blue); border-radius: 8px; margin-bottom: 24px;">
+                <h4 style="margin-bottom: 12px; color: var(--uz-blue);">📖 Story</h4>
+                <p style="color: var(--text-secondary); line-height: 1.8;">${c.story || 'Tavsif yo\'q'}</p>
+            </div>
+
+            <div style="margin-bottom: 24px;">
+                <h4 style="margin-bottom: 12px; color: var(--uz-blue);">🎯 Objective</h4>
+                <p style="color: var(--text-secondary); line-height: 1.8;">${c.objective || 'Maqsad ko\'rsatilmagan'}</p>
+            </div>
+
+            ${c.hints && c.hints.length > 0 ? `
+                <div style="margin-bottom: 24px;">
+                    <h4 style="margin-bottom: 12px; color: var(--warning);">💡 Maslahatlar</h4>
+                    ${c.hints.map((h, i) => `
+                        <details style="margin-bottom: 8px; padding: 12px 16px; background: rgba(245,185,66,0.05); border-radius: 8px; cursor: pointer;">
+                            <summary style="color: var(--warning); font-weight: 600; font-size: 0.85rem;">Hint ${i + 1}</summary>
+                            <p style="color: var(--text-secondary); margin-top: 8px; padding-left: 8px;">${h}</p>
+                        </details>
+                    `).join('')}
+                </div>
+            ` : ''}
+        </div>
+
+        ${(c.file || (c.evidence && c.evidence.length > 0)) ? `
+            <div class="card-glass fade-in-up" style="padding: 32px; margin-bottom: 24px;">
+                <h3 style="margin-bottom: 20px;">📎 Resurslar</h3>
+                
+                ${c.file ? `
+                    <a href="${c.file}" download class="btn btn-primary" style="margin-bottom: 16px; display: inline-flex;">
+                        ⬇️ ${c.fileName || 'Fayl yuklab olish'}
+                    </a>
+                ` : ''}
+
+                ${c.evidence && c.evidence.length > 0 ? `
+                    <div style="margin-top: 16px;">
+                        <h4 style="margin-bottom: 12px; color: var(--text-secondary); font-size: 0.85rem;">Dalillar:</h4>
+                        <ul style="list-style: none; padding: 0;">
+                            ${c.evidence.map(e => `
+                                <li style="padding: 10px 16px; background: var(--surface); border: 1px solid rgba(30,94,255,0.1); border-radius: 8px; margin-bottom: 8px; font-family: JetBrains Mono; font-size: 0.85rem; color: var(--accent-cyan);">
+                                    📄 ${e}
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                ` : ''}
+            </div>
+        ` : ''}
+
+        <div class="card-glass fade-in-up" style="padding: 32px;">
+            <h3 style="margin-bottom: 20px;">🚩 Flagni kiritish</h3>
+            
+            ${c.solved ? `
+                <div style="padding: 20px; background: rgba(22,163,74,0.1); border: 1px solid rgba(22,163,74,0.3); border-radius: 12px; text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 12px;">🎉</div>
+                    <h3 style="color: var(--success); margin-bottom: 8px;">Siz bu challengeni yechgansiz!</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem;">+${c.points} XP allaqachon qo'shilgan</p>
+                </div>
+            ` : `
+                <div class="input-group">
+                    <input type="text" id="flag-input" placeholder="CTF{...}" 
+                        style="font-family: JetBrains Mono; font-size: 1rem;">
+                    <label>Flag</label>
+                    <span class="hint">Format: CTF{...}</span>
+                </div>
+                <button id="submit-btn" class="btn btn-primary btn-lg" style="width: 100%; margin-top: 16px;">
+                    Flagni yuborish →
+                </button>
+                <div id="submit-message" class="msg-box"></div>
+            `}
+        </div>
+    `;
+
+    if (!c.solved) {
+        document.getElementById('submit-btn').addEventListener('click', submitFlag);
+        document.getElementById('flag-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') submitFlag();
+        });
+    }
+}
+
+async function submitFlag() {
+    const flag = document.getElementById('flag-input').value.trim();
+    const msg = document.getElementById('submit-message');
+    const btn = document.getElementById('submit-btn');
+
+    if (!flag) {
+        msg.className = 'msg-box error';
+        msg.innerText = '❌ Flagni kiriting';
+        return;
+    }
+
+    btn.disabled = true;
+    btn.innerText = 'Tekshirilmoqda...';
+
+    try {
+        const res = await API.post(`/challenges/${challengeId}/submit`, { flag });
+
+        if (res.success) {
+            msg.className = 'msg-box success';
+            msg.innerText = '✅ ' + res.message;
+            setTimeout(() => loadChallenge(), 1500);
+        } else {
+            msg.className = 'msg-box error';
+            msg.innerText = '❌ ' + res.message;
+        }
+    } catch (err) {
+        msg.className = 'msg-box error';
+        msg.innerText = '❌ Ulanish xatosi';
+    } finally {
+        btn.disabled = false;
+        btn.innerText = 'Flagni yuborish →';
+    }
+}
+
+window.addEventListener('load', async () => {
+    const user = await requireAuth();
+    if (!user) return;
+    loadChallenge();
+});
+</script>
+</body>
+</html>

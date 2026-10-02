@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard — CTF.UZ</title>
+    <link rel="stylesheet" href="/css/design-system.css">
+    <link rel="stylesheet" href="/css/animations.css">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="girih-bg"></div>
+
+<header class="header">
+    <a href="/" class="logo">
+        <div class="logo-mark">CU</div>
+        <div class="logo-text">CTF<span>.UZ</span></div>
+    </a>
+    <nav class="nav">
+        <a href="/dashboard" class="active">Dashboard</a>
+        <a href="/arena">Arena</a>
+        <a href="/battle">Battle</a>
+        <a href="/leaderboard">Reyting</a>
+        <a href="/career">Karyera</a>
+        <a id="auth-link" href="/profile">Profil</a>
+    </nav>
+</header>
+
+<div class="container">
+    <div id="dashboard-content">
+        <div class="spinner"></div>
+    </div>
+</div>
+
+<script>
+// MUHIM: to'g'ridan-to'g'ri fetch ishlatamiz, guard.js kerak emas
+(async () => {
+    try {
+        const sessionRes = await fetch('/api/auth/session', {
+            credentials: 'include',
+            cache: 'no-store'
+        });
+        const sessionData = await sessionRes.json();
+
+       if (!sessionData.success || !sessionData.user) {
+    sessionStorage.setItem('redirectAfterLogin', '/dashboard');
+    window.location.replace('/welcome');
+    return;
+}
+
+        const user = sessionData.user;
+
+        // Header
+        const authLink = document.getElementById('auth-link');
+        authLink.innerHTML = `
+            <img src="${user.avatar || '/assets/default-avatar.svg'}" 
+                 style="width:22px;height:22px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-right:6px;border:1px solid #2563EB;"
+                 onerror="this.src='/assets/default-avatar.svg'">
+            ${user.username}
+        `;
+
+        // Profil ma'lumotlarini yuklash
+        const profileRes = await fetch('/api/users/profile', {
+            credentials: 'include'
+        });
+        const profileData = await profileRes.json();
+
+        if (!profileData.success) {
+            document.getElementById('dashboard-content').innerHTML = `
+                <div class="card-glass" style="padding: 40px; text-align: center;">
+                    <h2>❌ Profil yuklanmadi</h2>
+                    <p style="color: var(--text-secondary);">${profileData.message}</p>
+                    <a href="/login" class="btn btn-primary" style="margin-top: 20px;">Qayta kirish</a>
+                </div>
+            `;
+            return;
+        }
+
+        const u = profileData.user;
+        const hour = new Date().getHours();
+        const greeting = hour < 12 ? 'Xayrli tong' : hour < 18 ? 'Xayrli kun' : 'Xayrli kech';
+
+        document.getElementById('dashboard-content').innerHTML = `
+            <div class="fade-in-up">
+                <h1 style="margin-bottom: 8px;">${greeting}, <span style="color: var(--uz-blue);">${u.name}</span></h1>
+                <p style="color: var(--text-secondary); margin-bottom: 40px;">Cyber Level ${u.cyberLevel} • ${u.rank?.icon || '🌱'} ${u.rank?.name || 'Rookie'}</p>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">${u.score}</div>
+                        <div class="stat-label">Umumiy ball</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${u.solvedChallenges.length}</div>
+                        <div class="stat-label">Yechilgan</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${u.battleRating}</div>
+                        <div class="stat-label">Battle Rating</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${u.streak}🔥</div>
+                        <div class="stat-label">Streak</div>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px; margin-top: 40px;">
+                    <div class="card-glass">
+                        <h3 style="margin-bottom: 24px;">📊 Skill Graph</h3>
+                        ${Object.entries(u.skills).map(([key, value]) => `
+                            <div class="skill-bar">
+                                <div class="skill-name">${key.charAt(0).toUpperCase() + key.slice(1)}</div>
+                                <div class="skill-progress"><div class="skill-progress-fill" style="width: ${value}%;"></div></div>
+                                <div class="skill-value">${Math.round(value)}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <div class="card-glass">
+                        <h3 style="margin-bottom: 24px;">🎯 Keyingi missiya</h3>
+                        <div class="badge badge-web" style="margin-bottom: 12px;">Web</div>
+                        <h4 style="margin-bottom: 8px;">Cyber Ministry Incident #042</h4>
+                        <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 20px;">
+                            Toshkentdagi fintech kompaniyasining API'sida shubhali trafik.
+                        </p>
+                        <a href="/arena" class="btn btn-primary" style="width: 100%;">Boshlash →</a>
+                    </div>
+                </div>
+
+                <div class="card-glass" style="margin-top: 24px;">
+                    <h3 style="margin-bottom: 20px;">👤 Profil</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px;">
+                        <div>
+                            <div style="color: var(--text-muted); font-size: 0.75rem;">Ism</div>
+                            <div style="font-weight: 600;">${u.name}</div>
+                        </div>
+                        <div>
+                            <div style="color: var(--text-muted); font-size: 0.75rem;">Username</div>
+                            <div style="font-weight: 600;">@${u.username}</div>
+                        </div>
+                        <div>
+                            <div style="color: var(--text-muted); font-size: 0.75rem;">Email</div>
+                            <div style="font-weight: 600; font-size: 0.85rem;">${u.email}</div>
+                        </div>
+                        <div>
+                            <div style="color: var(--text-muted); font-size: 0.75rem;">Telefon</div>
+                            <div style="font-weight: 600;">+${u.phone}</div>
+                        </div>
+                    </div>
+                    <a href="/profile" class="btn btn-secondary" style="margin-top: 20px;">Profilni tahrirlash</a>
+                    <button onclick="logout()" class="btn btn-secondary" style="margin-top: 20px; margin-left: 8px;">Chiqish</button>
+                </div>
+            </div>
+        `;
+
+    } catch (err) {
+        console.error('Dashboard xatosi:', err);
+        window.location.replace('/login');
+    }
+})();
+
+async function logout() {
+    await fetch('/api/auth/logout', { 
+        method: 'POST', 
+        credentials: 'include' 
+    });
+    sessionStorage.clear();
+    window.location.href = '/';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil — CTF.UZ</title>
+    <link rel="stylesheet" href="/css/design-system.css">
+    <link rel="stylesheet" href="/css/animations.css">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        .profile-header {
+            background: linear-gradient(135deg, rgba(37,99,235,0.1), rgba(124,58,237,0.1));
+            border: 1px solid rgba(74,127,255,0.2);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 32px;
+            position: relative;
+            overflow: hidden;
+        }
+        .avatar-big {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--uz-blue);
+            box-shadow: 0 0 40px rgba(37,99,235,0.4);
+            background: var(--surface);
+        }
+        .avatar-edit {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--uz-blue);
+            border: 3px solid var(--ink);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .avatar-edit:hover { transform: scale(1.1); }
+
+        .level-bar {
+            height: 10px;
+            background: var(--surface-light);
+            border-radius: 999px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+        .level-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--uz-blue), var(--accent-cyan));
+            border-radius: 999px;
+            transition: width 0.8s;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(6,11,24,0.9);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .modal-overlay.active { display: flex; }
+
+        .modal-box {
+            background: var(--bg-card);
+            border: 1px solid rgba(74,127,255,0.3);
+            border-radius: 20px;
+            padding: 32px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        .modal-box h3 {
+            font-family: Manrope;
+            font-weight: 800;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-close {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0 8px;
+        }
+        .modal-close:hover { color: var(--error); }
+
+        .field {
+            margin-bottom: 16px;
+        }
+        .field label {
+            display: block;
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .field input,
+        .field select,
+        .field textarea {
+            width: 100%;
+            padding: 12px 14px;
+            background: var(--bg-deep);
+            border: 1px solid rgba(74,127,255,0.2);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+        .field input:focus,
+        .field select:focus,
+        .field textarea:focus {
+            border-color: var(--uz-blue);
+            box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+        }
+        .field textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .tab-bar {
+            display: flex;
+            gap: 4px;
+            padding: 4px;
+            background: var(--surface);
+            border-radius: 12px;
+            margin-bottom: 32px;
+            border: 1px solid rgba(30,94,255,0.15);
+            overflow-x: auto;
+        }
+        .tab-btn {
+            flex: 1;
+            min-width: 120px;
+            padding: 12px 20px;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-family: inherit;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .tab-btn.active {
+            background: var(--uz-blue);
+            color: white;
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s; }
+
+        .skill-bar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .skill-name {
+            min-width: 140px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+        .skill-progress {
+            flex: 1;
+            height: 8px;
+            background: var(--surface-light);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+        .skill-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--uz-blue), var(--accent-cyan));
+            border-radius: 999px;
+            transition: width 0.6s;
+        }
+        .skill-value {
+            min-width: 40px;
+            text-align: right;
+            font-family: JetBrains Mono;
+            font-size: 0.8rem;
+            color: var(--accent-cyan);
+            font-weight: 700;
+        }
+
+        .stat-mini {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+        .stat-mini-value {
+            font-family: Manrope;
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--uz-blue);
+            margin-bottom: 4px;
+        }
+        .stat-mini-label {
+            color: var(--text-secondary);
+            font-size: 0.72rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .achievement-badge {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 16px;
+            background: var(--surface);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .achievement-badge:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+        }
+        .achievement-icon { font-size: 2.5rem; }
+        .achievement-name {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .activity-item {
+            display: flex;
+            gap: 16px;
+            padding: 16px;
+            background: var(--surface);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border-left: 3px solid var(--uz-blue);
+        }
+        .activity-icon { font-size: 1.5rem; }
+    </style>
+</head>
+<body>
+
+<div class="girih-bg"></div>
+
+<header class="header">
+    <a href="/" class="logo"><div class="logo-mark">CU</div><div class="logo-text">CTF<span>.UZ</span></div></a>
+    <nav class="nav">
+        <a href="/dashboard">Dashboard</a>
+        <a href="/arena">Arena</a>
+        <a href="/leaderboard">Reyting</a>
+        <a href="/profile" class="active">Profil</a>
+        <a id="auth-link" class="nav-cta"></a>
+    </nav>
+</header>
+
+<div class="container">
+    <div id="profile-content">
+        <div class="spinner"></div>
+    </div>
+</div>
+
+<input type="file" id="avatar-input" accept="image/*" style="display: none;">
+
+<!-- ══════════════════════════════════════════ -->
+<!-- EDIT PROFILE MODAL -->
+<!-- ══════════════════════════════════════════ -->
+<div id="edit-modal" class="modal-overlay">
+    <div class="modal-box">
+        <h3>
+            ✏️ Profilni tahrirlash
+            <button class="modal-close" onclick="closeEditModal()">×</button>
+        </h3>
+
+        <form id="edit-form">
+            <div class="field">
+                <label>To'liq ism</label>
+                <input type="text" id="edit-name" required maxlength="50">
+            </div>
+
+            <div class="field">
+                <label>Telefon raqam</label>
+                <input type="text" id="edit-phone" required placeholder="+998 XX XXX XX XX">
+            </div>
+
+            <div class="field">
+                <label>Bio</label>
+                <textarea id="edit-bio" placeholder="O'zingiz haqingizda qisqacha..." maxlength="500"></textarea>
+            </div>
+
+            <div class="field">
+                <label>Viloyat</label>
+                <select id="edit-region">
+                    <option value="">Viloyatni tanlang</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Shahar / Tuman</label>
+                <input type="text" id="edit-city" placeholder="Toshkent">
+            </div>
+
+            <div class="field">
+                <label>GitHub username</label>
+                <input type="text" id="edit-github" placeholder="username">
+            </div>
+
+            <div class="field">
+                <label>Telegram username</label>
+                <input type="text" id="edit-telegram" placeholder="username (@ belgisisiz)">
+            </div>
+
+            <div class="field">
+                <label>Website</label>
+                <input type="url" id="edit-website" placeholder="https://...">
+            </div>
+
+            <div style="display: flex; gap: 12px; margin-top: 24px;">
+                <button type="submit" class="btn btn-primary" style="flex: 1;">
+                    💾 Saqlash
+                </button>
+                <button type="button" class="btn btn-secondary" style="flex: 1;" onclick="closeEditModal()">
+                    Bekor qilish
+                </button>
+            </div>
+        </form>
+
+        <div id="edit-message" class="msg-box"></div>
+    </div>
+</div>
+
+<script src="/js/api.js"></script>
+<script>
+let userData = null;
+let regionsList = [];
+
+// ══════════════════════════════════════════
+// PROFILNI YUKLASH
+// ══════════════════════════════════════════
+async function loadProfile() {
+    try {
+        const res = await API.get('/users/profile');
+        if (!res.success) {
+            window.location.href = '/welcome';
+            return;
+        }
+
+        userData = res.user;
+        renderProfile();
+    } catch (err) {
+        console.error('Profil xatosi:', err);
+        window.location.href = '/welcome';
+    }
+}
+
+function renderProfile() {
+    const u = userData;
+    const location = [u.region, u.city].filter(Boolean).join(' · ') || 'Noma\'lum';
+
+    document.getElementById('profile-content').innerHTML = `
+        <div class="profile-header fade-in-up">
+            <div style="display: flex; gap: 32px; align-items: center; flex-wrap: wrap;">
+                <div style="position: relative;">
+                    <img src="${u.avatar || '/assets/default-avatar.svg'}" 
+                         class="avatar-big" id="avatar-preview" 
+                         onerror="this.src='/assets/default-avatar.svg'">
+                    <div class="avatar-edit" onclick="document.getElementById('avatar-input').click()">📷</div>
+                </div>
+
+                <div style="flex: 1; min-width: 250px;">
+                    <h1 style="font-family: Manrope; font-size: 2rem; font-weight: 900; margin-bottom: 8px;">
+                        ${esc(u.name)}
+                    </h1>
+                    <div style="color: var(--text-secondary); margin-bottom: 8px; font-family: JetBrains Mono;">
+                        @${esc(u.username)}
+                    </div>
+                    <div style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 12px;">
+                        📍 ${esc(location)}
+                    </div>
+                    ${u.bio ? `<p style="color: var(--text-secondary); font-size: 0.9rem; max-width: 500px; margin-bottom: 12px;">${esc(u.bio)}</p>` : ''}
+                    
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <span class="cyber-level">⚡ Level ${u.level || u.cyberLevel || 1}</span>
+                        ${u.verified ? '<span class="badge badge-easy">✓ VERIFIED</span>' : ''}
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 32px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                    <span style="font-family: Manrope; font-weight: 800; color: var(--uz-blue);">
+                        ⚡ Level ${u.level || u.cyberLevel || 1}
+                    </span>
+                    <span style="font-family: JetBrains Mono; font-size: 0.85rem; color: var(--text-secondary);">
+                        ${(u.xp || 0).toLocaleString()} / ${(u.nextLevelXP || 10000).toLocaleString()} XP
+                    </span>
+                </div>
+                <div class="level-bar">
+                    <div class="level-bar-fill" style="width: ${u.levelProgress || 0}%;"></div>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; margin-top: 32px;">
+                <div class="stat-mini">
+                    <div class="stat-mini-value">#${u.globalRank || '—'}</div>
+                    <div class="stat-mini-label">Global rank</div>
+                </div>
+                <div class="stat-mini">
+                    <div class="stat-mini-value">${u.score || 0}</div>
+                    <div class="stat-mini-label">Score</div>
+                </div>
+                <div class="stat-mini">
+                    <div class="stat-mini-value">${(u.solvedChallenges || []).length}</div>
+                    <div class="stat-mini-label">Yechilgan</div>
+                </div>
+                <div class="stat-mini">
+                    <div class="stat-mini-value">${u.streak || 0}🔥</div>
+                    <div class="stat-mini-label">Streak</div>
+                </div>
+                <div class="stat-mini">
+                    <div class="stat-mini-value">${u.battleRating || 1000}</div>
+                    <div class="stat-mini-label">Battle</div>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 12px; margin-top: 32px; flex-wrap: wrap;">
+                <button class="btn btn-primary" onclick="openEditModal()">✏️ Profilni tahrirlash</button>
+                <button class="btn btn-secondary" onclick="shareProfile()">🔗 Ulashish</button>
+                <a href="/u/${esc(u.username)}" target="_blank" class="btn btn-secondary">🌐 Public ko'rinish</a>
+            </div>
+        </div>
+
+        <div class="tab-bar">
+            <button class="tab-btn active" onclick="showTab('overview', this)">📊 Overview</button>
+            <button class="tab-btn" onclick="showTab('skills', this)">🧠 Ko'nikmalar</button>
+            <button class="tab-btn" onclick="showTab('activity', this)">⚡ Faoliyat</button>
+            <button class="tab-btn" onclick="showTab('security', this)">🔒 Xavfsizlik</button>
+        </div>
+
+        <div id="overview-tab" class="tab-content active">
+            <div class="card-glass" style="padding: 24px;">
+                <h3 style="font-family: Manrope; font-weight: 800; margin-bottom: 20px;">👤 Profil ma'lumotlari</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+                    <div>
+                        <div style="color: var(--text-muted); font-size: 0.72rem; text-transform: uppercase; margin-bottom: 4px;">Ism</div>
+                        <div style="font-weight: 600;">${esc(u.name)}</div>
+                    </div>
+                    <div>
+                        <div style="color: var(--text-muted); font-size: 0.72rem; text-transform: uppercase; margin-bottom: 4px;">Username</div>
+                        <div style="font-weight: 600; font-family: JetBrains Mono;">@${esc(u.username)}</div>
+                    </div>
+                    <div>
+                        <div style="color: var(--text-muted); font-size: 0.72rem; text-transform: uppercase; margin-bottom: 4px;">Email</div>
+                        <div style="font-weight: 600; font-size: 0.85rem;">${esc(u.email)}</div>
+                    </div>
+                    <div>
+                        <div style="color: var(--text-muted); font-size: 0.72rem; text-transform: uppercase; margin-bottom: 4px;">Telefon</div>
+                        <div style="font-weight: 600; font-family: JetBrains Mono;">+${esc(u.phone)}</div>
+                    </div>
+                    <div>
+                        <div style="color: var(--text-muted); font-size: 0.72rem; text-transform: uppercase; margin-bottom: 4px;">Viloyat</div>
+                        <div style="font-weight: 600;">${esc(u.region || '—')}</div>
+                    </div>
+                    <div>
+                        <div style="color: var(--text-muted); font-size: 0.72rem; text-transform: uppercase; margin-bottom: 4px;">Shahar</div>
+                        <div style="font-weight: 600;">${esc(u.city || '—')}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="skills-tab" class="tab-content">
+            <div class="card-glass" style="padding: 24px;">
+                <h3 style="font-family: Manrope; font-weight: 800; margin-bottom: 20px;">🧠 Ko'nikmalar</h3>
+                ${Object.entries(u.skills || {}).map(([key, val]) => `
+                    <div class="skill-bar">
+                        <div class="skill-name">${key.charAt(0).toUpperCase() + key.slice(1)}</div>
+                        <div class="skill-progress"><div class="skill-progress-fill" style="width: ${val}%;"></div></div>
+                        <div class="skill-value">${Math.round(val)}</div>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+
+        <div id="activity-tab" class="tab-content">
+            <div class="card-glass" style="padding: 24px;">
+                <h3 style="font-family: Manrope; font-weight: 800; margin-bottom: 20px;">⚡ Faoliyat</h3>
+                ${(u.activity && u.activity.length) 
+                    ? u.activity.slice(0, 10).map(a => `
+                        <div class="activity-item">
+                            <span class="activity-icon">${a.icon || '⚡'}</span>
+                            <div>
+                                <div style="font-weight: 600;">${esc(a.title)}</div>
+                                ${a.description ? `<div style="color: var(--text-secondary); font-size: 0.82rem;">${esc(a.description)}</div>` : ''}
+                            </div>
+                        </div>
+                    `).join('')
+                    : '<p style="color: var(--text-muted); text-align: center; padding: 40px;">Faoliyat yo\'q</p>'}
+            </div>
+        </div>
+
+        <div id="security-tab" class="tab-content">
+            <div class="card-glass" style="padding: 24px;">
+                <h3 style="font-family: Manrope; font-weight: 800; margin-bottom: 20px;">🔒 Xavfsizlik</h3>
+                
+                <div style="padding: 16px; background: rgba(16,185,129,0.05); border-radius: 10px; margin-bottom: 12px; display: flex; align-items: center; gap: 12px;">
+                    <span>✅</span>
+                    <div>
+                        <div style="font-weight: 600;">Email tasdiqlangan</div>
+                        <div style="color: var(--text-muted); font-size: 0.8rem;">${esc(u.email)}</div>
+                    </div>
+                </div>
+
+                <div style="padding: 16px; background: rgba(16,185,129,0.05); border-radius: 10px; margin-bottom: 12px; display: flex; align-items: center; gap: 12px;">
+                    <span>✅</span>
+                    <div>
+                        <div style="font-weight: 600;">Kuchli parol</div>
+                    </div>
+                </div>
+
+                <div style="padding: 16px; background: rgba(245,185,66,0.05); border-radius: 10px; margin-bottom: 12px; display: flex; align-items: center; gap: 12px; opacity: 0.6;">
+                    <span>⭕</span>
+                    <div>
+                        <div style="font-weight: 600;">2FA</div>
+                        <div style="color: var(--text-muted); font-size: 0.8rem;">Tez orada</div>
+                    </div>
+                </div>
+
+                <button class="btn btn-secondary" style="width: 100%; margin-top: 16px;" onclick="logout()">
+                    🚪 Chiqish
+                </button>
+            </div>
+        </div>
+    `;
+
+    // Avatar upload
+    document.getElementById('avatar-input').addEventListener('change', uploadAvatar);
+}
+
+// ══════════════════════════════════════════
+// TAB
+// ══════════════════════════════════════════
+function showTab(tab, el) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(tab + '-tab').classList.add('active');
+    if (el) el.classList.add('active');
+}
+
+// ══════════════════════════════════════════
+// EDIT MODAL
+// ══════════════════════════════════════════
+async function openEditModal() {
+    const u = userData;
+
+    // Region ro'yxatini yuklash
+    if (regionsList.length === 0) {
+        try {
+            const res = await fetch('/api/locations/regions');
+            const data = await res.json();
+            if (data.success) {
+                regionsList = data.regions;
+            }
+        } catch (e) {}
+    }
+
+    // Viloyatlar select ni to'ldirish
+    const regionSelect = document.getElementById('edit-region');
+    regionSelect.innerHTML = '<option value="">Viloyatni tanlang</option>';
+    regionsList.forEach(r => {
+        const opt = document.createElement('option');
+        opt.value = r.name;
+        opt.textContent = r.name;
+        if (r.name === u.region) opt.selected = true;
+        regionSelect.appendChild(opt);
+    });
+
+    // Ma'lumotlarni to'ldirish
+    document.getElementById('edit-name').value = u.name || '';
+    document.getElementById('edit-phone').value = u.phone ? '+' + u.phone : '+998 ';
+    document.getElementById('edit-bio').value = u.bio || '';
+    document.getElementById('edit-city').value = u.city || '';
+    document.getElementById('edit-github').value = u.github || '';
+    document.getElementById('edit-telegram').value = u.telegram || '';
+    document.getElementById('edit-website').value = u.website || '';
+
+    document.getElementById('edit-modal').classList.add('active');
+}
+
+function closeEditModal() {
+    document.getElementById('edit-modal').classList.remove('active');
+    document.getElementById('edit-message').className = 'msg-box';
+}
+
+// ══════════════════════════════════════════
+// EDIT SAVE
+// ══════════════════════════════════════════
+document.getElementById('edit-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const msg = document.getElementById('edit-message');
+    const btn = e.target.querySelector('button[type="submit"]');
+
+    const name = document.getElementById('edit-name').value.trim();
+    const phone = document.getElementById('edit-phone').value.replace(/[^0-9]/g, '');
+    const bio = document.getElementById('edit-bio').value.trim();
+    const region = document.getElementById('edit-region').value;
+    const city = document.getElementById('edit-city').value.trim();
+    const github = document.getElementById('edit-github').value.trim();
+    const telegram = document.getElementById('edit-telegram').value.trim();
+    const website = document.getElementById('edit-website').value.trim();
+
+    if (!name || name.length < 2) {
+        msg.className = 'msg-box error';
+        msg.innerText = '❌ Ism kamida 2 belgi';
+        return;
+    }
+
+    if (phone.length !== 12) {
+        msg.className = 'msg-box error';
+        msg.innerText = '❌ Telefon raqam to\'liq emas';
+        return;
+    }
+
+    btn.disabled = true;
+    btn.innerText = 'Saqlanmoqda...';
+
+    try {
+        const res = await API.put('/users/profile', {
+            name, phone, bio, region, city, github, telegram, website
+        });
+
+        if (res.success) {
+            msg.className = 'msg-box success';
+            msg.innerText = '✅ ' + res.message;
+
+            setTimeout(() => {
+                closeEditModal();
+                loadProfile();
+            }, 1000);
+        } else {
+            msg.className = 'msg-box error';
+            msg.innerText = '❌ ' + res.message;
+        }
+    } catch (err) {
+        msg.className = 'msg-box error';
+        msg.innerText = '❌ Ulanish xatosi';
+    } finally {
+        btn.disabled = false;
+        btn.innerText = '💾 Saqlash';
+    }
+});
+
+// ══════════════════════════════════════════
+// TELEFON FORMAT
+// ══════════════════════════════════════════
+document.getElementById('edit-phone').addEventListener('input', function() {
+    let digits = this.value.replace(/[^0-9]/g, '');
+    if (!digits.startsWith('998')) digits = '998' + digits.replace(/^998/, '');
+    digits = digits.substring(0, 12);
+    let formatted = '+998';
+    if (digits.length > 3) formatted += ' ' + digits.substring(3, 5);
+    if (digits.length > 5) formatted += ' ' + digits.substring(5, 8);
+    if (digits.length > 8) formatted += ' ' + digits.substring(8, 10);
+    if (digits.length > 10) formatted += ' ' + digits.substring(10, 12);
+    this.value = formatted;
+});
+
+// ══════════════════════════════════════════
+// AVATAR YUKLASH
+// ══════════════════════════════════════════
+async function uploadAvatar(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+        alert('❌ Rasm 5MB dan kichik bo\'lishi kerak');
+        return;
+    }
+
+    const fd = new FormData();
+    fd.append('avatar', file);
+
+    try {
+        const res = await fetch('/api/users/avatar', {
+            method: 'POST',
+            body: fd,
+            credentials: 'include'
+        });
+        const data = await res.json();
+
+        if (data.success) {
+            document.getElementById('avatar-preview').src = data.avatar + '?t=' + Date.now();
+            showToast('✅ Avatar yangilandi', 'success');
+        } else {
+            alert('❌ ' + data.message);
+        }
+    } catch (err) {
+        alert('❌ Xatolik');
+    }
+}
+
+// ══════════════════════════════════════════
+// SHARE
+// ══════════════════════════════════════════
+function shareProfile() {
+    const url = `${window.location.origin}/u/${userData.username}`;
+    navigator.clipboard.writeText(url);
+    showToast('✅ Profil havolasi nusxalandi!', 'success');
+}
+
+// ══════════════════════════════════════════
+// LOGOUT
+// ══════════════════════════════════════════
+async function logout() {
+    await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+    window.location.href = '/';
+}
+
+// ══════════════════════════════════════════
+// XSS HIMOYA
+// ══════════════════════════════════════════
+function esc(text) {
+    if (text === null || text === undefined) return '';
+    return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+// ══════════════════════════════════════════
+// TOAST
+// ══════════════════════════════════════════
+function showToast(message, type = 'info') {
+    let container = document.getElementById('toast-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'toast-container';
+        container.style.cssText = 'position:fixed;top:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:10px;';
+        document.body.appendChild(container);
+    }
+
+    const colors = { info: '#2563EB', success: '#10B981', warning: '#F59E0B', error: '#EF4444' };
+
+    const toast = document.createElement('div');
+    toast.style.cssText = `
+        background: #0F1629;
+        border-left: 4px solid ${colors[type]};
+        color: #F1F5F9;
+        padding: 14px 20px;
+        border-radius: 8px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+        font-family: Inter, sans-serif;
+        font-size: 0.85rem;
+        min-width: 250px;
+        animation: fadeIn 0.3s;
+        cursor: pointer;
+    `;
+    toast.textContent = message;
+    toast.onclick = () => toast.remove();
+    container.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+}
+
+// ══════════════════════════════════════════
+// SESSION
+// ══════════════════════════════════════════
+(async () => {
+    try {
+        const res = await fetch('/api/auth/session', { credentials: 'include' });
+        const data = await res.json();
+        const authLink = document.getElementById('auth-link');
+        if (data.success && data.user) {
+            authLink.innerHTML = `
+                <img src="${data.user.avatar || '/assets/default-avatar.svg'}" 
+                     style="width:22px;height:22px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-right:6px;"
+                     onerror="this.src='/assets/default-avatar.svg'">
+                ${data.user.username}
+            `;
+            authLink.href = '/profile';
+        } else {
+            authLink.innerText = 'Kirish';
+            authLink.href = '/login';
+        }
+    } catch (e) {}
+})();
+
+// Modal tashqarisiga bosilsa yopish
+document.getElementById('edit-modal').addEventListener('click', (e) => {
+    if (e.target.id === 'edit-modal') closeEditModal();
+});
+
+// Boshlash
+loadProfile();
+</script>
+</body>
+</html>
