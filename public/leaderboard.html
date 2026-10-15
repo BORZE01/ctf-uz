@@ -6,43 +6,79 @@
     <title>Reyting — CTF.UZ</title>
     <link rel="stylesheet" href="/css/design-system.css">
     <link rel="stylesheet" href="/css/animations.css">
+    <link rel="stylesheet" href="/css/icons.css">
+    <link rel="stylesheet" href="/css/modern-ui.css">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/preloader.css">
 </head>
 <body>
 
 <div class="girih-bg"></div>
 
 <header class="header">
-    <a href="/" class="logo"><div class="logo-mark">CU</div><div class="logo-text">CTF<span>.UZ</span></div></a>
+    <a href="/" class="logo">
+        <div class="logo-mark">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
+        </div>
+        <div class="logo-text">CTF<span>.UZ</span></div>
+    </a>
     <nav class="nav">
-        <a href="/dashboard">Dashboard</a>
-        <a href="/arena">Arena</a>
-        <a href="/battle">Battle</a>
-        <a href="/leaderboard" class="active">Reyting</a>
-        <a href="/career">Karyera</a>
-        <a id="auth-link" href="/profile">Profil</a>
+        <a href="/dashboard" data-page="dashboard">Dashboard</a>
+        <a href="/arena" data-page="arena">Arena</a>
+        <a href="/battle" data-page="battle">Battle</a>
+        <a href="/leaderboard" data-page="leaderboard" class="active">Reyting</a>
+        <a href="/career" data-page="career">Karyera</a>
+        <a id="auth-link" href="/profile" data-page="profile"></a>
     </nav>
 </header>
 
 <div class="container">
-    <h1 style="margin-bottom: 8px;">Leaderboard</h1>
+    <h1 style="margin-bottom: 8px; display: flex; align-items: center; gap: 12px;">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:36px;height:36px;color:#F59E0B;">
+            <path d="M6 9H4a2 2 0 0 1-2-2V5h4M18 9h2a2 2 0 0 0 2-2V5h-4M6 5h12v6a6 6 0 0 1-12 0V5zM12 17v3M8 21h8M9 21v-2a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/>
+        </svg>
+        Leaderboard
+    </h1>
     <p style="color: var(--text-secondary); margin-bottom: 40px;">O'zbekistonning eng kuchli cyber operatorlari.</p>
 
     <!-- STATS -->
-    <div class="stats-grid" style="margin-bottom: 40px;">
+    <div class="stats-grid" style="margin-bottom: 40px;" id="stats-container">
         <div class="stat-card">
+            <div style="display: flex; justify-content: center; margin-bottom: 8px;">
+                <svg class="icon icon-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px;">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+            </div>
             <div class="stat-value" id="total-players">0</div>
             <div class="stat-label">Jami o'yinchilar</div>
         </div>
         <div class="stat-card">
+            <div style="display: flex; justify-content: center; margin-bottom: 8px;">
+                <svg class="icon icon-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px;">
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                </svg>
+            </div>
             <div class="stat-value" id="total-score">0</div>
             <div class="stat-label">Umumiy ball</div>
         </div>
         <div class="stat-card">
+            <div style="display: flex; justify-content: center; margin-bottom: 8px;">
+                <svg class="icon icon-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px;">
+                    <path d="M6 9H4a2 2 0 0 1-2-2V5h4M18 9h2a2 2 0 0 0 2-2V5h-4M6 5h12v6a6 6 0 0 1-12 0V5zM12 17v3M8 21h8"/>
+                </svg>
+            </div>
             <div class="stat-value" id="top-score">0</div>
             <div class="stat-label">Eng yuqori ball</div>
         </div>
         <div class="stat-card">
+            <div style="display: flex; justify-content: center; margin-bottom: 8px;">
+                <svg class="icon icon-chart-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px;">
+                    <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/>
+                    <polyline points="16 7 22 7 22 13"/>
+                </svg>
+            </div>
             <div class="stat-value" id="avg-level">0</div>
             <div class="stat-label">O'rtacha level</div>
         </div>
@@ -57,56 +93,121 @@
         <button class="btn btn-secondary btn-sm" onclick="filterLeaderboard('fargona', this)">Farg'ona</button>
     </div>
 
-    <!-- LEADERBOARD -->
+    <!-- LEADERBOARD WITH SKELETON -->
     <div class="leaderboard" id="leaderboard-list">
-        <div class="spinner"></div>
+        <!-- SKELETON ROW 1 -->
+        <div class="skeleton-row" style="padding: 20px; border-radius: 12px;">
+            <div class="skeleton skeleton-avatar"></div>
+            <div class="skeleton-user-info">
+                <div class="skeleton skeleton-text medium"></div>
+                <div class="skeleton skeleton-text short"></div>
+            </div>
+            <div class="skeleton" style="width: 80px; height: 24px; border-radius: 6px;"></div>
+        </div>
+        <!-- SKELETON ROW 2 -->
+        <div class="skeleton-row" style="padding: 20px; border-radius: 12px;">
+            <div class="skeleton skeleton-avatar"></div>
+            <div class="skeleton-user-info">
+                <div class="skeleton skeleton-text medium"></div>
+                <div class="skeleton skeleton-text short"></div>
+            </div>
+            <div class="skeleton" style="width: 80px; height: 24px; border-radius: 6px;"></div>
+        </div>
+        <!-- SKELETON ROW 3 -->
+        <div class="skeleton-row" style="padding: 20px; border-radius: 12px;">
+            <div class="skeleton skeleton-avatar"></div>
+            <div class="skeleton-user-info">
+                <div class="skeleton skeleton-text medium"></div>
+                <div class="skeleton skeleton-text short"></div>
+            </div>
+            <div class="skeleton" style="width: 80px; height: 24px; border-radius: 6px;"></div>
+        </div>
+        <!-- SKELETON ROW 4 -->
+        <div class="skeleton-row" style="padding: 20px; border-radius: 12px;">
+            <div class="skeleton skeleton-avatar"></div>
+            <div class="skeleton-user-info">
+                <div class="skeleton skeleton-text medium"></div>
+                <div class="skeleton skeleton-text short"></div>
+            </div>
+            <div class="skeleton" style="width: 80px; height: 24px; border-radius: 6px;"></div>
+        </div>
+        <!-- SKELETON ROW 5 -->
+        <div class="skeleton-row" style="padding: 20px; border-radius: 12px;">
+            <div class="skeleton skeleton-avatar"></div>
+            <div class="skeleton-user-info">
+                <div class="skeleton skeleton-text medium"></div>
+                <div class="skeleton skeleton-text short"></div>
+            </div>
+            <div class="skeleton" style="width: 80px; height: 24px; border-radius: 6px;"></div>
+        </div>
     </div>
 </div>
 
 <script>
 let allUsers = [];
 
+// ══════════════════════════════════════════
+// LEADERBOARD YUKLASH
+// ══════════════════════════════════════════
 async function loadLeaderboard() {
     try {
-        const res = await fetch('/api/challenges/leaderboard');
+        const res = await fetch('/api/users/all', { credentials: 'include' });
+        if (!res.ok) {
+            console.error('Leaderboard API xatosi:', res.status);
+            return;
+        }
         const data = await res.json();
-
+        
         if (!data.success) {
             document.getElementById('leaderboard-list').innerHTML = `
                 <div style="padding: 60px; text-align: center; color: var(--text-muted);">
-                    <div style="font-size: 3rem; margin-bottom: 16px;">📊</div>
-                    <p>Leaderboard hozircha bo'sh</p>
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width:48px;height:48px;opacity:0.3;margin-bottom:12px;">
+                        <path d="M3 3v18h18M7 16v-5M12 16V8M17 16v-9"/>
+                    </svg>
+                    <p style="font-size: 0.9rem;">Ma'lumot topilmadi</p>
                 </div>
             `;
             return;
         }
-
-        allUsers = data.leaderboard || [];
+        
+        allUsers = data.users || [];
         renderStats();
         renderLeaderboard(allUsers);
     } catch (err) {
-        console.error('Xatosi:', err);
+        console.error('Leaderboard xatosi:', err);
         document.getElementById('leaderboard-list').innerHTML = `
             <div style="padding: 60px; text-align: center; color: var(--error);">
-                <p>❌ Leaderboard yuklanmadi</p>
+                <p>Leaderboard yuklanmadi</p>
             </div>
         `;
     }
 }
 
+// ══════════════════════════════════════════
+// STATS RENDER
+// ══════════════════════════════════════════
+
+
 function renderStats() {
+    const BASE_PLAYERS = 574;   // Asosiy raqam
+    
     const totalScore = allUsers.reduce((s, u) => s + (u.score || 0), 0);
     const topScore = allUsers.length > 0 ? Math.max(...allUsers.map(u => u.score || 0)) : 0;
     const avgLevel = allUsers.length > 0 
         ? Math.round(allUsers.reduce((s, u) => s + (u.cyberLevel || 1), 0) / allUsers.length) 
         : 0;
 
-    document.getElementById('total-players').innerText = allUsers.length;
+    // Total = 574 + real userlar soni
+    const totalPlayers = BASE_PLAYERS + allUsers.length;
+
+    document.getElementById('total-players').innerText = totalPlayers.toLocaleString();
     document.getElementById('total-score').innerText = totalScore.toLocaleString();
     document.getElementById('top-score').innerText = topScore.toLocaleString();
     document.getElementById('avg-level').innerText = avgLevel;
 }
 
+//LEADERBOARD RENDER
+// ══════════════════════════════════════════
 function renderLeaderboard(users) {
     const list = document.getElementById('leaderboard-list');
 
@@ -119,29 +220,78 @@ function renderLeaderboard(users) {
         return;
     }
 
-    list.innerHTML = users.map((u, i) => `
-        <div class="leaderboard-row ${i < 3 ? 'top-' + (i + 1) : ''}">
-            <div class="leaderboard-rank">${i + 1}</div>
+    list.innerHTML = users.map((u, i) => {
+        // Rank ikonkalari
+        let rankIcon = '';
+        if (i === 0) {
+            rankIcon = `
+                <svg class="icon icon-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:28px;height:28px;color:#F59E0B;filter:drop-shadow(0 0 8px rgba(245,158,11,0.5));">
+                    <path d="M6 9H4a2 2 0 0 1-2-2V5h4M18 9h2a2 2 0 0 0 2-2V5h-4M6 5h12v6a6 6 0 0 1-12 0V5zM12 17v3M8 21h8M9 21v-2a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/>
+                </svg>`;
+        } else if (i === 1) {
+            rankIcon = `
+                <svg class="icon icon-medal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:28px;height:28px;color:#94A3B8;filter:drop-shadow(0 0 6px rgba(148,163,184,0.4));">
+                    <circle cx="12" cy="8" r="6"/>
+                    <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>
+                </svg>`;
+        } else if (i === 2) {
+            rankIcon = `
+                <svg class="icon icon-medal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:28px;height:28px;color:#D97706;filter:drop-shadow(0 0 6px rgba(217,119,6,0.4));">
+                    <circle cx="12" cy="8" r="6"/>
+                    <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>
+                </svg>`;
+        } else {
+            rankIcon = `<span style="font-family:JetBrains Mono; font-weight: 700; color: var(--text-muted); font-size: 1rem;">${i + 1}</span>`;
+        }
+
+        // Avatar
+        const avatarContent = u.avatar 
+            ? `<img src="${escapeHtml(u.avatar)}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none';this.parentElement.innerText='${(u.username[0] || '?').toUpperCase()}'">` 
+            : (u.username[0] || '?').toUpperCase();
+
+        return `
+        <div class="leaderboard-row ${i < 3 ? 'top-' + (i + 1) : ''}" style="transition: all 0.3s;">
+            <div class="leaderboard-rank" style="display: flex; align-items: center; justify-content: center;">${rankIcon}</div>
+            
             <div class="leaderboard-user">
-                <div class="leaderboard-avatar" style="overflow: hidden;">
-                    ${u.avatar 
-                        ? `<img src="${u.avatar}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.replaceWith('${u.username[0].toUpperCase()}')">` 
-                        : u.username[0].toUpperCase()}
+                <div class="leaderboard-avatar" style="overflow: hidden; border: 2px solid ${i === 0 ? '#F59E0B' : i === 1 ? '#94A3B8' : i === 2 ? '#D97706' : 'rgba(74, 127, 255, 0.2)'};">
+                    ${avatarContent}
                 </div>
-                <div>
-                    <div class="leaderboard-name">${u.name || u.username}</div>
-                    <div class="leaderboard-username">
-                        @${u.username} • Lvl ${u.cyberLevel || 1}
-                        ${u.region ? ` • 📍 ${u.city || u.district || u.region}` : ''}
+                <div style="flex: 1; min-width: 0;">
+                    <div class="leaderboard-name">${escapeHtml(u.name || u.username)}</div>
+                    <div class="leaderboard-username" style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                        <span>@${escapeHtml(u.username)}</span>
+                        <span style="color: var(--text-muted);">•</span>
+                        <span style="display: flex; align-items: center; gap: 4px;">
+                            <svg class="icon icon-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;">
+                                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                            </svg>
+                            Lvl ${u.cyberLevel || 1}
+                        </span>
+                        ${u.region ? `
+                            <span style="color: var(--text-muted);">•</span>
+                            <span style="display: flex; align-items: center; gap: 4px;">
+                                <svg class="icon icon-location" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                    <circle cx="12" cy="10" r="3"/>
+                                </svg>
+                                ${escapeHtml(u.city || u.region)}
+                            </span>
+                        ` : ''}
                     </div>
                 </div>
             </div>
+            
             <div class="leaderboard-score">${(u.score || 0).toLocaleString()}</div>
             <div class="leaderboard-solved">${u.cyberLevel || 1}</div>
         </div>
-    `).join('');
+        `;
+    }).join('');
 }
 
+// ══════════════════════════════════════════
+// FILTER
+// ══════════════════════════════════════════
 function filterLeaderboard(region, el) {
     document.querySelectorAll('#filter-bar button').forEach(b => {
         b.className = b.className.replace('btn-primary', 'btn-secondary');
@@ -165,29 +315,47 @@ function filterLeaderboard(region, el) {
     renderLeaderboard(filtered);
 }
 
-// Session tekshirish (header uchun)
-(async () => {
-    try {
-        const res = await fetch('/api/auth/session', { credentials: 'include' });
-        const data = await res.json();
-        const authLink = document.getElementById('auth-link');
-        
-        if (data.success && data.user) {
-            authLink.innerHTML = `
-                <img src="${data.user.avatar || '/assets/default-avatar.svg'}" 
-                     style="width:22px;height:22px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-right:6px;border:1px solid #2563EB;"
-                     onerror="this.src='/assets/default-avatar.svg'">
-                ${data.user.username}
-            `;
-            authLink.href = '/profile';
-        } else {
-            authLink.innerText = 'Kirish';
-            authLink.href = '/login';
-        }
-    } catch (err) {}
-})();
+// ══════════════════════════════════════════
+// ESCAPE (XSS HIMOYA)
+// ══════════════════════════════════════════
+function escapeHtml(text) {
+    if (text === null || text === undefined) return '';
+    return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
 
-window.addEventListener('load', loadLeaderboard);
+// ══════════════════════════════════════════
+// SAHIFA YUKLANGANDA
+// ══════════════════════════════════════════
+window.addEventListener('load', async () => {
+    try {
+        const authRes = await fetch('/api/auth/me', { credentials: 'include', cache: 'no-store' });
+        if (!authRes.ok) {
+            window.location.replace('/welcome');
+            return;
+        }
+        const authData = await authRes.json();
+        if (!authData.success || !authData.user) {
+            window.location.replace('/welcome');
+            return;
+        }
+        
+        const authLink = document.getElementById('auth-link');
+        if (authLink) {
+            authLink.innerHTML = `<img src="${authData.user.avatar || '/assets/default-avatar.svg'}" style="width:22px;height:22px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-right:6px;border:1px solid #2563EB;" onerror="this.src='/assets/default-avatar.svg'">${authData.user.username}`;
+        }
+    } catch (e) {
+        window.location.replace('/welcome');
+        return;
+    }
+    
+    loadLeaderboard();
+});
 </script>
+    <script src="/js/preloader.js"></script>
 </body>
 </html>

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel — CTF.UZ</title>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/icons.css">
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
         :root{
@@ -24,7 +25,7 @@
         .sidebar::-webkit-scrollbar-thumb{background:rgba(74,127,255,0.3);border-radius:4px}
 
         .logo{display:flex;align-items:center;gap:10px;padding:0 10px 18px;border-bottom:1px solid var(--border);margin-bottom:16px}
-        .logo-mark{width:36px;height:36px;background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem}
+        .logo-mark{width:36px;height:36px;background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:10px;display:flex;align-items:center;justify-content:center}
         .logo-text{font-family:Manrope;font-weight:800;font-size:1rem}
         .logo-text span{color:var(--blue-l)}
 
@@ -36,12 +37,9 @@
 
         /* MAIN */
         .main{background:var(--bg);min-height:100vh}
-
         .topbar{background:rgba(10,16,32,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:16px 28px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:50}
-        .topbar h2{font-family:Manrope;font-size:1.2rem;font-weight:800;letter-spacing:-.5px}
-
+        .topbar h2{font-family:Manrope;font-size:1.2rem;font-weight:800;letter-spacing:-.5px;display:flex;align-items:center;gap:10px}
         .content{padding:28px}
-
         .page{display:none}
         .page.active{display:block;animation:fade .3s}
         @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
@@ -70,24 +68,19 @@
         .btn-secondary:hover{border-color:var(--blue-l);background:rgba(37,99,235,.08)}
         .btn-danger{background:rgba(239,68,68,.15);color:var(--red);border:1px solid rgba(239,68,68,.3)}
         .btn-danger:hover{background:var(--red);color:white}
-        .btn-success{background:rgba(16,185,129,.15);color:var(--green);border:1px solid rgba(16,185,129,.3)}
-        .btn-success:hover{background:var(--green);color:white}
         .btn-sm{padding:6px 10px;font-size:.72rem}
 
-        /* BADGE */
-        .badge{display:inline-flex;padding:3px 10px;border-radius:999px;font-size:.68rem;font-weight:700;text-transform:uppercase}
+        .badge{display:inline-flex;padding:3px 10px;border-radius:999px;font-size:.68rem;font-weight:700;text-transform:uppercase;align-items:center;gap:4px}
         .b-green{background:rgba(16,185,129,.15);color:var(--green);border:1px solid rgba(16,185,129,.3)}
         .b-red{background:rgba(239,68,68,.15);color:var(--red);border:1px solid rgba(239,68,68,.3)}
         .b-gold{background:rgba(245,185,66,.15);color:var(--gold);border:1px solid rgba(245,185,66,.3)}
         .b-blue{background:rgba(37,99,235,.15);color:var(--blue-l);border:1px solid rgba(37,99,235,.3)}
 
-        /* MODAL */
         .modal{display:none;position:fixed;inset:0;background:rgba(6,11,24,.9);backdrop-filter:blur(8px);z-index:100;align-items:center;justify-content:center;padding:20px}
         .modal.open{display:flex}
         .modal-box{background:var(--card);border:1px solid var(--border-h);border-radius:16px;padding:28px;max-width:560px;width:100%;max-height:90vh;overflow-y:auto}
-        .modal-box h3{font-family:Manrope;font-size:1.2rem;font-weight:800;margin-bottom:20px}
+        .modal-box h3{font-family:Manrope;font-size:1.2rem;font-weight:800;margin-bottom:20px;display:flex;align-items:center;gap:10px}
 
-        /* FORM */
         .field{margin-bottom:14px}
         .field label{display:block;font-size:.72rem;color:var(--text2);margin-bottom:6px;font-weight:600;text-transform:uppercase;letter-spacing:1px}
         .field input,.field select,.field textarea{width:100%;padding:11px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:inherit;font-size:.88rem;outline:none;transition:.2s}
@@ -95,7 +88,8 @@
         .field textarea{resize:vertical;min-height:70px}
 
         .toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;gap:12px;flex-wrap:wrap}
-        .search{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:9px 14px;display:flex;align-items:center;gap:8px;min-width:240px}
+        .search{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:9px 14px;display:flex;align-items:center;gap:8px;min-width:240px;transition:border-color .2s}
+        .search:focus-within{border-color:var(--border-h)}
         .search input{background:transparent;border:none;color:var(--text);outline:none;font-family:inherit;font-size:.85rem;flex:1}
 
         .spinner{width:36px;height:36px;border:3px solid rgba(37,99,235,.2);border-top-color:var(--blue);border-radius:50%;animation:spin 1s linear infinite;margin:40px auto}
@@ -111,7 +105,7 @@
         .u-user{font-family:JetBrains Mono;font-size:.72rem;color:var(--text3)}
 
         .chart{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:20px}
-        .chart-title{font-family:Manrope;font-weight:800;margin-bottom:18px}
+        .chart-title{font-family:Manrope;font-weight:800;margin-bottom:18px;display:flex;align-items:center;gap:10px}
         .bars{display:flex;align-items:flex-end;gap:10px;height:150px;padding:16px 0;border-bottom:1px solid var(--border)}
         .bar{flex:1;background:linear-gradient(180deg,var(--blue),var(--purple));border-radius:6px 6px 0 0;min-height:4px;position:relative;transition:.3s}
         .bar:hover{opacity:.8}
@@ -127,46 +121,87 @@
         }
         .menu-btn{display:none;width:40px;height:40px;background:transparent;border:1px solid var(--border);border-radius:8px;color:var(--text);cursor:pointer;align-items:center;justify-content:center;font-size:1.2rem}
     </style>
+    <link rel="stylesheet" href="/css/preloader.css">
 </head>
 <body>
 
 <div class="layout">
     <aside class="sidebar" id="sidebar">
         <div class="logo">
-            <div class="logo-mark">⚡</div>
+            <div class="logo-mark">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                </svg>
+            </div>
             <div class="logo-text">CTF<span>.UZ</span> ADMIN</div>
         </div>
 
         <div class="sec">Asosiy</div>
         <nav class="menu">
-            <a onclick="showPage('dashboard',this)" class="active">📊 Dashboard</a>
+            <a onclick="showPage('dashboard',this)" class="active">
+                <svg class="icon icon-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18M7 16v-5M12 16V8M17 16v-9"/></svg>
+                Dashboard
+            </a>
         </nav>
 
-      <div class="sec">Boshqaruv</div>
-<nav class="menu">
-    <a onclick="showPage('users',this)">👥 Foydalanuvchilar</a>
-    <a onclick="showPage('cookies',this)">🍪 Live Cookies</a>
-    <a onclick="showPage('challenges',this)">🏆 Challenges</a>
-    <a onclick="showPage('events',this)">🏁 Events</a>
-    <a onclick="showPage('submissions',this)">📮 Submissions</a>
-</nav>
+        <div class="sec">Boshqaruv</div>
+        <nav class="menu">
+            <a onclick="showPage('users',this)">
+                <svg class="icon icon-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                Foydalanuvchilar
+            </a>
+            <a onclick="showPage('cookies',this)">
+                <svg class="icon icon-cookie" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5zm-4 9a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm0 5a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm5-1a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm3-4a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/></svg>
+                Live Cookies
+            </a>
+            <a onclick="showPage('challenges',this)">
+                <svg class="icon icon-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4a2 2 0 0 1-2-2V5h4M18 9h2a2 2 0 0 0 2-2V5h-4M6 5h12v6a6 6 0 0 1-12 0V5zM12 17v3M8 21h8M9 21v-2a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/></svg>
+                Challenges
+            </a>
+            <a onclick="showPage('events',this)">
+                <svg class="icon icon-flag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1zM4 22v-7"/></svg>
+                Events
+            </a>
+            <a onclick="showPage('submissions',this)">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg>
+                Submissions
+            </a>
+        </nav>
 
         <div class="sec">Gamification</div>
         <nav class="menu">
-            <a onclick="showPage('achievements',this)">🏅 Achievements</a>
-            <a onclick="showPage('titles',this)">🏷 Titles</a>
+            <a onclick="showPage('achievements',this)">
+                <svg class="icon icon-award" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+                Achievements
+            </a>
+            <a onclick="showPage('titles',this)">
+                <svg class="icon icon-tag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41 13.42 20.58a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><circle cx="7" cy="7" r="1.5" fill="currentColor"/></svg>
+                Titles
+            </a>
         </nav>
 
         <div class="sec">Aloqa</div>
         <nav class="menu">
-            <a onclick="showPage('announcements',this)">📢 E'lonlar</a>
+            <a onclick="showPage('announcements',this)">
+                <svg class="icon icon-megaphone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 18-5v12L3 14v-3zM11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg>
+                E'lonlar
+            </a>
         </nav>
 
         <div class="sec">Tizim</div>
         <nav class="menu">
-            <a onclick="showPage('audit',this)">📜 Audit Logs</a>
-            <a href="/" target="_blank">🌐 Saytni ko'rish</a>
-            <a onclick="logout()">🚪 Chiqish</a>
+            <a onclick="showPage('audit',this)">
+                <svg class="icon icon-scroll" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><rect x="7" y="1" width="10" height="4" rx="1"/><path d="M8 11h8M8 15h8"/></svg>
+                Audit Logs
+            </a>
+            <a href="/" target="_blank">
+                <svg class="icon icon-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z"/></svg>
+                Saytni ko'rish
+            </a>
+            <a onclick="logout()">
+                <svg class="icon icon-logout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+                Chiqish
+            </a>
         </nav>
     </aside>
 
@@ -174,7 +209,10 @@
         <div class="topbar">
             <div style="display:flex;align-items:center;gap:14px">
                 <button class="menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
-                <h2 id="pageTitle">📊 Dashboard</h2>
+                <h2 id="pageTitle">
+                    <svg class="icon icon-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18M7 16v-5M12 16V8M17 16v-9"/></svg>
+                    Dashboard
+                </h2>
             </div>
             <div style="display:flex;align-items:center;gap:12px">
                 <span class="live-dot"></span>
@@ -187,11 +225,17 @@
             <div id="dashboard" class="page active">
                 <div id="statsGrid" class="stats"></div>
                 <div class="chart">
-                    <h3 class="chart-title">📈 User Growth (7 kun)</h3>
+                    <h3 class="chart-title">
+                        <svg class="icon icon-chart-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+                        User Growth (7 kun)
+                    </h3>
                     <div class="bars" id="growthBars"></div>
                     <div class="bar-lbls" id="growthLabels"></div>
                 </div>
-                <h3 class="chart-title" style="margin:24px 0 16px">🏆 Top 10</h3>
+                <h3 class="chart-title" style="margin:24px 0 16px">
+                    <svg class="icon icon-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;"><path d="M6 9H4a2 2 0 0 1-2-2V5h4M18 9h2a2 2 0 0 0 2-2V5h-4M6 5h12v6a6 6 0 0 1-12 0V5zM12 17v3M8 21h8M9 21v-2a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/></svg>
+                    Top 10
+                </h3>
                 <div class="table-box">
                     <table>
                         <thead><tr><th>#</th><th>Foydalanuvchi</th><th>Level</th><th>Ball</th><th>Yechim</th></tr></thead>
@@ -203,7 +247,10 @@
             <!-- USERS -->
             <div id="users" class="page">
                 <div class="toolbar">
-                    <div class="search"><span>🔍</span><input id="userSearch" placeholder="Qidirish..." oninput="loadUsers()"></div>
+                    <div class="search">
+                        <svg class="icon icon-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                        <input id="userSearch" placeholder="Qidirish..." oninput="loadUsers()">
+                    </div>
                     <select id="userStatus" onchange="loadUsers()" style="padding:9px 14px;background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--text)">
                         <option value="">Barchasi</option>
                         <option value="verified">Tasdiqlangan</option>
@@ -219,48 +266,41 @@
                 </div>
             </div>
 
-<!-- LIVE COOKIES -->
-<div id="cookies" class="page">
-    <div class="toolbar">
-        <div style="display:flex;gap:10px;align-items:center">
-            <span class="live-dot"></span>
-            <span style="font-size:.8rem;color:var(--text2)">
-                Live — har 5 sekundda yangilanadi
-            </span>
-        </div>
-        <div style="display:flex;gap:10px">
-            <select id="cookieTeamFilter" onchange="loadLiveCookies()"
-                    style="padding:9px 14px;background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--text)">
-                <option value="">Barcha teamlar</option>
-                <option value="1-team">1-team</option>
-                <option value="2-team">2-team</option>
-            </select>
-            <button class="btn btn-secondary btn-sm" onclick="loadLiveCookies()">🔄 Yangilash</button>
-        </div>
-    </div>
-    <div class="table-box">
-        <table>
-            <thead>
-                <tr>
-                    <th>Vaqt</th>
-                    <th>Foydalanuvchi</th>
-                    <th>Team</th>
-                    <th>Cookie</th>
-                    <th>IP</th>
-                    <th>User-Agent</th>
-                </tr>
-            </thead>
-            <tbody id="cookiesBody">
-                <tr><td colspan="6"><div class="spinner"></div></td></tr>
-            </tbody>
-        </table>
-    </div>
-</div>       
-     <!-- CHALLENGES -->
+            <!-- LIVE COOKIES -->
+            <div id="cookies" class="page">
+                <div class="toolbar">
+                    <div style="display:flex;gap:10px;align-items:center">
+                        <span class="live-dot"></span>
+                        <span style="font-size:.8rem;color:var(--text2)">Live — har 5 sekundda yangilanadi</span>
+                    </div>
+                    <div style="display:flex;gap:10px">
+                        <select id="cookieTeamFilter" onchange="loadLiveCookies()" style="padding:9px 14px;background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--text)">
+                            <option value="">Barcha teamlar</option>
+                            <option value="1-team">1-team</option>
+                            <option value="2-team">2-team</option>
+                        </select>
+                        <button class="btn btn-secondary btn-sm" onclick="loadLiveCookies()">
+                            <svg class="icon icon-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8M21 3v5h-5M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16M8 16H3v5"/></svg>
+                            Yangilash
+                        </button>
+                    </div>
+                </div>
+                <div class="table-box">
+                    <table>
+                        <thead><tr><th>Vaqt</th><th>Foydalanuvchi</th><th>Team</th><th>Cookie</th><th>IP</th><th>User-Agent</th></tr></thead>
+                        <tbody id="cookiesBody"><tr><td colspan="6"><div class="spinner"></div></td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- CHALLENGES -->
             <div id="challenges" class="page">
                 <div class="toolbar">
                     <p style="color:var(--text2);font-size:.85rem">Barcha challenges</p>
-                    <button class="btn btn-primary" onclick="openModal('chModal')">+ Yangi Challenge</button>
+                    <button class="btn btn-primary" onclick="openModal('chModal')">
+                        <svg class="icon icon-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><path d="M12 5v14M5 12h14"/></svg>
+                        Yangi Challenge
+                    </button>
                 </div>
                 <div class="table-box">
                     <table>
@@ -274,7 +314,10 @@
             <div id="events" class="page">
                 <div class="toolbar">
                     <p style="color:var(--text2);font-size:.85rem">CTF events</p>
-                    <button class="btn btn-primary" onclick="openModal('evModal')">+ Yangi Event</button>
+                    <button class="btn btn-primary" onclick="openModal('evModal')">
+                        <svg class="icon icon-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><path d="M12 5v14M5 12h14"/></svg>
+                        Yangi Event
+                    </button>
                 </div>
                 <div class="table-box">
                     <table>
@@ -288,7 +331,10 @@
             <div id="submissions" class="page">
                 <div class="toolbar">
                     <p style="color:var(--text2);font-size:.85rem">Real-time submissions</p>
-                    <button class="btn btn-secondary btn-sm" onclick="loadSubs()">🔄 Yangilash</button>
+                    <button class="btn btn-secondary btn-sm" onclick="loadSubs()">
+                        <svg class="icon icon-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8M21 3v5h-5M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16M8 16H3v5"/></svg>
+                        Yangilash
+                    </button>
                 </div>
                 <div class="table-box">
                     <table>
@@ -322,7 +368,10 @@
             <div id="announcements" class="page">
                 <div class="toolbar">
                     <p style="color:var(--text2);font-size:.85rem">E'lonlar</p>
-                    <button class="btn btn-primary" onclick="openModal('anModal')">+ Yangi E'lon</button>
+                    <button class="btn btn-primary" onclick="openModal('anModal')">
+                        <svg class="icon icon-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><path d="M12 5v14M5 12h14"/></svg>
+                        Yangi E'lon
+                    </button>
                 </div>
                 <div class="table-box">
                     <table>
@@ -336,7 +385,10 @@
             <div id="audit" class="page">
                 <div class="toolbar">
                     <p style="color:var(--text2);font-size:.85rem">Admin harakatlari</p>
-                    <button class="btn btn-secondary btn-sm" onclick="loadAudit()">🔄 Yangilash</button>
+                    <button class="btn btn-secondary btn-sm" onclick="loadAudit()">
+                        <svg class="icon icon-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8M21 3v5h-5M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16M8 16H3v5"/></svg>
+                        Yangilash
+                    </button>
                 </div>
                 <div class="table-box">
                     <table>
@@ -352,7 +404,10 @@
 <!-- MODALS -->
 <div id="chModal" class="modal">
     <div class="modal-box">
-        <h3>🏆 Yangi Challenge</h3>
+        <h3>
+            <svg class="icon icon-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;"><path d="M6 9H4a2 2 0 0 1-2-2V5h4M18 9h2a2 2 0 0 0 2-2V5h-4M6 5h12v6a6 6 0 0 1-12 0V5zM12 17v3M8 21h8M9 21v-2a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/></svg>
+            Yangi Challenge
+        </h3>
         <div class="field"><label>Nomi</label><input id="chTitle"></div>
         <div class="field"><label>Story</label><textarea id="chStory"></textarea></div>
         <div class="field"><label>Objective</label><input id="chObj"></div>
@@ -371,31 +426,48 @@
         <div class="field"><label>Flag</label><input id="chFlag" placeholder="CTF{...}"></div>
         <div class="field"><label>Fayl (ixtiyoriy)</label><input type="file" id="chFile"></div>
         <div style="display:flex;gap:10px;margin-top:20px">
-            <button class="btn btn-primary" style="flex:1" onclick="createChallenge()">Yaratish</button>
-            <button class="btn btn-secondary" style="flex:1" onclick="closeModal('chModal')">Bekor</button>
+            <button class="btn btn-primary" style="flex:1" onclick="createChallenge()">
+                <svg class="icon icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><polyline points="20 6 9 17 4 12"/></svg>
+                Yaratish
+            </button>
+            <button class="btn btn-secondary" style="flex:1" onclick="closeModal('chModal')">
+                <svg class="icon icon-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><path d="M18 6 6 18M6 6l12 12"/></svg>
+                Bekor
+            </button>
         </div>
     </div>
 </div>
 
 <div id="evModal" class="modal">
     <div class="modal-box">
-        <h3>🏁 Yangi Event</h3>
+        <h3>
+            <svg class="icon icon-flag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1zM4 22v-7"/></svg>
+            Yangi Event
+        </h3>
         <div class="field"><label>Nomi</label><input id="evTitle"></div>
         <div class="field"><label>Turi</label><input id="evType" value="national"></div>
-        <div class="field"><label>Icon</label><input id="evIcon" value="🏆"></div>
         <div class="field"><label>Tavsif</label><textarea id="evDesc"></textarea></div>
         <div class="field"><label>Boshlanish</label><input type="date" id="evStart"></div>
         <div class="field"><label>Tugash</label><input type="date" id="evEnd"></div>
         <div style="display:flex;gap:10px;margin-top:20px">
-            <button class="btn btn-primary" style="flex:1" onclick="createEvent()">Yaratish</button>
-            <button class="btn btn-secondary" style="flex:1" onclick="closeModal('evModal')">Bekor</button>
+            <button class="btn btn-primary" style="flex:1" onclick="createEvent()">
+                <svg class="icon icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><polyline points="20 6 9 17 4 12"/></svg>
+                Yaratish
+            </button>
+            <button class="btn btn-secondary" style="flex:1" onclick="closeModal('evModal')">
+                <svg class="icon icon-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><path d="M18 6 6 18M6 6l12 12"/></svg>
+                Bekor
+            </button>
         </div>
     </div>
 </div>
 
 <div id="anModal" class="modal">
     <div class="modal-box">
-        <h3>📢 Yangi E'lon</h3>
+        <h3>
+            <svg class="icon icon-megaphone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;"><path d="m3 11 18-5v12L3 14v-3zM11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg>
+            Yangi E'lon
+        </h3>
         <div class="field"><label>Sarlavha</label><input id="anTitle"></div>
         <div class="field"><label>Matn</label><textarea id="anMsg"></textarea></div>
         <div class="field"><label>Audience</label>
@@ -405,21 +477,24 @@
             </select>
         </div>
         <div style="display:flex;gap:10px;margin-top:20px">
-            <button class="btn btn-primary" style="flex:1" onclick="createAnn()">E'lon qilish</button>
-            <button class="btn btn-secondary" style="flex:1" onclick="closeModal('anModal')">Bekor</button>
+            <button class="btn btn-primary" style="flex:1" onclick="createAnn()">
+                <svg class="icon icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><polyline points="20 6 9 17 4 12"/></svg>
+                E'lon qilish
+            </button>
+            <button class="btn btn-secondary" style="flex:1" onclick="closeModal('anModal')">
+                <svg class="icon icon-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><path d="M18 6 6 18M6 6l12 12"/></svg>
+                Bekor
+            </button>
         </div>
     </div>
 </div>
 
 <script>
 // ══════════════════════════════════════════
-// API HELPER
-// ══════════════════════════════════════════
-// ══════════════════════════════════════════
 // CSRF TOKEN
 // ══════════════════════════════════════════
 let csrfToken = null;
-let liveCookiesInterval = null;   // <-- YANGI QATOR
+let liveCookiesInterval = null;
 
 async function getCsrfToken() {
     if (csrfToken) return csrfToken;
@@ -428,15 +503,9 @@ async function getCsrfToken() {
         const data = await res.json();
         csrfToken = data.csrfToken;
         return csrfToken;
-    } catch (e) {
-        console.error('CSRF token xatosi:', e);
-        return null;
-    }
+    } catch (e) { return null; }
 }
 
-// ══════════════════════════════════════════
-// API HELPER (CSRF bilan)
-// ══════════════════════════════════════════
 async function api(endpoint, options) {
     options = options || {};
     const isForm = options.body instanceof FormData;
@@ -444,7 +513,6 @@ async function api(endpoint, options) {
     const headers = {};
     if (!isForm) headers['Content-Type'] = 'application/json';
 
-    // CSRF token faqat POST/PUT/DELETE/PATCH uchun
     if (['POST', 'PUT', 'DELETE', 'PATCH'].includes(method)) {
         const token = await getCsrfToken();
         if (token) headers['x-csrf-token'] = token;
@@ -456,47 +524,37 @@ async function api(endpoint, options) {
         credentials: 'include'
     });
 
-    // 401 → login
-    if (res.status === 401) {
-        window.location.href = '/admin-login';
-        return { success: false };
-    }
-
-    // 403 → faqat CSRF xatosi bo'lsa ko'rsatish
+    if (res.status === 401) { window.location.href = '/admin-login'; return { success: false }; }
     if (res.status === 403) {
         const text = await res.text();
         try {
             const err = JSON.parse(text);
             if (err.message && err.message.includes('CSRF')) {
-                // CSRF token yangilash
                 csrfToken = null;
-                alert('❌ Xavfsizlik tokeni yangilandi. Qayta urinib ko\'ring.');
+                alert('❌ Xavfsizlik tokeni yangilandi.');
                 return { success: false, message: err.message };
             }
         } catch (e) {}
-        
-        // Boshqa 403 xatolar
         alert('❌ Ruxsat yo\'q');
-        return { success: false, message: 'Ruxsat yo\'q' };
+        return { success: false };
     }
-
     return res.json();
 }
 
 // ══════════════════════════════════════════
-// PAGE ROUTER
+// PAGE TITLES
 // ══════════════════════════════════════════
 const PAGE_TITLES = {
-    dashboard: '📊 Dashboard',
-    users: '👥 Foydalanuvchilar',
-    cookies: '🍪 Live Cookies',
-    challenges: '🏆 Challenges',
-    events: '🏁 Events',
-    submissions: '📮 Submissions',
-    achievements: '🏅 Achievements',
-    titles: '🏷 Titles',
-    announcements: '📢 E\'lonlar',
-    audit: '📜 Audit Logs'
+    dashboard: '<svg class="icon icon-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18M7 16v-5M12 16V8M17 16v-9"/></svg> Dashboard',
+    users: '<svg class="icon icon-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg> Foydalanuvchilar',
+    cookies: '<svg class="icon icon-cookie" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5z"/></svg> Live Cookies',
+    challenges: '<svg class="icon icon-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4a2 2 0 0 1-2-2V5h4M18 9h2a2 2 0 0 0 2-2V5h-4M6 5h12v6a6 6 0 0 1-12 0V5zM12 17v3M8 21h8"/></svg> Challenges',
+    events: '<svg class="icon icon-flag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1zM4 22v-7"/></svg> Events',
+    submissions: '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg> Submissions',
+    achievements: '<svg class="icon icon-award" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg> Achievements',
+    titles: '<svg class="icon icon-tag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41 13.42 20.58a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/></svg> Titles',
+    announcements: '<svg class="icon icon-megaphone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 18-5v12L3 14v-3z"/></svg> E\'lonlar',
+    audit: '<svg class="icon icon-scroll" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><rect x="7" y="1" width="10" height="4" rx="1"/><path d="M8 11h8M8 15h8"/></svg> Audit Logs'
 };
 
 function showPage(id, el) {
@@ -507,46 +565,30 @@ function showPage(id, el) {
     document.querySelectorAll('.menu a').forEach(a => a.classList.remove('active'));
     if (el) el.classList.add('active');
 
-    document.getElementById('pageTitle').innerText = PAGE_TITLES[id] || id;
+    document.getElementById('pageTitle').innerHTML = PAGE_TITLES[id] || id;
 
     if (window.innerWidth < 900) document.getElementById('sidebar').classList.remove('open');
 
     const loaders = {
-        dashboard: loadDashboard,
-        users: loadUsers,
-        cookies: loadLiveCookies,
-        challenges: loadChallenges,
-        events: loadEvents,
-        submissions: loadSubs,
-        achievements: loadAchievements,
-        titles: loadTitles,
-        announcements: loadAnnouncements,
-        audit: loadAudit
+        dashboard: loadDashboard, users: loadUsers, cookies: loadLiveCookies,
+        challenges: loadChallenges, events: loadEvents, submissions: loadSubs,
+        achievements: loadAchievements, titles: loadTitles,
+        announcements: loadAnnouncements, audit: loadAudit
     };
     if (loaders[id]) loaders[id]();
 
-    // Live cookies interval boshqaruvi
-    if (liveCookiesInterval) {
-        clearInterval(liveCookiesInterval);
-        liveCookiesInterval = null;
-    }
-    if (id === 'cookies') {
-        liveCookiesInterval = setInterval(loadLiveCookies, 5000);
-    }
+    if (liveCookiesInterval) { clearInterval(liveCookiesInterval); liveCookiesInterval = null; }
+    if (id === 'cookies') { liveCookiesInterval = setInterval(loadLiveCookies, 5000); }
 }
 
 function openModal(id) { document.getElementById(id).classList.add('open'); }
 function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 
 function esc(t) {
-   if (t === null || t === undefined) return '';
-    return String(t)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;');
+    if (t === null || t === undefined) return '';
+    return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
-    
+
 // ══════════════════════════════════════════
 // DASHBOARD
 // ══════════════════════════════════════════
@@ -602,7 +644,7 @@ async function loadUsers() {
 
     document.getElementById('usersBody').innerHTML = res.users.map(u => `
         <tr>
-            <td style="font-family:JetBrains Mono">#${u.id}</td>
+            <td style="font-family:JetBrains Mono">#${esc(u.id)}</td>
             <td>
                 <div class="user-cell">
                     <div class="u-avatar">${u.avatar ? `<img src="${esc(u.avatar)}">` : esc((u.username[0] || '?').toUpperCase())}</div>
@@ -618,46 +660,37 @@ async function loadUsers() {
             <td><strong style="color:var(--gold)">${u.score}</strong></td>
             <td>${u.banned ? '<span class="badge b-red">Banned</span>' : u.verified ? '<span class="badge b-green">Verified</span>' : '<span class="badge b-gold">Unverified</span>'}</td>
             <td>
-                <button class="btn btn-secondary btn-sm" onclick="toggleBan(${u.id})">${u.banned ? '🔓' : '🔒'}</button>
-                <button class="btn btn-danger btn-sm" onclick="delUser(${u.id})">🗑</button>
+                <button class="btn-icon" onclick="toggleBan('${u.id}')" title="${u.banned ? 'Blokdan chiqarish' : 'Bloklash'}">
+                    ${u.banned 
+                        ? `<svg class="icon icon-unlock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>`
+                        : `<svg class="icon icon-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`}
+                </button>
+                <button class="btn-icon" onclick="delUser('${u.id}')" title="O'chirish">
+                    <svg class="icon icon-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
+                </button>
             </td>
         </tr>
     `).join('') || '<tr><td colspan="8" style="text-align:center;color:var(--text3);padding:40px">Topilmadi</td></tr>';
 }
 
-async function toggleBan(id) {
-    await api(`/users/${id}/ban`, { method: 'POST' });
-    loadUsers();
-}
-
+async function toggleBan(id) { await api(`/users/${id}/ban`, { method: 'POST' }); loadUsers(); }
 async function delUser(id) {
     if (!confirm('O\'chirishni tasdiqlaysizmi?')) return;
     await api(`/users/${id}`, { method: 'DELETE' });
     loadUsers();
 }
 
-
 // ══════════════════════════════════════════
 // LIVE COOKIES
-// ══════════════════════════════════════════
-// ══════════════════════════════════════════
-// LIVE COOKIES (anonymous ham)
 // ══════════════════════════════════════════
 async function loadLiveCookies() {
     const team = document.getElementById('cookieTeamFilter').value || '';
     const url = team ? `/cookies/live?team=${encodeURIComponent(team)}` : '/cookies/live';
-    
     const res = await api(url);
     if (!res.success) return;
 
     if (res.count === 0) {
-        document.getElementById('cookiesBody').innerHTML = `
-            <tr>
-                <td colspan="6" style="text-align:center;color:var(--text3);padding:40px">
-                    Hozircha cookie yo'q. Foydalanuvchilar saytga kirishini kuting...
-                </td>
-            </tr>
-        `;
+        document.getElementById('cookiesBody').innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--text3);padding:40px">Hozircha cookie yo'q...</td></tr>`;
         return;
     }
 
@@ -665,9 +698,6 @@ async function loadLiveCookies() {
         const isAnonymous = c.role === 'anonymous' || !c.username;
         const isTeam1 = c.team === '1-team';
         const time = c.at ? new Date(c.at).toLocaleTimeString('uz-UZ') : '—';
-        
-        // Anonymous — kulrang fon
-        // 1-team — qizil fon
         let rowStyle = '';
         if (isAnonymous) rowStyle = 'background:rgba(148,163,184,.06);border-left:3px solid #64748B';
         else if (isTeam1) rowStyle = 'background:rgba(239,68,68,.06);border-left:3px solid #EF4444';
@@ -684,25 +714,17 @@ async function loadLiveCookies() {
                     </div>
                 </div>
             </td>
-            <td>${isAnonymous 
-                ? '<span class="badge b-gold">Anonymous</span>'
-                : isTeam1 
-                    ? '<span class="badge b-red">🔥 1-team</span>' 
-                    : '<span class="badge b-blue">' + esc(c.team) + '</span>'}</td>
+            <td>${isAnonymous ? '<span class="badge b-gold">Anonymous</span>' : isTeam1 ? '<span class="badge b-red">1-team</span>' : '<span class="badge b-blue">' + esc(c.team) + '</span>'}</td>
             <td style="max-width:280px">
                 <code style="font-size:.62rem;color:var(--cyan);font-family:JetBrains Mono;cursor:pointer;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"
                       title="${esc(c.cookie)}"
-                      onclick="navigator.clipboard.writeText(this.title);this.style.color='#10B981';setTimeout(()=>this.style.color='',500)">
+                      onclick="navigator.clipboard.writeText(this.title)">
                     ${esc(c.cookie.slice(0, 55))}${c.cookie.length > 55 ? '...' : ''}
                 </code>
             </td>
             <td style="font-size:.7rem;font-family:JetBrains Mono;color:var(--text3)">${esc(c.ip)}</td>
-            <td style="font-size:.65rem;color:var(--text3);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"
-                title="${esc(c.userAgent)}">
-                ${esc(c.userAgent.slice(0, 40))}${c.userAgent.length > 40 ? '...' : ''}
-            </td>
-        </tr>
-        `;
+            <td style="font-size:.65rem;color:var(--text3)">${esc(c.userAgent.slice(0, 40))}${c.userAgent.length > 40 ? '...' : ''}</td>
+        </tr>`;
     }).join('');
 }
 
@@ -715,13 +737,17 @@ async function loadChallenges() {
 
     document.getElementById('chBody').innerHTML = res.challenges.map(c => `
         <tr>
-            <td style="font-family:JetBrains Mono">#${c.id}</td>
+            <td style="font-family:JetBrains Mono">#${String(c.id).slice(-6)}</td>
             <td><strong>${esc(c.title)}</strong></td>
             <td><span class="badge b-blue">${esc(c.category)}</span></td>
             <td><span class="badge b-gold">${esc(c.difficulty)}</span></td>
             <td><strong style="color:var(--gold)">${c.points}</strong></td>
             <td>${c.solves}</td>
-            <td><button class="btn btn-danger btn-sm" onclick="delChallenge(${c.id})">🗑</button></td>
+            <td>
+                <button class="btn-icon" onclick="delChallenge('${c.id}')" title="O'chirish">
+                    <svg class="icon icon-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
+                </button>
+            </td>
         </tr>
     `).join('') || '<tr><td colspan="7" style="text-align:center;color:var(--text3);padding:40px">Yo\'q</td></tr>';
 }
@@ -739,12 +765,8 @@ async function createChallenge() {
     if (file) fd.append('file', file);
 
     const res = await api('/challenges', { method: 'POST', body: fd });
-    if (res.success) {
-        closeModal('chModal');
-        loadChallenges();
-    } else {
-        alert('Xato: ' + (res.message || 'noma\'lum'));
-    }
+    if (res.success) { closeModal('chModal'); loadChallenges(); }
+    else alert('Xato: ' + (res.message || 'noma\'lum'));
 }
 
 async function delChallenge(id) {
@@ -762,12 +784,16 @@ async function loadEvents() {
 
     document.getElementById('evBody').innerHTML = res.events.map(e => `
         <tr>
-            <td style="font-family:JetBrains Mono">#${e.id}</td>
-            <td><strong>${esc(e.icon)} ${esc(e.title)}</strong></td>
+            <td style="font-family:JetBrains Mono">#${String(e.id).slice(-6)}</td>
+            <td><strong>${esc(e.title)}</strong></td>
             <td><span class="badge b-blue">${esc(e.type)}</span></td>
             <td style="font-size:.78rem">${new Date(e.startDate).toLocaleDateString('uz-UZ')}</td>
             <td><span class="badge b-green">${esc(e.status)}</span></td>
-            <td><button class="btn btn-danger btn-sm" onclick="delEvent(${e.id})">🗑</button></td>
+            <td>
+                <button class="btn-icon" onclick="delEvent('${e.id}')" title="O'chirish">
+                    <svg class="icon icon-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
+                </button>
+            </td>
         </tr>
     `).join('') || '<tr><td colspan="6" style="text-align:center;color:var(--text3);padding:40px">Yo\'q</td></tr>';
 }
@@ -776,16 +802,12 @@ async function createEvent() {
     const data = {
         title: document.getElementById('evTitle').value,
         type: document.getElementById('evType').value,
-        icon: document.getElementById('evIcon').value,
         description: document.getElementById('evDesc').value,
         startDate: document.getElementById('evStart').value,
         endDate: document.getElementById('evEnd').value
     };
     const res = await api('/events', { method: 'POST', body: JSON.stringify(data) });
-    if (res.success) {
-        closeModal('evModal');
-        loadEvents();
-    }
+    if (res.success) { closeModal('evModal'); loadEvents(); }
 }
 
 async function delEvent(id) {
@@ -806,18 +828,19 @@ async function loadSubs() {
             <td style="font-size:.75rem;font-family:JetBrains Mono">${new Date(s.timestamp).toLocaleString('uz-UZ')}</td>
             <td><strong>@${esc(s.username)}</strong></td>
             <td>${esc(s.challengeTitle)}</td>
-            <td>${s.correct ? '<span class="badge b-green">✓</span>' : '<span class="badge b-red">✗</span>'}</td>
+            <td>${s.correct 
+                ? '<span class="badge b-green"><svg class="icon icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;"><polyline points="20 6 9 17 4 12"/></svg></span>' 
+                : '<span class="badge b-red"><svg class="icon icon-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;"><path d="M18 6 6 18M6 6l12 12"/></svg></span>'}</td>
         </tr>
     `).join('') || '<tr><td colspan="4" style="text-align:center;color:var(--text3);padding:40px">Yo\'q</td></tr>';
 }
 
 // ══════════════════════════════════════════
-// ACHIEVEMENTS
+// ACHIEVEMENTS & TITLES
 // ══════════════════════════════════════════
 async function loadAchievements() {
     const res = await api('/achievements');
     if (!res.success) return;
-
     document.getElementById('achBody').innerHTML = res.achievements.map(a => `
         <tr>
             <td style="font-size:1.5rem">${esc(a.icon)}</td>
@@ -828,13 +851,9 @@ async function loadAchievements() {
     `).join('') || '<tr><td colspan="4" style="text-align:center;color:var(--text3);padding:40px">Yo\'q</td></tr>';
 }
 
-// ══════════════════════════════════════════
-// TITLES
-// ══════════════════════════════════════════
 async function loadTitles() {
     const res = await api('/titles');
     if (!res.success) return;
-
     document.getElementById('titBody').innerHTML = res.titles.map(t => `
         <tr>
             <td style="font-size:1.5rem">${esc(t.icon)}</td>
@@ -845,19 +864,22 @@ async function loadTitles() {
 }
 
 // ══════════════════════════════════════════
-// ANNOUNCEMENTS
+// ANNOUNCEMENTS & AUDIT
 // ══════════════════════════════════════════
 async function loadAnnouncements() {
     const res = await api('/announcements');
     if (!res.success) return;
-
     document.getElementById('anBody').innerHTML = res.announcements.map(a => `
         <tr>
             <td>#${a.id}</td>
             <td><strong>${esc(a.title)}</strong></td>
             <td><span class="badge b-blue">${esc(a.audience)}</span></td>
             <td style="font-size:.78rem">${new Date(a.createdAt).toLocaleDateString('uz-UZ')}</td>
-            <td><button class="btn btn-danger btn-sm" onclick="delAnn(${a.id})">🗑</button></td>
+            <td>
+                <button class="btn-icon" onclick="delAnn(${a.id})">
+                    <svg class="icon icon-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
+                </button>
+            </td>
         </tr>
     `).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--text3);padding:40px">Yo\'q</td></tr>';
 }
@@ -869,10 +891,7 @@ async function createAnn() {
         audience: document.getElementById('anAud').value
     };
     const res = await api('/announcements', { method: 'POST', body: JSON.stringify(data) });
-    if (res.success) {
-        closeModal('anModal');
-        loadAnnouncements();
-    }
+    if (res.success) { closeModal('anModal'); loadAnnouncements(); }
 }
 
 async function delAnn(id) {
@@ -881,13 +900,9 @@ async function delAnn(id) {
     loadAnnouncements();
 }
 
-// ══════════════════════════════════════════
-// AUDIT LOGS
-// ══════════════════════════════════════════
 async function loadAudit() {
     const res = await api('/audit-logs?limit=100');
     if (!res.success) return;
-
     document.getElementById('auditBody').innerHTML = res.logs.map(l => `
         <tr>
             <td style="font-size:.72rem;font-family:JetBrains Mono">${new Date(l.timestamp).toLocaleString('uz-UZ')}</td>
@@ -899,34 +914,22 @@ async function loadAudit() {
 }
 
 // ══════════════════════════════════════════
-// LOGOUT
+// LOGOUT & INIT
 // ══════════════════════════════════════════
 async function logout() {
     await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
     window.location.href = '/';
 }
 
-// ══════════════════════════════════════════
-// INIT
-// ══════════════════════════════════════════
-// ══════════════════════════════════════════
-// INIT + AUTO REFRESH
-// ══════════════════════════════════════════
-//let liveCookiesInterval = null;
-
 window.addEventListener('load', () => {
     loadDashboard();
-    
-    // Dashboard har 30 sekundda
     setInterval(() => {
         if (document.getElementById('dashboard').classList.contains('active')) {
             loadDashboard();
         }
     }, 30000);
 });
-
-// showPage() ga live cookies uchun interval qo'shish
-
 </script>
+    <script src="/js/preloader.js"></script>
 </body>
 </html>

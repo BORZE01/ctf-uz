@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/css/design-system.css">
     <link rel="stylesheet" href="/css/animations.css">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/preloader.css">
 </head>
 <body>
 
@@ -19,8 +20,7 @@
         <a href="/arena" class="active">Arena</a>
         <a href="/battle">Battle</a>
         <a href="/leaderboard">Reyting</a>
-        <a href="/profile">Profil</a>
-        <a id="auth-link" class="nav-cta"></a>
+      <a id="auth-link" href="/profile"></a>
     </nav>
 </header>
 
@@ -44,7 +44,7 @@ async function loadChallenge() {
         return;
     }
 
-    challengeId = parseInt(id);
+    challengeId = id;
 
     const res = await API.get('/challenges/' + id);
     if (!res.success) {
@@ -195,10 +195,25 @@ async function submitFlag() {
 }
 
 window.addEventListener('load', async () => {
-    const user = await requireAuth();
-    if (!user) return;
+    try {
+        const authRes = await fetch('/api/auth/me', { credentials: 'include', cache: 'no-store' });
+        if (!authRes.ok) { window.location.replace('/welcome'); return; }
+        const authData = await authRes.json();
+        if (!authData.success || !authData.user) { window.location.replace('/welcome'); return; }
+        
+        const authLink = document.getElementById('auth-link');
+        if (authLink) {
+            authLink.innerHTML = `<img src="${authData.user.avatar || '/assets/default-avatar.svg'}" style="width:22px;height:22px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-right:6px;border:1px solid #2563EB;" onerror="this.src='/assets/default-avatar.svg'">${authData.user.username}`;
+        }
+    } catch (e) {
+        window.location.replace('/welcome');
+        return;
+    }
+    
     loadChallenge();
 });
+
 </script>
+    <script src="/js/preloader.js"></script>
 </body>
 </html>

@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/css/design-system.css">
     <link rel="stylesheet" href="/css/animations.css">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/preloader.css">
 </head>
 <body>
 
@@ -36,9 +37,25 @@
 <script src="/js/app.js"></script>
 <script>
 window.addEventListener('load', async () => {
-    const user = await requireAuth();
-    if (!user) return;
-    await checkSession();
+    // Auth tekshirish
+    try {
+        const authRes = await fetch('/api/auth/me', { credentials: 'include', cache: 'no-store' });
+        if (!authRes.ok) { window.location.replace('/welcome'); return; }
+        const authData = await authRes.json();
+        if (!authData.success || !authData.user) { window.location.replace('/welcome'); return; }
+        
+        // Navbar yangilash
+        const authLink = document.getElementById('auth-link');
+        if (authLink) {
+            authLink.innerHTML = `<img src="${authData.user.avatar || '/assets/default-avatar.svg'}" style="width:22px;height:22px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-right:6px;border:1px solid #2563EB;" onerror="this.src='/assets/default-avatar.svg'">${authData.user.username}`;
+            authLink.href = '/profile';
+        }
+    } catch (e) {
+        window.location.replace('/welcome');
+        return;
+    }
+    
+    // Profil yuklash
     const res = await API.get('/users/profile');
     if (!res.success) return;
 
@@ -55,7 +72,7 @@ window.addEventListener('load', async () => {
                     <div style="display: flex; gap: 12px; flex-wrap: wrap;">
                         <span class="cyber-level">⚡ Cyber Level ${u.cyberLevel}</span>
                         <span class="badge" style="background: rgba(245,185,66,0.15); color: var(--gold); border: 1px solid rgba(245,185,66,0.3);">
-                            ${u.rank.icon} ${u.rank.name}
+                            ${u.rank?.icon || '🌱'} ${u.rank?.name || 'Rookie'}
                         </span>
                     </div>
                 </div>
@@ -67,22 +84,22 @@ window.addEventListener('load', async () => {
                     <div class="stat-label">Umumiy ball</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value">${u.solvedChallenges.length}</div>
+                    <div class="stat-value">${(u.solvedChallenges || []).length}</div>
                     <div class="stat-label">Yechilgan</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value">${u.battleRating}</div>
+                    <div class="stat-value">${u.battleRating || 1000}</div>
                     <div class="stat-label">Battle Rating</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value">${u.streak}🔥</div>
+                    <div class="stat-value">${u.streak || 0}🔥</div>
                     <div class="stat-label">Streak</div>
                 </div>
             </div>
 
             <h2 class="section-title" style="margin-top: 40px; font-size: 1.5rem;">Skill Graph</h2>
             <div style="margin-top: 24px;">
-                ${Object.entries(u.skills).map(([key, value]) => `
+                ${Object.entries(u.skills || {}).map(([key, value]) => `
                     <div class="skill-bar">
                         <div class="skill-name">${key.charAt(0).toUpperCase() + key.slice(1)}</div>
                         <div class="skill-progress"><div class="skill-progress-fill" style="width: ${value}%;"></div></div>
@@ -106,5 +123,6 @@ async function toggleOpportunities(value) {
     await API.put('/users/profile', { openToOpportunities: value });
 }
 </script>
+    <script src="/js/preloader.js"></script>
 </body>
 </html>

@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/css/design-system.css">
     <link rel="stylesheet" href="/css/animations.css">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/preloader.css">
 </head>
 <body>
 
@@ -18,9 +19,6 @@
         <div class="logo-text">CTF<span>.UZ</span></div>
     </a>
     <nav class="nav">
-        <a href="/arena">Arena</a>
-        <a href="/learn">O'rganish</a>
-        <a href="/leaderboard">Reyting</a>
         <a href="/register" class="nav-cta">Ro'yxatdan o'tish</a>
     </nav>
 </header>
@@ -78,32 +76,26 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
     btn.innerText = 'Kirish...';
 
     try {
-        const res = await fetch('/api/auth/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'include',
-            body: JSON.stringify({ username, password })
-        });
-        const data = await res.json();
+        const data = await API.post('/api/auth/login', { username, password });
 
         if (data.success) {
             msg.className = 'msg-box success';
             msg.innerText = '✅ ' + data.message;
 
-            // Redirect - sessionStorage dan yoki dashboard
             const redirect = sessionStorage.getItem('redirectAfterLogin') || '/dashboard';
             sessionStorage.removeItem('redirectAfterLogin');
 
             setTimeout(() => {
                 window.location.href = redirect;
-            }, 800);
+            }, 500);
         } else {
             msg.className = 'msg-box error';
-            msg.innerText = '❌ ' + data.message;
+            msg.innerText = '❌ ' + (data.message || 'Xato');
             btn.disabled = false;
             btn.innerText = 'Kirish →';
         }
     } catch (err) {
+        console.error('Login xatosi:', err);
         msg.className = 'msg-box error';
         msg.innerText = '❌ Ulanish xatosi';
         btn.disabled = false;
@@ -111,5 +103,6 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
     }
 });
 </script>
+    <script src="/js/preloader.js"></script>
 </body>
 </html>

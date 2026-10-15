@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard — CTF.UZ</title>
+    <link rel="stylesheet" href="/css/design-system.css">
+    <link rel="stylesheet" href="/css/animations.css">
+    <link rel="stylesheet" href="/css/icons.css">
+    <link rel="stylesheet" href="/css/modern-ui.css">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="/css/preloader.css">
+</head>
+<body>
+
+<div class="girih-bg"></div>
+
+<header class="header">
+    <a href="/" class="logo">
+        <div class="logo-mark">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
+        </div>
+        <div class="logo-text">CTF<span>.UZ</span></div>
+    </a>
+    <nav class="nav">
+        <a href="/dashboard" data-page="dashboard" class="active">Dashboard</a>
+        <a href="/arena" data-page="arena">Arena</a>
+        <a href="/battle" data-page="battle">Battle</a>
+        <a href="/leaderboard" data-page="leaderboard">Reyting</a>
+        <a href="/career" data-page="career">Karyera</a>
+        <a id="auth-link" href="/profile" data-page="profile"></a>
+    </nav>
+</header>
+
+<div class="container">
+    <div id="dashboard-content">
+        <!-- SKELETON LOADER -->
+        <div class="bento-grid" id="skeleton-loader">
+            <div class="bento-card bento-hero">
+                <div class="skeleton skeleton-title"></div>
+                <div class="skeleton skeleton-text medium"></div>
+                <div class="skeleton skeleton-text long"></div>
+                <div style="margin-top: 24px; display: flex; gap: 12px;">
+                    <div class="skeleton skeleton-badge" style="width: 120px; height: 36px; border-radius: 10px;"></div>
+                    <div class="skeleton skeleton-badge" style="width: 120px; height: 36px; border-radius: 10px;"></div>
+                </div>
+            </div>
+            <div class="bento-card bento-tall">
+                <div class="skeleton skeleton-text short"></div>
+                <div class="skeleton skeleton-value"></div>
+                <div class="skeleton skeleton-text medium" style="margin-top: 16px;"></div>
+                <div class="skeleton skeleton-text short"></div>
+            </div>
+            <div class="bento-card bento-square">
+                <div class="skeleton skeleton-text short"></div>
+                <div class="skeleton skeleton-value"></div>
+                <div class="skeleton skeleton-text short" style="margin-top: 12px;"></div>
+            </div>
+            <div class="bento-card bento-square">
+                <div class="skeleton skeleton-text short"></div>
+                <div class="skeleton skeleton-value"></div>
+                <div class="skeleton skeleton-text short" style="margin-top: 12px;"></div>
+            </div>
+            <div class="bento-card bento-square">
+                <div class="skeleton skeleton-text short"></div>
+                <div class="skeleton skeleton-value"></div>
+                <div class="skeleton skeleton-text short" style="margin-top: 12px;"></div>
+            </div>
+            <div class="bento-card bento-square">
+                <div class="skeleton skeleton-text short"></div>
+                <div class="skeleton skeleton-value"></div>
+                <div class="skeleton skeleton-text short" style="margin-top: 12px;"></div>
+            </div>
+            <div class="bento-card bento-wide">
+                <div class="skeleton skeleton-title"></div>
+                <div class="skeleton-chart">
+                    <div class="skeleton-bar" style="height: 60%;"></div>
+                    <div class="skeleton-bar" style="height: 80%;"></div>
+                    <div class="skeleton-bar" style="height: 45%;"></div>
+                    <div class="skeleton-bar" style="height: 90%;"></div>
+                    <div class="skeleton-bar" style="height: 70%;"></div>
+                </div>
+            </div>
+            <div class="bento-card bento-wide">
+                <div class="skeleton skeleton-title"></div>
+                <div class="skeleton skeleton-text long"></div>
+                <div class="skeleton skeleton-text long"></div>
+                <div class="skeleton skeleton-text medium"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════
+// CHART.JS — Radar Chart
+// ══════════════════════════════════════════
+let radarChart = null;
+
+function renderRadarChart(skills) {
+    const ctx = document.getElementById('radarChart');
+    if (!ctx) return;
+
+    if (radarChart) radarChart.destroy();
+
+    const labels = Object.keys(skills).map(k => 
+        k.charAt(0).toUpperCase() + k.slice(1)
+    );
+    const data = Object.values(skills);
+
+    radarChart = new Chart(ctx, {
+        type: 'radar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Ko\'nikmalar',
+                data: data,
+                backgroundColor: 'rgba(74, 127, 255, 0.2)',
+                borderColor: '#4A7FFF',
+                borderWidth: 2,
+                pointBackgroundColor: '#22D3EE',
+                pointBorderColor: '#fff',
+                pointBorderWidth: 2,
+                pointRadius: 4,
+                pointHoverRadius: 6,
+                fill: true,
+                tension: 0.2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: {
+                duration: 1200,
+                easing: 'easeOutQuart'
+            },
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(15, 22, 41, 0.95)',
+                    titleColor: '#F1F5F9',
+                    bodyColor: '#94A3B8',
+                    borderColor: 'rgba(74, 127, 255, 0.3)',
+                    borderWidth: 1,
+                    padding: 12,
+                    displayColors: false,
+                    callbacks: {
+                        label: (ctx) => `${ctx.label}: ${ctx.parsed.r}%`
+                    }
+                }
+            },
+            scales: {
+                r: {
+                    beginAtZero: true,
+                    max: 100,
+                    min: 0,
+                    ticks: {
+                        stepSize: 25,
+                        color: '#64748B',
+                        font: {
+                            size: 10,
+                            family: 'JetBrains Mono'
+                        },
+                        backdropColor: 'transparent',
+                        showLabelBackdrop: false
+                    },
+                    grid: {
+                        color: 'rgba(74, 127, 255, 0.1)',
+                        lineWidth: 1
+                    },
+                    angleLines: {
+                        color: 'rgba(74, 127, 255, 0.15)',
+                        lineWidth: 1
+                    },
+                    pointLabels: {
+                        color: '#94A3B8',
+                        font: {
+                            size: 11,
+                            weight: '600',
+                            family: 'Inter'
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+// ══════════════════════════════════════════
+// DASHBOARD INIT
+// ══════════════════════════════════════════
+(async function initDashboard() {
+    try {
+        const sessionRes = await fetch('/api/auth/me', {
+            credentials: 'include',
+            cache: 'no-store'
+        });
+
+        if (!sessionRes.ok) {
+            sessionStorage.setItem('redirectAfterLogin', '/dashboard');
+            window.location.replace('/welcome');
+            return;
+        }
+
+        const sessionData = await sessionRes.json();
+        if (!sessionData.success || !sessionData.user) {
+            sessionStorage.setItem('redirectAfterLogin', '/dashboard');
+            window.location.replace('/welcome');
+            return;
+        }
+
+        const user = sessionData.user;
+
+        // Navbar yangilash
+        const authLink = document.getElementById('auth-link');
+        if (authLink) {
+            authLink.innerHTML = `
+                <img src="${user.avatar || '/assets/default-avatar.svg'}" 
+                     style="width:22px;height:22px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-right:6px;border:1px solid #2563EB;"
+                     onerror="this.src='/assets/default-avatar.svg'">
+                ${user.username}
+            `;
+            authLink.href = '/profile';
+        }
+
+        // Profil ma'lumotlarini yuklash (parallel)
+        const [profileRes, recentRes] = await Promise.all([
+            fetch('/api/users/profile', { credentials: 'include' }),
+            fetch('/api/challenges?limit=5', { credentials: 'include' }).catch(() => null)
+        ]);
+
+        const profileData = await profileRes.json();
+
+        if (!profileData.success) {
+            document.getElementById('dashboard-content').innerHTML = `
+                <div class="bento-card" style="padding: 40px; text-align: center;">
+                    <h2>Profil yuklanmadi</h2>
+                    <p style="color: var(--text2);">${profileData.message || 'Xato'}</p>
+                    <a href="/login" class="btn btn-primary" style="margin-top: 20px;">Qayta kirish</a>
+                </div>
+            `;
+            return;
+        }
+
+        const u = profileData.user;
+        const hour = new Date().getHours();
+        const greeting = hour < 12 ? 'Xayrli tong' : hour < 18 ? 'Xayrli kun' : 'Xayrli kech';
+        const skills = u.skills || { web: 0, pwn: 0, rev: 0, crypto: 0, forensics: 0, osint: 0 };
+        const solvedCount = (u.solvedChallenges || []).length;
+        const globalRank = u.globalRank || '—';
+
+        // Render HTML
+        document.getElementById('dashboard-content').innerHTML = `
+            <div class="bento-grid" id="bento-content">
+                
+                <!-- HERO CARD -->
+                <div class="bento-card bento-hero fade-in-up">
+                    <div class="bento-pattern"></div>
+                    <div style="position: relative; z-index: 1;">
+                        <div class="bento-label">
+                            <svg class="icon icon-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;">
+                                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                            </svg>
+                            Cyber Level ${u.cyberLevel || 1} • ${u.rank?.name || 'Rookie'}
+                        </div>
+                        <h2>${greeting}, <span style="color: #4A7FFF;">${u.name || u.username}</span></h2>
+                        <p>Bugun yangi challenge'larni yechib, reytingda ko'tarilish vaqti keldi.</p>
+                        
+                        <div style="display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap;">
+                            <a href="/arena" class="btn btn-primary">
+                                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;">
+                                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                                </svg>
+                                Arena
+                            </a>
+                            <a href="/profile" class="btn btn-secondary">
+                                <svg class="icon icon-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                                </svg>
+                                Profilni tahrirlash
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RADAR CHART -->
+                <div class="bento-card bento-tall fade-in-up" style="animation-delay: 0.05s;">
+                    <div class="bento-label">
+                        <svg class="icon icon-chart-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;">
+                            <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/>
+                            <polyline points="16 7 22 7 22 13"/>
+                        </svg>
+                        Skill Radar
+                    </div>
+                    <div class="radar-container">
+                        <canvas id="radarChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- STAT: SCORE -->
+                <div class="bento-card bento-square modern-stat fade-in-up" style="animation-delay: 0.1s;">
+                    <div class="modern-stat-icon gold">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                        </svg>
+                    </div>
+                    <div class="bento-label" style="margin-bottom: 0;">Umumiy ball</div>
+                    <div class="bento-value gold">${(u.score || 0).toLocaleString()}</div>
+                    <div class="bento-sub">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;">
+                            <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/>
+                        </svg>
+                        +${u.xp || 0} XP
+                    </div>
+                </div>
+
+                <!-- STAT: SOLVED -->
+                <div class="bento-card bento-square modern-stat fade-in-up" style="animation-delay: 0.15s;">
+                    <div class="modern-stat-icon green">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <circle cx="12" cy="12" r="6"/>
+                            <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <div class="bento-label" style="margin-bottom: 0;">Yechilgan</div>
+                    <div class="bento-value green">${solvedCount}</div>
+                    <div class="bento-sub">
+                        <svg class="icon icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                        Challengelar
+                    </div>
+                </div>
+
+                <!-- STAT: BATTLE RATING -->
+                <div class="bento-card bento-square modern-stat fade-in-up" style="animation-delay: 0.2s;">
+                    <div class="modern-stat-icon cyan">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M6 9H4a2 2 0 0 1-2-2V5h4M18 9h2a2 2 0 0 0 2-2V5h-4M6 5h12v6a6 6 0 0 1-12 0V5zM12 17v3M8 21h8M9 21v-2a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/>
+                        </svg>
+                    </div>
+                    <div class="bento-label" style="margin-bottom: 0;">Battle Rating</div>
+                    <div class="bento-value cyan">${u.battleRating || 1000}</div>
+                    <div class="bento-sub">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;">
+                            <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/>
+                        </svg>
+                        ${u.battleWins || 0}W / ${u.battleLosses || 0}L
+                    </div>
+                </div>
+
+                <!-- STAT: STREAK -->
+                <div class="bento-card bento-square modern-stat fade-in-up" style="animation-delay: 0.25s;">
+                    <div class="modern-stat-icon red">
+                        <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                            <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
+                        </svg>
+                    </div>
+                    <div class="bento-label" style="margin-bottom: 0;">Streak</div>
+                    <div class="bento-value" style="background: linear-gradient(135deg, #F1F5F9, #EF4444); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">${u.streak || 0}</div>
+                    <div class="bento-sub">
+                        <svg class="icon icon-fire" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="width:12px;height:12px;">
+                            <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
+                        </svg>
+                        Kun ketma-ket
+                    </div>
+                </div>
+
+                <!-- QUICK ACTIONS -->
+                <div class="bento-card bento-wide fade-in-up" style="animation-delay: 0.3s;">
+                    <div class="bento-label">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;">
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                        </svg>
+                        Tezkor harakatlar
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 16px;">
+                        <a href="/arena" class="quick-action">
+                            <div class="quick-action-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M6 9H4a2 2 0 0 1-2-2V5h4M18 9h2a2 2 0 0 0 2-2V5h-4M6 5h12v6a6 6 0 0 1-12 0V5zM12 17v3M8 21h8"/>
+                                </svg>
+                            </div>
+                            <div class="quick-action-text">
+                                <div class="quick-action-title">Arena</div>
+                                <div class="quick-action-desc">Challenge'larni yechish</div>
+                            </div>
+                            <svg class="quick-action-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                        
+                        <a href="/leaderboard" class="quick-action">
+                            <div class="quick-action-icon" style="background: linear-gradient(135deg, #F59E0B, #EF4444);">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M6 9H4a2 2 0 0 1-2-2V5h4M18 9h2a2 2 0 0 0 2-2V5h-4M6 5h12v6a6 6 0 0 1-12 0V5zM12 17v3M8 21h8"/>
+                                </svg>
+                            </div>
+                            <div class="quick-action-text">
+                                <div class="quick-action-title">Reyting</div>
+                                <div class="quick-action-desc">Global rank: #${globalRank}</div>
+                            </div>
+                            <svg class="quick-action-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                        
+                        <a href="/profile" class="quick-action">
+                            <div class="quick-action-icon" style="background: linear-gradient(135deg, #10B981, #22D3EE);">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="12" cy="7" r="4"/>
+                                </svg>
+                            </div>
+                            <div class="quick-action-text">
+                                <div class="quick-action-title">Profil</div>
+                                <div class="quick-action-desc">Ma'lumotlarni ko'rish</div>
+                            </div>
+                            <svg class="quick-action-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                        
+                        <a href="/career" class="quick-action">
+                            <div class="quick-action-icon" style="background: linear-gradient(135deg, #7C3AED, #2563EB);">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="2" y="7" width="20" height="14" rx="2"/>
+                                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                                </svg>
+                            </div>
+                            <div class="quick-action-text">
+                                <div class="quick-action-title">Karyera</div>
+                                <div class="quick-action-desc">Ish imkoniyatlari</div>
+                            </div>
+                            <svg class="quick-action-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- RECENT ACTIVITY -->
+                <div class="bento-card bento-wide fade-in-up" style="animation-delay: 0.35s;">
+                    <div class="bento-label">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                        So'nggi faoliyat
+                    </div>
+                    
+                    <div style="margin-top: 16px;" id="activity-feed">
+                        ${(u.activity && u.activity.length > 0) 
+                            ? u.activity.slice(0, 5).map(a => `
+                                <div class="activity-item">
+                                    <div class="activity-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="20 6 9 17 4 12"/>
+                                        </svg>
+                                    </div>
+                                    <div class="activity-body">
+                                        <div class="activity-title">${a.title || 'Challenge yechildi'}</div>
+                                        <div class="activity-meta">${a.timestamp ? new Date(a.timestamp).toLocaleString('uz-UZ') : 'Yaqinda'}</div>
+                                    </div>
+                                    <div style="color: #F59E0B; font-weight: 700; font-family: JetBrains Mono; font-size: 0.85rem;">
+                                        +${a.points || 0}
+                                    </div>
+                                </div>
+                            `).join('')
+                            : `
+                                <div style="text-align: center; padding: 40px 20px; color: var(--text3);">
+                                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width:48px;height:48px;opacity:0.3;margin-bottom:12px;">
+                                        <circle cx="12" cy="12" r="10"/>
+                                        <polyline points="12 6 12 12 16 14"/>
+                                    </svg>
+                                    <p style="font-size: 0.85rem;">Hozircha faoliyat yo'q</p>
+                                    <a href="/arena" class="btn btn-primary btn-sm" style="margin-top: 12px;">Boshlash</a>
+                                </div>
+                            `
+                        }
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Radar chart render (DOM tayyor bo'lgandan keyin)
+        setTimeout(() => renderRadarChart(skills), 100);
+
+    } catch (err) {
+        console.error('Dashboard xatosi:', err);
+        window.location.replace('/login');
+    }
+})();
+
+async function logout() {
+    if (!confirm('Chiqishni tasdiqlaysizmi?')) return;
+    try {
+        await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+    } catch (e) {}
+    sessionStorage.clear();
+    window.location.href = '/';
+}
+</script>
+    <script src="/js/preloader.js"></script>
+</body>
+</html>

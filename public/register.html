@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/css/design-system.css">
     <link rel="stylesheet" href="/css/animations.css">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/preloader.css">
 </head>
 <body>
 
@@ -20,7 +21,6 @@
     <nav class="nav">
         <a href="/arena">Arena</a>
         <a href="/learn">O'rganish</a>
-        <a href="/leaderboard">Reyting</a>
         <a href="/login" class="nav-cta">Kirish</a>
     </nav>
 </header>
@@ -44,7 +44,7 @@
             <div class="input-group">
                 <input type="text" id="reg-username" placeholder=" " required>
                 <label>Telegram username</label>
-                <span class="hint">@tasd2bot ga /start bosing</span>
+                <span class="hint">Xoziroq @tasdiqlovchi_ctf_bot ga /start bosing</span>
             </div>
 
             <div class="input-group">
@@ -287,5 +287,6 @@ document.getElementById('register-form').addEventListener('submit', async (e) =>
 // Sahifa yuklanganda viloyatlarni yuklash
 window.addEventListener('load', loadRegions);
 </script>
+    <script src="/js/preloader.js"></script>
 </body>
 </html>

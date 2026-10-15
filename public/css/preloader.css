@@ -1,0 +1,291 @@
+/* ══════════════════════════════════════════
+   CYBER PRELOADER — Glitch + Spin
+   ══════════════════════════════════════════ */
+
+#cyber-preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: 
+        radial-gradient(circle at 50% 50%, rgba(37, 99, 235, 0.15) 0%, transparent 60%),
+        #060B18;
+    z-index: 99999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                visibility 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
+
+/* Grid pattern background */
+#cyber-preloader::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: 
+        linear-gradient(rgba(74, 127, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(74, 127, 255, 0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+    animation: preloaderGrid 20s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes preloaderGrid {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(40px, 40px); }
+}
+
+#cyber-preloader.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.loader-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+    position: relative;
+    z-index: 1;
+}
+
+/* ══════════════════════════════════════════
+   1. LOGO — Spin + Draw + Glow
+   ══════════════════════════════════════════ */
+.loader-logo {
+    width: 100px;
+    height: 100px;
+    animation: 
+        spin-logo 3s linear infinite,
+        pulse-glow 1.5s ease-in-out infinite alternate;
+}
+
+.logo-path {
+    stroke-dasharray: 400;
+    stroke-dashoffset: 400;
+    animation: draw-logo 2s ease-in-out infinite alternate;
+    filter: drop-shadow(0 0 8px rgba(74, 127, 255, 0.8));
+}
+
+.logo-fill {
+    opacity: 0;
+    animation: fill-logo 2s ease-in-out infinite alternate;
+}
+
+@keyframes spin-logo {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes draw-logo {
+    0% { stroke-dashoffset: 400; }
+    100% { stroke-dashoffset: 0; }
+}
+
+@keyframes fill-logo {
+    0%, 50% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@keyframes pulse-glow {
+    from { filter: drop-shadow(0 0 10px rgba(74, 127, 255, 0.5)); }
+    to { filter: drop-shadow(0 0 30px rgba(74, 127, 255, 1)); }
+}
+
+/* ══════════════════════════════════════════
+   2. GLITCH TEXT
+   ══════════════════════════════════════════ */
+.glitch-text {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #F1F5F9;
+    position: relative;
+    letter-spacing: 8px;
+    text-shadow: 0 0 20px rgba(74, 127, 255, 0.5);
+    animation: glitch-skew 4s infinite;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #060B18;
+}
+
+.glitch-text::before {
+    left: 3px;
+    text-shadow: -3px 0 #22D3EE;
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim 5s infinite linear alternate-reverse;
+}
+
+.glitch-text::after {
+    left: -3px;
+    text-shadow: 3px 0 #EF4444;
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim2 5s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim {
+    0% { clip: rect(10px, 9999px, 83px, 0); }
+    20% { clip: rect(62px, 9999px, 32px, 0); }
+    40% { clip: rect(3px, 9999px, 5px, 0); }
+    60% { clip: rect(41px, 9999px, 19px, 0); }
+    80% { clip: rect(59px, 9999px, 86px, 0); }
+    100% { clip: rect(35px, 9999px, 73px, 0); }
+}
+
+@keyframes glitch-anim2 {
+    0% { clip: rect(65px, 9999px, 100px, 0); }
+    20% { clip: rect(2px, 9999px, 52px, 0); }
+    40% { clip: rect(89px, 9999px, 34px, 0); }
+    60% { clip: rect(15px, 9999px, 98px, 0); }
+    80% { clip: rect(45px, 9999px, 77px, 0); }
+    100% { clip: rect(20px, 9999px, 30px, 0); }
+}
+
+@keyframes glitch-skew {
+    0%, 100% { transform: skew(0deg); }
+    20% { transform: skew(0.5deg); }
+    40% { transform: skew(-0.5deg); }
+    60% { transform: skew(0.3deg); }
+    80% { transform: skew(-0.3deg); }
+}
+
+/* ══════════════════════════════════════════
+   3. LOADING BAR
+   ══════════════════════════════════════════ */
+.loading-bar {
+    width: 240px;
+    height: 3px;
+    background: rgba(74, 127, 255, 0.1);
+    border-radius: 999px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 0 10px rgba(74, 127, 255, 0.2);
+}
+
+.loading-progress {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #2563EB, #22D3EE, #10B981);
+    box-shadow: 0 0 15px #22D3EE;
+    animation: load-bar 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    border-radius: 999px;
+}
+
+.loading-progress::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, #fff, transparent);
+    opacity: 0.6;
+    animation: shine 1.5s linear infinite;
+}
+
+@keyframes load-bar {
+    0% { width: 0%; }
+    50% { width: 70%; }
+    100% { width: 100%; }
+}
+
+@keyframes shine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* ══════════════════════════════════════════
+   4. LOADING TEXT (ixtiyoriy)
+   ══════════════════════════════════════════ */
+.loading-text {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: #64748B;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    animation: textBlink 1.5s ease-in-out infinite;
+}
+
+.loading-text::after {
+    content: '...';
+    animation: dots 1.5s steps(4, end) infinite;
+}
+
+@keyframes textBlink {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+@keyframes dots {
+    0%, 20% { content: '.'; }
+    40% { content: '..'; }
+    60%, 100% { content: '...'; }
+}
+
+/* ══════════════════════════════════════════
+   5. TERMINAL TYPEWRITER EFFECT
+   ══════════════════════════════════════════ */
+.preloader-terminal {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: #22D3EE;
+    opacity: 0.6;
+    margin-top: 8px;
+    min-height: 16px;
+    text-align: left;
+    width: 240px;
+}
+
+.preloader-terminal::after {
+    content: '_';
+    animation: cursorBlink 1s steps(2) infinite;
+}
+
+@keyframes cursorBlink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+/* ══════════════════════════════════════════
+   6. MOBILE
+   ══════════════════════════════════════════ */
+@media (max-width: 640px) {
+    .glitch-text {
+        font-size: 1.8rem;
+        letter-spacing: 5px;
+    }
+    .loader-logo {
+        width: 80px;
+        height: 80px;
+    }
+    .loading-bar {
+        width: 200px;
+    }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .loader-logo,
+    .logo-path,
+    .glitch-text,
+    .glitch-text::before,
+    .glitch-text::after,
+    .loading-progress,
+    .loading-progress::after {
+        animation: none !important;
+    }
+    .logo-path { stroke-dashoffset: 0; }
+    .loading-progress { width: 100%; }
+}

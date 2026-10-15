@@ -7,7 +7,7 @@ const challengeSchema = new mongoose.Schema({
 
     category: {
         type: String,
-        enum: ['Web', 'Pwn', 'Reverse', 'Crypto', 'Forensics', 'OSINT'],
+        enum: ['Web', 'Pwn', 'Reverse', 'Crypto', 'Forensics', 'OSINT', 'Stego', 'Misc'],
         required: true,
         index: true
     },
@@ -74,8 +74,8 @@ const challengeSchema = new mongoose.Schema({
     ratingCount: { type: Number, default: 0 },
 
     // Authors
-    author: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    reviewers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    author: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
+    authorName: { type: String, default: 'admin' },
 
     // Events
     eventId: { type: mongoose.Schema.Types.ObjectId, ref: 'Event', default: null, index: true },

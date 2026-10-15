@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sertifikatlar — CTF.UZ Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/icons.css">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root{
+            --bg:#060B18;--bg2:#0A1020;--card:#0F1629;
+            --border:rgba(74,127,255,0.12);--border-h:rgba(74,127,255,0.35);
+            --blue:#2563EB;--blue-l:#4A7FFF;--cyan:#22D3EE;--purple:#7C3AED;
+            --green:#10B981;--gold:#F59E0B;--red:#EF4444;
+            --text:#F1F5F9;--text2:#94A3B8;--text3:#64748B;
+        }
+        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+        .header{background:rgba(10,16,32,0.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:16px 32px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:50}
+        .logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text)}
+        .logo-mark{width:36px;height:36px;background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:10px;display:flex;align-items:center;justify-content:center;color:white}
+        .logo-text{font-family:Manrope;font-weight:800;font-size:1rem}
+        .logo-text span{color:var(--blue-l)}
+
+        .header-right{display:flex;gap:12px;align-items:center}
+
+        .container{max-width:1400px;margin:0 auto;padding:32px}
+
+        .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:32px}
+        .stat{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;position:relative;overflow:hidden;transition:.3s}
+        .stat::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px;background:linear-gradient(90deg,var(--blue),var(--cyan))}
+        .stat:hover{border-color:var(--border-h);transform:translateY(-2px)}
+        .stat-icon{width:40px;height:40px;border-radius:10px;background:rgba(74,127,255,0.1);border:1px solid rgba(74,127,255,0.2);display:flex;align-items:center;justify-content:center;color:var(--blue-l);margin-bottom:12px}
+        .stat-icon.gold{background:rgba(245,158,11,0.1);border-color:rgba(245,158,11,0.3);color:var(--gold)}
+        .stat-icon.green{background:rgba(16,185,129,0.1);border-color:rgba(16,185,129,0.3);color:var(--green)}
+        .stat-icon.red{background:rgba(239,68,68,0.1);border-color:rgba(239,68,68,0.3);color:var(--red)}
+        .stat-icon.cyan{background:rgba(34,211,238,0.1);border-color:rgba(34,211,238,0.3);color:var(--cyan)}
+        .stat-val{font-family:Manrope;font-size:1.8rem;font-weight:900;letter-spacing:-1px;line-height:1.1}
+        .stat-lbl{color:var(--text2);font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;font-weight:600;margin-top:6px}
+
+        .toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+        .toolbar-left{display:flex;gap:12px;flex-wrap:wrap;flex:1}
+        .search{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:9px 14px;display:flex;align-items:center;gap:8px;min-width:280px;transition:border-color .2s}
+        .search:focus-within{border-color:var(--border-h)}
+        .search input{background:transparent;border:none;color:var(--text);outline:none;font-family:inherit;font-size:.85rem;flex:1}
+        
+        .filter-select{padding:9px 14px;background:var(--card);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:inherit;font-size:.85rem;cursor:pointer;outline:none}
+        .filter-select:focus{border-color:var(--border-h)}
+
+        .btn{display:inline-flex;align-items:center;gap:6px;padding:10px 18px;border-radius:10px;font-family:inherit;font-size:.82rem;font-weight:600;cursor:pointer;border:none;transition:.2s;text-decoration:none;white-space:nowrap}
+        .btn-primary{background:var(--blue);color:white}
+        .btn-primary:hover{background:var(--blue-l)}
+        .btn-secondary{background:transparent;color:var(--text);border:1px solid var(--border-h)}
+        .btn-secondary:hover{border-color:var(--blue-l);background:rgba(37,99,235,.08)}
+        .btn-danger{background:rgba(239,68,68,.15);color:var(--red);border:1px solid rgba(239,68,68,.3)}
+        .btn-danger:hover{background:var(--red);color:white}
+        .btn-sm{padding:6px 12px;font-size:.75rem}
+
+        .table-box{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;overflow-x:auto}
+        table{width:100%;border-collapse:collapse;min-width:900px}
+        th{background:rgba(37,99,235,.06);padding:14px;text-align:left;font-size:.68rem;color:var(--blue-l);letter-spacing:1.5px;text-transform:uppercase;font-weight:700;border-bottom:1px solid var(--border);white-space:nowrap}
+        td{padding:14px;border-bottom:1px solid rgba(74,127,255,.05);font-size:.85rem;vertical-align:middle}
+        tr:last-child td{border-bottom:none}
+        tr:hover td{background:rgba(37,99,235,.03)}
+
+        .badge{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:999px;font-size:.7rem;font-weight:700;text-transform:uppercase}
+        .badge-active{background:rgba(16,185,129,.15);color:var(--green);border:1px solid rgba(16,185,129,.3)}
+        .badge-revoked{background:rgba(239,68,68,.15);color:var(--red);border:1px solid rgba(239,68,68,.3)}
+        .badge-expired{background:rgba(245,158,11,.15);color:var(--gold);border:1px solid rgba(245,158,11,.3)}
+        .badge-course{background:rgba(74,127,255,.15);color:var(--blue-l);border:1px solid rgba(74,127,255,.3)}
+        .badge-competition{background:rgba(124,58,237,.15);color:#A855F7;border:1px solid rgba(124,58,237,.3)}
+        .badge-skill{background:rgba(34,211,238,.15);color:var(--cyan);border:1px solid rgba(34,211,238,.3)}
+
+        .user-cell{display:flex;align-items:center;gap:10px}
+        .u-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--cyan));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;color:white;flex-shrink:0;overflow:hidden}
+        .u-avatar img{width:100%;height:100%;object-fit:cover}
+        .u-name{font-weight:600;font-size:.85rem}
+        .u-user{font-family:JetBrains Mono;font-size:.72rem;color:var(--text3)}
+
+        .cert-code{font-family:JetBrains Mono;font-size:.78rem;color:var(--cyan);font-weight:700;cursor:pointer}
+        .cert-code:hover{color:var(--blue-l)}
+
+        .modal{display:none;position:fixed;inset:0;background:rgba(6,11,24,.92);backdrop-filter:blur(8px);z-index:100;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
+        .modal.open{display:flex}
+        .modal-box{background:var(--card);border:1px solid var(--border-h);border-radius:16px;padding:32px;max-width:600px;width:100%;max-height:90vh;overflow-y:auto}
+        .modal-box h3{font-family:Manrope;font-size:1.3rem;font-weight:800;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center}
+        .modal-close{background:transparent;border:none;color:var(--text3);cursor:pointer;padding:4px;display:flex}
+        .modal-close:hover{color:var(--red)}
+
+        .field{margin-bottom:16px}
+        .field label{display:block;font-size:.72rem;color:var(--text2);margin-bottom:6px;font-weight:600;text-transform:uppercase;letter-spacing:1px}
+        .field input,.field select,.field textarea{width:100%;padding:11px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:inherit;font-size:.88rem;outline:none;transition:.2s}
+        .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--blue-l);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+        .field textarea{resize:vertical;min-height:80px}
+
+        .user-suggestions{position:relative}
+        .suggestion-list{position:absolute;top:100%;left:0;right:0;background:var(--card);border:1px solid var(--border-h);border-radius:10px;margin-top:4px;max-height:240px;overflow-y:auto;z-index:100;display:none;box-shadow:0 8px 32px rgba(0,0,0,0.5)}
+        .suggestion-list.show{display:block}
+        .suggestion-item{padding:10px 14px;display:flex;gap:10px;align-items:center;cursor:pointer;transition:background .15s;border-bottom:1px solid rgba(74,127,255,0.05)}
+        .suggestion-item:last-child{border-bottom:none}
+        .suggestion-item:hover{background:rgba(74,127,255,.08)}
+
+        .selected-user{display:flex;align-items:center;gap:10px;padding:12px 14px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.3);border-radius:10px;margin-bottom:12px}
+
+        .spinner{width:32px;height:32px;border:3px solid rgba(37,99,235,.2);border-top-color:var(--blue);border-radius:50%;animation:spin 1s linear infinite;margin:40px auto}
+        @keyframes spin{to{transform:rotate(360deg)}}
+
+        .empty{text-align:center;padding:60px 20px;color:var(--text3)}
+        .empty svg{opacity:0.3;margin-bottom:16px}
+
+        .msg-box{padding:12px 16px;border-radius:10px;font-size:.85rem;margin-bottom:16px;display:none}
+        .msg-box.show{display:block}
+        .msg-box.success{background:rgba(16,185,129,0.1);color:var(--green);border:1px solid rgba(16,185,129,0.3)}
+        .msg-box.error{background:rgba(239,68,68,0.1);color:var(--red);border:1px solid rgba(239,68,68,0.3)}
+
+        @media(max-width:768px){
+            .container{padding:20px 16px}
+            .header{padding:12px 16px}
+            .stats{grid-template-columns:repeat(2,1fr)}
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <a href="/admin" class="logo">
+        <div class="logo-mark">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
+        </div>
+        <div class="logo-text">CTF<span>.UZ</span> ADMIN</div>
+    </a>
+    <div class="header-right">
+        <a href="/admin" class="btn btn-secondary btn-sm">← Admin panel</a>
+    </div>
+</header>
+
+<div class="container">
+    <!-- STATS -->
+    <div class="stats" id="stats">
+        <div class="stat">
+            <div class="stat-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="8" r="6"/>
+                    <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>
+                </svg>
+            </div>
+            <div class="stat-val" id="stat-total">—</div>
+            <div class="stat-lbl">Jami</div>
+        </div>
+        <div class="stat">
+            <div class="stat-icon green">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    <path d="m9 12 2 2 4-4"/>
+                </svg>
+            </div>
+            <div class="stat-val" id="stat-active">—</div>
+            <div class="stat-lbl">Aktiv</div>
+        </div>
+        <div class="stat">
+            <div class="stat-icon red">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 6 6 18M6 6l12 12"/>
+                </svg>
+            </div>
+            <div class="stat-val" id="stat-revoked">—</div>
+            <div class="stat-lbl">Bekor qilingan</div>
+        </div>
+        <div class="stat">
+            <div class="stat-icon gold">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polyline points="12 6 12 12 16 14"/>
+                </svg>
+            </div>
+            <div class="stat-val" id="stat-expired">—</div>
+            <div class="stat-lbl">Muddati tugagan</div>
+        </div>
+        <div class="stat">
+            <div class="stat-icon cyan">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/>
+                    <polyline points="16 7 22 7 22 13"/>
+                </svg>
+            </div>
+            <div class="stat-val" id="stat-recent">—</div>
+            <div class="stat-lbl">30 kun ichida</div>
+        </div>
+    </div>
+
+    <!-- TOOLBAR -->
+    <div class="toolbar">
+        <div class="toolbar-left">
+            <div class="search">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text3)">
+                    <circle cx="11" cy="11" r="8"/>
+                    <path d="m21 21-4.35-4.35"/>
+                </svg>
+                <input id="searchInput" placeholder="Certificate ID, user, title...">
+            </div>
+            <select class="filter-select" id="filterStatus">
+                <option value="">Barcha statuslar</option>
+                <option value="active">Aktiv</option>
+                <option value="revoked">Bekor qilingan</option>
+                <option value="expired">Muddati tugagan</option>
+            </select>
+            <select class="filter-select" id="filterType">
+                <option value="">Barcha turlar</option>
+                <option value="course">Kurs</option>
+                <option value="competition">Musobaqa</option>
+                <option value="skill">Ko'nikma</option>
+            </select>
+        </div>
+        <div style="display:flex; gap:8px;">
+            <button class="btn btn-secondary btn-sm" onclick="openBulkModal()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+                Bulk berish
+            </button>
+            <button class="btn btn-primary btn-sm" onclick="openIssueModal()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 5v14M5 12h14"/>
+                </svg>
+                Yangi sertifikat
+            </button>
+            <button class="btn btn-secondary btn-sm" onclick="loadCertificates()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8M21 3v5h-5M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16M8 16H3v5"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-box">
+        <table>
+            <thead>
+                <tr>
+                    <th>Certificate ID</th>
+                    <th>Foydalanuvchi</th>
+                    <th>Tur</th>
+                    <th>Sarlavha</th>
+                    <th>Status</th>
+                    <th>Berilgan</th>
+                    <th>Amal</th>
+                </tr>
+            </thead>
+            <tbody id="certsBody">
+                <tr><td colspan="7"><div class="spinner"></div></td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- ISSUE MODAL -->
+<div id="issueModal" class="modal">
+    <div class="modal-box">
+        <h3>
+            <span>Yangi sertifikat berish</span>
+            <button class="modal-close" onclick="closeIssueModal()">×</button>
+        </h3>
+        <div id="issue-msg" class="msg-box"></div>
+        
+        <div class="field">
+            <label>Foydalanuvchi</label>
+            <div class="user-suggestions">
+                <input type="text" id="userSearch" placeholder="Username yoki email..." autocomplete="off">
+                <div class="suggestion-list" id="userSuggestions"></div>
+            </div>
+            <div id="selectedUser"></div>
+        </div>
+
+        <div class="field">
+            <label>Sertifikat turi *</label>
+            <select id="issueType">
+                <option value="course">Kurs sertifikati</option>
+                <option value="competition">Musobaqa sertifikati</option>
+                <option value="skill">Ko'nikma sertifikati</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Sarlavha *</label>
+            <input type="text" id="issueTitle" placeholder="Web Security Fundamentals" maxlength="160">
+        </div>
+
+        <div class="field">
+            <label>Manba turi *</label>
+            <select id="issueSourceType">
+                <option value="course">Kurs</option>
+                <option value="competition">Musobaqa</option>
+                <option value="assessment">Baholash</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Manba ID *</label>
+            <input type="text" id="issueSourceId" placeholder="507f1f77bcf86cd799439011" maxlength="100">
+            <div style="font-size:0.72rem;color:var(--text3);margin-top:4px;">
+                Challenge, kurs yoki musobaqaning ObjectId si
+            </div>
+        </div>
+
+        <div class="field">
+            <label>Muddat (ixtiyoriy)</label>
+            <input type="date" id="issueExpiresAt">
+        </div>
+
+        <div style="display:flex;gap:12px;margin-top:24px">
+            <button class="btn btn-primary" style="flex:1;justify-content:center" onclick="submitIssue()">Berish</button>
+            <button class="btn btn-secondary" style="flex:1;justify-content:center" onclick="closeIssueModal()">Bekor</button>
+        </div>
+    </div>
+</div>
+
+<!-- REVOKE MODAL -->
+<div id="revokeModal" class="modal">
+    <div class="modal-box">
+        <h3>
+            <span>Sertifikatni bekor qilish</span>
+            <button class="modal-close" onclick="closeRevokeModal()">×</button>
+        </h3>
+        <div id="revoke-msg" class="msg-box"></div>
+        
+        <div id="revoke-cert-info" style="padding:16px;background:rgba(74,127,255,0.05);border-radius:10px;margin-bottom:20px;"></div>
+
+        <div class="field">
+            <label>Sabab * (kamida 3 belgi)</label>
+            <textarea id="revokeReason" placeholder="Sertifikat nega bekor qilinyapti?"></textarea>
+        </div>
+
+        <div style="display:flex;gap:12px;margin-top:24px">
+            <button class="btn btn-danger" style="flex:1;justify-content:center" onclick="submitRevoke()">Bekor qilish</button>
+            <button class="btn btn-secondary" style="flex:1;justify-content:center" onclick="closeRevokeModal()">Yopish</button>
+        </div>
+    </div>
+</div>
+
+<!-- BULK MODAL -->
+<div id="bulkModal" class="modal">
+    <div class="modal-box">
+        <h3>
+            <span>Bulk sertifikat berish</span>
+            <button class="modal-close" onclick="closeBulkModal()">×</button>
+        </h3>
+        <div id="bulk-msg" class="msg-box"></div>
+        
+        <div class="field">
+            <label>Foydalanuvchilar (vergul bilan, username yoki email)</label>
+            <textarea id="bulkUsers" placeholder="jasur7, test@test.com, user1, user2" rows="4"></textarea>
+            <div style="font-size:0.72rem;color:var(--text3);margin-top:4px;">
+                Maksimal 100 ta foydalanuvchi
+            </div>
+        </div>
+
+        <div class="field">
+            <label>Sertifikat turi *</label>
+            <select id="bulkType">
+                <option value="course">Kurs</option>
+                <option value="competition">Musobaqa</option>
+                <option value="skill">Ko'nikma</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Sarlavha *</label>
+            <input type="text" id="bulkTitle" maxlength="160">
+        </div>
+
+        <div class="field">
+            <label>Manba turi *</label>
+            <select id="bulkSourceType">
+                <option value="course">Kurs</option>
+                <option value="competition">Musobaqa</option>
+                <option value="assessment">Baholash</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Manba ID *</label>
+            <input type="text" id="bulkSourceId" placeholder="507f1f77bcf86cd799439011">
+        </div>
+
+        <div style="display:flex;gap:12px;margin-top:24px">
+            <button class="btn btn-primary" style="flex:1;justify-content:center" onclick="submitBulk()">Berish</button>
+            <button class="btn btn-secondary" style="flex:1;justify-content:center" onclick="closeBulkModal()">Bekor</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════
+let allCertificates = [];
+let selectedUser = null;
+let revokeTargetId = null;
+let searchTimeout = null;
+
+// ══════════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════════
+function esc(t) {
+    if (t === null || t === undefined) return '';
+    return String(t)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+function formatDate(d) {
+    if (!d) return '—';
+    try {
+        return new Date(d).toLocaleDateString('uz-UZ');
+    } catch (e) { return '—'; }
+}
+
+function typeLabel(t) {
+    const map = { course: 'Kurs', competition: 'Musobaqa', skill: 'Ko\'nikma' };
+    return map[t] || t;
+}
+
+function statusLabel(s) {
+    const map = { active: 'Aktiv', revoked: 'Bekor', expired: 'Muddati tugagan' };
+    return map[s] || s;
+}
+
+// ══════════════════════════════════════════
+// CSRF TOKEN
+// ══════════════════════════════════════════
+let csrfToken = null;
+
+async function getCsrfToken() {
+    if (csrfToken) return csrfToken;
+    try {
+        const res = await fetch('/api/csrf-token', { credentials: 'include' });
+        const data = await res.json();
+        csrfToken = data.csrfToken;
+        return csrfToken;
+    } catch (e) {
+        console.error('CSRF token xatosi:', e);
+        return null;
+    }
+}
+
+// ══════════════════════════════════════════
+// API HELPER (CSRF bilan)
+// ══════════════════════════════════════════
+async function api(endpoint, options = {}) {
+    const method = (options.method || 'GET').toUpperCase();
+    const headers = {
+        'Content-Type': 'application/json',
+        ...(options.headers || {})
+    };
+
+    // POST/PUT/DELETE/PATCH uchun CSRF token
+    if (['POST', 'PUT', 'DELETE', 'PATCH'].includes(method)) {
+        const token = await getCsrfToken();
+        if (token) {
+            headers['x-csrf-token'] = token;
+        }
+    }
+
+    const res = await fetch('/api/admin/certificates' + endpoint, {
+        ...options,
+        headers,
+        credentials: 'include'
+    });
+
+    if (res.status === 401) {
+        window.location.href = '/admin-login';
+        return { success: false };
+    }
+
+    // 403 — CSRF xatosi bo'lishi mumkin
+    if (res.status === 403) {
+        const text = await res.text();
+        try {
+            const err = JSON.parse(text);
+            if (err.message && err.message.includes('CSRF')) {
+                csrfToken = null; // Yangilash
+                return { 
+                    success: false, 
+                    message: 'Xavfsizlik tokeni yangilandi. Qayta urinib ko\'ring.' 
+                };
+            }
+        } catch (e) {}
+        return { success: false, message: 'Ruxsat yo\'q' };
+    }
+
+    return res.json();
+}
+
+//LOAD STATS
+// ══════════════════════════════════════════
+async function loadStats() {
+    try {
+        const res = await api('/stats');
+        if (res.success) {
+            document.getElementById('stat-total').textContent = res.stats.total;
+            document.getElementById('stat-active').textContent = res.stats.active;
+            document.getElementById('stat-revoked').textContent = res.stats.revoked;
+            document.getElementById('stat-expired').textContent = res.stats.expired;
+            document.getElementById('stat-recent').textContent = res.stats.recentlyIssued;
+        }
+    } catch (e) {
+        console.error('Stats xatosi:', e);
+    }
+}
+
+// ══════════════════════════════════════════
+// LOAD CERTIFICATES
+// ══════════════════════════════════════════
+async function loadCertificates() {
+    const tbody = document.getElementById('certsBody');
+    tbody.innerHTML = '<tr><td colspan="7"><div class="spinner"></div></td></tr>';
+
+    const search = document.getElementById('searchInput').value.trim();
+    const status = document.getElementById('filterStatus').value;
+    const type = document.getElementById('filterType').value;
+
+    const params = new URLSearchParams();
+    if (search) params.append('search', search);
+    if (status) params.append('status', status);
+    if (type) params.append('type', type);
+
+    try {
+        const res = await api('/?' + params.toString());
+        
+        if (!res.success) {
+            tbody.innerHTML = '<tr><td colspan="7" class="empty">Xato yuz berdi</td></tr>';
+            return;
+        }
+
+        allCertificates = res.certificates || [];
+
+        if (allCertificates.length === 0) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="7" class="empty">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom:16px;display:block;margin-left:auto;margin-right:auto;">
+                            <circle cx="12" cy="8" r="6"/>
+                            <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>
+                        </svg>
+                        <p>Sertifikatlar topilmadi</p>
+                    </td>
+                </tr>
+            `;
+            return;
+        }
+
+        tbody.innerHTML = allCertificates.map(c => {
+            const user = c.user || {};
+            const userAvatar = user.avatar 
+                ? `<img src="${esc(user.avatar)}" onerror="this.style.display='none'">` 
+                : esc((user.username?.[0] || '?').toUpperCase());
+
+            return `
+                <tr>
+                    <td>
+                        <span class="cert-code" onclick="copyCertId('${esc(c.certificateId)}')" title="Nusxa olish">
+                            ${esc(c.certificateId)}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="user-cell">
+                            <div class="u-avatar">${userAvatar}</div>
+                            <div>
+                                <div class="u-name">${esc(user.name || user.username || 'Unknown')}</div>
+                                <div class="u-user">@${esc(user.username || 'unknown')}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="badge badge-${esc(c.type)}">${typeLabel(c.type)}</span>
+                    </td>
+                    <td style="max-width:240px;">
+                        <div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${esc(c.title)}">
+                            ${esc(c.title)}
+                        </div>
+                    </td>
+                    <td>
+                        ${c.status === 'active' 
+                            ? '<span class="badge badge-active">Aktiv</span>'
+                            : c.status === 'revoked'
+                                ? '<span class="badge badge-revoked">Bekor</span>'
+                                : '<span class="badge badge-expired">Muddati</span>'}
+                    </td>
+                    <td style="font-size:0.78rem;color:var(--text3);font-family:JetBrains Mono;">
+                        ${formatDate(c.issuedAt)}
+                    </td>
+                    <td>
+                        <div style="display:flex;gap:4px;">
+                            ${c.status === 'active' ? `
+                                <button class="btn btn-danger btn-sm" onclick="openRevokeModal('${esc(c.certificateId)}', '${esc(c.id)}')" title="Bekor qilish">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M18 6 6 18M6 6l12 12"/>
+                                    </svg>
+                                </button>
+                            ` : ''}
+                            <a href="/certificate-verify?id=${esc(c.certificateId)}" target="_blank" class="btn btn-secondary btn-sm" title="Ko'rish">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                            </a>
+                            <button class="btn btn-danger btn-sm" onclick="deleteCert('${esc(c.id)}', '${esc(c.certificateId)}')" title="O'chirish (permanent)">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `;
+        }).join('');
+    } catch (e) {
+        console.error('Load xatosi:', e);
+        tbody.innerHTML = '<tr><td colspan="7" class="empty">Ulanish xatosi</td></tr>';
+    }
+}
+
+// ══════════════════════════════════════════
+// COPY CERT ID
+// ══════════════════════════════════════════
+function copyCertId(id) {
+    navigator.clipboard.writeText(id);
+    // Kichik toast
+    const el = event.target;
+    const original = el.textContent;
+    el.textContent = '✓ Nusxalandi';
+    el.style.color = '#10B981';
+    setTimeout(() => {
+        el.textContent = original;
+        el.style.color = '';
+    }, 1000);
+}
+
+// ══════════════════════════════════════════
+// ISSUE MODAL
+// ══════════════════════════════════════════
+function openIssueModal() {
+    document.getElementById('issueModal').classList.add('open');
+    document.getElementById('userSearch').focus();
+}
+
+function closeIssueModal() {
+    document.getElementById('issueModal').classList.remove('open');
+    document.getElementById('issue-msg').classList.remove('show');
+    document.getElementById('userSearch').value = '';
+    document.getElementById('selectedUser').innerHTML = '';
+    document.getElementById('issueTitle').value = '';
+    document.getElementById('issueSourceId').value = '';
+    document.getElementById('issueExpiresAt').value = '';
+    selectedUser = null;
+}
+
+// User search with debounce
+document.getElementById('userSearch').addEventListener('input', (e) => {
+    const q = e.target.value.trim();
+    const suggestions = document.getElementById('userSuggestions');
+
+    if (searchTimeout) clearTimeout(searchTimeout);
+
+    if (q.length < 2) {
+        suggestions.classList.remove('show');
+        return;
+    }
+
+    searchTimeout = setTimeout(async () => {
+        try {
+            const res = await api(`/search-users?q=${encodeURIComponent(q)}`);
+            if (res.success && res.users.length > 0) {
+                suggestions.innerHTML = res.users.map(u => `
+                    <div class="suggestion-item" onclick='selectUser(${JSON.stringify(u).replace(/'/g, "&#39;")})'>
+                        <div class="u-avatar">
+                            ${u.avatar ? `<img src="${esc(u.avatar)}" onerror="this.style.display='none'">` : esc((u.username?.[0] || '?').toUpperCase())}
+                        </div>
+                        <div>
+                            <div class="u-name">${esc(u.name || u.username)}</div>
+                            <div class="u-user">@${esc(u.username)} • ${esc(u.email || '')}</div>
+                        </div>
+                    </div>
+                `).join('');
+                suggestions.classList.add('show');
+            } else {
+                suggestions.classList.remove('show');
+            }
+        } catch (e) {
+            console.error(e);
+        }
+    }, 300);
+});
+
+function selectUser(u) {
+    selectedUser = u;
+    document.getElementById('userSearch').value = '';
+    document.getElementById('userSuggestions').classList.remove('show');
+    document.getElementById('selectedUser').innerHTML = `
+        <div class="selected-user">
+            <div class="u-avatar">
+                ${u.avatar ? `<img src="${esc(u.avatar)}">` : esc((u.username?.[0] || '?').toUpperCase())}
+            </div>
+            <div style="flex:1;">
+                <div class="u-name">${esc(u.name || u.username)}</div>
+                <div class="u-user">@${esc(u.username)} • ${esc(u.email || '')}</div>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="clearSelectedUser()">×</button>
+        </div>
+    `;
+}
+
+function clearSelectedUser() {
+    selectedUser = null;
+    document.getElementById('selectedUser').innerHTML = '';
+}
+
+async function submitIssue() {
+    if (!selectedUser) {
+        showMsg('issue-msg', 'error', 'Foydalanuvchi tanlanmagan');
+        return;
+    }
+
+    const type = document.getElementById('issueType').value;
+    const title = document.getElementById('issueTitle').value.trim();
+    const sourceType = document.getElementById('issueSourceType').value;
+    const sourceId = document.getElementById('issueSourceId').value.trim();
+    const expiresAt = document.getElementById('issueExpiresAt').value;
+
+    if (!title || !sourceId) {
+        showMsg('issue-msg', 'error', 'Sarlavha va manba ID majburiy');
+        return;
+    }
+
+    const res = await api('/issue', {
+        method: 'POST',
+        body: JSON.stringify({
+            userId: selectedUser.id,
+            type,
+            title,
+            sourceType,
+            sourceId,
+            expiresAt: expiresAt || null
+        })
+    });
+
+    if (res.success) {
+        showMsg('issue-msg', 'success', res.message);
+        setTimeout(() => {
+            closeIssueModal();
+            loadStats();
+            loadCertificates();
+        }, 1500);
+    } else {
+        showMsg('issue-msg', 'error', res.message || 'Xato');
+    }
+}
+
+// ══════════════════════════════════════════
+// REVOKE MODAL
+// ══════════════════════════════════════════
+function openRevokeModal(certId, id) {
+    revokeTargetId = certId;
+    const cert = allCertificates.find(c => c.certificateId === certId);
+    
+    document.getElementById('revoke-cert-info').innerHTML = `
+        <div style="font-family:JetBrains Mono;font-size:0.85rem;color:#22D3EE;font-weight:700;margin-bottom:8px;">
+            ${esc(certId)}
+        </div>
+        <div style="font-size:0.85rem;">
+            <strong>${esc(cert?.title || '')}</strong>
+        </div>
+        <div style="font-size:0.78rem;color:var(--text3);margin-top:4px;">
+            @${esc(cert?.user?.username || 'unknown')}
+        </div>
+    `;
+    
+    document.getElementById('revokeReason').value = '';
+    document.getElementById('revoke-msg').classList.remove('show');
+    document.getElementById('revokeModal').classList.add('open');
+}
+
+function closeRevokeModal() {
+    document.getElementById('revokeModal').classList.remove('open');
+    revokeTargetId = null;
+}
+
+async function submitRevoke() {
+    if (!revokeTargetId) return;
+
+    const reason = document.getElementById('revokeReason').value.trim();
+
+    if (reason.length < 3) {
+        showMsg('revoke-msg', 'error', 'Sabab kamida 3 belgi');
+        return;
+    }
+
+    const res = await api(`/${encodeURIComponent(revokeTargetId)}/revoke`, {
+        method: 'POST',
+        body: JSON.stringify({ reason })
+    });
+
+    if (res.success) {
+        showMsg('revoke-msg', 'success', res.message);
+        setTimeout(() => {
+            closeRevokeModal();
+            loadStats();
+            loadCertificates();
+        }, 1200);
+    } else {
+        showMsg('revoke-msg', 'error', res.message || 'Xato');
+    }
+}
+
+// ══════════════════════════════════════════
+// DELETE
+// ══════════════════════════════════════════
+async function deleteCert(id, certId) {
+    if (!confirm(`"${certId}" ni butunlay o'chirishni tasdiqlaysizmi?\n\nBu amalni qaytarib bo'lmaydi!`)) {
+        return;
+    }
+
+    const res = await api(`/${id}`, { method: 'DELETE' });
+    if (res.success) {
+        loadStats();
+        loadCertificates();
+    } else {
+        alert(res.message || 'Xato');
+    }
+}
+
+// ══════════════════════════════════════════
+// BULK MODAL
+// ══════════════════════════════════════════
+function openBulkModal() {
+    document.getElementById('bulkModal').classList.add('open');
+    document.getElementById('bulk-msg').classList.remove('show');
+    document.getElementById('bulkUsers').value = '';
+    document.getElementById('bulkTitle').value = '';
+    document.getElementById('bulkSourceId').value = '';
+}
+
+function closeBulkModal() {
+    document.getElementById('bulkModal').classList.remove('open');
+}
+
+async function submitBulk() {
+    const usersStr = document.getElementById('bulkUsers').value.trim();
+    const type = document.getElementById('bulkType').value;
+    const title = document.getElementById('bulkTitle').value.trim();
+    const sourceType = document.getElementById('bulkSourceType').value;
+    const sourceId = document.getElementById('bulkSourceId').value.trim();
+
+    if (!usersStr) {
+        showMsg('bulk-msg', 'error', 'Foydalanuvchilar kerak');
+        return;
+    }
+
+    if (!title || !sourceId) {
+        showMsg('bulk-msg', 'error', 'Sarlavha va manba ID majburiy');
+        return;
+    }
+
+    // Username/email larni ajratish
+    const userIdentifiers = usersStr.split(',').map(s => s.trim()).filter(Boolean);
+
+    if (userIdentifiers.length > 100) {
+        showMsg('bulk-msg', 'error', 'Maksimal 100 ta');
+        return;
+    }
+
+    // Har biri uchun user ID topish
+    showMsg('bulk-msg', 'success', 'Foydalanuvchilar qidirilmoqda...');
+
+    const userIds = [];
+    const notFound = [];
+
+    for (const identifier of userIdentifiers) {
+        try {
+            const searchRes = await api(`/search-users?q=${encodeURIComponent(identifier)}`);
+            if (searchRes.success && searchRes.users.length > 0) {
+                // Aniq mos keladiganini topish
+                const match = searchRes.users.find(u => 
+                    u.username.toLowerCase() === identifier.toLowerCase() ||
+                    u.email.toLowerCase() === identifier.toLowerCase()
+                ) || searchRes.users[0];
+                
+                userIds.push(match.id);
+            } else {
+                notFound.push(identifier);
+            }
+        } catch (e) {
+            notFound.push(identifier);
+        }
+    }
+
+    if (userIds.length === 0) {
+        showMsg('bulk-msg', 'error', 'Hech qanday foydalanuvchi topilmadi');
+        return;
+    }
+
+    const res = await api('/bulk-issue', {
+        method: 'POST',
+        body: JSON.stringify({
+            userIds,
+            type,
+            title,
+            sourceType,
+            sourceId
+        })
+    });
+
+    if (res.success) {
+        let msg = res.message;
+        if (notFound.length > 0) {
+            msg += ` (topilmadi: ${notFound.join(', ')})`;
+        }
+        showMsg('bulk-msg', 'success', msg);
+        setTimeout(() => {
+            closeBulkModal();
+            loadStats();
+            loadCertificates();
+        }, 2500);
+    } else {
+        showMsg('bulk-msg', 'error', res.message || 'Xato');
+    }
+}
+
+// ══════════════════════════════════════════
+// MSG HELPER
+// ══════════════════════════════════════════
+function showMsg(id, type, text) {
+    const el = document.getElementById(id);
+    el.className = 'msg-box ' + type + ' show';
+    el.textContent = text;
+}
+
+// ══════════════════════════════════════════
+// FILTERS
+// ══════════════════════════════════════════
+document.getElementById('searchInput').addEventListener('input', () => {
+    if (searchTimeout) clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(loadCertificates, 400);
+});
+
+document.getElementById('filterStatus').addEventListener('change', loadCertificates);
+document.getElementById('filterType').addEventListener('change', loadCertificates);
+
+// ══════════════════════════════════════════
+// MODAL OUTSIDE CLICK
+// ══════════════════════════════════════════
+['issueModal', 'revokeModal', 'bulkModal'].forEach(id => {
+    document.getElementById(id).addEventListener('click', (e) => {
+        if (e.target.id === id) {
+            if (id === 'issueModal') closeIssueModal();
+            if (id === 'revokeModal') closeRevokeModal();
+            if (id === 'bulkModal') closeBulkModal();
+        }
+    });
+});
+
+// ══════════════════════════════════════════
+// START
+// ══════════════════════════════════════════
+window.addEventListener('DOMContentLoaded', () => {
+    loadStats();
+    loadCertificates();
+});
+</script>
+</body>
+</html>

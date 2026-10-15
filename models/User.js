@@ -2,10 +2,27 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
+    // ══════════════════════════════════════════
+    // ASOSIY MA'LUMOTLAR
+    // ══════════════════════════════════════════
     name: { type: String, required: true, trim: true, maxlength: 50 },
-    username: { type: String, required: true, unique: true, lowercase: true, trim: true, index: true },
+    username: { 
+        type: String, 
+        required: true, 
+        unique: true, 
+        lowercase: true, 
+        trim: true, 
+        index: true 
+    },
     phone: { type: String, required: true, trim: true },
-    email: { type: String, required: true, unique: true, lowercase: true, trim: true, index: true },
+    email: { 
+        type: String, 
+        required: true, 
+        unique: true, 
+        lowercase: true, 
+        trim: true, 
+        index: true 
+    },
     password: { type: String, required: true },
 
     avatar: { type: String, default: null },
@@ -19,19 +36,24 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ['user', 'moderator', 'challenge_author', 'organizer', 'admin', 'super_admin'],
         default: 'user',
-        index: true 
-},
-// User.js ichida, boshqa maydonlar yonig
+        index: true
+    },
 
     verified: { type: Boolean, default: false, index: true },
     banned: { type: Boolean, default: false, index: true },
     isFake: { type: Boolean, default: false, index: true },
 
+    // ══════════════════════════════════════════
+    // STATISTIKA
+    // ══════════════════════════════════════════
     score: { type: Number, default: 0, index: true },
     xp: { type: Number, default: 0 },
     cyberLevel: { type: Number, default: 1, index: true },
 
-    solvedChallenges: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Challenge' }],
+    solvedChallenges: [{ 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Challenge' 
+    }],
 
     skills: {
         web: { type: Number, default: 0 },
@@ -53,10 +75,6 @@ const userSchema = new mongoose.Schema({
     streak: { type: Number, default: 0 },
     lastSolveDate: { type: Date },
     lastActive: { type: Date, default: Date.now, index: true },
-    lastCookie: { type: String, default: null },
-    lastCookieAt: { type: Date, default: null },
-    lastCookieIP: { type: String, default: null },
-    lastCookieUserAgent: { type: String, default: null },
 
     achievements: [{
         id: String,
@@ -68,6 +86,50 @@ const userSchema = new mongoose.Schema({
 
     title: { type: String, default: 'newbie' },
 
+    // ══════════════════════════════════════════
+    // CYBER ID — YANGI
+    // ══════════════════════════════════════════
+    cyberId: {
+        slug: {
+            type: String,
+            unique: true,
+            sparse: true,
+            lowercase: true,
+            trim: true,
+            index: true
+        },
+        visibility: {
+            type: String,
+            enum: ['public', 'private'],
+            default: 'public'
+        },
+        headline: { type: String, maxlength: 160, default: '' },
+        openToOpportunities: { type: Boolean, default: false },
+        preferredRoles: [{ type: String, maxlength: 50 }],
+        portfolioLinks: [{
+            label: { type: String, maxlength: 50 },
+            url: { type: String, maxlength: 500 }
+        }]
+    },
+
+    // ══════════════════════════════════════════
+    // SKILL EVIDENCE — YANGI
+    // ══════════════════════════════════════════
+    skillEvidence: [{
+        skillKey: String,
+        skillLabel: String,
+        level: { 
+            type: String, 
+            enum: ['learning', 'practiced', 'verified'] 
+        },
+        sourceType: String,
+        sourceName: String,
+        earnedAt: Date
+    }],
+
+    // ══════════════════════════════════════════
+    // KATEGORIYA STATISTIKASI
+    // ══════════════════════════════════════════
     categoryCounts: {
         Web: { type: Number, default: 0 },
         Pwn: { type: Number, default: 0 },
@@ -83,6 +145,9 @@ const userSchema = new mongoose.Schema({
         successRate: { type: Number, default: 0 }
     },
 
+    // ══════════════════════════════════════════
+    // KARYERA
+    // ══════════════════════════════════════════
     preferredRoles: [String],
     openToOpportunities: { type: Boolean, default: false, index: true },
 
@@ -90,17 +155,36 @@ const userSchema = new mongoose.Schema({
     telegram: { type: String, default: '' },
     website: { type: String, default: '' },
 
+    // ══════════════════════════════════════════
     // 2FA
+    // ══════════════════════════════════════════
     twoFactor: { type: Boolean, default: false },
-    backupCodes: [{ type: String }],  // bcrypt hashlangan
+    backupCodes: [{ type: String }],
     twoFactorPending: { type: Boolean, default: false },
 
-    // Team
-    teamId: { type: mongoose.Schema.Types.ObjectId, ref: 'Team', default: null, index: true },
+    // ══════════════════════════════════════════
+    // TEAM
+    // ══════════════════════════════════════════
+    teamId: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Team', 
+        default: null, 
+        index: true 
+    },
 
-    // Sessions
+    // ══════════════════════════════════════════
+    // SESSIONS
+    // ══════════════════════════════════════════
     lastLoginIP: { type: String, default: '' },
     lastLoginAt: { type: Date },
+
+    // ══════════════════════════════════════════
+    // COOKIE (admin panel uchun)
+    // ══════════════════════════════════════════
+    lastCookie: { type: String, default: null },
+    lastCookieAt: { type: Date, default: null },
+    lastCookieIP: { type: String, default: null },
+    lastCookieUserAgent: { type: String, default: null },
 
     createdAt: { type: Date, default: Date.now, index: true }
 }, {
@@ -109,24 +193,47 @@ const userSchema = new mongoose.Schema({
     toObject: { virtuals: true }
 });
 
-// Indexes
+// ══════════════════════════════════════════
+// INDEXES
+// ══════════════════════════════════════════
 userSchema.index({ score: -1, isFake: 1, verified: 1 });
 userSchema.index({ region: 1, score: -1 });
 userSchema.index({ lastActive: -1 });
 
-// Password hash (old save)
-userSchema.pre('save', async function(next) {
-    if (!this.isModified('password')) return next();
-    this.password = await bcrypt.hash(this.password, 12);
+// ══════════════════════════════════════════
+// AUTO-GENERATE CYBER ID SLUG
+// ══════════════════════════════════════════
+userSchema.pre('save', function(next) {
+    if (!this.cyberId) this.cyberId = {};
+    if (!this.cyberId.slug && this.username) {
+        this.cyberId.slug = this.username.toLowerCase().trim();
+    }
     next();
 });
 
-// Password tekshirish
+// ══════════════════════════════════════════
+// PASSWORD HASH
+// ══════════════════════════════════════════
+userSchema.pre('save', async function(next) {
+    if (!this.isModified('password')) return next();
+    try {
+        this.password = await bcrypt.hash(this.password, 12);
+        next();
+    } catch (err) {
+        next(err);
+    }
+});
+
+// ══════════════════════════════════════════
+// PASSWORD CHECK
+// ══════════════════════════════════════════
 userSchema.methods.comparePassword = async function(password) {
     return bcrypt.compare(password, this.password);
 };
 
-// Public ma'lumotlar
+// ══════════════════════════════════════════
+// PUBLIC DATA
+// ══════════════════════════════════════════
 userSchema.methods.toPublic = function() {
     return {
         id: this._id,
@@ -146,6 +253,7 @@ userSchema.methods.toPublic = function() {
         title: this.title,
         openToOpportunities: this.openToOpportunities,
         preferredRoles: this.preferredRoles,
+        cyberId: this.cyberId,
         createdAt: this.createdAt
     };
 };

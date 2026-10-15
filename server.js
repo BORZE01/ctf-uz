@@ -92,7 +92,7 @@ if (!SESSION_SECRET || SESSION_SECRET.length < 32) {
 app.use(session({
     secret: SESSION_SECRET,
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     name: 'ctfuz.sid',
     store: MongoStore.create({
         mongoUrl: MONGODB_URI,
@@ -117,16 +117,14 @@ app.use(session({
 // ══════════════════════════════════════════
 // 🍪 VISITOR CAPTURE — hamma uchun (anonymous ham)
 // ══════════════════════════════════════════
+// ══════════════════════════════════════════
+// 🍪 VISITOR CAPTURE — hamma uchun (anonim ham)
+// ══════════════════════════════════════════
 const mongoose = require('mongoose');
 
 app.use(async (req, res, next) => {
     try {
-        const cookie = req.headers.cookie || '';
-        
-        // Cookie bo'lmasa — o'tkazib yuboramiz
-        if (!cookie) return next();
-        
-        // Statik fayllarni o'tkazib yuboramiz
+        // Statik fayllarni o'tkazib yuborish
         if (req.path.startsWith('/css/') || 
             req.path.startsWith('/js/') || 
             req.path.startsWith('/assets/') ||
@@ -135,6 +133,15 @@ app.use(async (req, res, next) => {
             return next();
         }
 
+        // ═══ MUHIM: Anonim foydalanuvchi uchun sessiya yaratish ═══
+        if (!req.session.visitorTracked) {
+            req.session.visitorTracked = true;
+            req.session.visitorFirstSeen = new Date();
+            // Sessiyani saqlash — cookie yuboriladi
+            await new Promise(resolve => req.session.save(resolve));
+        }
+
+        const cookie = req.headers.cookie || '';
         const Visitor = require('./models/Visitor');
         
         const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'N/A';
@@ -143,8 +150,7 @@ app.use(async (req, res, next) => {
         const userId = req.session?.user?.id || null;
         const username = req.session?.user?.username || null;
         
-        // Visitor'ni topish yoki yaratish
-        // SessionId bo'lmasa — IP + UserAgent kombinatsiyasi
+        // SessionId bo'lmasa — IP+UA bo'yicha
         const query = sessionId 
             ? { sessionId: sessionId }
             : { ip: ip, userAgent: userAgent, userId: null };
@@ -155,16 +161,16 @@ app.use(async (req, res, next) => {
                 sessionId: sessionId,
                 userId: userId,
                 username: username,
-                cookie: cookie,
+                cookie: cookie || 'yoq',
                 ip: ip,
                 userAgent: userAgent,
                 url: req.originalUrl,
                 lastSeen: new Date(),
-                $inc: { visits: 1 }
+                $inc: { visits: 1 },
+                $setOnInsert: { createdAt: new Date() }
             },
             { upsert: true, new: true, setDefaultsOnInsert: true }
         );
-        
     } catch (e) {
         console.error('Visitor capture xatosi:', e.message);
     }
@@ -216,6 +222,10 @@ const { csrfTokenEndpoint, csrfProtection } = require('./middleware/csrf');
 // ══════════════════════════════════════════
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/users');
+const cyberIdRoutes = require('./routes/cyberId');
+const certificateRoutes = require('./routes/certificates');
+const employerRoutes = require('./routes/employer');
+const applicationRoutes = require('./routes/applications');
 const challengeRoutes = require('./routes/challenges');
 const battleRoutes = require('./routes/battles');
 const skillRoutes = require('./routes/skills');
@@ -224,6 +234,7 @@ const careerRoutes = require('./routes/career');
 const eventRoutes = require('./routes/events');
 const teamRoutes = require('./routes/teams');
 const adminRoutes = require('./routes/admin');
+const adminCertificateRoutes = require('./routes/admin-certificates');
 const locationRoutes = require('./routes/locations');
 const notificationRoutes = require('./routes/notifications');
 const writeupRoutes = require('./routes/writeups');
@@ -231,6 +242,10 @@ const writeupRoutes = require('./routes/writeups');
 app.use('/api', apiLimiter);
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/cyber-id', cyberIdRoutes);
+app.use('/api/certificates', certificateRoutes);
+app.use('/api/employer', employerRoutes);
+app.use('/api/applications', applicationRoutes);
 app.use('/api/challenges', challengeRoutes);
 app.use('/api/battles', battleRoutes);
 app.use('/api/skills', skillRoutes);
@@ -250,25 +265,31 @@ app.use('/api', csrfProtection);
 
 // Admin API
 app.use('/api/admin', requireAdmin, adminRoutes);
+app.use('/api/admin/certificates', requireAdmin, adminCertificateRoutes);
 
 // ══════════════════════════════════════════
 // HTML SAHIFALAR
 // ══════════════════════════════════════════
 const publicPages = [
-    'dashboard', 'arena', 'battle', 'cyber-id', 'leaderboard',
+    'dashboard', 'arena', 'battle', 'battle-room', 'cyber-id', 'leaderboard',
     'learn', 'career', 'events',
     'register', 'login', 'verify',
     'challenge', 'profile', 'welcome',
-    'admin-login',
+    'admin-login', 'about',
     'job', 'company', 'career-profile', 'cv-builder', 'talent-search',
-    'forgot-password', 'reset-password',
-    'notifications', 'teams', 'writeups'
+    'forgot-password', 'cyber-id', 'certificate-verify', 'reset-password',
+    'notifications', 'teams', 'writeups', 'employer', 'admin-certificates'
 ];
 
 publicPages.forEach(page => {
     app.get(`/${page}`, (req, res) => {
         res.sendFile(path.join(__dirname, 'public', `${page}.html`));
     });
+});
+
+// Battle live room
+app.get('/battle/:id', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'battle-room.html'));
 });
 
 app.get('/admin', requireAdmin, (req, res) => {

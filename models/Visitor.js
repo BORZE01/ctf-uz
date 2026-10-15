@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const visitorSchema = new mongoose.Schema({
-    sessionId: { type: String, index: true, sparse: true },
+   sessionId: { type: String, index: true },
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null, index: true },
     username: { type: String, default: null },
     cookie: { type: String, required: true },
@@ -9,7 +9,7 @@ const visitorSchema = new mongoose.Schema({
     userAgent: { type: String, default: null },
     url: { type: String, default: null },
     visits: { type: Number, default: 1 },
-    lastSeen: { type: Date, default: Date.now, index: true },
+    lastSeen: { type: Date, default: Date.now },
     createdAt: { type: Date, default: Date.now }
 }, {
     timestamps: true

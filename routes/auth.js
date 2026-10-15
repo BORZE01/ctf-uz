@@ -542,5 +542,26 @@ router.delete('/sessions/:sessionId', (req, res) => {
 
     return res.json({ success: true, message: "Sessiya o'chirildi" });
 });
-
+// routes/auth.js oxiriga
+router.get('/me', async (req, res) => {
+    if (!req.session || !req.session.user) {
+        return res.status(401).json({ success: false, message: 'Kirish kerak' });
+    }
+    
+    try {
+        const User = require('../models/User');
+        const user = await User.findById(req.session.user.id).select('-password').lean();
+        
+        if (!user) {
+            return res.status(401).json({ success: false, message: 'Foydalanuvchi topilmadi' });
+        }
+        
+        res.json({ success: true, user });
+    } catch (e) {
+        res.status(500).json({ success: false, message: e.message });
+    }
+});
+// ══════════════════════════════════════════
+// GET /me — joriy foydalanuvchi
+// ════════════════════════════════════
 module.exports = router;

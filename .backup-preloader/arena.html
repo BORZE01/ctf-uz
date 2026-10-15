@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arena — CTF.UZ</title>
+    <link rel="stylesheet" href="/css/design-system.css">
+    <link rel="stylesheet" href="/css/animations.css">
+    <link rel="stylesheet" href="/css/icons.css">
+    <link rel="stylesheet" href="/css/modern-ui.css">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/preloader.css">
+</head>
+<body>
+
+<div class="girih-bg"></div>
+
+<header class="header">
+    <a href="/" class="logo">
+        <div class="logo-mark">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
+        </div>
+        <div class="logo-text">CTF<span>.UZ</span></div>
+    </a>
+    <nav class="nav">
+        <a href="/dashboard" data-page="dashboard">Dashboard</a>
+        <a href="/arena" data-page="arena" class="active">Arena</a>
+        <a href="/battle" data-page="battle">Battle</a>
+        <a href="/leaderboard" data-page="leaderboard">Reyting</a>
+        <a href="/career" data-page="career">Karyera</a>
+        <a id="auth-link" href="/profile" data-page="profile"></a>
+    </nav>
+</header>
+
+<div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: end; margin-bottom: 32px; flex-wrap: wrap; gap: 16px;">
+        <div>
+            <h1 style="margin-bottom: 8px; display: flex; align-items: center; gap: 12px;">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:36px;height:36px;color:#F59E0B;">
+                    <path d="M6 9H4a2 2 0 0 1-2-2V5h4M18 9h2a2 2 0 0 0 2-2V5h-4M6 5h12v6a6 6 0 0 1-12 0V5zM12 17v3M8 21h8M9 21v-2a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/>
+                </svg>
+                Arena
+            </h1>
+            <p style="color: var(--text-secondary);">Real-world cyber incidents. Har bir challenge — missiya.</p>
+        </div>
+        <div id="arena-stats" style="display: flex; gap: 16px; flex-wrap: wrap;">
+            <div style="background: rgba(74, 127, 255, 0.06); border: 1px solid rgba(74, 127, 255, 0.15); border-radius: 12px; padding: 10px 16px;">
+                <div style="font-size: 0.65rem; color: var(--text3); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700;">Yechilgan</div>
+                <div style="font-family: Manrope; font-size: 1.3rem; font-weight: 900; color: #10B981;" id="stat-solved">0</div>
+            </div>
+            <div style="background: rgba(74, 127, 255, 0.06); border: 1px solid rgba(74, 127, 255, 0.15); border-radius: 12px; padding: 10px 16px;">
+                <div style="font-size: 0.65rem; color: var(--text3); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700;">Jami</div>
+                <div style="font-family: Manrope; font-size: 1.3rem; font-weight: 900; color: #4A7FFF;" id="stat-total">0</div>
+            </div>
+        </div>
+    </div>
+
+    <div style="display: flex; gap: 8px; margin-bottom: 32px; flex-wrap: wrap;" id="filter-bar">
+        <button class="btn btn-primary btn-sm" onclick="filterChallenges('all', this)">Barchasi</button>
+        <button class="btn btn-secondary btn-sm" onclick="filterChallenges('Web', this)">Web</button>
+        <button class="btn btn-secondary btn-sm" onclick="filterChallenges('Pwn', this)">Pwn</button>
+        <button class="btn btn-secondary btn-sm" onclick="filterChallenges('Reverse', this)">Reverse</button>
+        <button class="btn btn-secondary btn-sm" onclick="filterChallenges('Crypto', this)">Crypto</button>
+        <button class="btn btn-secondary btn-sm" onclick="filterChallenges('Forensics', this)">Forensics</button>
+        <button class="btn btn-secondary btn-sm" onclick="filterChallenges('OSINT', this)">OSINT</button>
+    </div>
+
+    <!-- CHALLENGES LIST WITH SKELETON -->
+    <div id="challenges-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 24px;">
+        <!-- SKELETON 1 -->
+        <div class="skeleton-challenge">
+            <div class="skeleton skeleton-title"></div>
+            <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+                <div class="skeleton skeleton-badge"></div>
+                <div class="skeleton skeleton-badge"></div>
+            </div>
+            <div class="skeleton skeleton-text long"></div>
+            <div class="skeleton skeleton-text long"></div>
+            <div class="skeleton skeleton-text medium"></div>
+        </div>
+        <!-- SKELETON 2 -->
+        <div class="skeleton-challenge">
+            <div class="skeleton skeleton-title"></div>
+            <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+                <div class="skeleton skeleton-badge"></div>
+                <div class="skeleton skeleton-badge"></div>
+            </div>
+            <div class="skeleton skeleton-text long"></div>
+            <div class="skeleton skeleton-text long"></div>
+            <div class="skeleton skeleton-text medium"></div>
+        </div>
+        <!-- SKELETON 3 -->
+        <div class="skeleton-challenge">
+            <div class="skeleton skeleton-title"></div>
+            <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+                <div class="skeleton skeleton-badge"></div>
+                <div class="skeleton skeleton-badge"></div>
+            </div>
+            <div class="skeleton skeleton-text long"></div>
+            <div class="skeleton skeleton-text long"></div>
+            <div class="skeleton skeleton-text medium"></div>
+        </div>
+        <!-- SKELETON 4 -->
+        <div class="skeleton-challenge">
+            <div class="skeleton skeleton-title"></div>
+            <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+                <div class="skeleton skeleton-badge"></div>
+                <div class="skeleton skeleton-badge"></div>
+            </div>
+            <div class="skeleton skeleton-text long"></div>
+            <div class="skeleton skeleton-text long"></div>
+            <div class="skeleton skeleton-text medium"></div>
+        </div>
+        <!-- SKELETON 5 -->
+        <div class="skeleton-challenge">
+            <div class="skeleton skeleton-title"></div>
+            <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+                <div class="skeleton skeleton-badge"></div>
+                <div class="skeleton skeleton-badge"></div>
+            </div>
+            <div class="skeleton skeleton-text long"></div>
+            <div class="skeleton skeleton-text long"></div>
+            <div class="skeleton skeleton-text medium"></div>
+        </div>
+        <!-- SKELETON 6 -->
+        <div class="skeleton-challenge">
+            <div class="skeleton skeleton-title"></div>
+            <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+                <div class="skeleton skeleton-badge"></div>
+                <div class="skeleton skeleton-badge"></div>
+            </div>
+            <div class="skeleton skeleton-text long"></div>
+            <div class="skeleton skeleton-text long"></div>
+            <div class="skeleton skeleton-text medium"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+let allChallenges = [];
+
+// ══════════════════════════════════════════
+// CHALLENGES YUKLASH
+// ══════════════════════════════════════════
+async function loadChallenges() {
+    try {
+        const res = await fetch('/api/challenges', { credentials: 'include' });
+        const data = await res.json();
+        
+        if (!data.success) {
+            if (data.message && data.message.includes('Kirish')) {
+                window.location.replace('/welcome');
+                return;
+            }
+            document.getElementById('challenges-list').innerHTML = 
+                '<div style="grid-column: 1/-1; text-align: center; padding: 60px; color: var(--text-muted);">Challenges yuklanmadi</div>';
+            return;
+        }
+        
+        allChallenges = data.challenges || [];
+        
+        // Stats
+        const solved = allChallenges.filter(c => c.solved).length;
+        document.getElementById('stat-solved').innerText = solved;
+        document.getElementById('stat-total').innerText = allChallenges.length;
+        
+        renderChallenges('all');
+    } catch (e) {
+        console.error('loadChallenges xatosi:', e);
+    }
+}
+
+// ══════════════════════════════════════════
+// CHALLENGE KARTALAR
+// ══════════════════════════════════════════
+function renderChallenges(cat) {
+    const list = document.getElementById('challenges-list');
+    let filtered = cat === 'all' ? allChallenges : allChallenges.filter(c => c.category === cat);
+
+    if (filtered.length === 0) {
+        list.innerHTML = `
+            <div style="grid-column: 1/-1; text-align: center; padding: 60px; color: var(--text-muted);">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width:48px;height:48px;opacity:0.3;margin-bottom:12px;">
+                    <circle cx="11" cy="11" r="8"/>
+                    <path d="m21 21-4.35-4.35"/>
+                </svg>
+                <p style="font-size: 0.9rem;">Bu kategoriyada challenge yo'q</p>
+            </div>
+        `;
+        return;
+    }
+
+    list.innerHTML = filtered.map(c => {
+        const categoryClass = (c.category || 'web').toLowerCase();
+        const difficultyClass = (c.difficulty || 'easy').toLowerCase();
+        
+        return `
+        <div class="challenge-card ${c.solved ? 'solved' : ''} fade-in-up" 
+             onclick="window.location.href='/challenge?id=${c.id}'" 
+             style="cursor:pointer; position: relative; overflow: hidden;">
+            
+            ${c.solved ? `
+                <div style="position: absolute; top: 12px; right: 12px; width: 24px; height: 24px; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                    <svg class="icon icon-check" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;">
+                        <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                </div>
+            ` : ''}
+            
+            <div class="challenge-header">
+                <div>
+                    <div class="challenge-title">${escapeHtml(c.title)}</div>
+                </div>
+                <div class="challenge-points" style="display: flex; align-items: center; gap: 6px;">
+                    <svg class="icon icon-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                    </svg>
+                    ${c.points} XP
+                </div>
+            </div>
+            
+            <div class="challenge-meta">
+                <span class="badge badge-${categoryClass}">${escapeHtml(c.category || 'Web')}</span>
+                <span class="badge badge-${difficultyClass}">${escapeHtml(c.difficulty || 'Easy')}</span>
+                ${c.solved ? `
+                    <span class="badge badge-easy" style="display: inline-flex; align-items: center; gap: 4px;">
+                        <svg class="icon icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                        YECHILGAN
+                    </span>
+                ` : ''}
+            </div>
+            
+            <div class="challenge-story">${escapeHtml(c.story || 'Tavsif yo\'q')}</div>
+            
+            <div class="challenge-footer">
+                <span style="color: var(--text-muted); font-size: 0.75rem; display: flex; align-items: center; gap: 6px;">
+                    ${c.solved 
+                        ? `<svg class="icon icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;"><polyline points="20 6 9 17 4 12"/></svg> Yechilgan`
+                        : `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Yechilmagan`
+                    }
+                </span>
+                <span style="color: var(--uz-blue); font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; gap: 4px;">
+                    ENTER
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </span>
+            </div>
+        </div>
+        `;
+    }).join('');
+}
+
+// ══════════════════════════════════════════
+// FILTER
+// ══════════════════════════════════════════
+function filterChallenges(cat, el) {
+    document.querySelectorAll('#filter-bar button').forEach(b => {
+        b.className = b.className.replace('btn-primary', 'btn-secondary');
+    });
+    el.className = el.className.replace('btn-secondary', 'btn-primary');
+    renderChallenges(cat);
+}
+
+// ══════════════════════════════════════════
+// ESCAPE (XSS HIMOYA)
+// ══════════════════════════════════════════
+function escapeHtml(text) {
+    if (text === null || text === undefined) return '';
+    return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+// ══════════════════════════════════════════
+// SAHIFA YUKLANGANDA
+// ══════════════════════════════════════════
+window.addEventListener('load', async () => {
+    try {
+        const authRes = await fetch('/api/auth/me', { credentials: 'include', cache: 'no-store' });
+        if (!authRes.ok) {
+            window.location.replace('/welcome');
+            return;
+        }
+        const authData = await authRes.json();
+        if (!authData.success || !authData.user) {
+            window.location.replace('/welcome');
+            return;
+        }
+        
+        const authLink = document.getElementById('auth-link');
+        if (authLink) {
+            authLink.innerHTML = `<img src="${authData.user.avatar || '/assets/default-avatar.svg'}" style="width:22px;height:22px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-right:6px;border:1px solid #2563EB;" onerror="this.src='/assets/default-avatar.svg'">${authData.user.username}`;
+        }
+    } catch (e) {
+        window.location.replace('/welcome');
+        return;
+    }
+    
+    loadChallenges();
+});
+</script>
+    <script src="/js/preloader.js"></script>
+</body>
+</html>

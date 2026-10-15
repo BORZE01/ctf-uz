@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Battle — CTF.UZ</title>
+    <link rel="stylesheet" href="/css/design-system.css">
+    <link rel="stylesheet" href="/css/animations.css">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/preloader.css">
+</head>
+<body>
+<div class="girih-bg"></div>
+
+<header class="header">
+    <a href="/" class="logo">
+        <div class="logo-mark">CU</div>
+        <div class="logo-text">CTF<span>.UZ</span></div>
+    </a>
+    <nav class="nav">
+        <a href="/dashboard" data-page="dashboard">Dashboard</a>
+        <a href="/arena" data-page="arena">Arena</a>
+        <a href="/battle" data-page="battle" class="active">Battle</a>
+        <a href="/leaderboard" data-page="leaderboard">Reyting</a>
+        <a href="/career" data-page="career">Karyera</a>
+        <a id="auth-link" href="/profile" data-page="profile"></a>
+    </nav>
+</header>
+
+<div class="container" style="text-align: center; padding: 100px 20px;">
+    <div style="font-size: 5rem; margin-bottom: 24px;">⚔️</div>
+    <h1 style="font-family: Manrope; font-size: 3rem; margin-bottom: 16px;">1v1 Cyber Battle</h1>
+    <p style="color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 32px;">
+        Real-time duel tizimi ustida ishlayapmiz. Tez orada ishga tushadi.
+    </p>
+    <a href="/arena" class="btn btn-primary btn-lg">🏆 Arenaga o'tish</a>
+</div>
+
+<script src="/js/api.js"></script>
+<script>
+(async function() {
+    try {
+        const res = await fetch('/api/auth/me', { credentials: 'include', cache: 'no-store' });
+        if (!res.ok) { window.location.replace('/welcome'); return; }
+        const data = await res.json();
+        if (!data.success || !data.user) { window.location.replace('/welcome'); return; }
+        const authLink = document.getElementById('auth-link');
+        if (authLink) {
+            authLink.innerHTML = `<img src="${data.user.avatar || '/assets/default-avatar.svg'}" style="width:22px;height:22px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-right:6px;border:1px solid #2563EB;" onerror="this.src='/assets/default-avatar.svg'">${data.user.username}`;
+        }
+    } catch (e) { window.location.replace('/welcome'); }
+})();
+</script>
+    <script src="/js/preloader.js"></script>
+</body>
+</html>

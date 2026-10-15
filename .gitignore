@@ -27,3 +27,9 @@ Thumbs.db
 # Tests
 coverage/
 tests/tmp/
+.env
+*.log
+logs/
+.env
+logs/
+node_modules/

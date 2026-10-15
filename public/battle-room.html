@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Battle Live — CTF.UZ</title>
+    <link rel="stylesheet" href="/css/design-system.css">
+    <link rel="stylesheet" href="/css/icons.css">
+    <link rel="stylesheet" href="/css/preloader.css">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        .arena-battle {
+            display: grid;
+            grid-template-columns: 1fr 240px;
+            gap: 24px;
+        }
+        @media (max-width: 900px) {
+            .arena-battle { grid-template-columns: 1fr; }
+        }
+        .player-panel {
+            background: linear-gradient(135deg, rgba(15, 22, 41, 0.9) 0%, rgba(10, 16, 32, 0.95) 100%);
+            border: 1px solid rgba(74, 127, 255, 0.15);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .player-panel.me { border-color: rgba(16, 185, 129, 0.4); }
+        .player-panel.opponent { border-color: rgba(239, 68, 68, 0.4); }
+        .player-panel .avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            margin: 0 auto 12px;
+            background: linear-gradient(135deg, #2563EB, #22D3EE);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            color: white;
+            font-size: 1.4rem;
+            overflow: hidden;
+        }
+        .player-panel.opponent .avatar {
+            background: linear-gradient(135deg, #F59E0B, #EF4444);
+        }
+        .player-panel .avatar img { width: 100%; height: 100%; object-fit: cover; }
+    </style>
+</head>
+<body>
+
+<div class="girih-bg"></div>
+
+<header class="header">
+    <a href="/" class="logo">
+        <div class="logo-mark">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
+        </div>
+        <div class="logo-text">CTF<span>.UZ</span></div>
+    </a>
+    <nav class="nav">
+        <a href="/battle">← Battle ro'yxati</a>
+    </nav>
+</header>
+
+<div class="container">
+    <div id="battleContent">
+        <div class="spinner"></div>
+    </div>
+</div>
+
+<script src="/js/preloader.js"></script>
+<script>
+let battleId = null;
+let battleData = null;
+let refreshInterval = null;
+
+function esc(t) {
+    if (t === null || t === undefined) return '';
+    return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+async function loadBattle() {
+    try {
+        const res = await fetch(`/api/battles/${battleId}`, { credentials: 'include' });
+        const data = await res.json();
+
+        if (!data.success) {
+            document.getElementById('battleContent').innerHTML = `
+                <div style="text-align:center;padding:80px 20px;">
+                    <h2 style="color:#EF4444;margin-bottom:16px;">Battle topilmadi</h2>
+                    <a href="/battle" class="btn btn-primary">Battle ro'yxatiga qaytish</a>
+                </div>
+            `;
+            if (refreshInterval) clearInterval(refreshInterval);
+            return;
+        }
+
+        battleData = data.battle;
+        render();
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+function render() {
+    const b = battleData;
+    const me = b.isChallenger ? b.challenger : b.opponent;
+    const them = b.isChallenger ? b.opponent : b.challenger;
+    const isActive = b.status === 'active';
+    const isCompleted = b.status === 'completed';
+
+    const expires = b.expiresAt ? new Date(b.expiresAt).getTime() : 0;
+    const diff = expires - Date.now();
+    const mins = Math.max(0, Math.floor(diff / 60000));
+    const secs = Math.max(0, Math.floor((diff % 60000) / 1000));
+
+    document.getElementById('battleContent').innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
+            <h1 style="font-family: Manrope; font-size: 1.6rem; font-weight: 900;">
+                ⚔️ Battle #${b.id.slice(-6)}
+            </h1>
+            ${isActive ? `
+                <div style="font-family: JetBrains Mono; font-weight: 700; font-size: 1.2rem; color:#EF4444;">
+                    ⏱ ${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}
+                </div>
+            ` : isCompleted ? `
+                <span style="padding: 6px 16px; background: rgba(16, 185, 129, 0.15); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 999px; font-weight: 700; font-size: 0.85rem;">
+                    ✅ TUGADI
+                </span>
+            ` : ''}
+        </div>
+
+        <div class="arena-battle">
+            <div>
+                <!-- CHALLENGES -->
+                <h2 style="font-family: Manrope; font-weight: 800; margin-bottom: 16px; font-size: 1.1rem;">Topshiriqlar</h2>
+                <div id="challengesList">
+                    ${b.challenges.map(c => renderChallenge(c, isActive)).join('')}
+                </div>
+            </div>
+
+            <div>
+                <!-- ME -->
+                <div class="player-panel me" style="margin-bottom: 12px;">
+                    <div class="avatar">
+                        ${me.avatar ? `<img src="${esc(me.avatar)}" onerror="this.style.display='none';this.parentElement.innerText='${esc((me.username[0] || '?').toUpperCase())}'">` : esc((me.username[0] || '?').toUpperCase())}
+                    </div>
+                    <div style="font-weight: 700;">@${esc(me.username)}</div>
+                    <div style="font-size: 0.7rem; color: var(--text3); margin-top: 2px;">SIZ</div>
+                    <div style="font-family: Manrope; font-size: 2rem; font-weight: 900; color: #10B981; margin-top: 12px;">${b.scores.mine}</div>
+                    <div style="font-size: 0.7rem; color: var(--text3);">BALL</div>
+                </div>
+
+                <!-- VS -->
+                <div style="text-align: center; font-family: Manrope; font-weight: 900; font-size: 1.2rem; color: #F59E0B; padding: 8px 0;">VS</div>
+
+                <!-- OPPONENT -->
+                <div class="player-panel opponent">
+                    <div class="avatar">
+                        ${them.avatar ? `<img src="${esc(them.avatar)}" onerror="this.style.display='none';this.parentElement.innerText='${esc((them.username[0] || '?').toUpperCase())}'">` : esc((them.username[0] || '?').toUpperCase())}
+                    </div>
+                    <div style="font-weight: 700;">@${esc(them.username)}</div>
+                    <div style="font-size: 0.7rem; color: var(--text3); margin-top: 2px;">RAQIB</div>
+                    <div style="font-family: Manrope; font-size: 2rem; font-weight: 900; color: #EF4444; margin-top: 12px;">${b.scores.opponent}</div>
+                    <div style="font-size: 0.7rem; color: var(--text3);">BALL</div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function renderChallenge(c, isActive) {
+    const solvedMe = c.solvedByMe;
+    const solvedOther = c.solvedBy && !c.solvedByMe;
+    
+    let statusClass = '';
+    let statusText = '';
+    if (solvedMe) { statusClass = 'solved-me'; statusText = '✅ Siz yechdingiz'; }
+    else if (solvedOther) { statusClass = 'solved-opponent'; statusText = '❌ Raqib yechdi'; }
+    else if (isActive) { statusText = '⏳ Kutilmoqda'; }
+    else { statusText = 'Yopiq'; }
+
+    return `
+        <div class="challenge-battle-item ${statusClass}" style="background:rgba(15,22,41,0.6);border:1px solid rgba(74,127,255,0.1);border-radius:12px;padding:16px;margin-bottom:12px;">
+            <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:12px;">
+                <div>
+                    <div style="font-weight:700;font-size:0.95rem;">${esc(c.title)}</div>
+                    <div style="font-size:0.72rem;color:var(--text3);margin-top:4px;">
+                        <span class="badge badge-${(c.category || 'web').toLowerCase()}" style="font-size:0.65rem;padding:2px 8px;">${esc(c.category)}</span>
+                        <span style="margin-left:8px;">${esc(c.difficulty)} • ${c.points} XP</span>
+                    </div>
+                </div>
+                <div style="font-size:0.75rem;color:${solvedMe?'#10B981':solvedOther?'#EF4444':'#64748B'};font-weight:700;">
+                    ${statusText}
+                </div>
+            </div>
+            
+            ${!solvedMe && !solvedOther && isActive ? `
+                <div style="display:flex;gap:8px;margin-top:12px;">
+                    <input type="text" id="flag-${c.id}" placeholder="CTF{...}" 
+                        style="flex:1;padding:10px 14px;background:#060B18;border:1px solid rgba(74,127,255,0.2);border-radius:8px;color:#F1F5F9;font-family:JetBrains Mono;font-size:0.85rem;outline:none;"
+                        onkeypress="if(event.key==='Enter')submitFlag('${c.id}')">
+                    <button class="btn btn-primary btn-sm" onclick="submitFlag('${c.id}')">
+                        Yuborish
+                    </button>
+                </div>
+                <div id="msg-${c.id}" style="font-size:0.78rem;margin-top:8px;"></div>
+            ` : ''}
+        </div>
+    `;
+}
+
+async function submitFlag(challengeId) {
+    const input = document.getElementById(`flag-${challengeId}`);
+    const msg = document.getElementById(`msg-${challengeId}`);
+    const flag = input.value.trim();
+
+    if (!flag) {
+        msg.innerHTML = '<span style="color:#EF4444;">Flag kiriting</span>';
+        return;
+    }
+
+    msg.innerHTML = '<span style="color:var(--text3);">Tekshirilmoqda...</span>';
+
+    try {
+        const res = await fetch(`/api/battles/${battleId}/submit`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({ challengeId, flag })
+        });
+        const data = await res.json();
+
+        if (data.correct) {
+            msg.innerHTML = '<span style="color:#10B981;">✅ ' + esc(data.message) + '</span>';
+            setTimeout(() => loadBattle(), 800);
+        } else {
+            msg.innerHTML = '<span style="color:#EF4444;">❌ ' + esc(data.message) + '</span>';
+        }
+    } catch (e) {
+        msg.innerHTML = '<span style="color:#EF4444;">Ulanish xatosi</span>';
+    }
+}
+
+window.addEventListener('load', async () => {
+    // URL dan ID olish: /battle/abc123
+    const pathParts = window.location.pathname.split('/');
+    const lastPart = pathParts[pathParts.length - 1];
+
+    // Server route: /battle/:id
+    // Lekin biz /battle-room ishlatamiz. Uni o'zgartirish kerak.
+    // Hozircha: /battle/:id → battle.html ni yuklaydi.
+    
+    // Yechim: URLSearchParams dan olish
+    const urlParams = new URLSearchParams(window.location.search);
+    battleId = urlParams.get('id') || lastPart;
+
+    if (!battleId || battleId === 'battle' || battleId === 'battle-room') {
+        window.location.href = '/battle';
+        return;
+    }
+
+    // Auth
+    const authRes = await fetch('/api/auth/me', { credentials: 'include', cache: 'no-store' });
+    if (!authRes.ok) { window.location.replace('/welcome'); return; }
+
+    loadBattle();
+    refreshInterval = setInterval(loadBattle, 5000);
+});
+</script>
+</body>
+</html>

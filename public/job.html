@@ -6,196 +6,575 @@
     <title>Vakansiya — CTF.UZ</title>
     <link rel="stylesheet" href="/css/design-system.css">
     <link rel="stylesheet" href="/css/animations.css">
+    <link rel="stylesheet" href="/css/icons.css">
+    <link rel="stylesheet" href="/css/modern-ui.css">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        .match-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-family: JetBrains Mono;
+            font-weight: 800;
+            font-size: 0.85rem;
+        }
+        .match-high { background: rgba(16,185,129,0.15); color: #10B981; border: 1px solid rgba(16,185,129,0.3); }
+        .match-mid { background: rgba(245,185,66,0.15); color: #F59E0B; border: 1px solid rgba(245,185,66,0.3); }
+        .match-low { background: rgba(239,68,68,0.15); color: #EF4444; border: 1px solid rgba(239,68,68,0.3); }
+        
+        .skill-pill {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            margin-right: 6px;
+            margin-bottom: 6px;
+        }
+        .skill-matched { background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); color: #10B981; }
+        .skill-missing { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: #EF4444; }
+        .skill-neutral { background: rgba(74,127,255,0.1); border: 1px solid rgba(74,127,255,0.2); color: #4A7FFF; }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(74,127,255,0.08);
+            font-size: 0.82rem;
+        }
+        .info-row:last-child { border-bottom: none; }
+        .info-row .label { color: #64748B; }
+        .info-row .value { font-weight: 600; font-family: JetBrains Mono; color: #F1F5F9; }
+        
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(6,11,24,0.92);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal-box {
+            background: #0F1629;
+            border: 1px solid rgba(74,127,255,0.3);
+            border-radius: 20px;
+            padding: 32px;
+            max-width: 560px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-box h3 {
+            font-family: Manrope;
+            font-weight: 800;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-close {
+            background: transparent;
+            border: none;
+            color: #94A3B8;
+            cursor: pointer;
+        }
+        .field { margin-bottom: 16px; }
+        .field label {
+            display: block;
+            font-size: 0.72rem;
+            color: #94A3B8;
+            margin-bottom: 6px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .field textarea {
+            width: 100%;
+            padding: 12px 14px;
+            background: #060B18;
+            border: 1px solid rgba(74,127,255,0.2);
+            border-radius: 8px;
+            color: #F1F5F9;
+            font-family: inherit;
+            font-size: 0.9rem;
+            outline: none;
+            min-height: 120px;
+            resize: vertical;
+        }
+    </style>
 </head>
 <body>
 
 <div class="girih-bg"></div>
 
 <header class="header">
-    <a href="/" class="logo"><div class="logo-mark">CU</div><div class="logo-text">CTF<span>.UZ</span></div></a>
+    <a href="/" class="logo">
+        <div class="logo-mark">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
+        </div>
+        <div class="logo-text">CTF<span>.UZ</span></div>
+    </a>
     <nav class="nav">
         <a href="/dashboard">Dashboard</a>
-        <a href="/arena">Arena</a>
         <a href="/career">Karyera</a>
-        <a id="auth-link" class="nav-cta"></a>
+        <a id="auth-link" href="/profile"></a>
     </nav>
 </header>
 
-<div class="container-narrow">
+<div class="container">
     <div id="jobContent">
-        <div class="spinner"></div>
+        <div style="text-align: center; padding: 80px;">
+            <div class="spinner"></div>
+            <p style="color: #94A3B8; margin-top: 16px;">Yuklanmoqda...</p>
+        </div>
+    </div>
+</div>
+
+<!-- APPLY MODAL -->
+<div id="apply-modal" class="modal-overlay">
+    <div class="modal-box">
+        <h3>
+            <span>Ariza topshirish</span>
+            <button class="modal-close" onclick="closeApplyModal()">×</button>
+        </h3>
+        <div class="field">
+            <label>Cover letter (ixtiyoriy)</label>
+            <textarea id="cover-letter" placeholder="Nega bu lavozimga mos kelasiz?"></textarea>
+        </div>
+        <div id="apply-message" style="font-size: 0.85rem; margin-bottom: 12px;"></div>
+        <div style="display: flex; gap: 12px;">
+            <button class="btn btn-primary" style="flex: 1; justify-content: center;" onclick="submitApplication()">
+                Yuborish
+            </button>
+            <button class="btn btn-secondary" style="flex: 1; justify-content: center;" onclick="closeApplyModal()">
+                Bekor qilish
+            </button>
+        </div>
     </div>
 </div>
 
 <script>
+// ══════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════
 let jobData = null;
+let matchData = null;
+let currentUser = null;
+let isSaved = false;
 
+// ══════════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════════
+function esc(t) {
+    if (t === null || t === undefined) return '';
+    return String(t)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+function matchClass(score) {
+    if (score >= 75) return 'match-high';
+    if (score >= 50) return 'match-mid';
+    return 'match-low';
+}
+
+function formatSalary(job) {
+    const c = job.salaryCurrency || 'UZS';
+    if (!job.salaryMin && !job.salaryMax) return 'Kelishiladi';
+    if (job.salaryMin && job.salaryMax) {
+        return `${Number(job.salaryMin).toLocaleString()} - ${Number(job.salaryMax).toLocaleString()} ${c}`;
+    }
+    if (job.salaryMin) return `${Number(job.salaryMin).toLocaleString()}+ ${c}`;
+    return `-${Number(job.salaryMax).toLocaleString()} ${c}`;
+}
+
+function formatDate(d) {
+    if (!d) return '—';
+    try {
+        return new Date(d).toLocaleDateString('uz-UZ');
+    } catch (e) {
+        return '—';
+    }
+}
+
+function levelLabel(l) {
+    const map = {
+        internship: 'Internship',
+        junior: 'Junior',
+        middle: 'Middle',
+        senior: 'Senior',
+        lead: 'Lead'
+    };
+    return map[l] || l;
+}
+
+function jobTypeLabel(t) {
+    const map = {
+        'full-time': 'Full-time',
+        'part-time': 'Part-time',
+        internship: 'Internship',
+        contract: 'Contract'
+    };
+    return map[t] || t;
+}
+
+// ══════════════════════════════════════════
+// LOAD JOB
+// ══════════════════════════════════════════
 async function loadJob() {
     const id = new URLSearchParams(window.location.search).get('id');
-    if (!id) { window.location.href = '/career'; return; }
-
-    const res = await fetch(`/api/career/jobs/${id}`);
-    const data = await res.json();
-
-    if (!data.success) {
-        document.getElementById('jobContent').innerHTML = `
-            <div class="card-glass" style="padding: 60px; text-align: center;">
-                <h2 style="color: var(--error);">❌ Vakansiya topilmadi</h2>
-                <a href="/career" class="btn btn-primary" style="margin-top: 20px;">Karyera bo'limiga qaytish</a>
-            </div>
-        `;
+    
+    if (!id) {
+        showError('Vakansiya ID si ko\'rsatilmagan');
         return;
     }
 
-    jobData = data.job;
-    const j = data.job;
-    const levelName = { internship: 'Internship', junior: 'Junior', middle: 'Middle', senior: 'Senior' }[j.level] || j.level;
-    const formatIcon = { remote: '🌐 Remote', office: '🏢 Office', hybrid: '🔄 Hybrid' }[j.format] || '';
+    // Mongo ObjectId tekshirish
+    if (!/^[a-f0-9]{24}$/i.test(id)) {
+        showError('Xato ID format');
+        return;
+    }
+
+    try {
+        const res = await fetch(`/api/career/jobs/${id}`, { 
+            credentials: 'include',
+            cache: 'no-store'
+        });
+        const data = await res.json();
+
+        console.log('API javobi:', data);
+
+        if (!data.success || !data.job) {
+            showError(data.message || 'Vakansiya topilmadi');
+            return;
+        }
+
+        jobData = data.job;
+        matchData = data.match || null;
+
+        renderJob();
+    } catch (e) {
+        console.error('Load xatosi:', e);
+        showError('Ulanish xatosi');
+    }
+}
+
+function showError(msg) {
+    document.getElementById('jobContent').innerHTML = `
+        <div class="card-glass" style="padding: 60px; text-align: center; max-width: 500px; margin: 40px auto;">
+            <div style="font-size: 3rem; margin-bottom: 16px;">❌</div>
+            <h2 style="color: #EF4444; margin-bottom: 12px;">${esc(msg)}</h2>
+            <a href="/career" class="btn btn-primary" style="margin-top: 20px;">Karyera bo'limiga qaytish</a>
+        </div>
+    `;
+}
+
+// ══════════════════════════════════════════
+// RENDER
+// ══════════════════════════════════════════
+function renderJob() {
+    const j = jobData;
+    const m = matchData;
+    const employer = j.employerId || {};
+    const isOwner = currentUser && employer.ownerUserId === currentUser.id;
+
+    // Skill status
+    const requiredMatched = m?.requiredMatched || [];
+    const missingRequired = m?.missingRequired || [];
+    const optionalMatched = m?.optionalMatched || [];
+    const missingOptional = m?.missingOptional || [];
 
     document.getElementById('jobContent').innerHTML = `
-        <a href="/career" style="color: var(--text-secondary); text-decoration: none; font-size: 0.85rem; display: inline-block; margin-bottom: 24px;">← Karyera bo'limiga qaytish</a>
+        <a href="/career" style="color: #94A3B8; text-decoration: none; font-size: 0.85rem; display: inline-block; margin-bottom: 24px;">
+            ← Karyera bo'limiga qaytish
+        </a>
 
+        <!-- HEADER -->
         <div class="card-glass fade-in-up" style="padding: 40px; margin-bottom: 24px;">
-            <div style="display: flex; gap: 24px; margin-bottom: 32px; flex-wrap: wrap;">
-                <div style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--uz-blue), var(--accent-cyan)); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-family: Manrope; font-weight: 900; color: white; font-size: 2.2rem; flex-shrink: 0;">
-                    ${j.company?.name?.[0] || '?'}
+            <div style="display: flex; gap: 24px; align-items: start; flex-wrap: wrap;">
+                <div style="width: 80px; height: 80px; border-radius: 20px; background: linear-gradient(135deg, #2563EB, #7C3AED); display: flex; align-items: center; justify-content: center; font-family: Manrope; font-weight: 900; color: white; font-size: 2.2rem; flex-shrink: 0; overflow: hidden;">
+                    ${employer.logo ? `<img src="${esc(employer.logo)}" style="width:100%;height:100%;object-fit:cover;">` : esc((employer.name?.[0] || '?').toUpperCase())}
                 </div>
+
                 <div style="flex: 1; min-width: 250px;">
-                    <h1 style="font-family: Manrope; font-size: 1.8rem; font-weight: 900; margin-bottom: 8px;">${j.title}</h1>
-                    <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 12px;">
-                        <span style="color: var(--text-secondary); font-weight: 600;">${j.company?.name || ''}</span>
-                        ${j.company?.verified ? '<span style="color: var(--uz-blue); font-size: 0.75rem;">✓ Verified</span>' : ''}
+                    <h1 style="font-family: Manrope; font-size: 1.8rem; font-weight: 900; margin-bottom: 8px;">
+                        ${esc(j.title)}
+                    </h1>
+                    <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 16px;">
+                        <span style="color: #94A3B8; font-weight: 600;">${esc(employer.name || 'Kompaniya')}</span>
+                        ${employer.verificationStatus === 'verified' ? '<span style="color: #10B981; font-size: 0.75rem;">✓ Verified</span>' : ''}
                     </div>
-                    <div style="display: flex; gap: 16px; flex-wrap: wrap; color: var(--text-secondary); font-size: 0.85rem;">
-                        <span>📍 ${j.location}</span>
-                        <span>${formatIcon}</span>
-                        <span>💰 ${j.salary || '—'}</span>
+
+                    <div style="display: flex; gap: 16px; flex-wrap: wrap; color: #94A3B8; font-size: 0.85rem;">
+                        ${j.location ? `<span>📍 ${esc(j.location)}</span>` : ''}
+                        ${j.remote ? '<span>🌐 Remote</span>' : ''}
+                        <span>💼 ${esc(levelLabel(j.level))}</span>
+                        <span>⏱ ${esc(jobTypeLabel(j.jobType))}</span>
                     </div>
                 </div>
+
                 <div style="text-align: right;">
-                    <span class="badge badge-${j.level === 'internship' ? 'easy' : j.level === 'junior' ? 'web' : j.level === 'middle' ? 'medium' : 'expert'}" style="font-size: 0.8rem; padding: 6px 14px;">${levelName}</span>
+                    ${m ? `
+                        <span class="match-badge ${matchClass(m.score)}">${m.score}% match</span>
+                    ` : ''}
                 </div>
             </div>
 
-            ${j.matchScore > 0 ? `
-                <div style="padding: 20px; background: rgba(37,99,235,0.05); border: 1px solid rgba(74,127,255,0.2); border-radius: 12px; margin-bottom: 24px;">
-                    <div style="display: flex; align-items: center; gap: 12px;">
-                        <span style="font-size: 1.5rem;">🎯</span>
-                        <div>
-                            <div style="font-weight: 700;">Sizning CTF profilingiz ${j.matchedSkills.length}/${j.skills.length} skill'ga mos keladi</div>
-                            <div style="color: var(--text-secondary); font-size: 0.82rem; margin-top: 4px;">Mos: ${j.matchedSkills.join(', ') || '—'}</div>
-                        </div>
-                    </div>
-                </div>
-            ` : ''}
+            <!-- SALARY -->
+            <div style="margin-top: 24px; padding: 16px 20px; background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.2); border-radius: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+                <span style="color: #F59E0B; font-weight: 800; font-family: JetBrains Mono; font-size: 1.1rem;">
+                    💰 ${formatSalary(j)}
+                </span>
+                <span style="color: #94A3B8; font-size: 0.8rem;">
+                    Yopiladi: ${formatDate(j.applicationDeadline)}
+                </span>
+            </div>
         </div>
 
-        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;">
+        <!-- MAIN GRID -->
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px; align-items: start;">
+            
             <div>
+                <!-- DESCRIPTION -->
                 <div class="card-glass" style="padding: 32px; margin-bottom: 20px;">
-                    <h3 style="font-family: Manrope; font-weight: 800; margin-bottom: 16px;">📄 Lavozim haqida</h3>
-                    <p style="color: var(--text-secondary); line-height: 1.8; white-space: pre-wrap;">${j.description}</p>
+                    <h3 style="font-family: Manrope; font-weight: 800; margin-bottom: 16px; display: flex; align-items: center; gap: 10px;">
+                        📄 Lavozim haqida
+                    </h3>
+                    <p style="color: #94A3B8; line-height: 1.8; white-space: pre-wrap;">${esc(j.description)}</p>
                 </div>
 
-                <div class="card-glass" style="padding: 32px; margin-bottom: 20px;">
-                    <h3 style="font-family: Manrope; font-weight: 800; margin-bottom: 16px;">✅ Talablar</h3>
-                    <ul style="list-style: none; padding: 0;">
-                        ${(j.requirements || []).map(r => `
-                            <li style="padding: 8px 0; color: var(--text-secondary); display: flex; align-items: center; gap: 8px;">
-                                <span style="color: var(--success);">✓</span> ${r}
-                            </li>
-                        `).join('')}
-                    </ul>
-                </div>
-
-                ${(j.niceToHave || []).length > 0 ? `
-                    <div class="card-glass" style="padding: 32px;">
-                        <h3 style="font-family: Manrope; font-weight: 800; margin-bottom: 16px;">⭐ Qo'shimcha afzalliklar</h3>
+                <!-- RESPONSIBILITIES -->
+                ${j.responsibilities && j.responsibilities.length > 0 ? `
+                    <div class="card-glass" style="padding: 32px; margin-bottom: 20px;">
+                        <h3 style="font-family: Manrope; font-weight: 800; margin-bottom: 16px;">🎯 Vazifalar</h3>
                         <ul style="list-style: none; padding: 0;">
-                            ${j.niceToHave.map(n => `
-                                <li style="padding: 8px 0; color: var(--text-secondary); display: flex; align-items: center; gap: 8px;">
-                                    <span style="color: var(--gold);">•</span> ${n}
+                            ${j.responsibilities.map(r => `
+                                <li style="padding: 8px 0; color: #94A3B8; display: flex; gap: 10px;">
+                                    <span style="color: #4A7FFF;">•</span> ${esc(r)}
                                 </li>
                             `).join('')}
                         </ul>
                     </div>
                 ` : ''}
-            </div>
 
-            <div>
-                <div class="card-glass" style="padding: 28px; position: sticky; top: 100px;">
-                    <button id="applyBtn" class="btn btn-primary btn-lg" style="width: 100%; margin-bottom: 12px;">
-                        📝 Ariza topshirish
-                    </button>
-                    <button id="saveBtn" class="btn btn-secondary" style="width: 100%; margin-bottom: 16px;">
-                        ♡ Saqlash
-                    </button>
-
-                    <div style="padding-top: 20px; border-top: 1px solid var(--border); font-size: 0.82rem; color: var(--text-secondary);">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                            <span>👁 Ko'rishlar</span>
-                            <span style="color: var(--text-primary); font-family: JetBrains Mono;">${j.views}</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                            <span>📮 Arizalar</span>
-                            <span style="color: var(--text-primary); font-family: JetBrains Mono;">${j.applications}</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between;">
-                            <span>📅 Yopiladi</span>
-                            <span style="color: var(--text-primary); font-family: JetBrains Mono;">${new Date(j.expiresAt).toLocaleDateString('uz-UZ')}</span>
+                <!-- REQUIRED SKILLS -->
+                ${j.requiredSkills && j.requiredSkills.length > 0 ? `
+                    <div class="card-glass" style="padding: 32px; margin-bottom: 20px;">
+                        <h3 style="font-family: Manrope; font-weight: 800; margin-bottom: 16px;">✅ Majburiy ko'nikmalar</h3>
+                        <div>
+                            ${j.requiredSkills.map(s => {
+                                const isMatched = requiredMatched.some(x => x.toLowerCase() === s.toLowerCase());
+                                const cls = m ? (isMatched ? 'skill-matched' : 'skill-missing') : 'skill-neutral';
+                                return `<span class="skill-pill ${cls}">${isMatched ? '✓ ' : (m ? '✗ ' : '')}${esc(s)}</span>`;
+                            }).join('')}
                         </div>
                     </div>
+                ` : ''}
+
+                <!-- OPTIONAL SKILLS -->
+                ${j.optionalSkills && j.optionalSkills.length > 0 ? `
+                    <div class="card-glass" style="padding: 32px;">
+                        <h3 style="font-family: Manrope; font-weight: 800; margin-bottom: 16px;">⭐ Qo'shimcha ko'nikmalar</h3>
+                        <div>
+                            ${j.optionalSkills.map(s => {
+                                const isMatched = optionalMatched.some(x => x.toLowerCase() === s.toLowerCase());
+                                const cls = m ? (isMatched ? 'skill-matched' : 'skill-neutral') : 'skill-neutral';
+                                return `<span class="skill-pill ${cls}">${isMatched ? '✓ ' : ''}${esc(s)}</span>`;
+                            }).join('')}
+                        </div>
+                    </div>
+                ` : ''}
+            </div>
+
+            <!-- SIDEBAR -->
+            <div>
+                <div class="card-glass" style="padding: 24px; position: sticky; top: 100px;">
+                    ${isOwner ? `
+                        <div style="padding: 16px; background: rgba(74,127,255,0.08); border-radius: 12px; text-align: center; margin-bottom: 16px; font-size: 0.85rem; color: #4A7FFF;">
+                            Bu sizning vakansiyangiz
+                        </div>
+                        <a href="/employer" class="btn btn-primary" style="width: 100%; justify-content: center; display: inline-flex; align-items: center; gap: 8px;">
+                            Ish beruvchi panelga
+                        </a>
+                    ` : `
+                        <button id="applyBtn" class="btn btn-primary" style="width: 100%; justify-content: center; margin-bottom: 12px; display: inline-flex; align-items: center; gap: 8px;" onclick="openApplyModal()">
+                            📝 Ariza topshirish
+                        </button>
+                        <button id="saveBtn" class="btn btn-secondary" style="width: 100%; justify-content: center; margin-bottom: 16px; display: inline-flex; align-items: center; gap: 8px;" onclick="toggleSave()">
+                            <span id="saveIcon">♡</span>
+                            <span id="saveText">Saqlash</span>
+                        </button>
+                    `}
+
+                    <div style="padding-top: 20px; border-top: 1px solid rgba(74,127,255,0.1);">
+                        <div class="info-row">
+                            <span class="label">👁 Ko'rishlar</span>
+                            <span class="value">${j.viewsCount || 0}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">📮 Arizalar</span>
+                            <span class="value">${j.applicationsCount || 0}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">📅 Yopiladi</span>
+                            <span class="value">${formatDate(j.applicationDeadline)}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">📌 Yaratilgan</span>
+                            <span class="value">${formatDate(j.createdAt)}</span>
+                        </div>
+                    </div>
+
+                    ${m ? `
+                        <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(74,127,255,0.1);">
+                            <div style="font-size: 0.72rem; color: #64748B; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">
+                                Sizning mosligingiz
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                                <div style="flex: 1; height: 8px; background: rgba(74,127,255,0.1); border-radius: 999px; overflow: hidden;">
+                                    <div style="width: ${m.score}%; height: 100%; background: linear-gradient(90deg, #2563EB, #22D3EE); border-radius: 999px;"></div>
+                                </div>
+                                <span style="font-family: JetBrains Mono; font-weight: 800; color: #4A7FFF;">${m.score}%</span>
+                            </div>
+                            <div style="font-size: 0.78rem; color: #94A3B8;">
+                                ${m.requiredMatched.length}/${m.totalRequired || m.requiredMatched.length + m.missingRequired.length} majburiy
+                            </div>
+                        </div>
+                    ` : ''}
                 </div>
             </div>
         </div>
     `;
 
-    document.getElementById('applyBtn').addEventListener('click', applyJob);
-    document.getElementById('saveBtn').addEventListener('click', saveJob);
-}
-
-async function applyJob() {
-    const coverLetter = prompt('Cover letter (ixtiyoriy):');
-    if (coverLetter === null) return;
-
-    const res = await fetch(`/api/career/jobs/${jobData.id}/apply`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ coverLetter })
-    });
-    const data = await res.json();
-    alert(data.message);
-}
-
-async function saveJob() {
-    const res = await fetch(`/api/career/jobs/${jobData.id}/save`, {
-        method: 'POST',
-        credentials: 'include'
-    });
-    const data = await res.json();
-    if (data.success) {
-        document.getElementById('saveBtn').innerText = data.saved ? '✓ Saqlangan' : '♡ Saqlash';
-    } else {
-        alert(data.message);
+    // Event listeners
+    if (!isOwner) {
+        document.getElementById('applyBtn')?.addEventListener('click', openApplyModal);
+        document.getElementById('saveBtn')?.addEventListener('click', toggleSave);
     }
 }
 
-(async () => {
-    const res = await fetch('/api/auth/session', { credentials: 'include' });
-    const data = await res.json();
-    const authLink = document.getElementById('auth-link');
-    if (data.success && data.user) {
-        authLink.innerHTML = `<img src="${data.user.avatar || '/assets/default-avatar.svg'}" style="width:22px;height:22px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-right:6px;" onerror="this.src='/assets/default-avatar.svg'"> ${data.user.username}`;
-        authLink.href = '/profile';
-    } else {
-        authLink.innerText = 'Kirish';
-        authLink.href = '/login';
-    }
-})();
+// ══════════════════════════════════════════
+// APPLY
+// ══════════════════════════════════════════
+function openApplyModal() {
+    document.getElementById('apply-modal').classList.add('active');
+}
 
-loadJob();
+function closeApplyModal() {
+    document.getElementById('apply-modal').classList.remove('active');
+    document.getElementById('apply-message').textContent = '';
+}
+
+async function submitApplication() {
+    if (!jobData) return;
+
+    const coverLetter = document.getElementById('cover-letter').value.trim();
+    const msg = document.getElementById('apply-message');
+
+    msg.style.color = '#94A3B8';
+    msg.textContent = 'Yuborilmoqda...';
+
+    try {
+        const res = await fetch(`/api/career/jobs/${jobData._id}/apply`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({ coverLetter })
+        });
+        const data = await res.json();
+
+        if (data.success) {
+            msg.style.color = '#10B981';
+            msg.textContent = '✅ ' + (data.message || 'Ariza yuborildi');
+            setTimeout(() => {
+                closeApplyModal();
+                loadJob();
+            }, 1200);
+        } else {
+            msg.style.color = '#EF4444';
+            msg.textContent = '❌ ' + (data.message || 'Xato');
+        }
+    } catch (e) {
+        msg.style.color = '#EF4444';
+        msg.textContent = '❌ Ulanish xatosi';
+    }
+}
+
+// ══════════════════════════════════════════
+// SAVE
+// ══════════════════════════════════════════
+async function toggleSave() {
+    if (!jobData) return;
+
+    try {
+        const res = await fetch(`/api/career/jobs/${jobData._id}/save`, {
+            method: 'POST',
+            credentials: 'include'
+        });
+        const data = await res.json();
+
+        if (data.success) {
+            isSaved = data.saved;
+            document.getElementById('saveIcon').textContent = isSaved ? '♥' : '♡';
+            document.getElementById('saveText').textContent = isSaved ? 'Saqlangan' : 'Saqlash';
+            document.getElementById('saveIcon').style.color = isSaved ? '#EF4444' : 'inherit';
+        } else {
+            alert(data.message || 'Xato');
+        }
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+// ══════════════════════════════════════════
+// AUTH
+// ══════════════════════════════════════════
+async function checkAuth() {
+    try {
+        const res = await fetch('/api/auth/me', { credentials: 'include', cache: 'no-store' });
+        if (!res.ok) return null;
+        const data = await res.json();
+        if (!data.success || !data.user) return null;
+        
+        currentUser = data.user;
+        
+        const authLink = document.getElementById('auth-link');
+        if (authLink) {
+            authLink.innerHTML = `<img src="${currentUser.avatar || '/assets/default-avatar.svg'}" style="width:22px;height:22px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-right:6px;border:1px solid #2563EB;" onerror="this.src='/assets/default-avatar.svg'">${esc(currentUser.username)}`;
+        }
+        
+        return currentUser;
+    } catch (e) {
+        return null;
+    }
+}
+
+// ══════════════════════════════════════════
+// MODAL CLOSE
+// ══════════════════════════════════════════
+document.getElementById('apply-modal').addEventListener('click', (e) => {
+    if (e.target.id === 'apply-modal') closeApplyModal();
+});
+
+// ══════════════════════════════════════════
+// START
+// ══════════════════════════════════════════
+window.addEventListener('DOMContentLoaded', async () => {
+    await checkAuth();
+    await loadJob();
+});
 </script>
 </body>
 </html>

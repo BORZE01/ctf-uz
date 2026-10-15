@@ -18,12 +18,8 @@ async function findCurrentUser(req) {
 
     const userId = req.session.user.id;
 
-    // ObjectId tekshirish
     if (!mongoose.Types.ObjectId.isValid(userId)) {
-        // Eski raqamli ID — sessiyani tozalash
-        try {
-            req.session.destroy();
-        } catch (e) {}
+        try { req.session.destroy(); } catch (e) {}
         return null;
     }
 
@@ -31,7 +27,7 @@ async function findCurrentUser(req) {
 }
 
 // ══════════════════════════════════════════
-// GET /profile
+// GET /profile — profil ma'lumotlari
 // ══════════════════════════════════════════
 router.get('/profile', async (req, res) => {
     try {
@@ -44,7 +40,6 @@ router.get('/profile', async (req, res) => {
         }
 
         const user = await findCurrentUser(req);
-
         if (!user) {
             return res.status(401).json({ 
                 success: false, 
@@ -53,7 +48,6 @@ router.get('/profile', async (req, res) => {
             });
         }
 
-        // Oxirgi aktivlik
         user.lastActive = new Date();
         await user.save();
 
@@ -61,25 +55,20 @@ router.get('/profile', async (req, res) => {
         const rank = getUserRank(user.score || 0);
         const skills = await calculateSkillScores(user);
 
-        // Global rank
         const globalRank = await User.countDocuments({
             score: { $gt: user.score },
-            isFake: false,
             verified: true
         }) + 1;
 
-        // Region rank
         let regionRank = null;
         if (user.region) {
             regionRank = await User.countDocuments({
                 score: { $gt: user.score },
                 region: user.region,
-                isFake: false,
                 verified: true
             }) + 1;
         }
 
-        // Activity
         let activity = [];
         try {
             activity = await Activity.find({ userId: user._id })
@@ -93,7 +82,7 @@ router.get('/profile', async (req, res) => {
         res.json({
             success: true,
             user: {
-                id: user._id,
+                id: user._id.toString(),
                 name: user.name,
                 username: user.username,
                 email: user.email,
@@ -107,29 +96,30 @@ router.get('/profile', async (req, res) => {
                 telegram: user.telegram,
                 website: user.website,
                 title: user.title,
-                score: user.score,
-                xp: user.xp,
+                score: user.score || 0,
+                xp: user.xp || 0,
                 level: levelInfo.level,
                 levelProgress: levelInfo.progress,
                 levelStartXP: levelInfo.levelStartXP,
                 nextLevelXP: levelInfo.nextLevelXP,
+                cyberLevel: user.cyberLevel || 1,
                 rank,
                 globalRank,
                 regionRank,
                 skills,
-                solvedChallenges: user.solvedChallenges || [],
+                solvedChallenges: (user.solvedChallenges || []).map(id => id.toString()),
                 solvedCount: (user.solvedChallenges || []).length,
-                battleRating: user.battleRating,
-                battleWins: user.battleWins,
-                battleLosses: user.battleLosses,
-                streak: user.streak,
+                battleRating: user.battleRating || 1000,
+                battleWins: user.battleWins || 0,
+                battleLosses: user.battleLosses || 0,
+                streak: user.streak || 0,
                 achievements: user.achievements || [],
                 activity,
                 analytics: user.analytics || { solved: 0, attempted: 0, successRate: 0 },
-                openToOpportunities: user.openToOpportunities,
+                openToOpportunities: user.openToOpportunities || false,
                 preferredRoles: user.preferredRoles || [],
                 twoFactor: user.twoFactor || false,
-                verified: user.verified,
+                verified: user.verified || false,
                 online: (Date.now() - new Date(user.lastActive).getTime()) < 5 * 60 * 1000,
                 createdAt: user.createdAt
             }
@@ -144,44 +134,25 @@ router.get('/profile', async (req, res) => {
 });
 
 // ══════════════════════════════════════════
-// PUT /profile
+// PUT /profile — profilni yangilash
 // ══════════════════════════════════════════
 router.put('/profile', async (req, res) => {
     try {
         if (!req.session || !req.session.user) {
-            return res.status(401).json({ 
-                success: false, 
-                message: "Kirish kerak",
-                needRelogin: true
-            });
+            return res.status(401).json({ success: false, message: "Kirish kerak" });
         }
 
         const user = await findCurrentUser(req);
-
         if (!user) {
-            return res.status(401).json({ 
-                success: false, 
-                message: "Sessiya eskirgan. Qayta kiring.",
-                needRelogin: true
-            });
+            return res.status(401).json({ success: false, message: "Sessiya eskirgan" });
         }
 
         const {
-            name,
-            phone,
-            bio,
-            region,
-            city,
-            district,
-            github,
-            telegram,
-            website,
-            preferredRoles,
-            openToOpportunities,
-            title
+            name, phone, bio, region, city, district,
+            github, telegram, website,
+            preferredRoles, openToOpportunities, title
         } = req.body;
 
-        // Validatsiya
         if (name !== undefined) {
             const trimmedName = String(name).trim();
             if (trimmedName.length < 2 || trimmedName.length > 50) {
@@ -208,7 +179,6 @@ router.put('/profile', async (req, res) => {
         if (region !== undefined) user.region = String(region).slice(0, 100);
         if (city !== undefined) user.city = String(city).slice(0, 100);
         if (district !== undefined) user.district = String(district).slice(0, 100);
-
         if (github !== undefined) user.github = String(github).slice(0, 100);
         if (telegram !== undefined) user.telegram = String(telegram).slice(0, 100);
         if (website !== undefined) user.website = String(website).slice(0, 200);
@@ -222,12 +192,13 @@ router.put('/profile', async (req, res) => {
         }
 
         if (title !== undefined) {
-            // Faqat mavjud title lar
-            const { getAvailableTitles } = require('../utils/titles');
-            const available = getAvailableTitles(user);
-            if (available.find(t => t.id === title)) {
-                user.title = title;
-            }
+            try {
+                const { getAvailableTitles } = require('../utils/titles');
+                const available = getAvailableTitles(user);
+                if (available.find(t => t.id === title)) {
+                    user.title = title;
+                }
+            } catch (e) {}
         }
 
         await user.save();
@@ -237,7 +208,7 @@ router.put('/profile', async (req, res) => {
             message: "Profil yangilandi" 
         });
     } catch (err) {
-        console.error('Profil yangilash xatosi:', err);
+        console.error('PUT /profile xatosi:', err);
         res.status(500).json({ 
             success: false, 
             message: "Server xatosi: " + err.message 
@@ -259,12 +230,10 @@ router.post('/avatar', uploadAvatar.single('avatar'), async (req, res) => {
         }
 
         const user = await findCurrentUser(req);
-
         if (!user) {
             return res.status(401).json({ 
                 success: false, 
-                message: "Sessiya eskirgan. Qayta kiring.",
-                needRelogin: true
+                message: "Sessiya eskirgan. Qayta kiring."
             });
         }
 
@@ -275,13 +244,8 @@ router.post('/avatar', uploadAvatar.single('avatar'), async (req, res) => {
             });
         }
 
-        // Eski avatarni o'chirish
         if (user.avatar) {
-            try {
-                deleteFile(user.avatar);
-            } catch (e) {
-                console.error('Eski avatar o\'chirish xatosi:', e.message);
-            }
+            try { deleteFile(user.avatar); } catch (e) {}
         }
 
         user.avatar = `/uploads/avatars/${req.file.filename}`;
@@ -323,7 +287,6 @@ router.get('/u/:username', async (req, res) => {
 
         const globalRank = await User.countDocuments({
             score: { $gt: user.score },
-            isFake: false,
             verified: true
         }) + 1;
 
@@ -340,18 +303,18 @@ router.get('/u/:username', async (req, res) => {
                 github: user.github,
                 telegram: user.telegram,
                 website: user.website,
-                score: user.score,
-                xp: user.xp,
+                score: user.score || 0,
+                xp: user.xp || 0,
                 level: levelInfo.level,
                 levelProgress: levelInfo.progress,
                 globalRank,
                 skills,
                 solvedCount: (user.solvedChallenges || []).length,
-                battleRating: user.battleRating,
-                streak: user.streak,
+                battleRating: user.battleRating || 1000,
+                streak: user.streak || 0,
                 achievements: user.achievements || [],
-                openToOpportunities: user.openToOpportunities,
-                preferredRoles: user.preferredRoles,
+                openToOpportunities: user.openToOpportunities || false,
+                preferredRoles: user.preferredRoles || [],
                 createdAt: user.createdAt
             }
         });
@@ -365,34 +328,36 @@ router.get('/u/:username', async (req, res) => {
 });
 
 // ══════════════════════════════════════════
-// GET /all — Leaderboard uchun
+// GET /all — Leaderboard uchun (fake userlar ham)
 // ══════════════════════════════════════════
 router.get('/all', async (req, res) => {
     try {
-        const users = await User.find({ 
-            verified: true, 
-            isFake: false 
-        })
+        const users = await User.find({ verified: true })
             .sort({ score: -1 })
             .limit(100)
-            .select('name username avatar score cyberLevel region city')
+            .select('name username avatar score cyberLevel region city isFake')
             .lean();
 
         const result = users.map(u => ({
-            id: u._id,
+            id: u._id.toString(),
             name: u.name,
             username: u.username,
             avatar: u.avatar,
-            score: u.score,
-            cyberLevel: u.cyberLevel,
+            score: u.score || 0,
+            cyberLevel: u.cyberLevel || 1,
             region: u.region,
             city: u.city,
-            rank: getUserRank(u.score)
+            isFake: u.isFake || false,
+            rank: getUserRank(u.score || 0)
         }));
 
-        res.json({ success: true, users: result });
+        res.json({ 
+            success: true, 
+            users: result, 
+            total: result.length 
+        });
     } catch (err) {
-        console.error('Barcha userlar xatosi:', err);
+        console.error('GET /all xatosi:', err);
         res.status(500).json({ 
             success: false, 
             message: "Server xatosi: " + err.message 
@@ -408,18 +373,15 @@ router.get('/talent', async (req, res) => {
         if (!req.session || !req.session.user) {
             return res.status(401).json({ 
                 success: false, 
-                message: "Kirish kerak",
-                needRelogin: true
+                message: "Kirish kerak" 
             });
         }
 
         const currentUser = await findCurrentUser(req);
-
         if (!currentUser) {
             return res.status(401).json({ 
                 success: false, 
-                message: "Sessiya eskirgan. Qayta kiring.",
-                needRelogin: true
+                message: "Sessiya eskirgan" 
             });
         }
 
@@ -427,17 +389,12 @@ router.get('/talent', async (req, res) => {
 
         let query = { 
             openToOpportunities: true, 
-            isFake: false,
+            isFake: { $ne: true },
             verified: true
         };
 
-        if (role) {
-            query.preferredRoles = role;
-        }
-
-        if (minLevel) {
-            query.cyberLevel = { $gte: parseInt(minLevel) };
-        }
+        if (role) query.preferredRoles = role;
+        if (minLevel) query.cyberLevel = { $gte: parseInt(minLevel) };
 
         const users = await User.find(query)
             .limit(50)
@@ -458,7 +415,6 @@ router.get('/talent', async (req, res) => {
             preferredRoles: u.preferredRoles
         })));
 
-        // Skill filter (query da)
         let filtered = results;
         if (skill) {
             filtered = results.filter(r => {
@@ -480,7 +436,7 @@ router.get('/talent', async (req, res) => {
 });
 
 // ══════════════════════════════════════════
-// GET /stats/:id — Foydalanuvchi statistikasi (admin)
+// GET /stats/:id — Foydalanuvchi statistikasi
 // ══════════════════════════════════════════
 router.get('/stats/:id', async (req, res) => {
     try {
@@ -492,16 +448,13 @@ router.get('/stats/:id', async (req, res) => {
         }
 
         const currentUser = await findCurrentUser(req);
-
         if (!currentUser) {
             return res.status(401).json({ 
                 success: false, 
-                message: "Sessiya eskirgan",
-                needRelogin: true
+                message: "Sessiya eskirgan" 
             });
         }
 
-        // Faqat admin yoki o'zi
         const isAdmin = ['admin', 'super_admin'].includes(currentUser.role);
         const isSelf = currentUser._id.toString() === req.params.id;
 
@@ -527,15 +480,16 @@ router.get('/stats/:id', async (req, res) => {
             });
         }
 
-        const Submission = require('../models/Submission');
-
-        const totalSubmissions = await Submission.countDocuments({ 
-            userId: user._id 
-        });
-        const correctSubmissions = await Submission.countDocuments({ 
-            userId: user._id, 
-            correct: true 
-        });
+        let totalSubmissions = 0;
+        let correctSubmissions = 0;
+        try {
+            const Submission = require('../models/Submission');
+            totalSubmissions = await Submission.countDocuments({ userId: user._id });
+            correctSubmissions = await Submission.countDocuments({ 
+                userId: user._id, 
+                correct: true 
+            });
+        } catch (e) {}
 
         const skills = await calculateSkillScores(user);
         const levelInfo = getLevelProgress(user.xp || 0);
@@ -543,11 +497,11 @@ router.get('/stats/:id', async (req, res) => {
         res.json({
             success: true,
             stats: {
-                userId: user._id,
+                userId: user._id.toString(),
                 username: user.username,
                 name: user.name,
-                score: user.score,
-                xp: user.xp,
+                score: user.score || 0,
+                xp: user.xp || 0,
                 level: levelInfo.level,
                 skills,
                 solvedCount: (user.solvedChallenges || []).length,
@@ -557,10 +511,10 @@ router.get('/stats/:id', async (req, res) => {
                     ? Math.round((correctSubmissions / totalSubmissions) * 100) 
                     : 0,
                 achievements: user.achievements || [],
-                battleRating: user.battleRating,
-                battleWins: user.battleWins,
-                battleLosses: user.battleLosses,
-                streak: user.streak,
+                battleRating: user.battleRating || 1000,
+                battleWins: user.battleWins || 0,
+                battleLosses: user.battleLosses || 0,
+                streak: user.streak || 0,
                 createdAt: user.createdAt,
                 lastActive: user.lastActive
             }

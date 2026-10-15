@@ -1,414 +1,322 @@
 const express = require('express');
 const router = express.Router();
-const {
-    jobs, companies, applications,
-    savedJobs, jobAlerts, careerProfiles,
-    users, challenges, submissions
-} = require('../utils/storage');
-const { calculateSkillScores, getUserRank } = require('../utils/scoring');
+const mongoose = require('mongoose');
+const Job = require('../models/Job');
+const Employer = require('../models/Employer');
+const Application = require('../models/Application');
+const User = require('../models/User');
+const Certificate = require('../models/Certificate');
+const { calculateFullMatch } = require('../services/matchingService');
 
 // ══════════════════════════════════════════
 // HELPER
 // ══════════════════════════════════════════
-function formatJob(job, company) {
-    return {
-        id: job.id,
-        title: job.title,
-        slug: job.slug,
-        location: job.location,
-        format: job.format,
-        level: job.level,
-        category: job.category,
-        description: job.description,
-        skills: job.skills,
-        salary: job.salary,
-        featured: job.featured,
-        views: job.views,
-        applications: job.applications,
-        createdAt: job.createdAt,
-        expiresAt: job.expiresAt,
-        company: company ? {
-            id: company.id,
-            name: company.name,
-            slug: company.slug,
-            industry: company.industry,
-            logo: company.logo,
-            verified: company.verified
-        } : null
-    };
+async function getCurrentUser(req) {
+    if (!req.session?.user) return null;
+    if (!mongoose.Types.ObjectId.isValid(req.session.user.id)) return null;
+    return await User.findById(req.session.user.id);
 }
 
 // ══════════════════════════════════════════
-// 📋 BARCHA ISHLAR (filter + search)
+// GET /api/career/jobs — barcha vakansiyalar
 // ══════════════════════════════════════════
-router.get('/jobs', (req, res) => {
-    const { search, level, format, location, category, skill, featured, limit = 50 } = req.query;
+router.get('/jobs', async (req, res) => {
+    try {
+        const { level, jobType, location, search, featured, limit = 50 } = req.query;
 
-    let filtered = jobs.filter(j => j.status === 'active');
+        const query = { status: 'published' };
+        if (level) query.level = level;
+        if (jobType) query.jobType = jobType;
+        if (location) query.location = new RegExp(String(location).slice(0, 50), 'i');
+        if (featured === 'true') query.featured = true;
+        if (search) {
+            const s = String(search).slice(0, 100);
+            query.$or = [
+                { title: new RegExp(s, 'i') },
+                { description: new RegExp(s, 'i') },
+                { requiredSkills: new RegExp(s, 'i') }
+            ];
+        }
 
-    // Search
-    if (search) {
-        const q = search.toLowerCase();
-        filtered = filtered.filter(j =>
-            j.title.toLowerCase().includes(q) ||
-            j.description.toLowerCase().includes(q) ||
-            j.skills.some(s => s.toLowerCase().includes(q)) ||
-            companies.find(c => c.id === j.companyId)?.name.toLowerCase().includes(q)
+        const jobs = await Job.find(query)
+            .populate('employerId', 'name logo verificationStatus location industry')
+            .sort({ featured: -1, createdAt: -1 })
+            .limit(parseInt(limit) || 50)
+            .lean();
+
+        // Faqat tasdiqlangan kompaniyalar
+        const verified = jobs.filter(j => 
+            j.employerId && j.employerId.verificationStatus === 'verified'
         );
+
+        res.json({ 
+            success: true, 
+            jobs: verified, 
+            total: verified.length 
+        });
+    } catch (e) {
+        console.error('GET /api/career/jobs xatosi:', e);
+        res.status(500).json({ success: false, message: e.message });
     }
-
-    // Filter
-    if (level) filtered = filtered.filter(j => j.level === level);
-    if (format) filtered = filtered.filter(j => j.format === format);
-    if (location) filtered = filtered.filter(j => j.location.toLowerCase().includes(location.toLowerCase()));
-    if (category) filtered = filtered.filter(j => j.category === category);
-    if (skill) filtered = filtered.filter(j => j.skills.includes(skill));
-    if (featured === 'true') filtered = filtered.filter(j => j.featured);
-
-    const formatted = filtered
-        .slice(0, parseInt(limit))
-        .map(j => formatJob(j, companies.find(c => c.id === j.companyId)));
-
-    res.json({ success: true, jobs: formatted, total: filtered.length });
 });
 
 // ══════════════════════════════════════════
-// 🎯 ISH DETALI
+// GET /api/career/jobs/:id — bitta vakansiya
 // ══════════════════════════════════════════
-router.get('/jobs/:id', (req, res) => {
-    const job = jobs.find(j => j.id === parseInt(req.params.id));
-    if (!job) return res.status(404).json({ success: false, message: "Ish topilmadi" });
-
-    job.views = (job.views || 0) + 1;
-
-    const company = companies.find(c => c.id === job.companyId);
-
-    // Agar user login qilgan bo'lsa — matching hisoblash
-    let matchScore = 0;
-    let matchedSkills = [];
-    let userSkills = {};
-
-    if (req.session.user) {
-        const user = users.find(u => u.id === req.session.user.id);
-        if (user) {
-            userSkills = calculateSkillScores(user, challenges, submissions);
-            // Job skills ni user skill bilan taqqoslash
-            job.skills.forEach(skill => {
-                const skillKey = skill.toLowerCase().replace(/\s+/g, '');
-                const userVal = userSkills[skillKey] || userSkills[skill.toLowerCase()] || 0;
-                if (userVal >= 30) {
-                    matchedSkills.push(skill);
-                }
+router.get('/jobs/:id', async (req, res) => {
+    try {
+        // MongoDB ObjectId tekshirish
+        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'Xato ID format' 
             });
-            matchScore = Math.round((matchedSkills.length / Math.max(job.skills.length, 1)) * 100);
         }
-    }
 
-    const response = formatJob(job, company);
-    response.requirements = job.requirements;
-    response.niceToHave = job.niceToHave;
-    response.matchScore = matchScore;
-    response.matchedSkills = matchedSkills;
-    response.userSkills = userSkills;
+        const job = await Job.findById(req.params.id)
+            .populate('employerId', 'name logo website description verificationStatus location industry companySize')
+            .lean();
 
-    res.json({ success: true, job: response });
-});
-
-// ══════════════════════════════════════════
-// 📝 ISHGA ARIZA TOPSHIRISH
-// ══════════════════════════════════════════
-router.post('/jobs/:id/apply', (req, res) => {
-    if (!req.session.user) {
-        return res.status(401).json({ success: false, message: "Avval tizimga kiring" });
-    }
-
-    const job = jobs.find(j => j.id === parseInt(req.params.id));
-    if (!job) return res.status(404).json({ success: false, message: "Ish topilmadi" });
-
-    // Allaqachon ariza topshirilganmi?
-    const existing = applications.find(a =>
-        a.jobId === job.id && a.userId === req.session.user.id
-    );
-
-    if (existing) {
-        return res.status(400).json({ success: false, message: "Siz allaqachon ariza topshirgansiz" });
-    }
-
-    const application = {
-        id: applications.length + 1,
-        jobId: job.id,
-        userId: req.session.user.id,
-        coverLetter: req.body.coverLetter || '',
-        status: 'applied',
-        statusHistory: [{ status: 'applied', at: new Date() }],
-        createdAt: new Date()
-    };
-
-    applications.push(application);
-    job.applications = (job.applications || 0) + 1;
-
-    res.json({ success: true, message: "Ariza topshirildi!", application });
-});
-
-// ══════════════════════════════════════════
-// 💾 ISHNI SAQLASH
-// ══════════════════════════════════════════
-router.post('/jobs/:id/save', (req, res) => {
-    if (!req.session.user) {
-        return res.status(401).json({ success: false, message: "Avval tizimga kiring" });
-    }
-
-    const job = jobs.find(j => j.id === parseInt(req.params.id));
-    if (!job) return res.status(404).json({ success: false, message: "Ish topilmadi" });
-
-    const userId = req.session.user.id;
-    if (!savedJobs[userId]) savedJobs[userId] = [];
-
-    const idx = savedJobs[userId].indexOf(job.id);
-    if (idx === -1) {
-        savedJobs[userId].push(job.id);
-        res.json({ success: true, saved: true, message: "Saqlandi" });
-    } else {
-        savedJobs[userId].splice(idx, 1);
-        res.json({ success: true, saved: false, message: "Saqlanganlardan olib tashlandi" });
-    }
-});
-
-// ══════════════════════════════════════════
-// 📋 SAQLANGAN ISHLAR
-// ══════════════════════════════════════════
-router.get('/saved-jobs', (req, res) => {
-    if (!req.session.user) return res.status(401).json({ success: false, message: "Kirish kerak" });
-
-    const saved = savedJobs[req.session.user.id] || [];
-    const formatted = saved
-        .map(id => jobs.find(j => j.id === id))
-        .filter(Boolean)
-        .map(j => formatJob(j, companies.find(c => c.id === j.companyId)));
-
-    res.json({ success: true, jobs: formatted });
-});
-
-// ══════════════════════════════════════════
-// 📮 MENING ARIZALARIM
-// ══════════════════════════════════════════
-router.get('/my-applications', (req, res) => {
-    if (!req.session.user) return res.status(401).json({ success: false, message: "Kirish kerak" });
-
-    const myApps = applications
-        .filter(a => a.userId === req.session.user.id)
-        .map(a => {
-            const job = jobs.find(j => j.id === a.jobId);
-            const company = job ? companies.find(c => c.id === job.companyId) : null;
-            return {
-                ...a,
-                job: job ? formatJob(job, company) : null
-            };
-        });
-
-    res.json({ success: true, applications: myApps });
-});
-
-// ══════════════════════════════════════════
-// 🔔 JOB ALERTS
-// ══════════════════════════════════════════
-router.post('/alerts', (req, res) => {
-    if (!req.session.user) return res.status(401).json({ success: false, message: "Kirish kerak" });
-
-    const { skills, location, level } = req.body;
-    const userId = req.session.user.id;
-
-    if (!jobAlerts[userId]) jobAlerts[userId] = [];
-
-    jobAlerts[userId].push({
-        id: jobAlerts[userId].length + 1,
-        skills: skills || [],
-        location: location || '',
-        level: level || '',
-        createdAt: new Date()
-    });
-
-    res.json({ success: true, message: "Alert yoqildi" });
-});
-
-router.get('/alerts', (req, res) => {
-    if (!req.session.user) return res.status(401).json({ success: false, message: "Kirish kerak" });
-    res.json({ success: true, alerts: jobAlerts[req.session.user.id] || [] });
-});
-
-// ══════════════════════════════════════════
-// 🧑‍💼 CAREER PROFILE
-// ══════════════════════════════════════════
-router.get('/profile/:username', (req, res) => {
-    const user = users.find(u => u.username === req.params.username);
-    if (!user) return res.status(404).json({ success: false, message: "Foydalanuvchi topilmadi" });
-
-    const profile = careerProfiles[user.id];
-    if (!profile || !profile.public) {
-        return res.status(403).json({ success: false, message: "Bu profil yopiq" });
-    }
-
-    const skills = calculateSkillScores(user, challenges, submissions);
-    const sorted = [...users].sort((a, b) => (b.score || 0) - (a.score || 0));
-    const globalRank = sorted.findIndex(u => u.id === user.id) + 1;
-
-    res.json({
-        success: true,
-        profile: {
-            username: user.username,
-            name: user.name,
-            avatar: user.avatar,
-            title: profile.title || 'Cybersecurity Enthusiast',
-            bio: profile.bio || '',
-            location: [user.region, user.city].filter(Boolean).join(' · '),
-            skills,
-            globalRank,
-            solved: (user.solvedChallenges || []).length,
-            achievements: (user.achievements || []).length,
-            experience: profile.experience || [],
-            education: profile.education || [],
-            certifications: profile.certifications || [],
-            github: user.github,
-            telegram: user.telegram,
-            website: user.website,
-            openToOpportunities: user.openToOpportunities
+        if (!job) {
+            return res.status(404).json({ 
+                success: false, 
+                message: 'Vakansiya topilmadi' 
+            });
         }
-    });
-});
 
-// ══════════════════════════════════════════
-// ✏️ CAREER PROFILNI YANGILASH
-// ══════════════════════════════════════════
-router.put('/profile', (req, res) => {
-    if (!req.session.user) return res.status(401).json({ success: false, message: "Kirish kerak" });
+        // Match hisoblash (agar login qilgan bo'lsa)
+        let match = null;
+        const user = await getCurrentUser(req);
+        if (user) {
+            try {
+                match = await calculateFullMatch(user._id, job);
+            } catch (e) {
+                console.error('Match xatosi:', e.message);
+            }
+        }
 
-    const { public: isPublic, title, bio, experience, education, certifications } = req.body;
-    const userId = req.session.user.id;
+        // Views count
+        await Job.updateOne({ _id: job._id }, { $inc: { viewsCount: 1 } });
 
-    if (!careerProfiles[userId]) careerProfiles[userId] = {};
-
-    if (isPublic !== undefined) careerProfiles[userId].public = isPublic;
-    if (title !== undefined) careerProfiles[userId].title = title;
-    if (bio !== undefined) careerProfiles[userId].bio = bio;
-    if (experience) careerProfiles[userId].experience = experience;
-    if (education) careerProfiles[userId].education = education;
-    if (certifications) careerProfiles[userId].certifications = certifications;
-
-    res.json({ success: true, message: "Profil yangilandi", profile: careerProfiles[userId] });
-});
-
-// ══════════════════════════════════════════
-// 🔍 TALENT SEARCH (Employer)
-// ══════════════════════════════════════════
-router.get('/talent', (req, res) => {
-    const { skill, level, location, ctfExperience } = req.query;
-
-    // Faqat public career profile qilgan users
-    let filtered = users.filter(u => {
-        const profile = careerProfiles[u.id];
-        return profile && profile.public && u.openToOpportunities;
-    });
-
-    // Skill bo'yicha filter
-    if (skill) {
-        filtered = filtered.filter(u => {
-            const skills = calculateSkillScores(u, challenges, submissions);
-            return Object.entries(skills).some(([k, v]) =>
-                k.toLowerCase().includes(skill.toLowerCase()) && v >= 30
-            );
+        res.json({ 
+            success: true, 
+            job, 
+            match 
         });
+    } catch (e) {
+        console.error('GET /api/career/jobs/:id xatosi:', e);
+        res.status(500).json({ success: false, message: e.message });
     }
+});
 
-    // Location
-    if (location) {
-        filtered = filtered.filter(u =>
-            (u.region || '').toLowerCase().includes(location.toLowerCase()) ||
-            (u.city || '').toLowerCase().includes(location.toLowerCase())
+// ══════════════════════════════════════════
+// GET /api/career/recommendations — shaxsiy tavsiyalar
+// ══════════════════════════════════════════
+router.get('/recommendations', async (req, res) => {
+    try {
+        const user = await getCurrentUser(req);
+        if (!user) {
+            return res.status(401).json({ 
+                success: false, 
+                message: 'Kirish kerak' 
+            });
+        }
+
+        const jobs = await Job.find({ status: 'published' })
+            .populate('employerId', 'name logo verificationStatus location industry')
+            .limit(50)
+            .lean();
+
+        const validJobs = jobs.filter(j => 
+            j.employerId && j.employerId.verificationStatus === 'verified'
         );
+
+        const scored = await Promise.all(
+            validJobs.map(async (job) => {
+                try {
+                    const match = await calculateFullMatch(user._id, job);
+                    return { ...job, match };
+                } catch (e) {
+                    return { ...job, match: { score: 0 } };
+                }
+            })
+        );
+
+        scored.sort((a, b) => (b.match?.score || 0) - (a.match?.score || 0));
+
+        res.json({
+            success: true,
+            recommendations: scored.slice(0, 20),
+            total: scored.length
+        });
+    } catch (e) {
+        console.error('GET /api/career/recommendations xatosi:', e);
+        res.status(500).json({ success: false, message: e.message });
     }
-
-    // CTF Experience
-    if (ctfExperience === 'true') {
-        filtered = filtered.filter(u => (u.solvedChallenges || []).length >= 5);
-    }
-
-    const results = filtered.map(u => {
-        const skills = calculateSkillScores(u, challenges, submissions);
-        const sorted = [...users].sort((a, b) => (b.score || 0) - (a.score || 0));
-        const globalRank = sorted.findIndex(x => x.id === u.id) + 1;
-        const profile = careerProfiles[u.id] || {};
-
-        return {
-            username: u.username,
-            name: u.name,
-            avatar: u.avatar,
-            title: profile.title,
-            location: [u.region, u.city].filter(Boolean).join(' · '),
-            skills,
-            globalRank,
-            solved: (u.solvedChallenges || []).length,
-            achievements: (u.achievements || []).length,
-            openToOpportunities: u.openToOpportunities
-        };
-    });
-
-    res.json({ success: true, talent: results });
 });
 
 // ══════════════════════════════════════════
-// 📊 CAREER DASHBOARD (user)
+// POST /api/career/jobs/:id/apply — ariza yuborish
 // ══════════════════════════════════════════
-router.get('/dashboard', (req, res) => {
-    if (!req.session.user) return res.status(401).json({ success: false, message: "Kirish kerak" });
-
-    const userId = req.session.user.id;
-    const mySaved = (savedJobs[userId] || []).length;
-    const myApps = applications.filter(a => a.userId === userId).length;
-    const myAlerts = (jobAlerts[userId] || []).length;
-    const profile = careerProfiles[userId] || {};
-
-    // Profile completion
-    let completion = 0;
-    if (profile.title) completion += 20;
-    if (profile.bio) completion += 20;
-    if (profile.experience && profile.experience.length) completion += 20;
-    if (profile.education && profile.education.length) completion += 20;
-    if (profile.certifications && profile.certifications.length) completion += 20;
-
-    res.json({
-        success: true,
-        stats: {
-            savedJobs: mySaved,
-            applications: myApps,
-            alerts: myAlerts,
-            profileViews: profile.views || 0,
-            completion
+router.post('/jobs/:id/apply', async (req, res) => {
+    try {
+        const user = await getCurrentUser(req);
+        if (!user) {
+            return res.status(401).json({ 
+                success: false, 
+                message: 'Kirish kerak' 
+            });
         }
-    });
+
+        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'Xato ID' 
+            });
+        }
+
+        const job = await Job.findById(req.params.id).populate('employerId');
+        if (!job) {
+            return res.status(404).json({ 
+                success: false, 
+                message: 'Vakansiya topilmadi' 
+            });
+        }
+
+        if (job.status !== 'published') {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'Bu vakansiya aktiv emas' 
+            });
+        }
+
+        // Allaqachon ariza bormi?
+        const existing = await Application.findOne({
+            jobId: job._id,
+            applicantId: user._id
+        });
+
+        if (existing) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'Siz allaqachon ariza yuborgansiz' 
+            });
+        }
+
+        // O'z vakansiyasiga ariza yubormasin
+        if (job.employerId.ownerUserId.toString() === user._id.toString()) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'O\'z vakansiyangizga ariza yubora olmaysiz' 
+            });
+        }
+
+        const { coverLetter } = req.body;
+
+        // Match + Snapshot
+        const matchData = await calculateFullMatch(user._id, job);
+        const certCount = await Certificate.countDocuments({
+            userId: user._id,
+            status: 'active'
+        });
+
+        const application = await Application.create({
+            jobId: job._id,
+            applicantId: user._id,
+            employerId: job.employerId._id,
+            coverLetter: String(coverLetter || '').slice(0, 5000),
+            portfolioSnapshot: {
+                username: user.username,
+                name: user.name,
+                avatar: user.avatar,
+                score: user.score || 0,
+                cyberLevel: user.cyberLevel || 1,
+                skills: user.skills || {},
+                solvedCount: (user.solvedChallenges || []).length,
+                certificatesCount: certCount,
+                battleRating: user.battleRating || 1000,
+                matchedSkills: matchData.requiredMatched || [],
+                missingSkills: matchData.missingRequired || [],
+                matchScore: matchData.score,
+                snapshotAt: new Date()
+            },
+            status: 'submitted'
+        });
+
+        // Counters
+        job.applicationsCount = (job.applicationsCount || 0) + 1;
+        await job.save();
+
+        const employer = await Employer.findById(job.employerId._id);
+        if (employer) {
+            employer.totalApplications = (employer.totalApplications || 0) + 1;
+            await employer.save();
+        }
+
+        res.json({
+            success: true,
+            application,
+            matchScore: matchData.score,
+            message: 'Ariza yuborildi!'
+        });
+    } catch (e) {
+        console.error('POST /api/career/jobs/:id/apply xatosi:', e);
+        res.status(500).json({ success: false, message: e.message });
+    }
 });
 
 // ══════════════════════════════════════════
-// 🏢 KOMPANIYALAR
+// POST /api/career/jobs/:id/save — saqlash/bekor qilish
 // ══════════════════════════════════════════
-router.get('/companies', (req, res) => {
-    const result = companies
-        .filter(c => !c.banned)
-        .map(c => ({
-            ...c,
-            openPositions: jobs.filter(j => j.companyId === c.id && j.status === 'active').length
-        }));
-    res.json({ success: true, companies: result });
-});
+router.post('/jobs/:id/save', async (req, res) => {
+    try {
+        const user = await getCurrentUser(req);
+        if (!user) {
+            return res.status(401).json({ success: false, message: 'Kirish kerak' });
+        }
 
-router.get('/companies/:slug', (req, res) => {
-    const company = companies.find(c => c.slug === req.params.slug);
-    if (!company) return res.status(404).json({ success: false, message: "Kompaniya topilmadi" });
+        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+            return res.status(400).json({ success: false, message: 'Xato ID' });
+        }
 
-    const companyJobs = jobs
-        .filter(j => j.companyId === company.id && j.status === 'active')
-        .map(j => formatJob(j, company));
+        // SavedJob model bor bo'lsa ishlatish
+        let SavedJob;
+        try {
+            SavedJob = require('../models/SavedJob');
+        } catch (e) {
+            return res.status(501).json({ 
+                success: false, 
+                message: 'Saqlash funksiyasi hozircha mavjud emas' 
+            });
+        }
 
-    res.json({ success: true, company: { ...company, jobs: companyJobs } });
+        const existing = await SavedJob.findOne({
+            userId: user._id,
+            jobId: req.params.id
+        });
+
+        if (existing) {
+            await SavedJob.deleteOne({ _id: existing._id });
+            res.json({ 
+                success: true, 
+                saved: false, 
+                message: 'Saqlanganlardan olib tashlandi' 
+            });
+        } else {
+            await SavedJob.create({ 
+                userId: user._id, 
+                jobId: req.params.id 
+            });
+            res.json({ 
+                success: true, 
+                saved: true, 
+                message: 'Saqlandi' 
+            });
+        }
+    } catch (e) {
+        console.error('POST /api/career/jobs/:id/save xatosi:', e);
+        res.status(500).json({ success: false, message: e.message });
+    }
 });
 
 module.exports = router;

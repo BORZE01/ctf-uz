@@ -10,23 +10,28 @@ const transporter = nodemailer.createTransport({
 
 async function sendEmail(to, name, code) {
     try {
-        await transporter.sendMail({
+        const mailOptions = {
             from: `"CTF.UZ" <${process.env.EMAIL_USER}>`,
             to: to,
-            subject: 'CTF.UZ - Tasdiqlash kodi',
+            subject: '🔐 CTF.UZ — Tasdiqlash kodi',
             html: `
-                <div style="font-family: monospace; background: #0B1220; color: #F4F7FB; padding: 30px; border-radius: 8px;">
-                    <h2 style="color: #1E5EFF;">🇺🇿 CTF.UZ</h2>
-                    <p>Salom, <strong>${name}</strong>!</p>
+                <div style="font-family: Arial, sans-serif; max-width: 500px; margin: 0 auto; padding: 20px; background: #060B18; color: #F1F5F9; border-radius: 12px;">
+                    <h1 style="color: #4A7FFF; text-align: center;">CTF.UZ</h1>
+                    <p>Salom, <b>${name}</b>!</p>
                     <p>Sizning tasdiqlash kodingiz:</p>
-                    <h1 style="color: #00C2FF; letter-spacing: 8px; font-size: 36px;">${code}</h1>
-                    <p style="color: #8b949e; font-size: 12px;">Kod 10 daqiqa ichida amal qiladi.</p>
+                    <div style="text-align: center; margin: 30px 0;">
+                        <span style="font-size: 36px; letter-spacing: 8px; color: #22D3EE; font-weight: bold; background: #0A1020; padding: 15px 30px; border-radius: 8px; display: inline-block;">${code}</span>
+                    </div>
+                    <p style="color: #94A3B8; font-size: 13px;">Kod 10 daqiqa amal qiladi.</p>
                 </div>
             `
-        });
+        };
+
+        await transporter.sendMail(mailOptions);
+        console.log(`✅ Email yuborildi: ${to}`);
         return true;
-    } catch (err) {
-        console.error('❌ Email xatosi:', err.message);
+    } catch (e) {
+        console.error('❌ Email yuborish xatosi:', e.message);
         return false;
     }
 }

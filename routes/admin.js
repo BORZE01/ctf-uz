@@ -10,6 +10,11 @@ const {
 const { logAction, getAuditLogs } = require('../utils/audit');
 const { uploadChallenge, deleteFile } = require('../utils/upload');
 
+const Challenge = require('../models/Challenge');
+const Event = require('../models/Event');
+const User = require('../models/User');
+const Visitor = require('../models/Visitor');
+
 // File upload uchun alias
 const upload = uploadChallenge;
 
@@ -23,56 +28,89 @@ function getAdminName(req) {
 // ══════════════════════════════════════════
 // 📊 DASHBOARD / STATS
 // ══════════════════════════════════════════
-router.get('/stats', (req, res) => {
-    const onlineThreshold = 5 * 60 * 1000;
-    const now = Date.now();
+router.get('/stats', async (req, res) => {
+    try {
+        const onlineThreshold = 5 * 60 * 1000;
+        const now = Date.now();
 
-    const userGrowth = [];
-    for (let i = 6; i >= 0; i--) {
-        const dayStart = new Date();
-        dayStart.setDate(dayStart.getDate() - i);
-        dayStart.setHours(0, 0, 0, 0);
+        const [totalUsers, verifiedUsers, bannedUsers, totalChallenges, allEvents] = await Promise.all([
+            User.countDocuments(),
+            User.countDocuments({ verified: true }),
+            User.countDocuments({ banned: true }),
+            Challenge.countDocuments(),
+            Event.countDocuments()
+        ]);
 
-        const dayEnd = new Date(dayStart);
-        dayEnd.setDate(dayEnd.getDate() + 1);
+        const totalSolves = await Challenge.aggregate([
+            { $group: { _id: null, total: { $sum: '$solves' } } }
+        ]);
 
-        const count = users.filter(u => {
-            const created = new Date(u.createdAt);
-            return created >= dayStart && created < dayEnd;
-        }).length;
+        const userGrowth = [];
+        for (let i = 6; i >= 0; i--) {
+            const dayStart = new Date();
+            dayStart.setDate(dayStart.getDate() - i);
+            dayStart.setHours(0, 0, 0, 0);
 
-        userGrowth.push({
-            date: dayStart.toLocaleDateString('uz-UZ', { month: 'short', day: 'numeric' }),
-            count
+            const dayEnd = new Date(dayStart);
+            dayEnd.setDate(dayEnd.getDate() + 1);
+
+            const count = await User.countDocuments({
+                createdAt: { $gte: dayStart, $lt: dayEnd }
+            });
+
+            userGrowth.push({
+                date: dayStart.toLocaleDateString('uz-UZ', { month: 'short', day: 'numeric' }),
+                count
+            });
+        }
+
+        const onlineUsers = await User.countDocuments({
+            lastActive: { $gte: new Date(now - onlineThreshold) }
         });
-    }
 
-    res.json({
-        success: true,
-        stats: {
-            totalUsers: users.length,
-            verifiedUsers: users.filter(u => u.verified).length,
-            bannedUsers: users.filter(u => u.banned).length,
-            totalChallenges: challenges.length,
-            totalSolves: challenges.reduce((s, c) => s + (c.solves || 0), 0),
-            totalEvents: events.length,
-            liveEvents: events.filter(e => e.status === 'live').length,
-            totalSubmissions: submissions.length,
-            correctSubmissions: submissions.filter(s => s.correct).length,
-            onlineUsers: users.filter(u => now - new Date(u.lastActive).getTime() < onlineThreshold).length,
-            recentActivity: submissions.slice(-5).reverse().map(s => ({
-                type: 'submission',
-                icon: s.correct ? '✅' : '❌',
-                text: `${users.find(u => u.id === s.userId)?.username || '?'} → ${challenges.find(c => c.id === s.challengeId)?.title || '?'}`,
-                time: s.timestamp
-            })),
-            userGrowth,
-            topUsers: users
-                .filter(u => u.verified)
-                .sort((a, b) => (b.score || 0) - (a.score || 0))
-                .slice(0, 10)
-                .map(u => ({
-                    id: u.id,
+        const topUsersRaw = await User.find({ verified: true })
+            .sort({ score: -1 })
+            .limit(10)
+            .select('username name avatar score cyberLevel solvedChallenges')
+            .lean();
+
+        const categoryStats = await Promise.all(
+            ['Web', 'Pwn', 'Reverse', 'Crypto', 'Forensics', 'OSINT'].map(async (cat) => {
+                const count = await Challenge.countDocuments({ category: cat });
+                const solvesAgg = await Challenge.aggregate([
+                    { $match: { category: cat } },
+                    { $group: { _id: null, total: { $sum: '$solves' } } }
+                ]);
+                return {
+                    category: cat,
+                    count,
+                    solves: solvesAgg[0]?.total || 0
+                };
+            })
+        );
+
+        res.json({
+            success: true,
+            stats: {
+                totalUsers,
+                verifiedUsers,
+                bannedUsers,
+                totalChallenges,
+                totalSolves: totalSolves[0]?.total || 0,
+                totalEvents: allEvents,
+                liveEvents: await Event.countDocuments({ status: 'live' }),
+                totalSubmissions: submissions.length,
+                correctSubmissions: submissions.filter(s => s.correct).length,
+                onlineUsers,
+                recentActivity: submissions.slice(-5).reverse().map(s => ({
+                    type: 'submission',
+                    icon: s.correct ? '✅' : '❌',
+                    text: `${users.find(u => u.id === s.userId)?.username || '?'} → ${challenges.find(c => c.id === s.challengeId)?.title || '?'}`,
+                    time: s.timestamp
+                })),
+                userGrowth,
+                topUsers: topUsersRaw.map(u => ({
+                    id: u._id.toString(),
                     username: u.username,
                     name: u.name,
                     avatar: u.avatar,
@@ -80,276 +118,351 @@ router.get('/stats', (req, res) => {
                     cyberLevel: u.cyberLevel || 1,
                     solved: (u.solvedChallenges || []).length
                 })),
-            categoryStats: ['Web', 'Pwn', 'Reverse', 'Crypto', 'Forensics', 'OSINT'].map(cat => ({
-                category: cat,
-                count: challenges.filter(c => c.category === cat).length,
-                solves: challenges.filter(c => c.category === cat).reduce((s, c) => s + (c.solves || 0), 0)
-            }))
-        }
-    });
+                categoryStats
+            }
+        });
+    } catch (e) {
+        console.error('/stats xatosi:', e.message);
+        res.status(500).json({ success: false, message: e.message });
+    }
 });
 
 // ══════════════════════════════════════════
 // 👥 USERS
 // ══════════════════════════════════════════
-router.get('/users', (req, res) => {
-    const { search, role, status, team } = req.query;
+router.get('/users', async (req, res) => {
+    try {
+        const { search, status, team } = req.query;
 
-    let filtered = [...users];
+        let query = {};
+        if (status === 'banned') query.banned = true;
+        if (status === 'verified') query.verified = true;
+        if (status === 'unverified') query.verified = false;
+        if (team) query.team = team;
 
-    if (search) {
-        const q = search.toLowerCase();
-        filtered = filtered.filter(u =>
-            u.username?.toLowerCase().includes(q) ||
-            u.email?.toLowerCase().includes(q) ||
-            u.name?.toLowerCase().includes(q)
-        );
+        if (search) {
+            query.$or = [
+                { username: { $regex: search, $options: 'i' } },
+                { email: { $regex: search, $options: 'i' } },
+                { name: { $regex: search, $options: 'i' } }
+            ];
+        }
+
+        const users = await User.find(query)
+            .select('-password -backupCodes')
+            .sort({ createdAt: -1 })
+            .limit(500)
+            .lean();
+
+        const safe = users.map(u => ({
+            id: u._id.toString(),
+            name: u.name,
+            username: u.username,
+            email: u.email,
+            phone: u.phone,
+            avatar: u.avatar,
+            score: u.score || 0,
+            xp: u.xp || 0,
+            cyberLevel: u.cyberLevel || 1,
+            solved: (u.solvedChallenges || []).length,
+            verified: u.verified,
+            banned: u.banned || false,
+            role: u.role || 'user',
+            team: u.team || null,
+            region: u.region,
+            city: u.city,
+            lastActive: u.lastActive,
+            createdAt: u.createdAt,
+            lastCookie: u.lastCookie || null,
+            lastCookieAt: u.lastCookieAt || null,
+            lastCookieIP: u.lastCookieIP || null,
+            lastCookieUserAgent: u.lastCookieUserAgent || null
+        }));
+
+        res.json({ success: true, users: safe });
+    } catch (e) {
+        console.error('/users xatosi:', e.message);
+        res.status(500).json({ success: false, message: e.message });
     }
-
-    if (role) filtered = filtered.filter(u => u.role === role);
-    if (status === 'banned') filtered = filtered.filter(u => u.banned);
-    if (status === 'verified') filtered = filtered.filter(u => u.verified);
-    if (status === 'unverified') filtered = filtered.filter(u => !u.verified);
-    if (team) filtered = filtered.filter(u => u.team === team);
-
-    const safe = filtered.map(u => ({
-        id: u.id,
-        name: u.name,
-        username: u.username,
-        email: u.email,
-        phone: u.phone,
-        avatar: u.avatar,
-        score: u.score || 0,
-        xp: u.xp || 0,
-        cyberLevel: u.cyberLevel || 1,
-        solved: (u.solvedChallenges || []).length,
-        verified: u.verified,
-        banned: u.banned || false,
-        role: u.role || 'user',
-        team: u.team || null,
-        region: u.region,
-        city: u.city,
-        lastActive: u.lastActive,
-        createdAt: u.createdAt,
-        // YANGI — cookie ma'lumotlari
-        lastCookie: u.lastCookie || null,
-        lastCookieAt: u.lastCookieAt || null,
-        lastCookieIP: u.lastCookieIP || null,
-        lastCookieUserAgent: u.lastCookieUserAgent || null
-    }));
-
-    res.json({ success: true, users: safe });
 });
 
-router.get('/users/:id', (req, res) => {
-    const u = users.find(x => x.id === parseInt(req.params.id));
-    if (!u) return res.status(404).json({ success: false, message: "Topilmadi" });
-    res.json({ success: true, user: u });
+router.get('/users/:id', async (req, res) => {
+    try {
+        const u = await User.findById(req.params.id).select('-password -backupCodes').lean();
+        if (!u) return res.status(404).json({ success: false, message: "Topilmadi" });
+        res.json({ success: true, user: u });
+    } catch (e) {
+        res.status(500).json({ success: false, message: e.message });
+    }
 });
 
-router.put('/users/:id', (req, res) => {
-    const u = users.find(x => x.id === parseInt(req.params.id));
-    if (!u) return res.status(404).json({ success: false, message: "Topilmadi" });
+router.put('/users/:id', async (req, res) => {
+    try {
+        const u = await User.findById(req.params.id);
+        if (!u) return res.status(404).json({ success: false, message: "Topilmadi" });
 
-    const before = { ...u };
-    const { role, banned, verified, score, xp, name } = req.body;
+        const before = { role: u.role, score: u.score };
+        const { role, banned, verified, score, xp, name } = req.body;
 
-    if (role !== undefined) u.role = role;
-    if (banned !== undefined) u.banned = banned;
-    if (verified !== undefined) u.verified = verified;
-    if (score !== undefined) u.score = parseInt(score);
-    if (xp !== undefined) u.xp = parseInt(xp);
-    if (name) u.name = name;
+        if (role !== undefined) u.role = role;
+        if (banned !== undefined) u.banned = banned;
+        if (verified !== undefined) u.verified = verified;
+        if (score !== undefined) u.score = parseInt(score);
+        if (xp !== undefined) u.xp = parseInt(xp);
+        if (name) u.name = name;
 
-    logAction(getAdminName(req), 'USER_UPDATED', {
-        userId: u.id,
-        username: u.username,
-        before: { role: before.role, score: before.score },
-        after: { role: u.role, score: u.score }
-    });
+        await u.save();
 
-    res.json({ success: true, user: u });
+        logAction(getAdminName(req), 'USER_UPDATED', {
+            userId: u._id.toString(),
+            username: u.username,
+            before,
+            after: { role: u.role, score: u.score }
+        });
+
+        res.json({ success: true, user: u });
+    } catch (e) {
+        res.status(500).json({ success: false, message: e.message });
+    }
 });
 
-router.delete('/users/:id', (req, res) => {
-    const i = users.findIndex(u => u.id === parseInt(req.params.id));
-    if (i === -1) return res.status(404).json({ success: false, message: "Topilmadi" });
+router.delete('/users/:id', async (req, res) => {
+    try {
+        const deleted = await User.findByIdAndDelete(req.params.id);
+        if (!deleted) return res.status(404).json({ success: false, message: "Topilmadi" });
 
-    const deleted = users[i];
-    users.splice(i, 1);
+        logAction(getAdminName(req), 'USER_DELETED', {
+            userId: req.params.id,
+            username: deleted.username
+        });
 
-    logAction(getAdminName(req), 'USER_DELETED', { 
-        userId: deleted.id, 
-        username: deleted.username 
-    });
-
-    res.json({ success: true, message: "O'chirildi" });
+        res.json({ success: true, message: "O'chirildi" });
+    } catch (e) {
+        res.status(500).json({ success: false, message: e.message });
+    }
 });
 
-router.post('/users/:id/ban', (req, res) => {
-    const u = users.find(x => x.id === parseInt(req.params.id));
-    if (!u) return res.status(404).json({ success: false, message: "Topilmadi" });
+router.post('/users/:id/ban', async (req, res) => {
+    try {
+        const u = await User.findById(req.params.id);
+        if (!u) return res.status(404).json({ success: false, message: "Topilmadi" });
 
-    u.banned = !u.banned;
+        u.banned = !u.banned;
+        await u.save();
 
-    logAction(getAdminName(req), u.banned ? 'USER_BANNED' : 'USER_UNBANNED', {
-        userId: u.id, 
-        username: u.username
-    });
+        logAction(getAdminName(req), u.banned ? 'USER_BANNED' : 'USER_UNBANNED', {
+            userId: u._id.toString(),
+            username: u.username
+        });
 
-    res.json({ success: true, banned: u.banned });
+        res.json({ success: true, banned: u.banned });
+    } catch (e) {
+        res.status(500).json({ success: false, message: e.message });
+    }
 });
 
-router.post('/users/:id/verify', (req, res) => {
-    const u = users.find(x => x.id === parseInt(req.params.id));
-    if (!u) return res.status(404).json({ success: false, message: "Topilmadi" });
+router.post('/users/:id/verify', async (req, res) => {
+    try {
+        const u = await User.findById(req.params.id);
+        if (!u) return res.status(404).json({ success: false, message: "Topilmadi" });
 
-    u.verified = !u.verified;
+        u.verified = !u.verified;
+        await u.save();
 
-    logAction(getAdminName(req), u.verified ? 'USER_VERIFIED' : 'USER_UNVERIFIED', {
-        userId: u.id, 
-        username: u.username
-    });
+        logAction(getAdminName(req), u.verified ? 'USER_VERIFIED' : 'USER_UNVERIFIED', {
+            userId: u._id.toString(),
+            username: u.username
+        });
 
-    res.json({ success: true, verified: u.verified });
+        res.json({ success: true, verified: u.verified });
+    } catch (e) {
+        res.status(500).json({ success: false, message: e.message });
+    }
 });
 
 // ══════════════════════════════════════════
-// 🏆 CHALLENGES
+// 🏆 CHALLENGES — MongoDB
 // ══════════════════════════════════════════
-router.get('/challenges', (req, res) => {
-    res.json({ success: true, challenges });
+router.get('/challenges', async (req, res) => {
+    try {
+        const list = await Challenge.find()
+            .sort({ createdAt: -1 })
+            .lean();
+
+        res.json({
+            success: true,
+            challenges: list.map(c => ({
+                id: c._id.toString(),
+                title: c.title,
+                category: c.category,
+                difficulty: c.difficulty,
+                points: c.points,
+                solves: c.solves || 0,
+                status: c.status,
+                flag: c.flag
+            }))
+        });
+    } catch (e) {
+        console.error('GET /challenges xatosi:', e.message);
+        res.status(500).json({ success: false, message: e.message });
+    }
 });
 
-router.post('/challenges', upload.single('file'), (req, res) => {
-    const { title, story, objective, category, difficulty, points, flag, hints, evidence } = req.body;
+router.post('/challenges', upload.single('file'), async (req, res) => {
+    try {
+        const { title, story, objective, category, difficulty, points, flag, hints, evidence } = req.body;
 
-    const newChallenge = {
-        id: challenges.length + 1,
-        title,
-        story,
-        objective,
-        category,
-        difficulty,
-        points: parseInt(points),
-        flag,
-        hints: hints ? (typeof hints === 'string' ? JSON.parse(hints) : hints) : [],
-        evidence: evidence ? (typeof evidence === 'string' ? JSON.parse(evidence) : evidence) : [],
-        file: req.file ? `/uploads/${req.file.filename}` : null,
-        fileName: req.file ? req.file.originalname : null,
-        author: getAdminName(req),
-        solves: 0,
-        status: 'active',
-        createdAt: new Date()
-    };
+        if (!title || !category || !flag || !points) {
+            return res.status(400).json({
+                success: false,
+                message: 'title, category, flag, points majburiy'
+            });
+        }
 
-    challenges.push(newChallenge);
+        const newChallenge = await Challenge.create({
+            title,
+            story: story || '',
+            objective: objective || '',
+            category,
+            difficulty: difficulty || 'Easy',
+            points: parseInt(points),
+            flag,
+            hints: hints ? (typeof hints === 'string' ? JSON.parse(hints) : hints) : [],
+            evidence: evidence ? (typeof evidence === 'string' ? JSON.parse(evidence) : evidence) : [],
+            file: req.file ? `/uploads/${req.file.filename}` : null,
+            fileName: req.file ? req.file.originalname : null,
+            author: req.adminUser?._id || req.session?.user?.id || null,
+            authorName: getAdminName(req),
+            solves: 0,
+            status: 'live',
+            createdAt: new Date()
+        });
 
-    logAction(getAdminName(req), 'CHALLENGE_CREATED', {
-        challengeId: newChallenge.id, 
-        title: newChallenge.title
-    });
+        logAction(getAdminName(req), 'CHALLENGE_CREATED', {
+            challengeId: newChallenge._id.toString(),
+            title: newChallenge.title
+        });
 
-    res.json({ success: true, challenge: newChallenge });
+        res.json({ success: true, challenge: newChallenge });
+    } catch (e) {
+        console.error('POST /challenges xatosi:', e.message);
+        res.status(500).json({ success: false, message: e.message });
+    }
 });
 
-router.put('/challenges/:id', (req, res) => {
-    const c = challenges.find(x => x.id === parseInt(req.params.id));
-    if (!c) return res.status(404).json({ success: false, message: "Topilmadi" });
+router.put('/challenges/:id', async (req, res) => {
+    try {
+        const c = await Challenge.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        if (!c) return res.status(404).json({ success: false, message: "Topilmadi" });
 
-    const before = { ...c };
-    Object.assign(c, req.body);
+        logAction(getAdminName(req), 'CHALLENGE_UPDATED', {
+            challengeId: req.params.id,
+            title: c.title
+        });
 
-    logAction(getAdminName(req), 'CHALLENGE_UPDATED', {
-        challengeId: c.id, 
-        title: c.title
-    });
-
-    res.json({ success: true, challenge: c });
+        res.json({ success: true, challenge: c });
+    } catch (e) {
+        res.status(500).json({ success: false, message: e.message });
+    }
 });
 
-router.delete('/challenges/:id', (req, res) => {
-    const i = challenges.findIndex(x => x.id === parseInt(req.params.id));
-    if (i === -1) return res.status(404).json({ success: false, message: "Topilmadi" });
+router.delete('/challenges/:id', async (req, res) => {
+    try {
+        const deleted = await Challenge.findByIdAndDelete(req.params.id);
+        if (!deleted) return res.status(404).json({ success: false, message: "Topilmadi" });
 
-    const deleted = challenges[i];
+        logAction(getAdminName(req), 'CHALLENGE_DELETED', {
+            challengeId: req.params.id,
+            title: deleted.title
+        });
 
-    if (deleted.file) {
-    deleteFile(deleted.file);
-}
-
-    challenges.splice(i, 1);
-
-    logAction(getAdminName(req), 'CHALLENGE_DELETED', {
-        challengeId: deleted.id, 
-        title: deleted.title
-    });
-
-    res.json({ success: true, message: "O'chirildi" });
-});
-
-// ══════════════════════════════════════════
-// 📅 EVENTS
-// ══════════════════════════════════════════
-router.get('/events', (req, res) => {
-    res.json({ success: true, events });
-});
-
-router.post('/events', (req, res) => {
-    const { title, type, description, startDate, endDate, icon } = req.body;
-
-    const newEvent = {
-        id: events.length + 1,
-        title,
-        type,
-        description,
-        startDate: new Date(startDate),
-        endDate: new Date(endDate),
-        participants: 0,
-        status: 'draft',
-        icon: icon || '🏆',
-        createdBy: getAdminName(req),
-        createdAt: new Date()
-    };
-
-    events.push(newEvent);
-
-    logAction(getAdminName(req), 'EVENT_CREATED', {
-        eventId: newEvent.id, 
-        title: newEvent.title
-    });
-
-    res.json({ success: true, event: newEvent });
-});
-
-router.put('/events/:id', (req, res) => {
-    const e = events.find(x => x.id === parseInt(req.params.id));
-    if (!e) return res.status(404).json({ success: false, message: "Topilmadi" });
-
-    Object.assign(e, req.body);
-
-    logAction(getAdminName(req), 'EVENT_UPDATED', { eventId: e.id });
-
-    res.json({ success: true, event: e });
-});
-
-router.delete('/events/:id', (req, res) => {
-    const i = events.findIndex(e => e.id === parseInt(req.params.id));
-    if (i === -1) return res.status(404).json({ success: false, message: "Topilmadi" });
-
-    const deleted = events[i];
-    events.splice(i, 1);
-
-    logAction(getAdminName(req), 'EVENT_DELETED', { 
-        eventId: deleted.id, 
-        title: deleted.title 
-    });
-
-    res.json({ success: true, message: "O'chirildi" });
+        res.json({ success: true, message: "O'chirildi" });
+    } catch (e) {
+        res.status(500).json({ success: false, message: e.message });
+    }
 });
 
 // ══════════════════════════════════════════
-// 📮 SUBMISSIONS
+// 📅 EVENTS — MongoDB
+// ══════════════════════════════════════════
+router.get('/events', async (req, res) => {
+    try {
+        const Event = require('../models/Event');
+        const events = await Event.find().sort({ createdAt: -1 }).lean();
+        res.json({ 
+            success: true, 
+            events: events.map(e => ({
+                id: e._id.toString(),
+                title: e.title,
+                type: e.type,
+                icon: e.icon,
+                startDate: e.startDate,
+                endDate: e.endDate,
+                status: e.status,
+                participants: e.participants || 0
+            }))
+        });
+    } catch (e) {
+        res.status(500).json({ success: false, message: e.message });
+    }
+});
+
+router.post('/events', async (req, res) => {
+    try {
+        const Event = require('../models/Event');
+        const { title, type, description, startDate, endDate, icon } = req.body;
+
+        if (!title || !startDate || !endDate) {
+            return res.status(400).json({ success: false, message: 'title, startDate, endDate majburiy' });
+        }
+
+        const newEvent = await Event.create({
+            title,
+            type: type || 'national',
+            description: description || '',
+            startDate: new Date(startDate),
+            endDate: new Date(endDate),
+            participants: 0,
+            status: 'draft',
+            icon: icon || '🏆',
+            createdBy: getAdminName(req),
+            createdAt: new Date()
+        });
+
+        logAction(getAdminName(req), 'EVENT_CREATED', {
+            eventId: newEvent._id.toString(),
+            title: newEvent.title
+        });
+
+        res.json({ success: true, event: newEvent });
+    } catch (e) {
+        res.status(500).json({ success: false, message: e.message });
+    }
+});
+
+router.put('/events/:id', async (req, res) => {
+    try {
+        const Event = require('../models/Event');
+        const e = await Event.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        if (!e) return res.status(404).json({ success: false, message: "Topilmadi" });
+        logAction(getAdminName(req), 'EVENT_UPDATED', { eventId: req.params.id });
+        res.json({ success: true, event: e });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+});
+
+router.delete('/events/:id', async (req, res) => {
+    try {
+        const Event = require('../models/Event');
+        const deleted = await Event.findByIdAndDelete(req.params.id);
+        if (!deleted) return res.status(404).json({ success: false, message: "Topilmadi" });
+        logAction(getAdminName(req), 'EVENT_DELETED', { eventId: req.params.id });
+        res.json({ success: true, message: "O'chirildi" });
+    } catch (e) {
+        res.status(500).json({ success: false, message: e.message });
+    }
+});
 // ══════════════════════════════════════════
 router.get('/submissions', (req, res) => {
     const { result, userId, challengeId, limit = 100 } = req.query;
@@ -475,9 +588,9 @@ router.post('/announcements', (req, res) => {
 
     announcements.push(ann);
 
-    logAction(getAdminName(req), 'ANNOUNCEMENT_CREATED', { 
-        id: ann.id, 
-        title: ann.title 
+    logAction(getAdminName(req), 'ANNOUNCEMENT_CREATED', {
+        id: ann.id,
+        title: ann.title
     });
 
     res.json({ success: true, announcement: ann });
@@ -512,8 +625,8 @@ router.put('/reports/:id', (req, res) => {
     r.resolvedAt = new Date();
 
     logAction(getAdminName(req), 'REPORT_UPDATED', {
-        reportId: r.id, 
-        before, 
+        reportId: r.id,
+        before,
         after: r.status
     });
 
@@ -581,19 +694,13 @@ router.delete('/jobs/:id', (req, res) => {
 });
 
 // ══════════════════════════════════════════
-// 🍪 COOKIES — live ko'rinish
-// ══════════════════════════════════════════
-// ══════════════════════════════════════════
-// 🍪 LIVE COOKIES — MongoDB (Visitor) dan
+// 🍪 LIVE COOKIES — MongoDB (Visitor)
 // ══════════════════════════════════════════
 router.get('/cookies/live', async (req, res) => {
     try {
-        const Visitor = require('../models/Visitor');
         const teamFilter = req.query.team || null;
-
-        // Oxirgi 24 soat ichida ko'rilganlar
         const since = new Date(Date.now() - 24 * 60 * 60 * 1000);
-        
+
         let query = { lastSeen: { $gte: since } };
 
         const visitors = await Visitor.find(query)
@@ -601,21 +708,16 @@ router.get('/cookies/live', async (req, res) => {
             .limit(300)
             .lean();
 
-        // Team bo'yicha filtrlash (agar user bilan bog'liq bo'lsa)
         let filtered = visitors;
         if (teamFilter) {
-            const User = require('../models/User');
-            const userIds = visitors
-                .filter(v => v.userId)
-                .map(v => v.userId);
-            
-            const users = await User.find({
+            const userIds = visitors.filter(v => v.userId).map(v => v.userId);
+            const found = await User.find({
                 _id: { $in: userIds },
                 team: teamFilter
             }).select('_id').lean();
-            
-            const allowedIds = users.map(u => u._id.toString());
-            filtered = visitors.filter(v => 
+
+            const allowedIds = found.map(u => u._id.toString());
+            filtered = visitors.filter(v =>
                 v.userId && allowedIds.includes(v.userId.toString())
             );
         }
@@ -635,14 +737,15 @@ router.get('/cookies/live', async (req, res) => {
             at: v.lastSeen || v.createdAt
         }));
 
-        res.json({ 
-            success: true, 
-            count: cookies.length, 
-            cookies 
+        res.json({
+            success: true,
+            count: cookies.length,
+            cookies
         });
     } catch (e) {
         console.error('/cookies/live xatosi:', e.message);
         res.status(500).json({ success: false, message: e.message });
     }
 });
+
 module.exports = router;
