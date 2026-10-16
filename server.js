@@ -231,7 +231,7 @@ const writeupRoutes = require('./routes/writeups');
 app.use('/api', apiLimiter);
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
-app.use('/api/cyber-id', cyberIdRoutes);
+app.use('/api/profile', cyberIdRoutes);
 app.use('/api/certificates', certificateRoutes);
 app.use('/api/employer', employerRoutes);
 app.use('/api/applications', applicationRoutes);

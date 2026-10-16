@@ -3,69 +3,301 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil — CTF.UZ</title>
+    <title>Cyber ID — CTF.UZ</title>
     <link rel="stylesheet" href="/css/design-system.css">
     <link rel="stylesheet" href="/css/animations.css">
     <link rel="stylesheet" href="/css/icons.css">
     <link rel="stylesheet" href="/css/modern-ui.css">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- QR Code -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
     <style>
-        .profile-header {
-            background: linear-gradient(135deg, rgba(37,99,235,0.1), rgba(124,58,237,0.1));
-            border: 1px solid rgba(74,127,255,0.2);
-            border-radius: 20px;
+        .cid-header {
+            background: linear-gradient(135deg, rgba(37,99,235,0.15), rgba(124,58,237,0.15));
+            border: 1px solid rgba(74,127,255,0.25);
+            border-radius: 24px;
             padding: 40px;
-            margin-bottom: 32px;
+            margin-bottom: 28px;
             position: relative;
             overflow: hidden;
         }
-        .avatar-big {
-            width: 140px;
-            height: 140px;
+        .cid-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(74,127,255,0.15) 0%, transparent 70%);
+            pointer-events: none;
+            animation: float 20s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-30px, 30px) scale(1.1); }
+        }
+        .cid-avatar {
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
             object-fit: cover;
-            border: 4px solid var(--uz-blue, #2563EB);
-            box-shadow: 0 0 40px rgba(37,99,235,0.4);
-            background: var(--surface, #0F1629);
+            border: 4px solid #2563EB;
+            box-shadow: 0 0 40px rgba(37,99,235,0.5);
+            background: #0F1629;
         }
-        .avatar-wrap { position: relative; }
-        .avatar-edit {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--uz-blue, #2563EB);
-            border: 3px solid #060B18;
-            color: white;
-            display: flex;
+        .cid-headline {
+            font-size: 1.1rem;
+            color: #94A3B8;
+            font-style: italic;
+            margin: 8px 0;
+        }
+        .cid-slug {
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
+            gap: 8px;
+            padding: 6px 14px;
+            background: rgba(74,127,255,0.1);
+            border: 1px solid rgba(74,127,255,0.2);
+            border-radius: 999px;
+            font-family: JetBrains Mono;
+            font-size: 0.85rem;
+            color: #4A7FFF;
             cursor: pointer;
             transition: all 0.2s;
         }
-        .avatar-edit:hover { transform: scale(1.1); }
-
-        .level-bar {
-            height: 10px;
-            background: rgba(74,127,255,0.1);
+        .cid-slug:hover {
+            background: rgba(74,127,255,0.15);
+            border-color: #4A7FFF;
+        }
+        
+        .stat-bento {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 14px;
+            margin-top: 28px;
+        }
+        .stat-bento-item {
+            background: rgba(6,11,24,0.4);
+            border: 1px solid rgba(74,127,255,0.1);
+            border-radius: 14px;
+            padding: 18px;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        .stat-bento-item:hover {
+            border-color: rgba(74,127,255,0.3);
+            transform: translateY(-2px);
+        }
+        .stat-bento-value {
+            font-family: Manrope;
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #F1F5F9, #4A7FFF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+        }
+        .stat-bento-value.green {
+            background: linear-gradient(135deg, #F1F5F9, #10B981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .stat-bento-value.gold {
+            background: linear-gradient(135deg, #F1F5F9, #F59E0B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .stat-bento-value.cyan {
+            background: linear-gradient(135deg, #F1F5F9, #22D3EE);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .stat-bento-label {
+            font-size: 0.7rem;
+            color: #64748B;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+            margin-top: 4px;
+        }
+        
+        /* TABS */
+        .cid-tabs {
+            display: flex;
+            gap: 4px;
+            padding: 4px;
+            background: rgba(74,127,255,0.05);
+            border-radius: 12px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(30,94,255,0.15);
+            overflow-x: auto;
+        }
+        .cid-tab {
+            flex: 1;
+            min-width: 130px;
+            padding: 12px 20px;
+            background: transparent;
+            border: none;
+            color: #94A3B8;
+            font-family: inherit;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .cid-tab.active {
+            background: #2563EB;
+            color: white;
+        }
+        .cid-tab-panel { display: none; }
+        .cid-tab-panel.active { display: block; animation: fadeIn 0.3s; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* SKILL EVIDENCE */
+        .skill-card {
+            background: rgba(15,22,41,0.6);
+            border: 1px solid rgba(74,127,255,0.12);
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 12px;
+            transition: all 0.2s;
+        }
+        .skill-card:hover {
+            border-color: rgba(74,127,255,0.3);
+        }
+        .skill-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .skill-level {
+            padding: 4px 12px;
             border-radius: 999px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .level-learning { background: rgba(74,127,255,0.15); color: #4A7FFF; border: 1px solid rgba(74,127,255,0.3); }
+        .level-practiced { background: rgba(245,185,66,0.15); color: #F59E0B; border: 1px solid rgba(245,185,66,0.3); }
+        .level-verified { background: rgba(16,185,129,0.15); color: #10B981; border: 1px solid rgba(16,185,129,0.3); }
+        
+        .skill-sources {
+            padding-top: 12px;
+            border-top: 1px solid rgba(74,127,255,0.08);
+        }
+        .source-item {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 8px 0;
+            font-size: 0.82rem;
+            color: #94A3B8;
+        }
+        .source-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            background: rgba(74,127,255,0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4A7FFF;
+            flex-shrink: 0;
+        }
+        
+        /* CERTIFICATE CARD */
+        .cert-card {
+            background: linear-gradient(135deg, rgba(15,22,41,0.9), rgba(10,16,32,0.95));
+            border: 1px solid rgba(74,127,255,0.15);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 16px;
+            position: relative;
             overflow: hidden;
-            margin-top: 8px;
         }
-        .level-bar-fill {
+        .cert-card.revoked {
+            opacity: 0.6;
+            border-color: rgba(239,68,68,0.3);
+        }
+        .cert-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
             height: 100%;
-            background: linear-gradient(90deg, #2563EB, #22D3EE);
-            border-radius: 999px;
-            transition: width 0.8s;
+            background: linear-gradient(180deg, #2563EB, #22D3EE);
         }
-
-        .modal-overlay {
+        .cert-card.revoked::before {
+            background: #EF4444;
+        }
+        .cert-type-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .cert-type-course { background: rgba(74,127,255,0.15); color: #4A7FFF; }
+        .cert-type-competition { background: rgba(124,58,237,0.15); color: #A855F7; }
+        .cert-type-skill { background: rgba(34,211,238,0.15); color: #22D3EE; }
+        
+        .qr-container {
+            width: 100px;
+            height: 100px;
+            background: white;
+            border-radius: 10px;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* PORTFOLIO */
+        .portfolio-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 18px;
+            background: rgba(15,22,41,0.6);
+            border: 1px solid rgba(74,127,255,0.12);
+            border-radius: 12px;
+            margin-bottom: 10px;
+            text-decoration: none;
+            color: #F1F5F9;
+            transition: all 0.2s;
+        }
+        .portfolio-link:hover {
+            border-color: rgba(74,127,255,0.4);
+            transform: translateX(4px);
+        }
+        
+        /* MODAL */
+        .cid-modal {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(6,11,24,0.9);
+            background: rgba(6,11,24,0.92);
             backdrop-filter: blur(8px);
             z-index: 2000;
             align-items: center;
@@ -73,9 +305,8 @@
             padding: 20px;
             overflow-y: auto;
         }
-        .modal-overlay.active { display: flex; }
-
-        .modal-box {
+        .cid-modal.active { display: flex; }
+        .cid-modal-box {
             background: #0F1629;
             border: 1px solid rgba(74,127,255,0.3);
             border-radius: 20px;
@@ -85,25 +316,23 @@
             max-height: 90vh;
             overflow-y: auto;
         }
-        .modal-box h3 {
+        .cid-modal-box h3 {
             font-family: Manrope;
             font-weight: 800;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .modal-close {
+        .cid-modal-close {
             background: transparent;
             border: none;
-            color: var(--text-secondary, #94A3B8);
+            color: #94A3B8;
             cursor: pointer;
+            font-size: 1.5rem;
             padding: 0 8px;
-            display: flex;
-            align-items: center;
         }
-        .modal-close:hover { color: #EF4444; }
-
+        
         .field { margin-bottom: 16px; }
         .field label {
             display: block;
@@ -134,113 +363,25 @@
             border-color: #2563EB;
             box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
         }
-        .field textarea { min-height: 80px; resize: vertical; }
-
-        .tab-bar {
-            display: flex;
-            gap: 4px;
-            padding: 4px;
-            background: rgba(74,127,255,0.05);
-            border-radius: 12px;
-            margin-bottom: 32px;
-            border: 1px solid rgba(30,94,255,0.15);
-            overflow-x: auto;
-        }
-        .tab-btn {
-            flex: 1;
-            min-width: 120px;
-            padding: 12px 20px;
-            background: transparent;
-            border: none;
-            color: #94A3B8;
-            font-family: inherit;
-            font-weight: 600;
-            font-size: 0.85rem;
-            cursor: pointer;
-            border-radius: 8px;
-            transition: all 0.2s;
-            white-space: nowrap;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        .tab-btn.active {
-            background: #2563EB;
-            color: white;
-        }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; animation: fadeIn 0.3s; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .skill-bar {
+        
+        .privacy-toggle {
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-bottom: 12px;
-        }
-        .skill-name {
-            min-width: 140px;
-            font-size: 0.8rem;
-            color: #94A3B8;
-            font-weight: 600;
-        }
-        .skill-progress {
-            flex: 1;
-            height: 8px;
-            background: rgba(74,127,255,0.1);
-            border-radius: 999px;
-            overflow: hidden;
-        }
-        .skill-progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #2563EB, #22D3EE);
-            border-radius: 999px;
-            transition: width 0.6s;
-        }
-        .skill-value {
-            min-width: 40px;
-            text-align: right;
-            font-family: JetBrains Mono;
-            font-size: 0.8rem;
-            color: #22D3EE;
-            font-weight: 700;
-        }
-
-        .stat-mini {
+            padding: 14px 18px;
             background: rgba(74,127,255,0.05);
-            border: 1px solid rgba(74,127,255,0.1);
+            border: 1px solid rgba(74,127,255,0.15);
             border-radius: 12px;
-            padding: 20px;
-            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 10px;
         }
-        .stat-mini-value {
-            font-family: Manrope;
-            font-size: 1.8rem;
-            font-weight: 900;
-            color: #2563EB;
-            margin-bottom: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
+        .privacy-toggle:hover {
+            background: rgba(74,127,255,0.08);
         }
-        .stat-mini-label {
-            color: #94A3B8;
-            font-size: 0.72rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .card-glass {
-            background: rgba(15,22,41,0.6);
-            border: 1px solid rgba(74,127,255,0.12);
-            border-radius: 16px;
-            backdrop-filter: blur(10px);
+        .privacy-toggle input {
+            width: auto;
+            margin: 0;
         }
     </style>
 </head>
@@ -260,89 +401,115 @@
     <nav class="nav">
         <a href="/dashboard">Dashboard</a>
         <a href="/arena">Arena</a>
-        <a href="/battle">Battle</a>
         <a href="/leaderboard">Reyting</a>
         <a href="/career">Karyera</a>
-        <a id="auth-link" href="/profile" class="active"></a>
+        <a id="auth-link" href="/profile"></a>
     </nav>
 </header>
 
 <div class="container">
-    <div id="profile-content">
+    <div id="cyber-id-content">
         <div style="text-align: center; padding: 80px;">
-            <div style="width: 40px; height: 40px; border: 3px solid rgba(37,99,235,0.2); border-top-color: #2563EB; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto;"></div>
+            <div class="spinner"></div>
             <p style="color: #94A3B8; margin-top: 16px;">Yuklanmoqda...</p>
         </div>
     </div>
 </div>
 
-<input type="file" id="avatar-input" accept="image/*" style="display: none;">
-
 <!-- EDIT MODAL -->
-<div id="edit-modal" class="modal-overlay">
-    <div class="modal-box">
+<div id="edit-modal" class="cid-modal">
+    <div class="cid-modal-box">
         <h3>
-            <span style="display:flex;align-items:center;gap:10px;">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4A7FFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-                </svg>
-                Profilni tahrirlash
-            </span>
-            <button class="modal-close" onclick="closeEditModal()">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M18 6 6 18M6 6l12 12"/>
-                </svg>
-            </button>
+            <span>Cyber ID tahrirlash</span>
+            <button class="cid-modal-close" onclick="closeEditModal()">×</button>
         </h3>
+        
+        <div class="field">
+            <label>Headline</label>
+            <input type="text" id="edit-headline" maxlength="160" placeholder="Junior Penetration Tester">
+        </div>
+        
+        <div class="field">
+            <label>Manzil</label>
+            <input type="text" id="edit-location" maxlength="100" placeholder="Toshkent">
+        </div>
+        
+        <div class="field">
+            <label>Maqsadli lavozimlar (vergul bilan)</label>
+            <input type="text" id="edit-roles" placeholder="Penetration Tester, Security Analyst">
+        </div>
+        
+        <div class="field">
+            <label>Portfolio havolalar (har bir alohida qatorda)</label>
+            <textarea id="edit-portfolio" rows="4" placeholder="GitHub|https://github.com/username
+LinkedIn|https://linkedin.com/in/username"></textarea>
+            <div style="font-size:0.72rem;color:#64748B;margin-top:6px;">
+                Format: <code>Label|URL</code> (har bir qatorda)
+            </div>
+        </div>
+        
+        <div class="field">
+            <label>Ko'rinish</label>
+            <div class="privacy-toggle">
+                <input type="radio" name="visibility" value="public" id="vis-public">
+                <label for="vis-public" style="margin:0;text-transform:none;letter-spacing:0;cursor:pointer;flex:1;">
+                    <div style="font-weight:600;color:#F1F5F9;">🌐 Ommaviy</div>
+                    <div style="font-size:0.75rem;color:#94A3B8;margin-top:2px;">Hamma ko'ra oladi</div>
+                </label>
+            </div>
+            <div class="privacy-toggle">
+                <input type="radio" name="visibility" value="private" id="vis-private">
+                <label for="vis-private" style="margin:0;text-transform:none;letter-spacing:0;cursor:pointer;flex:1;">
+                    <div style="font-weight:600;color:#F1F5F9;">🔒 Maxfiy</div>
+                    <div style="font-size:0.75rem;color:#94A3B8;margin-top:2px;">Faqat siz ko'rasiz</div>
+                </label>
+            </div>
+        </div>
+        
+        <div class="privacy-toggle">
+            <input type="checkbox" id="edit-open">
+            <label for="edit-open" style="margin:0;text-transform:none;letter-spacing:0;cursor:pointer;flex:1;">
+                <div style="font-weight:600;color:#F1F5F9;">💼 Ish qidirmoqdaman</div>
+                <div style="font-size:0.75rem;color:#94A3B8;margin-top:2px;">Ish beruvchilar sizni topishi mumkin</div>
+            </label>
+        </div>
+        
+        <div id="edit-message" style="font-size:0.85rem;margin:12px 0;"></div>
+        
+        <div style="display:flex;gap:12px;margin-top:16px;">
+            <button class="btn btn-primary" style="flex:1;justify-content:center;" onclick="saveCyberId()">
+                Saqlash
+            </button>
+            <button class="btn btn-secondary" style="flex:1;justify-content:center;" onclick="closeEditModal()">
+                Bekor
+            </button>
+        </div>
+    </div>
+</div>
 
-        <form id="edit-form">
-            <div class="field">
-                <label>To'liq ism</label>
-                <input type="text" id="edit-name" required maxlength="50">
-            </div>
-            <div class="field">
-                <label>Telefon raqam</label>
-                <input type="text" id="edit-phone" required placeholder="+998 XX XXX XX XX">
-            </div>
-            <div class="field">
-                <label>Bio</label>
-                <textarea id="edit-bio" placeholder="O'zingiz haqingizda qisqacha..." maxlength="500"></textarea>
-            </div>
-            <div class="field">
-                <label>Viloyat</label>
-                <select id="edit-region">
-                    <option value="">Viloyatni tanlang</option>
-                </select>
-            </div>
-            <div class="field">
-                <label>Shahar / Tuman</label>
-                <input type="text" id="edit-city" placeholder="Toshkent">
-            </div>
-            <div class="field">
-                <label>GitHub username</label>
-                <input type="text" id="edit-github" placeholder="username">
-            </div>
-            <div class="field">
-                <label>Telegram username</label>
-                <input type="text" id="edit-telegram" placeholder="username (@ belgisisiz)">
-            </div>
-            <div class="field">
-                <label>Website</label>
-                <input type="url" id="edit-website" placeholder="https://...">
-            </div>
-
-            <div style="display: flex; gap: 12px; margin-top: 24px;">
-                <button type="submit" class="btn btn-primary" style="flex: 1; justify-content: center;">
-                    Saqlash
-                </button>
-                <button type="button" class="btn btn-secondary" style="flex: 1; justify-content: center;" onclick="closeEditModal()">
-                    Bekor qilish
-                </button>
-            </div>
-        </form>
-
-        <div id="edit-message" style="margin-top: 12px; font-size: 0.85rem;"></div>
+<!-- ADD SKILL MODAL -->
+<div id="skill-modal" class="cid-modal">
+    <div class="cid-modal-box" style="max-width:480px;">
+        <h3>
+            <span>Ko'nikma qo'shish</span>
+            <button class="cid-modal-close" onclick="closeSkillModal()">×</button>
+        </h3>
+        
+        <div class="field">
+            <label>Ko'nikma nomi *</label>
+            <input type="text" id="skill-name" maxlength="50" placeholder="React, MongoDB, Docker...">
+        </div>
+        
+        <div id="skill-message" style="font-size:0.85rem;margin:12px 0;"></div>
+        
+        <div style="display:flex;gap:12px;margin-top:16px;">
+            <button class="btn btn-primary" style="flex:1;justify-content:center;" onclick="addSkill()">
+                Qo'shish
+            </button>
+            <button class="btn btn-secondary" style="flex:1;justify-content:center;" onclick="closeSkillModal()">
+                Bekor
+            </button>
+        </div>
     </div>
 </div>
 
@@ -350,8 +517,10 @@
 // ══════════════════════════════════════════
 // STATE
 // ══════════════════════════════════════════
-let userData = null;
-let regionsList = [];
+let cyberIdData = null;
+let isOwner = false;
+let currentUser = null;
+let currentTab = 'overview';
 
 // ══════════════════════════════════════════
 // HELPERS
@@ -366,537 +535,632 @@ function esc(t) {
         .replace(/'/g, '&#039;');
 }
 
-function svgIcon(name, size = 20, color = 'currentColor') {
-    const icons = {
-        user: '<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
-        bolt: '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
-        target: '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2" fill="currentColor"/>',
-        trophy: '<path d="M6 9H4a2 2 0 0 1-2-2V5h4M18 9h2a2 2 0 0 0 2-2V5h-4M6 5h12v6a6 6 0 0 1-12 0V5zM12 17v3M8 21h8M9 21v-2a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/>',
-        fire: '<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>',
-        location: '<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>',
-        edit: '<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>',
-        share: '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.59 13.51 6.83 3.98M15.41 6.51l-6.82 3.98"/>',
-        globe: '<circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z"/>',
-        chart: '<path d="M3 3v18h18M7 16v-5M12 16V8M17 16v-9"/>',
-        'chart-up': '<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>',
-        lock: '<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
-        check: '<polyline points="20 6 9 17 4 12"/>',
-        clock: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
-        shield: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
-        activity: '<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>',
-        logout: '<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>',
-        camera: '<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/>'
+function formatDate(d) {
+    if (!d) return '—';
+    try {
+        return new Date(d).toLocaleDateString('uz-UZ');
+    } catch (e) { return '—'; }
+}
+
+function levelIcon(level) {
+    const map = {
+        learning: '📚',
+        practiced: '⚡',
+        verified: '✓'
     };
-    const path = icons[name] || icons.user;
-    return `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:${size}px;height:${size}px;vertical-align:middle;">${path}</svg>`;
+    return map[level] || '•';
+}
+
+function levelLabel(level) {
+    const map = {
+        learning: 'O\'rganmoqda',
+        practiced: 'Amaliyot',
+        verified: 'Tasdiqlangan'
+    };
+    return map[level] || level;
+}
+
+function certTypeLabel(type) {
+    const map = {
+        course: 'Kurs',
+        competition: 'Musobaqa',
+        skill: 'Ko\'nikma'
+    };
+    return map[type] || type;
+}
+
+function certTypeIcon(type) {
+    const map = {
+        course: '📚',
+        competition: '🏆',
+        skill: '⚡'
+    };
+    return map[type] || '📜';
 }
 
 // ══════════════════════════════════════════
-// AUTH
+// LOAD CYBER ID
 // ══════════════════════════════════════════
-async function checkAuth() {
+async function loadCyberId() {
     try {
-        const res = await fetch('/api/auth/me', { 
-            credentials: 'include', 
-            cache: 'no-store' 
-        });
+        // URL dan slug olish
+        const pathParts = window.location.pathname.split('/');
+        const slug = pathParts[pathParts.length - 1];
         
-        if (!res.ok) {
-            console.log('Auth xato:', res.status);
-            window.location.href = '/login';
-            return null;
-        }
-        
-        const data = await res.json();
-        
-        if (!data.success || !data.user) {
-            console.log('Auth muvaffaqiyatsiz');
-            window.location.href = '/login';
-            return null;
-        }
-        
-        // Navbar yangilash
-        const authLink = document.getElementById('auth-link');
-        if (authLink) {
-            authLink.innerHTML = `<img src="${data.user.avatar || '/assets/default-avatar.svg'}" style="width:22px;height:22px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-right:6px;border:1px solid #2563EB;" onerror="this.src='/assets/default-avatar.svg'">${esc(data.user.username)}`;
-        }
-        
-        return data.user;
-    } catch (e) {
-        console.error('Auth xatosi:', e);
-        window.location.href = '/login';
-        return null;
-    }
-}
+        const isOwnerView = !slug || slug === 'cyber-id';
+        const endpoint = isOwnerView ? '/api/profile/me' : `/api/profile/${slug}`;
 
-// ══════════════════════════════════════════
-// LOAD PROFILE
-// ══════════════════════════════════════════
-async function loadProfile() {
-    try {
-        const res = await fetch('/api/users/profile', { 
+        const res = await fetch(endpoint, { 
             credentials: 'include',
             cache: 'no-store'
         });
         
-        if (!res.ok) {
-            console.error('Profile API xato:', res.status);
-            showError('Profil yuklanmadi (status: ' + res.status + ')');
+        if (res.status === 401) {
+            window.location.href = '/login';
             return;
         }
-        
+
         const data = await res.json();
-        
+
         if (!data.success) {
-            console.error('Profile xato:', data.message);
-            showError(data.message || 'Profil yuklanmadi');
-            return;
+            if (data.hidden) {
+                document.getElementById('cyber-id-content').innerHTML = `
+                    <div class="card-glass" style="padding: 80px 40px; text-align: center; max-width: 500px; margin: 0 auto;">
+                        <div style="font-size: 4rem; margin-bottom: 16px;">🔒</div>
+                        <h2 style="font-family: Manrope; font-weight: 900; margin-bottom: 12px;">Bu profil maxfiy</h2>
+                        <p style="color: #94A3B8; margin-bottom: 24px;">Foydalanuvchi profilini yashirgan</p>
+                        <a href="/" class="btn btn-primary">Bosh sahifa</a>
+                    </div>
+                `;
+                return;
+            }
+            throw new Error(data.message || 'Profil topilmadi');
         }
-        
-        userData = data.user;
-        renderProfile();
+
+        cyberIdData = data.cyberId;
+        isOwner = isOwnerView;
+        renderCyberId();
     } catch (e) {
-        console.error('Profile xatosi:', e);
-        showError('Ulanish xatosi');
+        console.error('Xato:', e);
+        document.getElementById('cyber-id-content').innerHTML = `
+            <div class="card-glass" style="padding: 60px; text-align: center;">
+                <div style="font-size: 3rem; margin-bottom: 16px;">❌</div>
+                <h2 style="color: #EF4444;">Xato</h2>
+                <p style="color: #94A3B8;">${esc(e.message)}</p>
+                <a href="/" class="btn btn-primary" style="margin-top: 20px;">Bosh sahifa</a>
+            </div>
+        `;
     }
 }
 
-function showError(message) {
-    document.getElementById('profile-content').innerHTML = `
-        <div class="card-glass" style="padding: 60px; text-align: center;">
-            <div style="font-size: 3rem; margin-bottom: 16px;">❌</div>
-            <h2 style="color: #EF4444; margin-bottom: 12px;">${esc(message)}</h2>
-            <p style="color: #94A3B8; margin-bottom: 20px;">Iltimos, qayta login qilib ko'ring</p>
-            <a href="/login" class="btn btn-primary">Login sahifasiga</a>
-        </div>
-    `;
-}
-
 // ══════════════════════════════════════════
-// RENDER PROFILE
+// RENDER
 // ══════════════════════════════════════════
-function renderProfile() {
-    const u = userData;
-    const location = [u.region, u.city].filter(Boolean).join(' · ') || 'Noma\'lum';
-    const solvedCount = (u.solvedChallenges || []).length;
-    const skills = u.skills || {};
+function renderCyberId() {
+    const d = cyberIdData;
+    const stats = d.stats || {};
+    const skills = d.skills || [];
+    const certificates = d.certificates || [];
+    const portfolioLinks = d.portfolioLinks || [];
+    const preferredRoles = d.preferredRoles || [];
+    const location = [d.region, d.city].filter(Boolean).join(' · ') || 'Noma\'lum';
 
-    document.getElementById('profile-content').innerHTML = `
-        <div class="profile-header fade-in-up">
-            <div style="display: flex; gap: 32px; align-items: center; flex-wrap: wrap;">
-                <div class="avatar-wrap">
-                    <img src="${u.avatar || '/assets/default-avatar.svg'}" 
-                         class="avatar-big" id="avatar-preview" 
-                         onerror="this.src='/assets/default-avatar.svg'">
-                    <div class="avatar-edit" onclick="document.getElementById('avatar-input').click()" title="Avatar yuklash">
-                        ${svgIcon('camera', 18, 'white')}
-                    </div>
-                </div>
-
+    document.getElementById('cyber-id-content').innerHTML = `
+        <!-- HEADER -->
+        <div class="cid-header fade-in-up">
+            <div style="display: flex; gap: 32px; align-items: center; flex-wrap: wrap; position: relative; z-index: 1;">
+                <img src="${d.avatar || '/assets/default-avatar.svg'}" 
+                     class="cid-avatar" 
+                     onerror="this.src='/assets/default-avatar.svg'">
+                
                 <div style="flex: 1; min-width: 250px;">
-                    <h1 style="font-family: Manrope; font-size: 2rem; font-weight: 900; margin-bottom: 8px;">
-                        ${esc(u.name)}
+                    <h1 style="font-family: Manrope; font-size: 2.2rem; font-weight: 900; margin-bottom: 8px;">
+                        ${esc(d.name)}
                     </h1>
-                    <div style="color: #94A3B8; margin-bottom: 8px; font-family: JetBrains Mono;">
-                        @${esc(u.username)}
-                    </div>
-                    <div style="color: #94A3B8; font-size: 0.9rem; margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
-                        ${svgIcon('location', 14, '#EF4444')}
-                        ${esc(location)}
-                    </div>
-                    ${u.bio ? `<p style="color: #94A3B8; font-size: 0.9rem; max-width: 500px; margin-bottom: 12px;">${esc(u.bio)}</p>` : ''}
+                    ${d.headline ? `<div class="cid-headline">${esc(d.headline)}</div>` : ''}
                     
-                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                        <span style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; background: rgba(37,99,235,0.15); border: 1px solid rgba(37,99,235,0.3); border-radius: 999px; font-size: 0.75rem; font-weight: 700; color: #4A7FFF;">
-                            ${svgIcon('bolt', 14, '#4A7FFF')}
-                            Level ${u.level || u.cyberLevel || 1}
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px;">
+                        <span class="cid-slug" onclick="copyPublicUrl()" title="Nusxa olish">
+                            🔗 @${esc(d.slug)}
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="9" y="9" width="13" height="13" rx="2"/>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                            </svg>
                         </span>
-                        ${u.verified ? `<span style="display: inline-flex; align-items: center; gap: 4px; padding: 4px 12px; background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.3); border-radius: 999px; font-size: 0.75rem; font-weight: 700; color: #10B981;">${svgIcon('check', 12, '#10B981')} VERIFIED</span>` : ''}
+                        
+                        ${location ? `
+                            <span style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); border-radius: 999px; font-size: 0.82rem; color: #EF4444;">
+                                📍 ${esc(location)}
+                            </span>
+                        ` : ''}
+                        
+                        ${d.openToOpportunities ? `
+                            <span style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); border-radius: 999px; font-size: 0.82rem; color: #10B981; font-weight: 600;">
+                                💼 Ish qidirmoqdaman
+                            </span>
+                        ` : ''}
                     </div>
                 </div>
+                
+                ${isOwner ? `
+                    <button class="btn btn-primary" onclick="openEditModal()" style="display: inline-flex; align-items: center; gap: 8px;">
+                        ✏️ Tahrirlash
+                    </button>
+                ` : ''}
             </div>
-
-            <div style="margin-top: 32px;">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                    <span style="font-family: Manrope; font-weight: 800; color: #4A7FFF; display: inline-flex; align-items: center; gap: 6px;">
-                        ${svgIcon('bolt', 16, '#4A7FFF')}
-                        Level ${u.level || u.cyberLevel || 1}
-                    </span>
-                    <span style="font-family: JetBrains Mono; font-size: 0.85rem; color: #94A3B8;">
-                        ${(u.xp || 0).toLocaleString()} / ${(u.nextLevelXP || 10000).toLocaleString()} XP
-                    </span>
+            
+            <!-- STATS BENTO -->
+            <div class="stat-bento">
+                <div class="stat-bento-item">
+                    <div class="stat-bento-value gold">#${stats.rank || '—'}</div>
+                    <div class="stat-bento-label">Global rank</div>
                 </div>
-                <div class="level-bar">
-                    <div class="level-bar-fill" style="width: ${u.levelProgress || 0}%;"></div>
+                <div class="stat-bento-item">
+                    <div class="stat-bento-value cyan">${d.cyberLevel || 1}</div>
+                    <div class="stat-bento-label">Cyber Level</div>
                 </div>
-            </div>
-
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; margin-top: 32px;">
-                <div class="stat-mini">
-                    <div class="stat-mini-value">#${u.globalRank || '—'}</div>
-                    <div class="stat-mini-label">Global rank</div>
+                <div class="stat-bento-item">
+                    <div class="stat-bento-value green">${stats.solved || 0}</div>
+                    <div class="stat-bento-label">Yechilgan</div>
                 </div>
-                <div class="stat-mini">
-                    <div class="stat-mini-value">${u.score || 0}</div>
-                    <div class="stat-mini-label">Score</div>
+                <div class="stat-bento-item">
+                    <div class="stat-bento-value">${stats.totalSkills || 0}</div>
+                    <div class="stat-bento-label">Ko'nikmalar</div>
                 </div>
-                <div class="stat-mini">
-                    <div class="stat-mini-value">${solvedCount}</div>
-                    <div class="stat-mini-label">Yechilgan</div>
+                <div class="stat-bento-item">
+                    <div class="stat-bento-value green">${stats.verifiedSkills || 0}</div>
+                    <div class="stat-bento-label">Tasdiqlangan</div>
                 </div>
-                <div class="stat-mini">
-                    <div class="stat-mini-value">
-                        ${u.streak || 0}
-                        ${svgIcon('fire', 20, '#F59E0B')}
-                    </div>
-                    <div class="stat-mini-label">Streak</div>
+                <div class="stat-bento-item">
+                    <div class="stat-bento-value gold">${stats.certificates || 0}</div>
+                    <div class="stat-bento-label">Sertifikat</div>
                 </div>
-                <div class="stat-mini">
-                    <div class="stat-mini-value">${u.battleRating || 1000}</div>
-                    <div class="stat-mini-label">Battle</div>
-                </div>
-            </div>
-
-            <div style="display: flex; gap: 12px; margin-top: 32px; flex-wrap: wrap;">
-                <button class="btn btn-primary" onclick="openEditModal()" style="display: inline-flex; align-items: center; gap: 8px;">
-                    ${svgIcon('edit', 16, 'white')}
-                    Profilni tahrirlash
-                </button>
-                <button class="btn btn-secondary" onclick="shareProfile()" style="display: inline-flex; align-items: center; gap: 8px;">
-                    ${svgIcon('share', 16)}
-                    Ulashish
-                </button>
-                <a href="/u/${esc(u.username)}" target="_blank" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 8px;">
-                    ${svgIcon('globe', 16)}
-                    Public ko'rinish
-                </a>
             </div>
         </div>
 
-        <div class="tab-bar">
-            <button class="tab-btn active" onclick="showTab('overview', this)">
-                ${svgIcon('chart', 16)}
-                Overview
+        <!-- TABS -->
+        <div class="cid-tabs">
+            <button class="cid-tab ${currentTab === 'overview' ? 'active' : ''}" onclick="switchTab('overview', this)">
+                📊 Umumiy
             </button>
-            <button class="tab-btn" onclick="showTab('skills', this)">
-                ${svgIcon('target', 16)}
-                Ko'nikmalar
+            <button class="cid-tab ${currentTab === 'skills' ? 'active' : ''}" onclick="switchTab('skills', this)">
+                🎯 Ko'nikmalar (${skills.length})
             </button>
-            <button class="tab-btn" onclick="showTab('activity', this)">
-                ${svgIcon('activity', 16)}
-                Faoliyat
+            <button class="cid-tab ${currentTab === 'certificates' ? 'active' : ''}" onclick="switchTab('certificates', this)">
+                🏅 Sertifikatlar (${certificates.length})
             </button>
-            <button class="tab-btn" onclick="showTab('security', this)">
-                ${svgIcon('shield', 16)}
-                Xavfsizlik
+            <button class="cid-tab ${currentTab === 'portfolio' ? 'active' : ''}" onclick="switchTab('portfolio', this)">
+                🔗 Portfolio
             </button>
         </div>
 
-        <div id="overview-tab" class="tab-content active">
-            <div class="card-glass" style="padding: 24px;">
+        <!-- OVERVIEW TAB -->
+        <div id="overview-panel" class="cid-tab-panel ${currentTab === 'overview' ? 'active' : ''}">
+            <div class="card-glass" style="padding: 28px;">
                 <h3 style="font-family: Manrope; font-weight: 800; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
-                    ${svgIcon('user', 20, '#4A7FFF')}
-                    Profil ma'lumotlari
+                    👤 Ma'lumotlar
                 </h3>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
-                    <div>
-                        <div style="color: #64748B; font-size: 0.72rem; text-transform: uppercase; margin-bottom: 4px;">Ism</div>
-                        <div style="font-weight: 600;">${esc(u.name)}</div>
-                    </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px;">
                     <div>
                         <div style="color: #64748B; font-size: 0.72rem; text-transform: uppercase; margin-bottom: 4px;">Username</div>
-                        <div style="font-weight: 600; font-family: JetBrains Mono;">@${esc(u.username)}</div>
+                        <div style="font-weight: 600; font-family: JetBrains Mono;">@${esc(d.username)}</div>
                     </div>
-                    <div>
-                        <div style="color: #64748B; font-size: 0.72rem; text-transform: uppercase; margin-bottom: 4px;">Email</div>
-                        <div style="font-weight: 600; font-size: 0.85rem;">${esc(u.email)}</div>
-                    </div>
-                    <div>
-                        <div style="color: #64748B; font-size: 0.72rem; text-transform: uppercase; margin-bottom: 4px;">Telefon</div>
-                        <div style="font-weight: 600; font-family: JetBrains Mono;">+${esc(u.phone)}</div>
-                    </div>
-                    <div>
-                        <div style="color: #64748B; font-size: 0.72rem; text-transform: uppercase; margin-bottom: 4px;">Viloyat</div>
-                        <div style="font-weight: 600;">${esc(u.region || '—')}</div>
-                    </div>
-                    <div>
-                        <div style="color: #64748B; font-size: 0.72rem; text-transform: uppercase; margin-bottom: 4px;">Shahar</div>
-                        <div style="font-weight: 600;">${esc(u.city || '—')}</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="skills-tab" class="tab-content">
-            <div class="card-glass" style="padding: 24px;">
-                <h3 style="font-family: Manrope; font-weight: 800; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
-                    ${svgIcon('target', 20, '#EF4444')}
-                    Ko'nikmalar
-                </h3>
-                ${Object.keys(skills).length > 0 
-                    ? Object.entries(skills).map(([key, val]) => `
-                        <div class="skill-bar">
-                            <div class="skill-name">${key.charAt(0).toUpperCase() + key.slice(1)}</div>
-                            <div class="skill-progress"><div class="skill-progress-fill" style="width: ${val}%;"></div></div>
-                            <div class="skill-value">${Math.round(val)}</div>
+                    ${isOwner && d.email ? `
+                        <div>
+                            <div style="color: #64748B; font-size: 0.72rem; text-transform: uppercase; margin-bottom: 4px;">Email</div>
+                            <div style="font-weight: 600; font-size: 0.85rem;">${esc(d.email)}</div>
                         </div>
-                    `).join('')
-                    : '<p style="color: #64748B; text-align: center; padding: 20px;">Ko\'nikmalar yo\'q</p>'}
+                    ` : ''}
+                    ${isOwner && d.phone ? `
+                        <div>
+                            <div style="color: #64748B; font-size: 0.72rem; text-transform: uppercase; margin-bottom: 4px;">Telefon</div>
+                            <div style="font-weight: 600; font-family: JetBrains Mono;">+${esc(d.phone)}</div>
+                        </div>
+                    ` : ''}
+                    <div>
+                        <div style="color: #64748B; font-size: 0.72rem; text-transform: uppercase; margin-bottom: 4px;">Score</div>
+                        <div style="font-weight: 600;">${(d.score || 0).toLocaleString()}</div>
+                    </div>
+                    <div>
+                        <div style="color: #64748B; font-size: 0.72rem; text-transform: uppercase; margin-bottom: 4px;">XP</div>
+                        <div style="font-weight: 600;">${(d.xp || 0).toLocaleString()}</div>
+                    </div>
+                    ${d.battleRating ? `
+                        <div>
+                            <div style="color: #64748B; font-size: 0.72rem; text-transform: uppercase; margin-bottom: 4px;">Battle Rating</div>
+                            <div style="font-weight: 600;">${d.battleRating}</div>
+                        </div>
+                    ` : ''}
+                </div>
+                
+                ${preferredRoles.length > 0 ? `
+                    <div style="margin-top: 24px;">
+                        <div style="color: #64748B; font-size: 0.72rem; text-transform: uppercase; margin-bottom: 10px;">Maqsadli lavozimlar</div>
+                        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                            ${preferredRoles.map(r => `
+                                <span style="padding: 6px 14px; background: rgba(74,127,255,0.1); border: 1px solid rgba(74,127,255,0.2); border-radius: 8px; font-size: 0.82rem; color: #4A7FFF;">
+                                    ${esc(r)}
+                                </span>
+                            `).join('')}
+                        </div>
+                    </div>
+                ` : ''}
             </div>
         </div>
 
-        <div id="activity-tab" class="tab-content">
-            <div class="card-glass" style="padding: 24px;">
-                <h3 style="font-family: Manrope; font-weight: 800; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
-                    ${svgIcon('activity', 20, '#10B981')}
-                    Faoliyat
-                </h3>
-                ${(u.activity && u.activity.length) 
-                    ? u.activity.slice(0, 10).map(a => `
-                        <div style="display: flex; gap: 16px; padding: 16px; background: rgba(74,127,255,0.05); border-radius: 12px; margin-bottom: 12px; border-left: 3px solid #2563EB;">
-                            <span>${svgIcon('check', 20, '#10B981')}</span>
+        <!-- SKILLS TAB -->
+        <div id="skills-panel" class="cid-tab-panel ${currentTab === 'skills' ? 'active' : ''}">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3 style="font-family: Manrope; font-weight: 800; font-size: 1.3rem;">Ko'nikmalar</h3>
+                ${isOwner ? `
+                    <button class="btn btn-secondary btn-sm" onclick="openSkillModal()" style="display: inline-flex; align-items: center; gap: 6px;">
+                        + Ko'nikma qo'shish
+                    </button>
+                ` : ''}
+            </div>
+            
+            ${skills.length === 0 ? `
+                <div class="card-glass" style="padding: 60px 20px; text-align: center; color: #64748B;">
+                    <div style="font-size: 3rem; margin-bottom: 16px; opacity: 0.3;">🎯</div>
+                    <p>Hozircha ko'nikmalar yo'q</p>
+                    ${isOwner ? `
+                        <p style="font-size: 0.85rem; margin-top: 12px;">
+                            Challenge'larni yechib yoki sertifikat olib, ko'nikmalaringizni tasdiqlang
+                        </p>
+                    ` : ''}
+                </div>
+            ` : skills.map(skill => `
+                <div class="skill-card">
+                    <div class="skill-card-header">
+                        <div style="display: flex; align-items: center; gap: 12px; flex: 1;">
+                            <span style="font-size: 1.2rem;">${levelIcon(skill.level)}</span>
                             <div>
-                                <div style="font-weight: 600;">${esc(a.title || 'Faoliyat')}</div>
-                                ${a.description ? `<div style="color: #94A3B8; font-size: 0.82rem;">${esc(a.description)}</div>` : ''}
+                                <div style="font-weight: 700; font-size: 1rem;">${esc(skill.label)}</div>
+                                <div style="color: #64748B; font-size: 0.78rem;">
+                                    ${skill.evidenceCount} ta manba
+                                </div>
                             </div>
                         </div>
-                    `).join('')
-                    : `<div style="text-align: center; padding: 40px; color: #64748B;">
-                        ${svgIcon('clock', 40, '#64748B')}
-                        <p style="margin-top: 12px;">Faoliyat yo'q</p>
-                    </div>`}
-            </div>
+                        <span class="skill-level level-${skill.level}">${levelLabel(skill.level)}</span>
+                    </div>
+                    
+                    ${skill.sources && skill.sources.length > 0 ? `
+                        <div class="skill-sources">
+                            ${skill.sources.slice(0, 5).map(s => `
+                                <div class="source-item">
+                                    <div class="source-icon">
+                                        ${s.type === 'challenge' ? '🎯' : s.type === 'course' ? '📚' : s.type === 'competition' ? '🏆' : '📝'}
+                                    </div>
+                                    <div style="flex: 1;">
+                                        <div>${esc(s.name || s.type)}</div>
+                                        <div style="font-size: 0.72rem; color: #64748B;">
+                                            ${formatDate(s.earnedAt)}
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                            ${skill.sources.length > 5 ? `
+                                <div style="font-size: 0.78rem; color: #64748B; padding: 8px 0;">
+                                    +${skill.sources.length - 5} ta qo'shimcha
+                                </div>
+                            ` : ''}
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('')}
         </div>
 
-        <div id="security-tab" class="tab-content">
-            <div class="card-glass" style="padding: 24px;">
-                <h3 style="font-family: Manrope; font-weight: 800; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
-                    ${svgIcon('shield', 20, '#10B981')}
-                    Xavfsizlik
-                </h3>
-                
-                <div style="padding: 16px; background: rgba(16,185,129,0.05); border-radius: 10px; margin-bottom: 12px; display: flex; align-items: center; gap: 12px;">
-                    <span style="display: inline-flex; align-items: center; color: #10B981;">
-                        ${svgIcon('check', 20, '#10B981')}
-                    </span>
-                    <div>
-                        <div style="font-weight: 600;">Email tasdiqlangan</div>
-                        <div style="color: #64748B; font-size: 0.8rem;">${esc(u.email)}</div>
+        <!-- CERTIFICATES TAB -->
+        <div id="certificates-panel" class="cid-tab-panel ${currentTab === 'certificates' ? 'active' : ''}">
+            <h3 style="font-family: Manrope; font-weight: 800; font-size: 1.3rem; margin-bottom: 20px;">Sertifikatlar</h3>
+            
+            ${certificates.length === 0 ? `
+                <div class="card-glass" style="padding: 60px 20px; text-align: center; color: #64748B;">
+                    <div style="font-size: 3rem; margin-bottom: 16px; opacity: 0.3;">🏅</div>
+                    <p>Hozircha sertifikatlar yo'q</p>
+                </div>
+            ` : certificates.map(cert => `
+                <div class="cert-card ${cert.status === 'revoked' ? 'revoked' : ''}">
+                    <div style="display: flex; gap: 20px; align-items: start; flex-wrap: wrap;">
+                        <div style="flex: 1; min-width: 200px;">
+                            <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
+                                <span class="cert-type-badge cert-type-${cert.type}">
+                                    ${certTypeIcon(cert.type)} ${certTypeLabel(cert.type)}
+                                </span>
+                                ${cert.status === 'revoked' ? `
+                                    <span class="cert-type-badge" style="background: rgba(239,68,68,0.15); color: #EF4444;">
+                                        ✗ Bekor qilingan
+                                    </span>
+                                ` : cert.status === 'active' ? `
+                                    <span class="cert-type-badge" style="background: rgba(16,185,129,0.15); color: #10B981;">
+                                        ✓ Aktiv
+                                    </span>
+                                ` : ''}
+                            </div>
+                            
+                            <h4 style="font-family: Manrope; font-weight: 800; font-size: 1.1rem; margin-bottom: 8px;">
+                                ${esc(cert.title)}
+                            </h4>
+                            
+                            <div style="display: flex; gap: 16px; flex-wrap: wrap; font-size: 0.82rem; color: #94A3B8; margin-bottom: 12px;">
+                                <span>📅 ${formatDate(cert.issuedAt)}</span>
+                                ${cert.expiresAt ? `<span>⏱ ${formatDate(cert.expiresAt)}</span>` : '<span>∞ Muddatsiz</span>'}
+                            </div>
+                            
+                            <div style="font-family: JetBrains Mono; font-size: 0.78rem; color: #22D3EE; margin-bottom: 12px;">
+                                ${esc(cert.certificateId)}
+                            </div>
+                            
+                            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                <a href="/certificate-verify?id=${esc(cert.certificateId)}" target="_blank" 
+                                   class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 6px;">
+                                    ✓ Tekshirish
+                                </a>
+                                ${isOwner ? `
+                                    <button class="btn btn-secondary btn-sm" onclick="copyCertUrl('${esc(cert.certificateId)}')" style="display: inline-flex; align-items: center; gap: 6px;">
+                                        🔗 Nusxa
+                                    </button>
+                                ` : ''}
+                            </div>
+                        </div>
+                        
+                        ${isOwner ? `
+                            <div style="text-align: center;">
+                                <div class="qr-container" id="qr-${esc(cert.certificateId).replace(/-/g, '_')}"></div>
+                                <div style="font-size: 0.68rem; color: #64748B; margin-top: 6px;">QR kod</div>
+                            </div>
+                        ` : ''}
                     </div>
                 </div>
+            `).join('')}
+        </div>
 
-                <div style="padding: 16px; background: rgba(16,185,129,0.05); border-radius: 10px; margin-bottom: 12px; display: flex; align-items: center; gap: 12px;">
-                    <span style="display: inline-flex; align-items: center; color: #10B981;">
-                        ${svgIcon('check', 20, '#10B981')}
-                    </span>
-                    <div>
-                        <div style="font-weight: 600;">Kuchli parol</div>
+        <!-- PORTFOLIO TAB -->
+        <div id="portfolio-panel" class="cid-tab-panel ${currentTab === 'portfolio' ? 'active' : ''}">
+            <h3 style="font-family: Manrope; font-weight: 800; font-size: 1.3rem; margin-bottom: 20px;">Portfolio</h3>
+            
+            ${portfolioLinks.length === 0 ? `
+                <div class="card-glass" style="padding: 60px 20px; text-align: center; color: #64748B;">
+                    <div style="font-size: 3rem; margin-bottom: 16px; opacity: 0.3;">🔗</div>
+                    <p>Hozircha havolalar yo'q</p>
+                    ${isOwner ? `
+                        <button class="btn btn-primary" onclick="openEditModal()" style="margin-top: 16px;">
+                            + Havola qo'shish
+                        </button>
+                    ` : ''}
+                </div>
+            ` : portfolioLinks.map(link => `
+                <a href="${esc(link.url)}" target="_blank" class="portfolio-link">
+                    <div style="width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, #2563EB, #7C3AED); display: flex; align-items: center; justify-content: center; color: white; flex-shrink: 0;">
+                        🔗
+                    </div>
+                    <div style="flex: 1;">
+                        <div style="font-weight: 700;">${esc(link.label)}</div>
+                        <div style="font-size: 0.78rem; color: #94A3B8; font-family: JetBrains Mono; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                            ${esc(link.url)}
+                        </div>
+                    </div>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            `).join('')}
+            
+            ${isOwner && (d.github || d.telegram || d.website) ? `
+                <div style="margin-top: 24px; padding: 20px; background: rgba(74,127,255,0.05); border-radius: 12px;">
+                    <h4 style="font-family: Manrope; font-weight: 700; margin-bottom: 12px; font-size: 0.9rem; color: #94A3B8;">
+                        Avtomatik havolalar
+                    </h4>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        ${d.github ? `<span style="padding: 6px 12px; background: rgba(74,127,255,0.1); border-radius: 8px; font-size: 0.82rem;">🐙 github.com/${esc(d.github)}</span>` : ''}
+                        ${d.telegram ? `<span style="padding: 6px 12px; background: rgba(74,127,255,0.1); border-radius: 8px; font-size: 0.82rem;">💬 @${esc(d.telegram)}</span>` : ''}
+                        ${d.website ? `<span style="padding: 6px 12px; background: rgba(74,127,255,0.1); border-radius: 8px; font-size: 0.82rem;">🌐 ${esc(d.website)}</span>` : ''}
                     </div>
                 </div>
-
-                <div style="padding: 16px; background: rgba(245,185,66,0.05); border-radius: 10px; margin-bottom: 12px; display: flex; align-items: center; gap: 12px; opacity: 0.6;">
-                    <span style="display: inline-flex; align-items: center; color: #F59E0B;">
-                        ${svgIcon('clock', 20, '#F59E0B')}
-                    </span>
-                    <div>
-                        <div style="font-weight: 600;">2FA</div>
-                        <div style="color: #64748B; font-size: 0.8rem;">Tez orada</div>
-                    </div>
-                </div>
-
-                <button class="btn btn-secondary" style="width: 100%; margin-top: 16px; justify-content: center; display: inline-flex; align-items: center; gap: 8px;" onclick="logout()">
-                    ${svgIcon('logout', 16)}
-                    Chiqish
-                </button>
-            </div>
+            ` : ''}
         </div>
     `;
 
-    // Avatar upload listener
-    document.getElementById('avatar-input').addEventListener('change', uploadAvatar);
+    // QR kodlarni render qilish (owner uchun)
+    if (isOwner && certificates.length > 0) {
+        setTimeout(() => {
+            certificates.forEach(cert => {
+                const el = document.getElementById(`qr-${cert.certificateId.replace(/-/g, '_')}`);
+                if (el && typeof QRCode !== 'undefined') {
+                    const verifyUrl = `${window.location.origin}/certificate-verify?id=${cert.certificateId}`;
+                    new QRCode(el, {
+                        text: verifyUrl,
+                        width: 84,
+                        height: 84,
+                        colorDark: '#060B18',
+                        colorLight: '#FFFFFF',
+                        correctLevel: QRCode.CorrectLevel.M
+                    });
+                }
+            });
+        }, 100);
+    }
 }
 
 // ══════════════════════════════════════════
-// TAB
+// TABS
 // ══════════════════════════════════════════
-function showTab(tab, el) {
-    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById(tab + '-tab').classList.add('active');
+function switchTab(tab, el) {
+    currentTab = tab;
+    document.querySelectorAll('.cid-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.cid-tab-panel').forEach(p => p.classList.remove('active'));
     if (el) el.classList.add('active');
+    document.getElementById(tab + '-panel').classList.add('active');
+}
+
+// ══════════════════════════════════════════
+// COPY URL
+// ══════════════════════════════════════════
+function copyPublicUrl() {
+    if (!cyberIdData) return;
+    const url = `${window.location.origin}/profile/${cyberIdData.slug}`;
+    navigator.clipboard.writeText(url);
+    alert('✅ Havola nusxalandi:\n' + url);
+}
+
+function copyCertUrl(certId) {
+    const url = `${window.location.origin}/certificate-verify?id=${certId}`;
+    navigator.clipboard.writeText(url);
+    alert('✅ Sertifikat havolasi nusxalandi');
 }
 
 // ══════════════════════════════════════════
 // EDIT MODAL
 // ══════════════════════════════════════════
-async function openEditModal() {
-    const u = userData;
-
-    if (regionsList.length === 0) {
-        try {
-            const res = await fetch('/api/locations/regions');
-            const data = await res.json();
-            if (data.success) regionsList = data.regions || [];
-        } catch (e) {}
-    }
-
-    const regionSelect = document.getElementById('edit-region');
-    regionSelect.innerHTML = '<option value="">Viloyatni tanlang</option>';
-    regionsList.forEach(r => {
-        const opt = document.createElement('option');
-        opt.value = r.name;
-        opt.textContent = r.name;
-        if (r.name === u.region) opt.selected = true;
-        regionSelect.appendChild(opt);
-    });
-
-    document.getElementById('edit-name').value = u.name || '';
-    document.getElementById('edit-phone').value = u.phone ? '+' + u.phone : '+998 ';
-    document.getElementById('edit-bio').value = u.bio || '';
-    document.getElementById('edit-city').value = u.city || '';
-    document.getElementById('edit-github').value = u.github || '';
-    document.getElementById('edit-telegram').value = u.telegram || '';
-    document.getElementById('edit-website').value = u.website || '';
-
+function openEditModal() {
+    if (!cyberIdData) return;
+    const d = cyberIdData;
+    
+    document.getElementById('edit-headline').value = d.headline || '';
+    document.getElementById('edit-location').value = d.location || '';
+    document.getElementById('edit-roles').value = (d.preferredRoles || []).join(', ');
+    
+    // Portfolio links
+    const portfolioLines = (d.portfolioLinks || []).map(l => `${l.label}|${l.url}`).join('\n');
+    document.getElementById('edit-portfolio').value = portfolioLines;
+    
+    // Visibility
+    document.getElementById('vis-public').checked = d.visibility === 'public';
+    document.getElementById('vis-private').checked = d.visibility === 'private';
+    
+    // Open to opportunities
+    document.getElementById('edit-open').checked = d.openToOpportunities || false;
+    
+    document.getElementById('edit-message').textContent = '';
     document.getElementById('edit-modal').classList.add('active');
 }
 
 function closeEditModal() {
     document.getElementById('edit-modal').classList.remove('active');
-    document.getElementById('edit-message').textContent = '';
 }
 
-// ══════════════════════════════════════════
-// SAVE
-// ══════════════════════════════════════════
-document.getElementById('edit-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-
+async function saveCyberId() {
     const msg = document.getElementById('edit-message');
-    const btn = e.target.querySelector('button[type="submit"]');
+    
+    const headline = document.getElementById('edit-headline').value.trim();
+    const location = document.getElementById('edit-location').value.trim();
+    const rolesStr = document.getElementById('edit-roles').value.trim();
+    const portfolioStr = document.getElementById('edit-portfolio').value.trim();
+    const visibility = document.querySelector('input[name="visibility"]:checked')?.value || 'public';
+    const openToOpportunities = document.getElementById('edit-open').checked;
 
-    const name = document.getElementById('edit-name').value.trim();
-    const phone = document.getElementById('edit-phone').value.replace(/[^0-9]/g, '');
-    const bio = document.getElementById('edit-bio').value.trim();
-    const region = document.getElementById('edit-region').value;
-    const city = document.getElementById('edit-city').value.trim();
-    const github = document.getElementById('edit-github').value.trim();
-    const telegram = document.getElementById('edit-telegram').value.trim();
-    const website = document.getElementById('edit-website').value.trim();
+    // Parse roles
+    const preferredRoles = rolesStr
+        ? rolesStr.split(',').map(s => s.trim()).filter(Boolean).slice(0, 10)
+        : [];
 
-    if (!name || name.length < 2) {
-        msg.style.color = '#EF4444';
-        msg.textContent = 'Ism kamida 2 belgi';
-        return;
-    }
+    // Parse portfolio
+    const portfolioLinks = portfolioStr
+        ? portfolioStr.split('\n')
+            .map(line => {
+                const parts = line.split('|');
+                if (parts.length !== 2) return null;
+                return {
+                    label: parts[0].trim().slice(0, 50),
+                    url: parts[1].trim().slice(0, 500)
+                };
+            })
+            .filter(Boolean)
+            .slice(0, 10)
+        : [];
 
-    if (phone.length !== 12) {
-        msg.style.color = '#EF4444';
-        msg.textContent = 'Telefon raqam to\'liq emas';
-        return;
-    }
-
-    btn.disabled = true;
-    msg.style.color = '#94A3B8';
     msg.textContent = 'Saqlanmoqda...';
+    msg.style.color = '#94A3B8';
 
     try {
-        const res = await fetch('/api/users/profile', {
-            method: 'PUT',
+        const res = await fetch('/api/profile/me', {
+            method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
             body: JSON.stringify({
-                name, phone, bio, region, city, github, telegram, website
+                headline,
+                location,
+                preferredRoles,
+                portfolioLinks,
+                visibility,
+                openToOpportunities
             })
         });
-
         const data = await res.json();
 
         if (data.success) {
-            msg.style.color = '#10B981';
             msg.textContent = '✅ ' + data.message;
+            msg.style.color = '#10B981';
             setTimeout(() => {
                 closeEditModal();
-                loadProfile();
-            }, 1000);
+                loadCyberId();
+            }, 800);
         } else {
+            msg.textContent = '❌ ' + (data.message || 'Xato');
             msg.style.color = '#EF4444';
-            msg.textContent = '❌ ' + data.message;
         }
-    } catch (err) {
-        msg.style.color = '#EF4444';
+    } catch (e) {
         msg.textContent = '❌ Ulanish xatosi';
-    } finally {
-        btn.disabled = false;
+        msg.style.color = '#EF4444';
     }
-});
+}
 
 // ══════════════════════════════════════════
-// PHONE FORMAT
+// ADD SKILL MODAL
 // ══════════════════════════════════════════
-document.getElementById('edit-phone').addEventListener('input', function() {
-    let digits = this.value.replace(/[^0-9]/g, '');
-    if (!digits.startsWith('998')) digits = '998' + digits.replace(/^998/, '');
-    digits = digits.substring(0, 12);
-    let formatted = '+998';
-    if (digits.length > 3) formatted += ' ' + digits.substring(3, 5);
-    if (digits.length > 5) formatted += ' ' + digits.substring(5, 8);
-    if (digits.length > 8) formatted += ' ' + digits.substring(8, 10);
-    if (digits.length > 10) formatted += ' ' + digits.substring(10, 12);
-    this.value = formatted;
-});
+function openSkillModal() {
+    document.getElementById('skill-name').value = '';
+    document.getElementById('skill-message').textContent = '';
+    document.getElementById('skill-modal').classList.add('active');
+    document.getElementById('skill-name').focus();
+}
 
-// ══════════════════════════════════════════
-// AVATAR
-// ══════════════════════════════════════════
-async function uploadAvatar(e) {
-    const file = e.target.files[0];
-    if (!file) return;
+function closeSkillModal() {
+    document.getElementById('skill-modal').classList.remove('active');
+}
 
-    if (file.size > 5 * 1024 * 1024) {
-        alert('Rasm 5MB dan kichik bo\'lishi kerak');
+async function addSkill() {
+    const name = document.getElementById('skill-name').value.trim();
+    const msg = document.getElementById('skill-message');
+
+    if (!name || name.length < 2) {
+        msg.textContent = '❌ Ko\'nikma nomi kamida 2 belgi';
+        msg.style.color = '#EF4444';
         return;
     }
 
-    const fd = new FormData();
-    fd.append('avatar', file);
+    msg.textContent = 'Qo\'shilmoqda...';
+    msg.style.color = '#94A3B8';
 
     try {
-        const res = await fetch('/api/users/avatar', {
+        const res = await fetch('/api/profile/me/skills', {
             method: 'POST',
-            body: fd,
-            credentials: 'include'
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({
+                skillKey: name.toLowerCase().replace(/\s+/g, ''),
+                skillLabel: name,
+                evidenceType: 'assessment',
+                sourceName: 'Self-declared'
+            })
         });
         const data = await res.json();
 
         if (data.success) {
-            document.getElementById('avatar-preview').src = data.avatar + '?t=' + Date.now();
+            msg.textContent = '✅ ' + data.message;
+            msg.style.color = '#10B981';
+            setTimeout(() => {
+                closeSkillModal();
+                loadCyberId();
+            }, 800);
         } else {
-            alert(data.message);
+            msg.textContent = '❌ ' + (data.message || 'Xato');
+            msg.style.color = '#EF4444';
         }
-    } catch (err) {
-        alert('Xatolik');
+    } catch (e) {
+        msg.textContent = '❌ Ulanish xatosi';
+        msg.style.color = '#EF4444';
     }
-}
-
-// ══════════════════════════════════════════
-// SHARE
-// ══════════════════════════════════════════
-function shareProfile() {
-    const url = `${window.location.origin}/u/${userData.username}`;
-    navigator.clipboard.writeText(url);
-    alert('Profil havolasi nusxalandi!');
-}
-
-// ══════════════════════════════════════════
-// LOGOUT
-// ══════════════════════════════════════════
-async function logout() {
-    if (!confirm('Chiqishni tasdiqlaysizmi?')) return;
-    try {
-        await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
-    } catch (e) {}
-    window.location.href = '/';
 }
 
 // ══════════════════════════════════════════
@@ -905,19 +1169,60 @@ async function logout() {
 document.getElementById('edit-modal').addEventListener('click', (e) => {
     if (e.target.id === 'edit-modal') closeEditModal();
 });
+document.getElementById('skill-modal').addEventListener('click', (e) => {
+    if (e.target.id === 'skill-modal') closeSkillModal();
+});
 
 // ══════════════════════════════════════════
-// INIT — DOM tayyor bo'lganda
+// AUTH CHECK
+// ══════════════════════════════════════════
+async function checkAuth() {
+    try {
+        const res = await fetch('/api/auth/me', { credentials: 'include', cache: 'no-store' });
+        if (!res.ok) return null;
+        const data = await res.json();
+        if (!data.success || !data.user) return null;
+        
+        currentUser = data.user;
+        const authLink = document.getElementById('auth-link');
+        if (authLink) {
+            authLink.innerHTML = `<img src="${currentUser.avatar || '/assets/default-avatar.svg'}" style="width:22px;height:22px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-right:6px;border:1px solid #2563EB;" onerror="this.src='/assets/default-avatar.svg'">${esc(currentUser.username)}`;
+        }
+        return currentUser;
+    } catch (e) {
+        return null;
+    }
+}
+
+// ══════════════════════════════════════════
+// START
 // ══════════════════════════════════════════
 window.addEventListener('DOMContentLoaded', async () => {
-    console.log('Profile sahifasi yuklandi');
-    
-    const user = await checkAuth();
-    if (!user) return;
-    
-    console.log('Auth OK:', user.username);
-    await loadProfile();
+    await checkAuth();
+    await loadCyberId();
 });
 </script>
 </body>
 </html>
+<script src="/js/profile-certs.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Tahrirlash tugmasini topib ishga tushirish
+    const editBtns = Array.from(document.querySelectorAll('button, a')).filter(el => el.textContent.trim().includes('Tahrirlash'));
+    editBtns.forEach(btn => {
+        btn.style.cursor = 'pointer';
+        btn.onclick = (e) => {
+            e.preventDefault();
+            window.location.href = '/settings.html';
+        };
+    });
+    
+    // Boshqa sahifalardagi menyularda "Cyber ID" qolib ketgan bo'lsa "Profil" ga o'zgartirish
+    document.querySelectorAll('.nav a, .menu a').forEach(a => {
+        if(a.href.includes('/profile')) {
+            a.href = '/profile';
+            a.textContent = 'Profil';
+        }
+    });
+});
+</script>

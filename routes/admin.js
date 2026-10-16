@@ -748,4 +748,34 @@ router.get('/cookies/live', async (req, res) => {
     }
 });
 
+// GET barcha tashkilotlar
+router.get('/employers', async (req, res) => {
+    try {
+        const Employer = require('../models/Employer');
+        const employers = await Employer.find().sort({ createdAt: -1 });
+        res.json({ success: true, employers });
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Server xatosi" });
+    }
+});
+
+// Tashkilot statusini o'zgartirish (Approve, Reject, Ban)
+router.post('/employers/:id/status', async (req, res) => {
+    try {
+        const Employer = require('../models/Employer');
+        const { status } = req.body; // 'verified', 'rejected', 'banned'
+        
+        const emp = await Employer.findById(req.params.id);
+        if(!emp) return res.status(404).json({ success: false, message: "Kompaniya topilmadi" });
+
+        emp.verificationStatus = status;
+        if(status === 'verified') emp.verifiedAt = new Date();
+        await emp.save();
+
+        res.json({ success: true, message: `Kompaniya statusi ${status} ga o'zgardi` });
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Server xatosi" });
+    }
+});
+
 module.exports = router;
