@@ -21,22 +21,22 @@ app.set('trust proxy', 1);
 // ══════════════════════════════════════════
 // SECURITY HEADERS
 // ══════════════════════════════════════════
-app.use(helmet({ contentSecurityPolicy: false }
-  } : false,
-  // ... pastdagi crossOriginEmbedderPolicy va boshqa sozlamalar qolaversin
-    crossOriginEmbedderPolicy: false,
-    hsts: isProd ? { maxAge: 31536000, includeSubDomains: true, preload: true } : false,
-    frameguard: { action: 'deny' },
-    noSniff: true,
-    xssFilter: true,
-    referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
-    permissionsPolicy: {
-        features: {
-            geolocation: ["'none'"],
-            microphone: ["'none'"],
-            camera: ["'none'"]
-        }
+
+app.use(helmet({
+  contentSecurityPolicy: false,
+  crossOriginEmbedderPolicy: false,
+  hsts: isProd ? { maxAge: 31536000, includeSubDomains: true, preload: true } : false,
+  frameguard: { action: 'deny' },
+  noSniff: true,
+  xssFilter: true,
+  referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
+  permissionsPolicy: {
+    features: {
+      geolocation: ["'none'"],
+      microphone: ["'none'"],
+      camera: ["'none'"]
     }
+  }
 }));
 
 app.use(compression());
