@@ -98,20 +98,61 @@
 // ══════════════════════════════════════════
 // CHART.JS — Radar Chart
 // ══════════════════════════════════════════
-let radarChart = null;
 
 function renderRadarChart(skills) {
-    const ctx = document.getElementById('radarChart');
-    if (!ctx) return;
+    const canvas = document.getElementById('radarChart');
+    if (!canvas) return;
 
     if (radarChart) radarChart.destroy();
 
-    const labels = Object.keys(skills).map(k => 
-        k.charAt(0).toUpperCase() + k.slice(1)
-    );
-    const data = Object.values(skills);
+    // Skills mavjudmi yoki bo'shmi?
+    const hasData = skills && Object.keys(skills).length > 0 
+        && Object.values(skills).some(v => v > 0);
 
-    radarChart = new Chart(ctx, {
+    // Default skills (bo'sh bo'lsa ham ko'rsatish)
+    const defaultSkills = { 
+        web: 0, pwn: 0, rev: 0, crypto: 0, 
+        forensics: 0, osint: 0 
+    };
+    
+    const skillsToUse = hasData ? skills : defaultSkills;
+    
+    const labels = Object.keys(skillsToUse).map(k => {
+        const map = {
+            web: 'Web', pwn: 'Pwn', rev: 'Reverse',
+            crypto: 'Crypto', forensics: 'Forensics', osint: 'OSINT',
+            linux: 'Linux', networking: 'Network'
+        };
+        return map[k] || (k.charAt(0).toUpperCase() + k.slice(1));
+    });
+    
+    const data = Object.values(skillsToUse);
+
+    // Chart konteyner
+    const container = canvas.parentElement;
+    
+    // Agar ma'lumot bo'lmasa — overlay qo'shish
+    if (!hasData) {
+        container.style.position = 'relative';
+        let overlay = container.querySelector('.radar-empty-overlay');
+        if (!overlay) {
+            overlay = document.createElement('div');
+            overlay.className = 'radar-empty-overlay';
+            overlay.style.cssText = 'position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;z-index:5;';
+            overlay.innerHTML = `
+                <div style="font-size:1.5rem;opacity:0.4;margin-bottom:8px;">📊</div>
+                <div style="color:#64748B;font-size:0.78rem;text-align:center;max-width:180px;line-height:1.4;">
+                    Challenge yechib, ko'nikmalaringizni rivojlantiring
+                </div>
+            `;
+            container.appendChild(overlay);
+        }
+    } else {
+        const overlay = container.querySelector('.radar-empty-overlay');
+        if (overlay) overlay.remove();
+    }
+
+    radarChart = new Chart(canvas, {
         type: 'radar',
         data: {
             labels: labels,
@@ -133,14 +174,9 @@ function renderRadarChart(skills) {
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            animation: {
-                duration: 1200,
-                easing: 'easeOutQuart'
-            },
+            animation: { duration: 1200, easing: 'easeOutQuart' },
             plugins: {
-                legend: {
-                    display: false
-                },
+                legend: { display: false },
                 tooltip: {
                     backgroundColor: 'rgba(15, 22, 41, 0.95)',
                     titleColor: '#F1F5F9',
@@ -162,28 +198,15 @@ function renderRadarChart(skills) {
                     ticks: {
                         stepSize: 25,
                         color: '#64748B',
-                        font: {
-                            size: 10,
-                            family: 'JetBrains Mono'
-                        },
+                        font: { size: 10, family: 'JetBrains Mono' },
                         backdropColor: 'transparent',
                         showLabelBackdrop: false
                     },
-                    grid: {
-                        color: 'rgba(74, 127, 255, 0.1)',
-                        lineWidth: 1
-                    },
-                    angleLines: {
-                        color: 'rgba(74, 127, 255, 0.15)',
-                        lineWidth: 1
-                    },
+                    grid: { color: 'rgba(74, 127, 255, 0.1)', lineWidth: 1 },
+                    angleLines: { color: 'rgba(74, 127, 255, 0.15)', lineWidth: 1 },
                     pointLabels: {
                         color: '#94A3B8',
-                        font: {
-                            size: 11,
-                            weight: '600',
-                            family: 'Inter'
-                        }
+                        font: { size: 11, weight: '600', family: 'Inter' }
                     }
                 }
             }
@@ -191,8 +214,7 @@ function renderRadarChart(skills) {
     });
 }
 
-// ══════════════════════════════════════════
-// DASHBOARD INIT
+//DASHBOARD INIT
 // ══════════════════════════════════════════
 (async function initDashboard() {
     try {

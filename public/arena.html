@@ -177,7 +177,11 @@ async function loadChallenges() {
 // ══════════════════════════════════════════
 function renderChallenges(cat) {
     const list = document.getElementById('challenges-list');
-    let filtered = cat === 'all' ? allChallenges : allChallenges.filter(c => c.category === cat);
+let filtered = cat === 'all' 
+    ? allChallenges 
+    : allChallenges.filter(c => 
+        (c.category || '').toLowerCase() === cat.toLowerCase()
+    );
 
     if (filtered.length === 0) {
         list.innerHTML = `
@@ -259,10 +263,16 @@ function renderChallenges(cat) {
 // FILTER
 // ══════════════════════════════════════════
 function filterChallenges(cat, el) {
+    // Barcha tugmalardan active class ni olib tashlash
     document.querySelectorAll('#filter-bar button').forEach(b => {
-        b.className = b.className.replace('btn-primary', 'btn-secondary');
+        b.classList.remove('btn-primary');
+        b.classList.add('btn-secondary');
     });
-    el.className = el.className.replace('btn-secondary', 'btn-primary');
+    // Bosilgan tugmaga active qo'shish
+    el.classList.remove('btn-secondary');
+    el.classList.add('btn-primary');
+    
+    // Filter qilish
     renderChallenges(cat);
 }
 
