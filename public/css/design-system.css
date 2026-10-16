@@ -785,3 +785,12 @@ h4 { font-size: 1.25rem; }
     --border: rgba(37,99,235,0.15);
 }
 }
+/* OVERLAY CLICKS FIX */
+.girih-bg { pointer-events: none !important; }
+#preloader { pointer-events: none !important; }
+.preloader, #preloader.hidden, .preloader.hidden { pointer-events: none !important; display: none !important; }
+
+/* OVERLAY CLICKS FIX */
+.girih-bg { pointer-events: none !important; }
+#preloader { pointer-events: none !important; }
+.preloader, #preloader.hidden, .preloader.hidden { pointer-events: none !important; display: none !important; }
