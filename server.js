@@ -22,19 +22,20 @@ app.set('trust proxy', 1);
 // SECURITY HEADERS
 // ══════════════════════════════════════════
 app.use(helmet({
-    contentSecurityPolicy: isProd ? {
-        directives: {
-            defaultSrc: ["'self'"],
-            styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-            fontSrc: ["'self'", "https://fonts.gstatic.com"],
-            scriptSrc: ["'self'", "'unsafe-inline'"],
-            imgSrc: ["'self'", "data:", "https:"],
-            connectSrc: ["'self'"],
-            frameAncestors: ["'none'"],
-            formAction: ["'self'"],
-            baseUri: ["'self'"]
-        }
-    } : false,
+  contentSecurityPolicy: isProd ? {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      scriptSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", "data:", "https:"],
+      connectSrc: ["'self'", "https:"],
+      frameAncestors: ["'none'"],
+      formAction: ["'self'"],
+      baseUri: ["'self'"]
+    }
+  } : false,
+  // ... pastdagi crossOriginEmbedderPolicy va boshqa sozlamalar qolaversin
     crossOriginEmbedderPolicy: false,
     hsts: isProd ? { maxAge: 31536000, includeSubDomains: true, preload: true } : false,
     frameguard: { action: 'deny' },
