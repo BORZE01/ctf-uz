@@ -778,4 +778,51 @@ router.post('/employers/:id/status', async (req, res) => {
     }
 });
 
+
+// ══════════════════════════════════════════
+// 🎓 ACADEMY (O'QUV BO'LIMI BOSHQARUVI)
+// ══════════════════════════════════════════
+const { Module, Lesson, Question } = require('../models/Learn');
+
+router.get('/academy/modules', async (req, res) => {
+    try {
+        const modules = await Module.find().sort({ order: 1 }).lean();
+        for(let m of modules) {
+            m.lessons = await Lesson.find({ moduleSlug: m.slug }).sort({ order: 1 }).lean();
+            for(let l of m.lessons) {
+                l.questionsCount = await Question.countDocuments({ lessonId: l._id });
+            }
+        }
+        res.json({ success: true, modules });
+    } catch(e) { res.status(500).json({ success: false, message: e.message }); }
+});
+
+router.post('/academy/modules', async (req, res) => {
+    try {
+        const m = await Module.create(req.body);
+        res.json({ success: true, module: m });
+    } catch(e) { res.status(500).json({ success: false, message: e.message }); }
+});
+
+router.delete('/academy/modules/:id', async (req, res) => {
+    try {
+        await Module.findByIdAndDelete(req.params.id);
+        res.json({ success: true });
+    } catch(e) { res.status(500).json({ success: false, message: e.message }); }
+});
+
+router.post('/academy/lessons', async (req, res) => {
+    try {
+        const l = await Lesson.create(req.body);
+        res.json({ success: true, lesson: l });
+    } catch(e) { res.status(500).json({ success: false, message: e.message }); }
+});
+
+router.delete('/academy/lessons/:id', async (req, res) => {
+    try {
+        await Lesson.findByIdAndDelete(req.params.id);
+        res.json({ success: true });
+    } catch(e) { res.status(500).json({ success: false, message: e.message }); }
+});
+
 module.exports = router;

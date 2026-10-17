@@ -1,0 +1,47 @@
+<!-- Dars UI qismi -->
+<div class="question-block" id="question-block-1">
+    <h4>1-Savol: TCP 3-Way Handshake mexanizmining ikkinchi bosqichida qanday flaglar kombinatsiyasi yuboradi?</h4>
+    <div style="display: flex; gap: 10px; margin-top: 15px;">
+        <input type="text" id="answer-input-1" placeholder="Javobni kiriting..." style="padding: 10px; border-radius: 6px; border: 1px solid #22D3EE; background: #0f1629; color: #fff; width: 100%; max-width: 300px;">
+        <button onclick="submitAnswer('SAVOL_ID_SHU_YERDA', 1)" style="padding: 10px 20px; background: #2563eb; color: #fff; border: none; border-radius: 6px; cursor: pointer;">Submit Answer</button>
+    </div>
+    <div id="feedback-1" style="margin-top: 10px; font-weight: bold;"></div>
+</div>
+
+<script>
+async function submitAnswer(questionId, uiIndex) {
+    const inputEl = document.getElementById(`answer-input-${uiIndex}`);
+    const feedbackEl = document.getElementById(`feedback-${uiIndex}`);
+    const userAnswer = inputEl.value;
+
+    if(!userAnswer) return;
+
+    // Tugmani "Kutilmoqda..." ga o'zgartirish
+    feedbackEl.innerHTML = "⏳ Tekshirilmoqda...";
+    feedbackEl.style.color = "#94a3b8";
+
+    try {
+        const response = await fetch('/api/learn/submit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ questionId, userAnswer })
+        });
+        
+        const data = await response.json();
+
+        if (data.success) {
+            // To'g'ri topilsa yashil belgi va inputni qulflash
+            feedbackEl.innerHTML = `✅ ${data.message}`;
+            feedbackEl.style.color = "#00ff9c";
+            inputEl.disabled = true;
+            inputEl.style.borderColor = "#00ff9c";
+        } else {
+            // Noto'g'ri bo'lsa qizil xatolik
+            feedbackEl.innerHTML = `❌ ${data.message}`;
+            feedbackEl.style.color = "#ef4444";
+        }
+    } catch (e) {
+        feedbackEl.innerHTML = "Server bilan aloqa yo'qolgan.";
+    }
+}
+</script>

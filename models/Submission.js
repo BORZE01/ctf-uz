@@ -35,4 +35,4 @@ const submissionSchema = new mongoose.Schema({
 submissionSchema.index({ userId: 1, challengeId: 1 });
 submissionSchema.index({ challengeId: 1, correct: 1 });
 
-module.exports = mongoose.model('Submission', submissionSchema);
+module.exports = mongoose.models.Submission || mongoose.model('Submission', submissionSchema);

@@ -260,6 +260,7 @@
     <nav class="nav">
         <a href="/dashboard">Dashboard</a>
         <a href="/arena">Arena</a>
+        <a href="/learn" >O'rganish</a>
         <a href="/battle">Battle</a>
         <a href="/leaderboard">Reyting</a>
         <a href="/career">Karyera</a>
@@ -934,7 +935,7 @@ window.addEventListener('DOMContentLoaded', async () => {
                 <p style="margin: 6px 0 0; font-size: 0.9rem; color: #94A3B8;">Berilgan sana: 17/10/2026 | ID: CTF-998877</p>
             </div>
         </div>
-        <button onclick="downloadMyCert('Sizning Ismingiz', 'CTF.UZ Boshlang\'ich Bosqich', 'CTF-998877', '17/10/2026')" style="background: rgba(34,211,238,0.15); border: 1px solid #22D3EE; color: #22D3EE; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; font-size: 1rem;" onmouseover="this.style.background='#22D3EE'; this.style.color='#0f1629'" onmouseout="this.style.background='rgba(34,211,238,0.15)'; this.style.color='#22D3EE'">
+        <button onclick="downloadMyCertReal('CTF.UZ Boshlang\'ich Bosqich', 'CTF-998877', '17/10/2026')" style="background: rgba(34,211,238,0.15); border: 1px solid #22D3EE; color: #22D3EE; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; font-size: 1rem;" onmouseover="this.style.background='#22D3EE'; this.style.color='#0f1629'" onmouseout="this.style.background='rgba(34,211,238,0.15)'; this.style.color='#22D3EE'">
             PDF Yuklash 📥
         </button>
     </div>
@@ -943,59 +944,115 @@ window.addEventListener('DOMContentLoaded', async () => {
 <!-- YASHIRIN A4 SERTIFIKAT SHABLONI -->
 
 <!-- YASHIRIN A4 SERTIFIKAT SHABLONI (Zamonaviy Dizayn) -->
+
+<!-- YASHIRIN A4 SERTIFIKAT SHABLONI (Ultra Zamonaviy Cyberpunk Dizayn) -->
+
+<!-- YASHIRIN A4 SERTIFIKAT SHABLONI (PRO DESIGN) -->
+
+<!-- YASHIRIN A4 SERTIFIKAT SHABLONI (EXACT DESIGN MATCH) -->
+
+<!-- YASHIRIN A4 SERTIFIKAT SHABLONI (STABLE TABLE LAYOUT) -->
+
+<!-- YASHIRIN A4 SERTIFIKAT SHABLONI (MODERN GRAPHIC DESIGN) -->
+
+<!-- YASHIRIN A4 SERTIFIKAT SHABLONI (MODERN GRAPHIC DESIGN) -->
+
+<!-- YASHIRIN A4 SERTIFIKAT SHABLONI (CTF.UZ OFFICIAL EXACT MATCH) -->
 <div id="cert-print-container" style="display: none; position: absolute; left: -9999px;">
-    <div id="a4-certificate" style="width: 297mm; height: 210mm; padding: 12mm; background: #03060b; position: relative; font-family: 'Chakra Petch', 'Arial', sans-serif; color: #e8fbff; box-sizing: border-box; overflow: hidden;">
+    <div id="a4-certificate" style="width: 1123px; height: 794px; background: #07111e; position: relative; font-family: 'Chakra Petch', sans-serif; color: #0f1629; box-sizing: border-box; overflow: hidden;">
         
-        <!-- Orqa fondagi neon nurlar va border -->
-        <div style="position: absolute; top: 8mm; left: 8mm; right: 8mm; bottom: 8mm; border: 2px solid rgba(0,200,255,0.4); padding: 35px; text-align: center; background: linear-gradient(135deg, #03060b 0%, #07111e 100%); border-radius: 8px; box-shadow: inset 0 0 40px rgba(0,200,255,0.1);">
+        <!-- Ichki oq/och kulrang zamonaviy kartochka -->
+        <div style="position: absolute; top: 15px; left: 15px; right: 15px; bottom: 15px; background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%); border: 2px solid #1e3a8a; border-radius: 8px; padding: 45px 55px; box-sizing: border-box; position: relative;">
             
-            <!-- Yuqori qism: Logo va Badge -->
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <div style="font-size: 28px;">⚡</div>
-                    <span style="font-size: 22px; font-weight: 800; color: #00c8ff; letter-spacing: 2px;">CTF.UZ</span>
-                </div>
-                <div style="font-size: 13px; font-family: 'JetBrains Mono', monospace; color: #6d8fa0; border: 1px solid rgba(0,200,255,0.3); padding: 6px 14px; border-radius: 4px; background: rgba(0,200,255,0.05);">
-                    SECURE VERIFIED CERTIFICATE
-                </div>
-            </div>
+            <!-- Orqa fon suv belgisi (Shield watermark) -->
+            <div style="position: absolute; right: 180px; top: 150px; font-size: 300px; opacity: 0.03; color: #1e3a8a; pointer-events: none; line-height: 1;">🛡️</div>
 
-            <!-- Markaziy qism -->
-            <div style="margin-top: 15px;">
-                <h5 style="font-size: 14px; text-transform: uppercase; letter-spacing: 6px; color: #00ff9c; margin-bottom: 5px; font-family: monospace;">Muvaffaqiyatli Tamomlagani uchun</h5>
-                <h1 style="font-size: 38px; font-weight: 800; color: #e8fbff; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 3px; text-shadow: 0 0 20px rgba(0,200,255,0.4);">Kiberxavfsizlik Sertifikati</h1>
-                
-                <p style="font-size: 15px; color: #8cd9ee; margin-bottom: 10px; font-style: italic;">Ushbu rasmiy hujjat quyidagi ishtirokchining bilimini tasdiqlaydi:</p>
-                
-                <!-- Foydalanuvchi ismi -->
-                <div style="margin: 15px 0;">
-                    <span id="cert-user-name" style="font-size: 46px; font-weight: 700; color: #00ff9c; border-bottom: 2px solid #00ff9c; padding-bottom: 5px; display: inline-block; text-shadow: 0 0 15px rgba(0,255,156,0.3);">Ism Familiya</span>
-                </div>
-                
-                <p style="font-size: 16px; color: #bfe8ff; line-height: 1.5; max-width: 80%; margin: 15px auto;">
-                    <b id="cert-course-name" style="color: #00c8ff;">Kurs Nomi</b> yo'nalishi bo'yicha barcha amaliy topshiriqlar, CTF laboratoriyalari va kiberxavfsizlik sinovlarini muvaffaqiyatli yakunladi.
-                </p>
-            </div>
+            <!-- Burchak texnologik bezaklar -->
+            <div style="position: absolute; top: 0; left: 0; width: 80px; height: 80px; border-top: 5px solid #1e3a8a; border-left: 5px solid #1e3a8a;"></div>
+            <div style="position: absolute; bottom: 0; right: 0; width: 120px; height: 120px; background: linear-gradient(135deg, transparent, #1e3a8a); clip-path: polygon(100% 0, 0 100%, 100% 100%); opacity: 0.85;"></div>
 
-            <!-- Pastki qism: Sana, QR kod va Imzo -->
-            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 35px; padding: 0 20px;">
-                <div style="text-align: left;">
-                    <p style="font-size: 12px; color: #6d8fa0; margin-bottom: 4px; font-family: monospace;">BERILGAN SANA:</p>
-                    <strong id="cert-date" style="font-size: 16px; color: #e8fbff; font-family: monospace;">Sana</strong>
-                </div>
-
-                <div style="text-align: center; display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.03); padding: 8px 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
-                    <img id="cert-qr-img" src="" style="width: 65px; height: 65px; border-radius: 4px; background: #fff; padding: 3px;">
-                    <div style="text-align: left;">
-                        <p style="font-size: 10px; color: #6d8fa0; margin: 0; font-family: monospace;">CERTIFICATE ID:</p>
-                        <span id="cert-id" style="font-size: 13px; font-weight: bold; color: #00ff9c; font-family: monospace;">ID</span>
+            <!-- 1. Yuqori qism: Logo va Respublika -->
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 25px;">
+                <div style="display: flex; align-items: center; gap: 14px;">
+                    <div style="width: 52px; height: 52px; background: linear-gradient(135deg, #1e3a8a, #2563eb); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 26px; box-shadow: 0 4px 15px rgba(30,58,138,0.3);">🛡️</div>
+                    <div>
+                        <h1 style="font-size: 28px; font-weight: 800; color: #07111e; margin: 0; letter-spacing: 2px; line-height: 1;">CTF.UZ</h1>
+                        <span style="font-size: 10px; color: #475569; letter-spacing: 1.5px; font-family: monospace; display: block; margin-top: 4px;">Learn · Practice · Build Your Future</span>
                     </div>
                 </div>
-
                 <div style="text-align: right;">
-                    <div style="font-family: 'Chakra Petch', sans-serif; font-size: 22px; font-weight: bold; color: #00c8ff; font-style: italic; margin-bottom: 2px;">CTF.UZ Team</div>
-                    <div style="border-top: 1px solid rgba(0,200,255,0.4); padding-top: 4px; font-size: 11px; color: #6d8fa0; font-family: monospace; letter-spacing: 1px;">PLATFORMA RAHBariyati</div>
+                    <div style="font-size: 11px; font-weight: 700; color: #1e3a8a; letter-spacing: 1.5px; font-family: monospace;">O'ZBEKISTON RESPUBLIKASI</div>
+                    <div style="font-size: 10px; color: #64748b; letter-spacing: 1px; font-family: monospace; margin-top: 2px;">KIBERXAVFSIZLIK TA'LIM PLATFORMASI</div>
                 </div>
+            </div>
+
+            <!-- 2. Sarlavha qismi -->
+            <div style="margin-bottom: 20px;">
+                <h2 style="font-size: 44px; font-weight: 800; color: #07111e; margin: 0 0 2px 0; text-transform: uppercase; letter-spacing: 3px;">SERTIFIKAT</h2>
+                <p style="font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; color: #475569; margin: 0; font-family: monospace;">O'QUV KURSINI TAMOMLAGANLIK UCHUN</p>
+            </div>
+
+            <!-- 3. Ism va Kurs nomi -->
+            <div style="margin-bottom: 25px; max-width: 650px;">
+                <p style="font-size: 14px; color: #334155; margin: 0 0 6px 0;">Ushbu sertifikat</p>
+                <div>
+                    <span id="cert-user-name" style="font-size: 42px; font-weight: 700; color: #1d4ed8; margin: 4px 0 10px 0; display: inline-block;">Ism Familiya</span>
+                </div>
+                <p style="font-size: 13px; color: #475569; margin: 0 0 6px 0;">ga CTF.UZ platformasidagi</p>
+                <div>
+                    <span id="cert-course-name" style="font-size: 26px; font-weight: 700; color: #2563eb; margin: 2px 0 6px 0; display: inline-block;">Kurs Nomi</span>
+                </div>
+                <p style="font-size: 13px; color: #475569; margin: 0;">kursini muvaffaqiyatli tamomlagani uchun berildi.</p>
+            </div>
+
+            <!-- 4. Meta ma'lumotlar (Sana, ID, Manba) -->
+            <div style="display: flex; gap: 30px; background: rgba(30, 58, 138, 0.04); border: 1px solid rgba(30, 58, 138, 0.12); padding: 10px 20px; border-radius: 8px; width: fit-content; margin-bottom: 20px;">
+                <div>
+                    <span style="font-size: 10px; color: #64748b; font-family: monospace; display: block;">Berilgan sana</span>
+                    <strong id="cert-date" style="font-size: 13px; font-weight: 700; color: #07111e; font-family: monospace;">2026-10-17</strong>
+                </div>
+                <div style="border-left: 1px solid #cbd5e1; padding-left: 20px;">
+                    <span style="font-size: 10px; color: #64748b; font-family: monospace; display: block;">Sertifikat ID</span>
+                    <strong id="cert-id" style="font-size: 13px; font-weight: 700; color: #07111e; font-family: monospace;">CTF-998877</strong>
+                </div>
+                <div style="border-left: 1px solid #cbd5e1; padding-left: 20px;">
+                    <span style="font-size: 10px; color: #64748b; font-family: monospace; display: block;">Manba</span>
+                    <strong style="font-size: 13px; font-weight: 700; color: #07111e; font-family: monospace;">CTF.UZ kursi</strong>
+                </div>
+            </div>
+
+            <!-- 5. Eslatma matni -->
+            <div style="font-size: 11px; color: #475569; max-width: 420px; line-height: 1.4; margin-bottom: 15px;">
+                Ushbu sertifikat egasining ko'rsatilgan yo'nalish bo'yicha talablarni muvaffaqiyatli bajarganini tasdiqlaydi.
+            </div>
+
+            <!-- 6. Pastki qism: Imzo va QR Kod / Badge -->
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 10px;">
+                <div style="border-top: 1.5px solid #07111e; width: 170px; padding-top: 6px;">
+                    <div style="font-size: 12px; font-weight: bold; color: #07111e; font-family: monospace;">CTF.UZ</div>
+                    <div style="font-size: 10px; color: #64748b; font-family: monospace;">Bosh direktor</div>
+                </div>
+
+                <div style="display: flex; gap: 20px; align-items: center;">
+                    <!-- Haqiqiy QR kod -->
+                    <div style="text-align: center; background: #fff; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                        <img id="cert-qr-img" src="" style="width: 75px; height: 75px; display: block; margin: 0 auto 3px auto;" alt="QR">
+                        <span style="font-size: 8px; font-weight: 700; color: #1e3a8a; font-family: monospace; display: block;">TEKSHIRISH</span>
+                        <small id="cert-verify-text" style="font-size: 7px; color: #64748b; font-family: monospace; display: block;">ctf.uz/verify/...</small>
+                    </div>
+
+                    <!-- Dumaloq Muhr Badge -->
+                    <div style="width: 90px; height: 90px; background: linear-gradient(135deg, #1e3a8a, #2563eb); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; text-align: center; border: 3px solid #bfdbfe; box-shadow: 0 6px 20px rgba(30,58,138,0.3); box-sizing: border-box; padding-top: 10px;">
+                        <div style="font-size: 18px; line-height: 1;">🛡️</div>
+                        <div style="font-size: 10px; font-weight: 800; letter-spacing: 1px; margin-top: 2px;">CTF.UZ</div>
+                        <div style="font-size: 7px; font-weight: 700; letter-spacing: 0.5px; opacity: 0.9;">CERTIFIED</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Eng pastki o'ng shior -->
+            <div style="position: absolute; bottom: 15px; right: 55px; font-size: 8px; color: #94a3b8; font-family: monospace; letter-spacing: 1.5px;">
+                KELAJAK KASBLARI KIBERXAVFSIZLIK BILAN BOSHLANADI
             </div>
 
         </div>
@@ -1036,6 +1093,81 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+window.downloadMyCertReal = async function(courseName, certId, date) {
+    // Profildan foydalanuvchining haqiqiy ismini topamiz
+    let realName = "Jasur";
+    const nameEl = document.querySelector('h1, h2, .profile-name');
+    if (nameEl) {
+        realName = nameEl.textContent.trim();
+    }
+    // Agar profildagi ISM yozuvi topilsa
+    const tdElements = document.querySelectorAll('td, span, div, strong');
+    for (let el of tdElements) {
+        if (el.textContent.trim() === 'ISM' && el.nextElementSibling) {
+            realName = el.nextElementSibling.textContent.trim();
+            break;
+        }
+    }
+
+    // Sertifikat shablonidagi elementlarga ma'lumotlarni yozamiz
+    const nameNode = document.getElementById('cert-user-name');
+    if (nameNode) nameNode.innerText = realName;
+    
+    const courseNode = document.getElementById('cert-course-name');
+    if (courseNode) courseNode.innerText = courseName;
+    
+    const idNode = document.getElementById('cert-id');
+    if (idNode) idNode.innerText = certId;
+    
+    const dateNode = document.getElementById('cert-date');
+    if (dateNode) dateNode.innerText = date;
+
+    const verifyText = document.getElementById('cert-verify-text');
+    const verifyUrl = 'https://ctf-uz.onrender.com/certificate-verify?id=' + certId;
+    if (verifyText) verifyText.innerText = 'ctf.uz/verify/' + certId;
+
+    const qrImg = document.getElementById('cert-qr-img');
+    const container = document.getElementById('cert-print-container');
+    const element = document.getElementById('a4-certificate');
+
+    if (!container || !element) {
+        alert("Sertifikat shabloni topilmadi!");
+        return;
+    }
+
+    // QR kodni yuklash
+    qrImg.src = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + encodeURIComponent(verifyUrl);
+
+    // Ekranda vaqtinchalik ko'rsatib turamiz (html2pdf ishlashi uchun)
+    container.style.display = 'block';
+    container.style.position = 'fixed';
+    container.style.top = '0';
+    container.style.left = '0';
+    container.style.zIndex = '-9999';
+
+    qrImg.onload = async function() {
+        const opt = {
+            margin: 0,
+            filename: 'Sertifikat_' + certId + '.pdf',
+            image: { type: 'jpeg', quality: 1 },
+            html2canvas: { scale: 2, useCORS: true, logging: false },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
+        };
+
+        try {
+            await html2pdf().set(opt).from(element).save();
+        } catch (e) {
+            console.error("PDF yaratishda xatolik:", e);
+        }
+
+        container.style.display = 'none';
+    };
+};
+</script>
+
 </body>
 </html>
 
@@ -1068,7 +1200,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <p style="margin: 4px 0 0; font-size: 0.85rem; color: #94A3B8;">Berilgan sana: ${new Date().toLocaleDateString('uz-UZ')} | ID: CTF-998877</p>
                     </div>
                 </div>
-                <button onclick="downloadMyCert('Sizning Ismingiz', 'CTF.UZ Boshlang\\'ich Bosqich', 'CTF-998877', '${new Date().toLocaleDateString('uz-UZ')}')" class="btn btn-primary" style="background: rgba(37,99,235,0.1); border-color: rgba(37,99,235,0.3); color: #22D3EE;">
+                <button onclick="downloadMyCertReal( 'CTF.UZ Boshlang\\'ich Bosqich', 'CTF-998877', '${new Date().toLocaleDateString('uz-UZ')}')" class="btn btn-primary" style="background: rgba(37,99,235,0.1); border-color: rgba(37,99,235,0.3); color: #22D3EE;">
                     PDF Yuklash
                 </button>
             </div>
@@ -1184,7 +1316,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <p style="margin: 4px 0 0; font-size: 0.85rem; color: #94A3B8;">Berilgan sana: ${new Date().toLocaleDateString('uz-UZ')} | ID: CTF-998877</p>
                     </div>
                 </div>
-                <button onclick="downloadMyCert('Sizning Ismingiz', 'CTF.UZ Boshlang\\'ich Bosqich', 'CTF-998877', '${new Date().toLocaleDateString('uz-UZ')}')" class="btn btn-primary" style="background: rgba(37,99,235,0.1); border-color: rgba(37,99,235,0.3); color: #22D3EE;">
+                <button onclick="downloadMyCertReal( 'CTF.UZ Boshlang\\'ich Bosqich', 'CTF-998877', '${new Date().toLocaleDateString('uz-UZ')}')" class="btn btn-primary" style="background: rgba(37,99,235,0.1); border-color: rgba(37,99,235,0.3); color: #22D3EE;">
                     PDF Yuklash
                 </button>
             </div>

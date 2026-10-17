@@ -154,6 +154,10 @@
                 <svg class="icon icon-cookie" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5zm-4 9a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm0 5a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm5-1a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm3-4a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/></svg>
                 Live Cookies
             </a>
+            <a onclick="showPage('academy',this)">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+                Academy
+            </a>
             <a onclick="showPage('challenges',this)">
                 <svg class="icon icon-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4a2 2 0 0 1-2-2V5h4M18 9h2a2 2 0 0 0 2-2V5h-4M6 5h12v6a6 6 0 0 1-12 0V5zM12 17v3M8 21h8M9 21v-2a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/></svg>
                 Challenges
@@ -308,6 +312,18 @@
                 </div>
             </div>
 
+            <!-- ACADEMY -->
+            <div id="academy" class="page">
+                <div class="toolbar">
+                    <p style="color:var(--text2);font-size:.85rem">Academy Modullari va Darslari</p>
+                    <div style="display:flex;gap:10px">
+                        <button class="btn btn-secondary btn-sm" onclick="openModal('modModal')">+ Modul Qo'shish</button>
+                        <button class="btn btn-primary btn-sm" onclick="openModal('lesModal')">+ Dars Qo'shish</button>
+                    </div>
+                </div>
+                <div id="academyBody" style="display:flex;flex-direction:column;gap:16px;"></div>
+            </div>
+
             <!-- CHALLENGES -->
             <div id="challenges" class="page">
                 <div class="toolbar">
@@ -417,6 +433,53 @@
 </div>
 
 <!-- MODALS -->
+<div id="qModal" class="modal">
+    <div class="modal-box">
+        <h3>Savol Qo'shish</h3>
+        <input type="hidden" id="qLessonId">
+        <div class="field"><label>Savol matni (yoki topshiriq)</label><textarea id="qText" placeholder="Masalan: Ushbu kodda qanday zaiflik bor?"></textarea></div>
+        <div class="field"><label>To'g'ri javob</label><input id="qAnswers" placeholder="ctf{javob} yoki oddiy matn"></div>
+        <div class="field"><label>Beriladigan XP</label><input type="number" id="qPoints" value="20"></div>
+        <div style="display:flex;gap:10px;margin-top:20px">
+            <button class="btn btn-primary" style="flex:1" onclick="createQuestion()">Yaratish</button>
+            <button class="btn btn-secondary" style="flex:1" onclick="closeModal('qModal')">Bekor</button>
+        </div>
+    </div>
+</div>
+<div id="modModal" class="modal">
+    <div class="modal-box">
+        <h3>Modul Qo'shish</h3>
+        <div class="field"><label>Slug (URL: masalan module-1)</label><input id="modSlug"></div>
+        <div class="field"><label>Sarlavha (Kiberxavfsizlik asoslari)</label><input id="modTitle"></div>
+        <div class="field"><label>Kategoriya</label><input id="modCat" value="Cybersecurity Fundamentals"></div>
+        <div class="field"><label>Qiyinlik</label><select id="modDiff"><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select></div>
+        <div class="field"><label>Tartib raqami (Order)</label><input type="number" id="modOrder" value="1"></div>
+        <div style="display:flex;gap:10px;margin-top:20px">
+            <button class="btn btn-primary" style="flex:1" onclick="createMod()">Yaratish</button>
+            <button class="btn btn-secondary" style="flex:1" onclick="closeModal('modModal')">Bekor</button>
+        </div>
+    </div>
+</div>
+
+<div id="lesModal" class="modal">
+    <div class="modal-box">
+        <h3>Dars Qo'shish</h3>
+        <div class="field"><label>Tegishli Modul Slugi (Qaysi modulga qo'shiladi?)</label><select id="lesModSlug" style="width: 100%; padding: 11px 14px; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; color: var(--text); outline: none; transition: 0.2s;"></select></div>
+        <div class="field"><label>Dars Slugi (masalan lesson-1)</label><input id="lesSlug"></div>
+        <div class="field"><label>Dars Sarlavhasi</label><input id="lesTitle"></div>
+        <div class="field"><label>Qisqacha tavsif</label><input id="lesDesc"></div>
+        <div class="field"><label>Matn (HTML ishlaydi)</label><textarea id="lesContent" placeholder="<h1>Sarlavha</h1><p>Matn</p>"></textarea></div>
+        <div class="field" style="display:flex;gap:10px">
+            <div style="flex:1"><label>Davomiyligi (min)</label><input type="number" id="lesDur" value="15"></div>
+            <div style="flex:1"><label>Beriladigan XP</label><input type="number" id="lesXP" value="50"></div>
+        </div>
+        <div class="field"><label>Tartib raqami</label><input type="number" id="lesOrder" value="1"></div>
+        <div style="display:flex;gap:10px;margin-top:20px">
+            <button class="btn btn-primary" style="flex:1" onclick="createLes()">Yaratish</button>
+            <button class="btn btn-secondary" style="flex:1" onclick="closeModal('lesModal')">Bekor</button>
+        </div>
+    </div>
+</div>
 <div id="chModal" class="modal">
     <div class="modal-box">
         <h3>
@@ -505,6 +568,41 @@
 </div>
 
 <script>
+
+function openQModal(lessonId) {
+    document.getElementById('qLessonId').value = lessonId;
+    document.getElementById('qText').value = '';
+    document.getElementById('qAnswers').value = '';
+    openModal('qModal');
+}
+
+async function createQuestion() {
+    try {
+        const data = {
+            lessonId: document.getElementById('qLessonId').value,
+            prompt: document.getElementById('qText').value,
+            answers: document.getElementById('qAnswers').value.split(',').map(s => s.trim()).filter(Boolean),
+            points: parseInt(document.getElementById('qPoints').value) || 20,
+            type: 'flag'
+        };
+        if (!data.prompt || !data.answers.length) return alert("Savol va javob bo'lishi shart!");
+        
+        const res = await fetch('/api/learn/academy/questions', { 
+            method: 'POST', 
+            headers: {'Content-Type': 'application/json', 'x-csrf-token': await getCsrfToken()},
+            body: JSON.stringify(data) 
+        }).then(r => r.json());
+        
+        if (res && res.success) { 
+            closeModal('qModal'); 
+            alert("Savol qo'shildi! Darsga kirsangiz savol ko'rinadi.");
+        } else {
+            alert("Xatolik: " + (res ? res.message : "Noma'lum xato"));
+        }
+    } catch(e) {
+        alert("Kutilmagan xato: " + e.message);
+    }
+}
 // ══════════════════════════════════════════
 // CSRF TOKEN
 // ══════════════════════════════════════════
@@ -563,6 +661,7 @@ const PAGE_TITLES = {
     dashboard: '<svg class="icon icon-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18M7 16v-5M12 16V8M17 16v-9"/></svg> Dashboard',
     users: '<svg class="icon icon-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg> Foydalanuvchilar',
     cookies: '<svg class="icon icon-cookie" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5z"/></svg> Live Cookies',
+    academy: '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg> Academy',
     challenges: '<svg class="icon icon-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4a2 2 0 0 1-2-2V5h4M18 9h2a2 2 0 0 0 2-2V5h-4M6 5h12v6a6 6 0 0 1-12 0V5zM12 17v3M8 21h8"/></svg> Challenges',
     events: '<svg class="icon icon-flag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1zM4 22v-7"/></svg> Events',
     submissions: '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg> Submissions',
@@ -586,7 +685,7 @@ function showPage(id, el) {
 
     const loaders = {
         dashboard: loadDashboard, users: loadUsers, cookies: loadLiveCookies,
-        challenges: loadChallenges, events: loadEvents, submissions: loadSubs,
+        academy: loadAcademy, challenges: loadChallenges, events: loadEvents, submissions: loadSubs,
         achievements: loadAchievements, titles: loadTitles,
         announcements: loadAnnouncements, audit: loadAudit
     };
@@ -603,6 +702,133 @@ function esc(t) {
     if (t === null || t === undefined) return '';
     return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
+
+
+// ══════════════════════════════════════════
+// ACADEMY API & UI LOGIC
+// ══════════════════════════════════════════
+async function loadAcademy() {
+    try {
+        const res = await fetch('/api/learn/modules').then(r => r.json());
+        if (!res.success) return;
+        
+        const modulesList = res.data || res.modules || [];
+        
+        // 1. Dropdown (Select) menyusunu doldurmaq
+        const sel = document.getElementById('lesModSlug');
+        if(sel) {
+            sel.innerHTML = modulesList.map(m => `<option value="${m.slug}">${esc(m.title)} (${esc(m.slug)})</option>`).join('');
+        }
+        
+        // 2. Modullar siyahısını ekranda çəkmək
+        let out = '';
+        modulesList.forEach(m => {
+            out += `<div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)">
+                    <div>
+                        <h4 style="font-size:1.1rem;color:var(--blue-l);margin-bottom:6px">${esc(m.title)} <span style="font-size:0.75rem;color:var(--text3);font-family:JetBrains Mono">(${esc(m.slug)})</span></h4>
+                        <span class="badge b-blue">${esc(m.category)}</span> <span class="badge b-gold">${esc(m.difficulty || 'Boshlang\'ich')}</span>
+                    </div>
+                    <button class="btn-icon" onclick="delMod('${m._id}')" title="Modulni o'chirish">
+                        <svg class="icon icon-trash" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
+                    </button>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(300px, 1fr));gap:14px;">`;
+            
+            if (m.lessons && m.lessons.length > 0) {
+                m.lessons.forEach(l => {
+                    out += `<div style="background:var(--bg2);border:1px solid rgba(255,255,255,0.03);border-radius:10px;padding:14px;display:flex;justify-content:space-between;align-items:center;transition:0.2s">
+                        <div>
+                            <div style="font-size:0.85rem;font-weight:600;margin-bottom:6px;color:#fff">${esc(l.title)}</div>
+                            <div style="font-size:0.75rem;color:var(--text3);font-family:JetBrains Mono">⏱ ${l.duration} min | 💎 ${l.xpReward} XP</div>
+                        </div>
+                        <div style="display:flex;gap:8px;">
+                            <button class="btn-icon" onclick="openQModal('${l._id}')" title="Savol qo'shish" style="color:#10B981;">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><path d="M12 5v14M5 12h14"/></svg>
+                            </button>
+                            <button class="btn-icon" onclick="delLes('${l._id}')" title="Darsni o'chirish">
+                                <svg class="icon icon-trash" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
+                            </button>
+                        </div>
+                    </div>`;
+                });
+            } else {
+                out += `<div style="color:var(--text3);font-size:0.85rem;">Bu modulda darslar yo'q</div>`;
+            }
+            
+            out += `</div></div>`;
+        });
+        
+        document.getElementById('academyBody').innerHTML = out || '<div style="padding:40px;text-align:center;color:var(--text3)">Hozircha modullar yo\'q</div>';
+    } catch(e) {
+        console.error("Academy load xatosi:", e);
+    }
+}
+
+async function createMod() {
+            try {
+                const data = {
+                    slug: document.getElementById('modSlug').value.toLowerCase().trim().replace(/\s+/g, '-'),
+                    title: document.getElementById('modTitle').value,
+                    category: document.getElementById('modCat').value,
+                    difficulty: document.getElementById('modDiff').value,
+                    order: document.getElementById('modOrder').value
+                };
+                if (!data.slug || !data.title) return alert("Slug va sarlavha kiritilishi shart!");
+                
+                const res = await fetch('/api/learn/academy/modules', { 
+            method: 'POST', 
+            headers: {'Content-Type': 'application/json', 'x-csrf-token': await getCsrfToken()},
+            body: JSON.stringify(data) 
+        }).then(r => r.json());
+                
+                if (res && res.success) { 
+                    closeModal('modModal'); 
+                    loadAcademy(); 
+                    alert("Modul muvaffaqiyatli yaratildi!");
+                } else {
+                    alert("Xatolik: " + (res ? res.message : "Noma'lum xato"));
+                }
+            } catch(e) {
+                alert("Kutilmagan xato: " + e.message);
+            }
+        }
+
+async function createLes() {
+            try {
+                const data = {
+                    moduleSlug: document.getElementById('lesModSlug').value.toLowerCase().trim().replace(/\s+/g, '-'),
+                    slug: document.getElementById('lesSlug').value.toLowerCase().trim().replace(/\s+/g, '-'),
+                    title: document.getElementById('lesTitle').value,
+                    description: document.getElementById('lesDesc').value,
+                    content: document.getElementById('lesContent').value,
+                    duration: document.getElementById('lesDur').value,
+                    xpReward: document.getElementById('lesXP').value,
+                    order: document.getElementById('lesOrder').value,
+                    type: 'quiz'
+                };
+                if (!data.moduleSlug || !data.slug) return alert("Modul va Dars slugi kiritilishi shart!");
+                
+                const res = await fetch('/api/learn/academy/lessons', { 
+            method: 'POST', 
+            headers: {'Content-Type': 'application/json', 'x-csrf-token': await getCsrfToken()},
+            body: JSON.stringify(data) 
+        }).then(r => r.json());
+                
+                if (res && res.success) { 
+                    closeModal('lesModal'); 
+                    loadAcademy(); 
+                    alert("Dars muvaffaqiyatli yaratildi!");
+                } else {
+                    alert("Xatolik: " + (res ? res.message : "Noma'lum xato"));
+                }
+            } catch(e) {
+                alert("Kutilmagan xato: " + e.message);
+            }
+        }
+
+async function delMod(id) { if (confirm("Modulni o'chirishni tasdiqlaysizmi?")) { await fetch('/api/learn/academy/modules/'+id, {method:'DELETE', headers: {'x-csrf-token': await getCsrfToken()}}).then(r => r.json()); loadAcademy(); } }
+async function delLes(id) { if (confirm("Darsni o'chirishni tasdiqlaysizmi?")) { await fetch('/api/learn/academy/lessons/'+id, {method:'DELETE', headers: {'x-csrf-token': await getCsrfToken()}}).then(r => r.json()); loadAcademy(); } }
 
 // ══════════════════════════════════════════
 // DASHBOARD

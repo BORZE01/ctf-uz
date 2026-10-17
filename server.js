@@ -277,6 +277,8 @@ publicPages.forEach(page => {
 });
 
 // Battle live room
+app.get('/learn/:module/:lesson', (req, res) => { res.sendFile(path.join(__dirname, 'public', 'lesson.html')); });
+
 app.get('/battle/:id', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'battle-room.html'));
 });
