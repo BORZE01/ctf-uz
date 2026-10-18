@@ -10,10 +10,63 @@ const checkAuth = (req, res, next) => {
     next();
 };
 
+// ==========================================
+// 1. CONTINUE LEARNING API (Oxirgi dars)
+// ==========================================
+router.get('/continue', checkAuth, async (req, res) => {
+    try {
+        const lastProgress = await Progress.findOne({ userId: req.userId })
+            .sort({ updatedAt: -1 })
+            .populate('lessonId')
+            .lean();
+            
+        if (!lastProgress || !lastProgress.lessonId) {
+            return res.json({ success: true, hasContinue: false });
+        }
+
+        const lesson = lastProgress.lessonId;
+        const mod = await Module.findOne({ slug: lesson.moduleSlug }).lean();
+
+        let targetLesson = lesson;
+        if (lastProgress.status === 'completed') {
+            const nextLesson = await Lesson.findOne({ 
+                moduleSlug: lesson.moduleSlug, 
+                order: { $gt: lesson.order } 
+            }).sort({ order: 1 }).lean();
+            
+            if (nextLesson) targetLesson = nextLesson;
+        }
+
+        res.json({
+            success: true,
+            hasContinue: true,
+            lesson: {
+                title: targetLesson.title,
+                slug: targetLesson.slug,
+                moduleSlug: targetLesson.moduleSlug,
+                moduleTitle: mod ? mod.title : 'Noma\'lum modul',
+                status: targetLesson._id.toString() === lesson._id.toString() ? lastProgress.status : 'not_started'
+            }
+        });
+    } catch (e) {
+        console.error("Continue API Error:", e);
+        res.status(500).json({ success: false, message: "Server xatosi" });
+    }
+});
+
+// ==========================================
+// 2. MODULLAR VA QIDIRUV API
+// ==========================================
 router.get('/modules', async (req, res) => {
     try {
         const userId = req.session?.userId || req.session?.user?.id || req.user?._id;
-        const modules = await Module.find({ isActive: true }).sort({order: 1}).lean();
+        const { q, difficulty, category } = req.query;
+        let moduleFilter = { isActive: true };
+        
+        if (difficulty) moduleFilter.difficulty = difficulty;
+        if (category) moduleFilter.category = category;
+
+        const modules = await Module.find(moduleFilter).sort({order: 1}).lean();
         
         let userProgressList = [];
         if (userId) {
@@ -22,10 +75,25 @@ router.get('/modules', async (req, res) => {
 
         let totalLessons = 0;
         let completedLessons = 0;
+        let filteredModules = [];
 
         for (let m of modules) {
-            const lessons = await Lesson.find({moduleSlug: m.slug}).sort({order: 1}).lean();
-            totalLessons += lessons.length;
+            let lessonFilter = { moduleSlug: m.slug };
+            
+            if (q) {
+                const regex = new RegExp(q.trim(), 'i');
+                lessonFilter.$or = [
+                    { title: regex },
+                    { description: regex }
+                ];
+            }
+
+            const lessons = await Lesson.find(lessonFilter).sort({order: 1}).lean();
+            
+            if (q && lessons.length === 0) continue; // Qidiruv bo'lganda, ichida darsi yo'q modullarni qaytarmaslik
+
+            const fullLessons = await Lesson.find({ moduleSlug: m.slug }).lean();
+            totalLessons += fullLessons.length;
             
             m.lessons = lessons.map(les => {
                 const prog = userProgressList.find(p => p.lessonId.toString() === les._id.toString());
@@ -37,16 +105,21 @@ router.get('/modules', async (req, res) => {
                     progressPercent: status === 'completed' ? 100 : (status === 'started' ? 50 : 0)
                 };
             });
+            
+            filteredModules.push(m);
         }
 
         const globalProgress = totalLessons === 0 ? 0 : Math.round((completedLessons / totalLessons) * 100);
-        res.json({ success: true, data: modules, stats: { totalLessons, completedLessons, globalProgress } });
+        res.json({ success: true, data: filteredModules, stats: { totalLessons, completedLessons, globalProgress } });
     } catch(e) {
         console.error("Learn modules error:", e);
         res.status(500).json({success: false, message: "Server xatosi"});
     }
 });
 
+// ==========================================
+// 3. DARS VA SUBMIT API
+// ==========================================
 router.get('/lesson/:slug', async (req, res) => {
     try {
         const userId = req.session?.userId || req.session?.user?.id || req.user?._id;
@@ -147,7 +220,6 @@ router.delete('/academy/lessons/:id', checkAuth, async (req, res) => {
     } catch(e) { res.status(500).json({ success: false, message: e.message }); }
 });
 
-
 router.post('/academy/questions', checkAuth, async (req, res) => {
     try {
         const { Question } = require('../models/Learn');
@@ -158,7 +230,6 @@ router.post('/academy/questions', checkAuth, async (req, res) => {
         res.status(500).json({ success: false, message: e.message }); 
     }
 });
-
 
 router.get("/academy/lesson-detail/:slug*", async (req, res) => {
     try {

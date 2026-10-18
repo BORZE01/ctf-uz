@@ -3,14 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>O'rganish — CTF.UZ</title>
-    <!-- ARENA BILAN BIR XIL CSS FAYLLAR -->
+    <title>Academy — CTF.UZ</title>
     <link rel="stylesheet" href="/css/design-system.css">
     <link rel="stylesheet" href="/css/animations.css">
     <link rel="stylesheet" href="/css/icons.css">
     <link rel="stylesheet" href="/css/modern-ui.css">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/preloader.css">
+    <style>
+        .search-container { margin-bottom: 24px; }
+        .search-input { width: 100%; max-width: 400px; padding: 12px 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: #fff; font-family: Inter, sans-serif; font-size: 1rem; outline: none; transition: 0.2s; }
+        .search-input:focus { border-color: var(--uz-blue); box-shadow: 0 0 0 3px rgba(74, 127, 255, 0.2); }
+        .module-header { margin-top: 40px; margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px;}
+        .module-header h2 { font-family: Manrope, sans-serif; font-size: 1.8rem; margin: 0; color: #fff; display:flex; align-items:center; gap:12px;}
+        .module-meta { font-size: 0.9rem; color: var(--text-muted); margin-top: 8px; display:flex; gap:15px; }
+        
+        .continue-card { background: rgba(15,22,41,0.8); border: 1px solid rgba(37,99,235,0.4); border-radius: 16px; padding: 24px 32px; margin-bottom: 40px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); position:relative; overflow:hidden;}
+        .continue-card::before { content:''; position:absolute; top:0; left:0; width:4px; height:100%; background: var(--uz-blue); }
+        .continue-info h3 { margin: 0 0 8px 0; font-size: 1.4rem; color: #fff; font-family: Manrope, sans-serif;}
+        .continue-info p { margin: 0; color: var(--text-muted); font-size: 0.95rem; }
+    </style>
 </head>
 <body>
 
@@ -40,142 +52,246 @@
     <div style="display: flex; justify-content: space-between; align-items: end; margin-bottom: 32px; flex-wrap: wrap; gap: 16px;">
         <div>
             <h1 style="margin-bottom: 8px; display: flex; align-items: center; gap: 12px;">
-                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:36px;height:36px;color:#00c8ff;">
-                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:36px;height:36px;color:#10B981;">
+                    <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
                 </svg>
-                O'quv Modullari
+                Academy
             </h1>
-            <p style="color: var(--text-secondary);">Kiberxavfsizlik akademiyasi. Darslarni o'qing, XP yig'ing va sertifikat oling.</p>
+            <p style="color: var(--text-secondary);">Kiberxavfsizlik bo'yicha professional o'quv modullari va laboratoriyalar.</p>
         </div>
         <div id="arena-stats" style="display: flex; gap: 16px; flex-wrap: wrap;">
-            <div style="background: rgba(74, 127, 255, 0.06); border: 1px solid rgba(74, 127, 255, 0.15); border-radius: 12px; padding: 10px 16px;">
-                <div style="font-size: 0.65rem; color: var(--text3); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700;">Tugatilgan</div>
+            <div style="background: rgba(16, 185, 129, 0.06); border: 1px solid rgba(16, 185, 129, 0.15); border-radius: 12px; padding: 10px 16px;">
+                <div style="font-size: 0.65rem; color: var(--text3); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700;">Tugallangan</div>
                 <div style="font-family: Manrope; font-size: 1.3rem; font-weight: 900; color: #10B981;" id="stat-solved">0</div>
             </div>
             <div style="background: rgba(74, 127, 255, 0.06); border: 1px solid rgba(74, 127, 255, 0.15); border-radius: 12px; padding: 10px 16px;">
-                <div style="font-size: 0.65rem; color: var(--text3); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700;">Jami darslar</div>
+                <div style="font-size: 0.65rem; color: var(--text3); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700;">Jami Darslar</div>
                 <div style="font-family: Manrope; font-size: 1.3rem; font-weight: 900; color: #4A7FFF;" id="stat-total">0</div>
             </div>
         </div>
     </div>
 
-    <!-- MODULES AND LESSONS LIST -->
-    <div id="modules-list">
-        <!-- Skeleton Loaders -->
+    <!-- Continue Learning Section -->
+    <div id="continue-section"></div>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" class="search-input" placeholder="Dars yoki modul izlash...">
+    </div>
+    
+    <!-- Filters (Same as Arena) -->
+    <div style="display: flex; gap: 8px; margin-bottom: 32px; flex-wrap: wrap;" id="filter-bar">
+        <button class="btn btn-primary btn-sm" onclick="filterModules('', this)">Barchasi</button>
+        <button class="btn btn-secondary btn-sm" onclick="filterModules('Kiberxavfsizlik va Tarmoq', this)">Tarmoq va Xavfsizlik</button>
+        <button class="btn btn-secondary btn-sm" onclick="filterModules('Cybersecurity Fundamentals', this)">Asoslar</button>
+    </div>
+
+    <div id="modules-container">
+        <!-- SKELETON -->
         <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 24px;">
-            <div class="skeleton-challenge"><div class="skeleton skeleton-title"></div><div class="skeleton skeleton-text long"></div><div class="skeleton skeleton-text medium"></div></div>
-            <div class="skeleton-challenge"><div class="skeleton skeleton-title"></div><div class="skeleton skeleton-text long"></div><div class="skeleton skeleton-text medium"></div></div>
-            <div class="skeleton-challenge"><div class="skeleton skeleton-title"></div><div class="skeleton skeleton-text long"></div><div class="skeleton skeleton-text medium"></div></div>
+            <div class="skeleton-challenge">
+                <div class="skeleton skeleton-title"></div>
+                <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+                    <div class="skeleton skeleton-badge"></div>
+                    <div class="skeleton skeleton-badge"></div>
+                </div>
+                <div class="skeleton skeleton-text long"></div>
+                <div class="skeleton skeleton-text long"></div>
+                <div class="skeleton skeleton-text medium"></div>
+            </div>
+            <div class="skeleton-challenge">
+                <div class="skeleton skeleton-title"></div>
+                <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+                    <div class="skeleton skeleton-badge"></div>
+                    <div class="skeleton skeleton-badge"></div>
+                </div>
+                <div class="skeleton skeleton-text long"></div>
+                <div class="skeleton skeleton-text long"></div>
+                <div class="skeleton skeleton-text medium"></div>
+            </div>
+            <div class="skeleton-challenge">
+                <div class="skeleton skeleton-title"></div>
+                <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+                    <div class="skeleton skeleton-badge"></div>
+                    <div class="skeleton skeleton-badge"></div>
+                </div>
+                <div class="skeleton skeleton-text long"></div>
+                <div class="skeleton skeleton-text long"></div>
+                <div class="skeleton skeleton-text medium"></div>
+            </div>
         </div>
     </div>
 </div>
 
 <script>
-// XSS himoyasi
+let currentCategory = '';
+let debounceTimer;
+
 function escapeHtml(text) {
     if (!text) return '';
     return String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
 }
 
+document.getElementById('searchInput').addEventListener('input', () => {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(loadModules, 500);
+});
+
+function filterModules(cat, el) {
+    document.querySelectorAll('#filter-bar button').forEach(b => {
+        b.classList.remove('btn-primary');
+        b.classList.add('btn-secondary');
+    });
+    el.classList.remove('btn-secondary');
+    el.classList.add('btn-primary');
+    currentCategory = cat;
+    loadModules();
+}
+
+async function loadContinue() {
+    try {
+        const res = await fetch('/api/learn/continue', { credentials: 'include' }).then(r=>r.json());
+        if(res.hasContinue && res.lesson) {
+            const l = res.lesson;
+            document.getElementById('continue-section').innerHTML = `
+                <div class="continue-card fade-in-up">
+                    <div class="continue-info">
+                        <span style="color: var(--uz-blue); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Oxirgi faoliyat</span>
+                        <h3>${escapeHtml(l.title)}</h3>
+                        <p>${escapeHtml(l.moduleTitle)} • Holati: <span style="color: ${l.status === 'completed' ? '#10B981' : '#F59E0B'}">${l.status === 'completed' ? 'Tugallangan' : 'Jarayonda'}</span></p>
+                    </div>
+                    <a href="/learn/${l.moduleSlug}/${l.slug}" class="btn btn-primary" style="display:inline-flex; align-items:center; gap:8px;">
+                        ${l.status === 'completed' ? 'Keyingi dars' : 'Davom ettirish'}
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </a>
+                </div>
+            `;
+        }
+    } catch(e) {}
+}
+
+async function loadModules() {
+    const container = document.getElementById('modules-container');
+    const q = document.getElementById('searchInput').value.trim();
+    
+    let url = '/api/learn/modules?';
+    if (q) url += 'q=' + encodeURIComponent(q) + '&';
+    if (currentCategory) url += 'category=' + encodeURIComponent(currentCategory);
+
+    try {
+        const res = await fetch(url, { credentials: 'include' }).then(r=>r.json());
+        if (!res.success) {
+            container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 60px; color: var(--text-muted);">Yuklashda xatolik.</div>';
+            return;
+        }
+
+        document.getElementById('stat-solved').innerText = res.stats.completedLessons || 0;
+        document.getElementById('stat-total').innerText = res.stats.totalLessons || 0;
+
+        if (res.data.length === 0) {
+            container.innerHTML = `
+                <div style="grid-column: 1/-1; text-align: center; padding: 60px; color: var(--text-muted);">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width:48px;height:48px;opacity:0.3;margin-bottom:12px;">
+                        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+                    </svg>
+                    <p>Darslar topilmadi</p>
+                </div>`;
+            return;
+        }
+
+        let html = '';
+        res.data.forEach(m => {
+            html += `
+                <div class="module-header fade-in-up">
+                    <div>
+                        <h2>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--uz-blue)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                            ${escapeHtml(m.title)}
+                        </h2>
+                        <div class="module-meta">
+                            <span>Kategoriya: ${escapeHtml(m.category)}</span>
+                            <span>Darslar: ${m.lessons.length}</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 24px; margin-bottom: 60px;">
+            `;
+
+            m.lessons.forEach(c => {
+                const isCompleted = c.status === 'completed';
+                html += `
+                    <div class="challenge-card ${isCompleted ? 'solved' : ''} fade-in-up" 
+                         onclick="window.location.href='/learn/${m.slug}/${c.slug}'" 
+                         style="cursor:pointer; position: relative; overflow: hidden;">
+                        
+                        ${isCompleted ? `
+                            <div style="position: absolute; top: 12px; right: 12px; width: 24px; height: 24px; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <svg class="icon icon-check" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;">
+                                    <polyline points="20 6 9 17 4 12"/>
+                                </svg>
+                            </div>
+                        ` : ''}
+                        
+                        <div class="challenge-header">
+                            <div>
+                                <div class="challenge-title">${escapeHtml(c.title)}</div>
+                            </div>
+                            <div class="challenge-points" style="display: flex; align-items: center; gap: 6px;">
+                                <svg class="icon icon-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px; color:#F59E0B;">
+                                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                                </svg>
+                                ${c.xpReward || 50} XP
+                            </div>
+                        </div>
+                        
+                        <div class="challenge-meta">
+                            <span class="badge badge-easy">Davomiyligi: ${c.duration || 15} min</span>
+                            ${isCompleted ? `
+                                <span class="badge badge-easy" style="display: inline-flex; align-items: center; gap: 4px; background: rgba(16,185,129,0.15); color:#10B981; border-color: rgba(16,185,129,0.3);">
+                                    <svg class="icon icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;">
+                                        <polyline points="20 6 9 17 4 12"/>
+                                    </svg>
+                                    TUGALLANGAN
+                                </span>
+                            ` : ''}
+                        </div>
+                        
+                        <div class="challenge-story">${escapeHtml(c.description || 'Kiberxavfsizlik darsi. Amaliyot va testlarni bajaring.')}</div>
+                        
+                        <div class="challenge-footer">
+                            <span style="color: var(--text-muted); font-size: 0.75rem; display: flex; align-items: center; gap: 6px;">
+                                ${isCompleted 
+                                    ? `<svg class="icon icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;"><polyline points="20 6 9 17 4 12"/></svg> O'qib bo'lingan`
+                                    : (c.status === 'started' ? `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Jarayonda` : `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Boshlanmagan`)
+                                }
+                            </span>
+                            <span style="color: var(--uz-blue); font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; gap: 4px;">
+                                ${isCompleted ? 'QAYTA O\'QISH' : 'ENTER'}
+                                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            </span>
+                        </div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+        });
+        container.innerHTML = html;
+    } catch(e) {}
+}
+
 window.addEventListener('load', async () => {
-    // 1. Profil ma'lumotlarini yuklash (Navbar uchun)
     try {
         const authRes = await fetch('/api/auth/me', { credentials: 'include', cache: 'no-store' });
         if (authRes.ok) {
             const authData = await authRes.json();
             if (authData.success && authData.user) {
                 const authLink = document.getElementById('auth-link');
-                if (authLink) {
-                    authLink.innerHTML = `<img src="${authData.user.avatar || '/assets/default-avatar.svg'}" style="width:22px;height:22px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-right:6px;border:1px solid #2563EB;" onerror="this.src='/assets/default-avatar.svg'">${authData.user.username}`;
-                }
+                if (authLink) authLink.innerHTML = `<img src="${authData.user.avatar || '/assets/default-avatar.svg'}" style="width:22px;height:22px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-right:6px;border:1px solid #2563EB;" onerror="this.src='/assets/default-avatar.svg'">${authData.user.username}`;
             }
         }
-    } catch (e) { console.log("Profile error"); }
-
-    // 2. Modullar va Darslarni yuklash
-    try {
-        const res = await fetch('/api/learn/modules');
-        const data = await res.json();
-        
-        if (!data.success) {
-            document.getElementById('modules-list').innerHTML = '<div style="text-align: center; padding: 60px; color: var(--text-muted);">Darslar topilmadi</div>';
-            return;
-        }
-
-        document.getElementById('stat-solved').innerText = data.stats?.completedLessons || 0;
-        document.getElementById('stat-total').innerText = data.stats?.totalLessons || 0;
-
-        let html = '';
-        data.data.forEach((mod, mIndex) => {
-            html += `
-            <div style="margin-bottom: 48px;">
-                <h2 style="font-size: 1.3rem; margin-bottom: 24px; display: flex; align-items: center; gap: 12px; color: #fff;">
-                    ${mIndex + 1}-modul. ${escapeHtml(mod.title)}
-                </h2>
-                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 24px;">
-            `;
-
-            mod.lessons.forEach((les, idx) => {
-                const isCompleted = les.status === 'completed';
-                const isStarted = les.status === 'started';
-                
-                // Arena kartochkasi dizayni 100% nusxalangan
-                html += `
-                <div class="challenge-card ${isCompleted ? 'solved' : ''} fade-in-up" 
-                     onclick="window.location.href='/learn/${mod.slug}/${les.slug}'" 
-                     style="cursor:pointer; position: relative; overflow: hidden;">
-                    
-                    ${isCompleted ? `
-                        <div style="position: absolute; top: 12px; right: 12px; width: 24px; height: 24px; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                            <svg class="icon icon-check" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;">
-                                <polyline points="20 6 9 17 4 12"/>
-                            </svg>
-                        </div>
-                    ` : ''}
-                    
-                    <div class="challenge-header">
-                        <div>
-                            <div class="challenge-title">${idx + 1}. ${escapeHtml(les.title)}</div>
-                        </div>
-                        <div class="challenge-points" style="display: flex; align-items: center; gap: 6px;">
-                            <svg class="icon icon-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;">
-                                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-                            </svg>
-                            ${les.xpReward || 50} XP
-                        </div>
-                    </div>
-                    
-                    <div class="challenge-meta">
-                        <span class="badge badge-web">${escapeHtml(mod.category || 'Fundamentals')}</span>
-                        <span class="badge badge-easy">${escapeHtml(mod.difficulty || 'Beginner')}</span>
-                        <span class="badge" style="background: rgba(255,255,255,0.05); color: #94A3B8;">⏱ ${les.duration || 15} min</span>
-                    </div>
-                    
-                    <div class="challenge-story" style="flex-grow: 1;">${escapeHtml(les.description || 'Darsning qisqacha tavsifi bu yerda ko\'rsatiladi.')}</div>
-                    
-                    <div class="challenge-footer">
-                        <span style="color: var(--text-muted); font-size: 0.75rem; display: flex; align-items: center; gap: 6px;">
-                            ${isCompleted 
-                                ? '<svg class="icon icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;"><polyline points="20 6 9 17 4 12"/></svg> Yechilgan'
-                                : (isStarted ? '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;"><polygon points="5 3 19 12 5 21 5 3"/></svg> <span style="color: #F59E0B">Jarayonda</span>'
-                                : '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Yechilmagan')
-                            }
-                        </span>
-                        <span style="color: var(--uz-blue); font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; gap: 4px;">
-                            ${isCompleted ? 'QAYTA KO\'RISH' : (isStarted ? 'DAVOM ETTIRISH' : 'ENTER')}
-                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;">
-                                <path d="M5 12h14M12 5l7 7-7 7"/>
-                            </svg>
-                        </span>
-                    </div>
-                </div>`;
-            });
-            html += `</div></div>`;
-        });
-        
-        document.getElementById('modules-list').innerHTML = html;
-    } catch (e) { console.error('Learn modules xatosi:', e); }
+    } catch (e) {}
+    
+    await loadContinue();
+    loadModules();
 });
 </script>
 <script src="/js/preloader.js"></script>
