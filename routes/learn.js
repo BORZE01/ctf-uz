@@ -159,4 +159,29 @@ router.post('/academy/questions', checkAuth, async (req, res) => {
     }
 });
 
+
+router.get("/academy/lesson-detail/:slug*", async (req, res) => {
+    try {
+        const { Lesson, Question } = require("../models/Learn");
+        const fullPath = req.params.slug + (req.params[0] || "");
+        const parts = fullPath.split("/").filter(Boolean);
+        const lessonSlug = parts[parts.length - 1]; // Har doim oxirgi slugni dars slugi deb oladi
+
+        let lesson = await Lesson.findOne({ slug: lessonSlug });
+        if (!lesson && parts.length > 1) {
+            lesson = await Lesson.findOne({ moduleSlug: parts[0], slug: parts[1] });
+        }
+        if (!lesson) {
+            lesson = await Lesson.findOne({ slug: fullPath });
+        }
+
+        if (!lesson) return res.status(404).json({ success: false, message: "Dars topilmadi" });
+
+        const questions = await Question.find({ lessonId: lesson._id });
+        res.json({ success: true, lesson, questions });
+    } catch(e) {
+        res.status(500).json({ success: false, message: e.message });
+    }
+});
+
 module.exports = router;

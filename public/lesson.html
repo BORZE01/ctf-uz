@@ -39,7 +39,8 @@
 
 <script>
 async function init() {
-    const parts = window.location.pathname.split('/').filter(Boolean);
+    const path = window.location.pathname.replace(/^\/learn\/?/, "");
+    const parts = path.split("/").filter(Boolean);
     const slug = parts[parts.length - 1];
 
     try {
