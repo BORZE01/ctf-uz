@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { Module, Lesson, Question, LearnSubmission, Progress } = require('../models/Learn');
 const User = require('../models/User');
+const { requireAdmin } = require('../middleware/auth');
 
 const checkAuth = (req, res, next) => {
     const userId = req.session?.userId || req.session?.user?.id || req.user?._id;
@@ -90,7 +91,7 @@ router.get('/modules', async (req, res) => {
 
             const lessons = await Lesson.find(lessonFilter).sort({order: 1}).lean();
             
-            if (q && lessons.length === 0) continue; // Qidiruv bo'lganda, ichida darsi yo'q modullarni qaytarmaslik
+            if (q && lessons.length === 0) continue;
 
             const fullLessons = await Lesson.find({ moduleSlug: m.slug }).lean();
             totalLessons += fullLessons.length;
@@ -183,60 +184,64 @@ router.post('/submit', checkAuth, async (req, res) => {
 });
 
 // ==========================================
-// ADMIN ACADEMY API
+// ADMIN ACADEMY API (SECURED)
 // ==========================================
-router.post('/academy/modules', checkAuth, async (req, res) => {
+router.post('/academy/modules', requireAdmin, async (req, res) => {
     try {
         const m = await Module.create(req.body);
         res.json({ success: true, module: m });
     } catch(e) { res.status(500).json({ success: false, message: e.message }); }
 });
 
-router.delete('/academy/modules/:id', checkAuth, async (req, res) => {
+router.delete('/academy/modules/:id', requireAdmin, async (req, res) => {
     try {
+        const mod = await Module.findById(req.params.id);
+        if (!mod) return res.status(404).json({ success: false, message: 'Modul topilmadi' });
+        
+        const lessons = await Lesson.find({ moduleSlug: mod.slug });
+        const lessonIds = lessons.map(l => l._id);
+        
+        await Question.deleteMany({ lessonId: { $in: lessonIds } });
+        await Progress.deleteMany({ lessonId: { $in: lessonIds } });
+        await Lesson.deleteMany({ moduleSlug: mod.slug });
         await Module.findByIdAndDelete(req.params.id);
-        res.json({ success: true });
+        
+        res.json({ success: true, message: 'Modul va unga tegishli barcha ma\'lumotlar o\'chirildi' });
     } catch(e) { res.status(500).json({ success: false, message: e.message }); }
 });
 
-router.post('/academy/lessons', checkAuth, async (req, res) => {
+router.post('/academy/lessons', requireAdmin, async (req, res) => {
     try {
         const modExists = await Module.findOne({ slug: req.body.moduleSlug });
-        if (!modExists) {
-            return res.status(404).json({ success: false, message: "Xato! Bunday modul bazada topilmadi." });
-        }
+        if (!modExists) return res.status(404).json({ success: false, message: 'Modul topilmadi.' });
+        
         const l = await Lesson.create(req.body);
         res.json({ success: true, lesson: l });
-    } catch(e) { 
-        console.error("Dars yaratish xatosi:", e);
-        res.status(500).json({ success: false, message: e.message }); 
-    }
-});
-
-router.delete('/academy/lessons/:id', checkAuth, async (req, res) => {
-    try {
-        await Lesson.findByIdAndDelete(req.params.id);
-        res.json({ success: true });
     } catch(e) { res.status(500).json({ success: false, message: e.message }); }
 });
 
-router.post('/academy/questions', checkAuth, async (req, res) => {
+router.delete('/academy/lessons/:id', requireAdmin, async (req, res) => {
     try {
-        const { Question } = require('../models/Learn');
+        await Question.deleteMany({ lessonId: req.params.id });
+        await Progress.deleteMany({ lessonId: req.params.id });
+        await Lesson.findByIdAndDelete(req.params.id);
+        
+        res.json({ success: true, message: 'Dars va uning bog\'liqliklari o\'chirildi' });
+    } catch(e) { res.status(500).json({ success: false, message: e.message }); }
+});
+
+router.post('/academy/questions', requireAdmin, async (req, res) => {
+    try {
         const q = await Question.create(req.body);
         res.json({ success: true, question: q });
-    } catch(e) { 
-        console.error("Savol yaratish xatosi:", e);
-        res.status(500).json({ success: false, message: e.message }); 
-    }
+    } catch(e) { res.status(500).json({ success: false, message: e.message }); }
 });
 
 router.get("/academy/lesson-detail/:slug*", async (req, res) => {
     try {
-        const { Lesson, Question } = require("../models/Learn");
         const fullPath = req.params.slug + (req.params[0] || "");
         const parts = fullPath.split("/").filter(Boolean);
-        const lessonSlug = parts[parts.length - 1]; // Har doim oxirgi slugni dars slugi deb oladi
+        const lessonSlug = parts[parts.length - 1];
 
         let lesson = await Lesson.findOne({ slug: lessonSlug });
         if (!lesson && parts.length > 1) {
@@ -253,6 +258,31 @@ router.get("/academy/lesson-detail/:slug*", async (req, res) => {
     } catch(e) {
         res.status(500).json({ success: false, message: e.message });
     }
+});
+
+
+// ==========================================
+// Tahrirlash API (Edit Modules & Lessons)
+// ==========================================
+router.put('/academy/modules/:id', requireAdmin, async (req, res) => {
+    try {
+        const m = await Module.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        res.json({ success: true, module: m, message: 'Modul tahrirlandi' });
+    } catch(e) { res.status(500).json({ success: false, message: e.message }); }
+});
+
+router.put('/academy/lessons/:id', requireAdmin, async (req, res) => {
+    try {
+        const l = await Lesson.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        res.json({ success: true, lesson: l, message: 'Dars tahrirlandi' });
+    } catch(e) { res.status(500).json({ success: false, message: e.message }); }
+});
+
+router.put('/academy/questions/:id', requireAdmin, async (req, res) => {
+    try {
+        const q = await Question.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        res.json({ success: true, question: q, message: 'Savol tahrirlandi' });
+    } catch(e) { res.status(500).json({ success: false, message: e.message }); }
 });
 
 module.exports = router;
