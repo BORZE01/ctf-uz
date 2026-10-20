@@ -1,23 +1,21 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-
     <script>
-        // Universal Auth tekshiruvi: Cookie, LocalStorage va SessionStorage
-        (function checkAuth() {
-            const hasLocalToken = localStorage.getItem('token') || localStorage.getItem('auth_token') || localStorage.getItem('accessToken');
-            const hasSessionToken = sessionStorage.getItem('token') || sessionStorage.getItem('auth_token');
-            const hasCookie = document.cookie.includes('token') || document.cookie.includes('jwt') || document.cookie.includes('session') || document.cookie.includes('connect.sid');
-            
-            // Backend yoki EJS orqali kelayotgan global user obyekti
-            const hasWindowUser = typeof window.currentUser !== 'undefined' || typeof window.user !== 'undefined';
-
-            // Hech qaysi auth belgisi topilmasa, welcome sahifasiga otish
-            if (!hasLocalToken && !hasSessionToken && !hasCookie && !hasWindowUser) {
+        (async function verifySessionAuth() {
+            try {
+                const res = await fetch('/api/auth/session', { credentials: 'include', cache: 'no-store' });
+                const data = await res.json();
+                if (!data || !data.success || !data.user) {
+                    window.location.replace('/welcome');
+                }
+            } catch (e) {
                 window.location.replace('/welcome');
             }
         })();
     </script>
+
+    
 
 
     

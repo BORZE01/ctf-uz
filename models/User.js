@@ -159,6 +159,7 @@ const userSchema = new mongoose.Schema({
     // 2FA
     // ══════════════════════════════════════════
     twoFactor: { type: Boolean, default: false },
+    twoFactorSecret: { type: String, default: null },
     backupCodes: [{ type: String }],
     twoFactorPending: { type: Boolean, default: false },
 
@@ -216,6 +217,10 @@ userSchema.pre('save', function(next) {
 // ══════════════════════════════════════════
 userSchema.pre('save', async function(next) {
     if (!this.isModified('password')) return next();
+    // CWE-327 Double Hashing oldini olish: agar parol bcrypt xeshi bo'lsa qayta xeshlanmaydi
+    if (this.password && /^\$2[aby]\$\d{2}\$/.test(this.password)) {
+        return next();
+    }
     try {
         this.password = await bcrypt.hash(this.password, 12);
         next();

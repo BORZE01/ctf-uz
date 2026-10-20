@@ -1,90 +1,29 @@
+const speakeasy = require('speakeasy');
+const QRCode = require('qrcode');
 const crypto = require('crypto');
 
-// ══════════════════════════════════════════
-// 2FA KODLAR SAQLASH
-// ══════════════════════════════════════════
-const twoFactorCodes = {};  // { userId: { code, expires, attempts } }
+const generateTwoFactorSecret = async (username) => {
+    const secret = speakeasy.generateSecret({ name: `CTF.UZ (${username})` });
+    const qrCodeUrl = await QRCode.toDataURL(secret.otpauth_url);
+    return { secret: secret.base32, qrCodeUrl };
+};
 
-// ══════════════════════════════════════════
-// KOD GENERATSIYA
-// ══════════════════════════════════════════
-function generate2FACode() {
-    return Math.floor(100000 + Math.random() * 900000).toString();
-}
+const verifyTwoFactorToken = (secret, token) => {
+    if (!secret || !token) return false;
+    return speakeasy.totp.verify({
+        secret: secret,
+        encoding: 'base32',
+        token: String(token).trim(),
+        window: 1
+    });
+};
 
-// ══════════════════════════════════════════
-// KOD YARATISH
-// ══════════════════════════════════════════
-function create2FACode(userId) {
-    const code = generate2FACode();
-    twoFactorCodes[userId] = {
-        code,
-        expires: Date.now() + 5 * 60 * 1000,  // 5 daqiqa
-        attempts: 0,
-        createdAt: new Date()
-    };
-    return code;
-}
-
-// ══════════════════════════════════════════
-// KODNI TEKSHIRISH
-// ══════════════════════════════════════════
-function verify2FACode(userId, inputCode) {
-    const record = twoFactorCodes[userId];
-
-    if (!record) {
-        return { ok: false, message: "Kod topilmadi" };
-    }
-
-    if (Date.now() > record.expires) {
-        delete twoFactorCodes[userId];
-        return { ok: false, message: "Kod muddati tugagan" };
-    }
-
-    record.attempts++;
-
-    if (record.attempts > 5) {
-        delete twoFactorCodes[userId];
-        return { ok: false, message: "Juda ko'p urinish. Qayta kod oling." };
-    }
-
-    if (record.code !== inputCode) {
-        return { ok: false, message: "Kod noto'g'ri" };
-    }
-
-    delete twoFactorCodes[userId];
-    return { ok: true };
-}
-
-// ══════════════════════════════════════════
-// BACKUP KODLAR
-// ══════════════════════════════════════════
-function generateBackupCodes(count = 8) {
+const generateBackupCodes = (count = 8) => {
     const codes = [];
     for (let i = 0; i < count; i++) {
         codes.push(crypto.randomBytes(4).toString('hex').toUpperCase());
     }
     return codes;
-}
-
-// ══════════════════════════════════════════
-// BACKUP KODNI TEKSHIRISH
-// ══════════════════════════════════════════
-function useBackupCode(user, code) {
-    if (!user.backupCodes || !user.backupCodes.length) {
-        return false;
-    }
-    const idx = user.backupCodes.indexOf(code.toUpperCase());
-    if (idx === -1) return false;
-
-    user.backupCodes.splice(idx, 1);
-    return true;
-}
-
-module.exports = {
-    create2FACode,
-    verify2FACode,
-    generateBackupCodes,
-    useBackupCode,
-    twoFactorCodes
 };
+
+module.exports = { generateTwoFactorSecret, verifyTwoFactorToken, generateBackupCodes };
