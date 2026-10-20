@@ -1,6 +1,27 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
+
+    <script>
+        // Universal Auth tekshiruvi: Cookie, LocalStorage va SessionStorage
+        (function checkAuth() {
+            const hasLocalToken = localStorage.getItem('token') || localStorage.getItem('auth_token') || localStorage.getItem('accessToken');
+            const hasSessionToken = sessionStorage.getItem('token') || sessionStorage.getItem('auth_token');
+            const hasCookie = document.cookie.includes('token') || document.cookie.includes('jwt') || document.cookie.includes('session') || document.cookie.includes('connect.sid');
+            
+            // Backend yoki EJS orqali kelayotgan global user obyekti
+            const hasWindowUser = typeof window.currentUser !== 'undefined' || typeof window.user !== 'undefined';
+
+            // Hech qaysi auth belgisi topilmasa, welcome sahifasiga otish
+            if (!hasLocalToken && !hasSessionToken && !hasCookie && !hasWindowUser) {
+                window.location.replace('/welcome');
+            }
+        })();
+    </script>
+
+
+    
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Karyera — CTF.UZ</title>
