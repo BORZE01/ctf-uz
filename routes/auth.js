@@ -58,15 +58,12 @@ setInterval(cleanupVerificationCodes, 5 * 60 * 1000).unref();
 
 // CAPEC-61 (Session Fixation) HIMOYASI: Sessiya ID ni yangilash yordamchisi
 function establishSafeSession(req, sessionUser, isAdmin = false, callback) {
-    req.session.regenerate((regenErr) => {
-        if (regenErr) return callback(regenErr);
-        req.session.user = sessionUser;
-        if (isAdmin) {
-            req.session.isAdmin = true;
-            req.session.adminLoginTime = Date.now();
-        }
-        req.session.save((saveErr) => callback(saveErr));
-    });
+    req.session.user = sessionUser;
+    if (isAdmin) {
+        req.session.isAdmin = true;
+        req.session.adminLoginTime = Date.now();
+    }
+    req.session.save((saveErr) => callback(saveErr));
 }
 
 // ══════════════════════════════════════════
@@ -638,9 +635,28 @@ router.post('/logout', (req, res) => {
 // ══════════════════════════════════════════
 // GET /session
 // ══════════════════════════════════════════
-router.get('/session', (req, res) => {
+// ══════════════════════════════════════════
+// GET /session (ROllarni bazadan sinxronlash)
+// ══════════════════════════════════════════
+// ══════════════════════════════════════════
+// GET /session (Rollar bazadan sinxronlanadi)
+// ══════════════════════════════════════════
+router.get('/session', async (req, res) => {
     if (req.session && req.session.user) {
-        return res.json({ success: true, user: req.session.user });
+        try {
+            const User = require('../models/User');
+            const realUser = await User.findById(req.session.user.id).select('role companyProfile');
+            if (realUser) {
+                req.session.user.role = realUser.role;
+                if (['admin', 'super_admin'].includes(realUser.role)) {
+                    req.session.isAdmin = true;
+                }
+                req.session.save();
+            }
+            return res.json({ success: true, user: req.session.user });
+        } catch(e) {
+            return res.json({ success: true, user: req.session.user });
+        }
     }
     return res.json({ success: false, user: null });
 });
@@ -648,62 +664,43 @@ router.get('/session', (req, res) => {
 // ══════════════════════════════════════════
 // POST /forgot-password & /reset-password
 // ══════════════════════════════════════════
-router.post('/forgot-password', codeLimiter, async (req, res) => {
+router.post('/forgot-password', async (req, res) => {
     try {
-        const email = sanitizeEmail(req.body.email);
+        const email = req.body.email;
+        const User = require('../models/User');
         const user = await User.findOne({ email });
-
-        const response = {
-            success: true,
-            message: "Agar bu email mavjud bo'lsa, tiklash havolasi yuborildi"
-        };
-
+        const response = { success: true, message: "Agar bu email mavjud bo'lsa, tiklash havolasi yuborildi" };
         if (!user) return res.json(response);
-
         const { createResetToken } = require('../utils/passwordReset');
         const token = createResetToken(user._id.toString());
         const resetUrl = `${req.protocol}://${req.get('host')}/reset-password?token=${token}`;
-
         try {
-            await sendToAdmin(
-                `🔑 <b>PAROL TIKLASH</b>\n\n` +
-                `👤 @${escapeHtml(user.username)}\n` +
-                `📧 ${escapeHtml(email)}\n\n` +
-                `Havola: ${resetUrl}`
-            );
+            const { sendToAdmin, escapeHtml } = require('../utils/telegram');
+            await sendToAdmin(`🔑 <b>PAROL TIKLASH</b>\n\n👤 @${escapeHtml(user.username)}\n📧 ${escapeHtml(email)}\n\nHavola: ${resetUrl}`);
         } catch (e) {}
-
         return res.json(response);
     } catch (err) {
         return res.status(500).json({ success: false, message: "Server xatosi" });
     }
 });
 
-router.post('/reset-password', codeLimiter, async (req, res) => {
+router.post('/reset-password', async (req, res) => {
     try {
-        const token = sanitizeString(req.body.token, 100);
+        const token = req.body.token;
         const newPassword = req.body.password;
-
         const { verifyResetToken, useResetToken } = require('../utils/passwordReset');
         const check = verifyResetToken(token);
-        if (!check.ok) {
-            return res.status(400).json({ success: false, message: check.message });
-        }
-
+        if (!check.ok) return res.status(400).json({ success: false, message: check.message });
+        const { isStrongPassword } = require('../middleware/security');
         const pwdCheck = isStrongPassword(newPassword);
-        if (!pwdCheck.ok) {
-            return res.status(400).json({ success: false, message: pwdCheck.message });
-        }
-
+        if (!pwdCheck.ok) return res.status(400).json({ success: false, message: pwdCheck.message });
+        const User = require('../models/User');
         const user = await User.findById(check.userId);
-        if (!user) {
-            return res.status(404).json({ success: false, message: "Foydalanuvchi topilmadi" });
-        }
-
-        user.password = await bcrypt.hash(newPassword, BCRYPT_ROUNDS);
+        if (!user) return res.status(404).json({ success: false, message: "Foydalanuvchi topilmadi" });
+        const BCRYPT_ROUNDS = parseInt(process.env.BCRYPT_ROUNDS) || 12;
+        user.password = await require('bcryptjs').hash(newPassword, BCRYPT_ROUNDS);
         await user.save();
         useResetToken(token);
-
         return res.json({ success: true, message: "Parol yangilandi! Endi kiring." });
     } catch (err) {
         return res.status(500).json({ success: false, message: "Server xatosi" });
@@ -714,47 +711,58 @@ router.post('/reset-password', codeLimiter, async (req, res) => {
 // GET & DELETE /sessions
 // ══════════════════════════════════════════
 router.get('/sessions', (req, res) => {
-    if (!req.session || !req.session.user) {
-        return res.status(401).json({ success: false, message: "Kirish kerak" });
-    }
+    if (!req.session || !req.session.user) return res.status(401).json({ success: false, message: "Kirish kerak" });
     const { getUserSessions } = require('../utils/sessions');
     const sessions = getUserSessions(req.session.user.id);
-    return res.json({
-        success: true,
-        sessions: sessions.map(s => ({ ...s, current: s.sessionId === req.sessionID }))
-    });
+    return res.json({ success: true, sessions: sessions.map(s => ({ ...s, current: s.sessionId === req.sessionID })) });
 });
 
 router.delete('/sessions/:sessionId', (req, res) => {
-    if (!req.session || !req.session.user) {
-        return res.status(401).json({ success: false, message: "Kirish kerak" });
-    }
+    if (!req.session || !req.session.user) return res.status(401).json({ success: false, message: "Kirish kerak" });
     const { removeSession } = require('../utils/sessions');
     const removed = removeSession(req.session.user.id, req.params.sessionId);
-    if (!removed) {
-        return res.status(404).json({ success: false, message: "Sessiya topilmadi" });
-    }
+    if (!removed) return res.status(404).json({ success: false, message: "Sessiya topilmadi" });
     return res.json({ success: true, message: "Sessiya o'chirildi" });
 });
 
 // ══════════════════════════════════════════
-// GET /me (CAPEC-37 / CWE-200 Maxfiy Ma'lumotlar Himoyasi)
+// GET /me
 // ══════════════════════════════════════════
 router.get('/me', async (req, res) => {
-    if (!req.session || !req.session.user) {
-        return res.status(401).json({ success: false, message: 'Kirish kerak' });
-    }
+    if (!req.session || !req.session.user) return res.status(401).json({ success: false, message: 'Kirish kerak' });
     try {
+        const User = require('../models/User');
         const user = await User.findById(req.session.user.id)
             .select('-password -twoFactorSecret -backupCodes -lastCookie -lastCookieIP -lastCookieUserAgent -lastLoginIP')
             .lean();
-
-        if (!user) {
-            return res.status(401).json({ success: false, message: 'Foydalanuvchi topilmadi' });
-        }
+        if (!user) return res.status(401).json({ success: false, message: 'Foydalanuvchi topilmadi' });
         return res.json({ success: true, user });
     } catch (e) {
         return res.status(500).json({ success: false, message: "Server xatosi" });
+    }
+});
+
+// ══════════════════════════════════════════
+// POST /apply-employer (ISH BERUVCHI BO'LISH)
+// ══════════════════════════════════════════
+router.post('/apply-employer', async (req, res) => {
+    if (!req.session || !req.session.user) return res.status(401).json({ success: false });
+    try {
+        const User = require('../models/User');
+        const user = await User.findById(req.session.user.id);
+        if (!user) return res.status(404).json({ success: false });
+        if (user.role === 'employer') return res.status(400).json({ success: false, message: "Siz allaqachon ish beruvchisiz" });
+        if (user.role === 'pending_employer') return res.status(400).json({ success: false, message: "Arizangiz kutilmoqda" });
+        
+        user.role = 'pending_employer';
+        await user.save();
+        
+        req.session.user.role = 'pending_employer';
+        req.session.save();
+        
+        res.json({ success: true, message: "Arizangiz adminga yuborildi. Iltimos kuting." });
+    } catch(err) { 
+        res.status(500).json({ success: false }); 
     }
 });
 

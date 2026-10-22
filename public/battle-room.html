@@ -60,10 +60,17 @@
         </div>
         <div class="logo-text">CTF<span>.UZ</span></div>
     </a>
+    
     <nav class="nav">
-        <a href="/learn" >O'rganish</a>
-        <a href="/battle">← Battle ro'yxati</a>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/arena">Arena</a>
+        <a href="/learn">O'rganish</a>
+        <a href="/battle" class="active">Battle</a>
+        <a href="/leaderboard">Reyting</a>
+        <a href="/career">Karyera</a>
+        <a id="auth-link" href="/profile"></a>
     </nav>
+
 </header>
 
 <div class="container">
@@ -92,7 +99,7 @@ async function loadBattle() {
             document.getElementById('battleContent').innerHTML = `
                 <div style="text-align:center;padding:80px 20px;">
                     <h2 style="color:#EF4444;margin-bottom:16px;">Battle topilmadi</h2>
-                    <a href="/battle" class="btn btn-primary">Battle ro'yxatiga qaytish</a>
+                    <a href="/battle" class="active" class="btn btn-primary">Battle ro'yxatiga qaytish</a>
                 </div>
             `;
             if (refreshInterval) clearInterval(refreshInterval);

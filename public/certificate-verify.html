@@ -1,423 +1,333 @@
 <!DOCTYPE html>
-<html lang="uz">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sertifikat tekshirish — CTF.UZ</title>
+    <title>Certificate Verification — CTF.UZ</title>
     <link rel="stylesheet" href="/css/design-system.css">
     <link rel="stylesheet" href="/css/icons.css">
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/modern-ui.css">
+    
+    <!-- Maxsus Shriftlar (Xalqaro standart sertifikat shriftlari) -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Manrope:wght@400;600;800&family=JetBrains+Mono:wght@400;700&family=Pinyon+Script&display=swap" rel="stylesheet">
+    
+    <!-- PDF Yuklab olish uchun kutubxona -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
     <style>
-        .verify-container {
-            max-width: 700px;
-            margin: 60px auto;
-            padding: 0 20px;
+        body { background: #060B18; color: #fff; font-family: 'Manrope', sans-serif; overflow-x: hidden; }
+        
+        .verify-header { text-align: center; margin-bottom: 20px; }
+        
+        /* Sertifikatni ekranda moslashtirish uchun o'ram */
+        .cert-wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            overflow: hidden;
+            padding: 20px 0;
+            margin-bottom: 30px;
         }
-        .verify-card {
-            background: linear-gradient(135deg, rgba(15,22,41,0.95) 0%, rgba(10,16,32,1) 100%);
-            border: 1px solid rgba(74,127,255,0.2);
-            border-radius: 24px;
+
+        .cert-scaler {
+            transform-origin: top center;
+            transition: transform 0.2s;
+        }
+
+        /* 100% XALQARO STANDART A4 O'LCHAM (Landscape) */
+        .cert-a4-container {
+            width: 1123px; /* 297mm at 96dpi */
+            height: 794px; /* 210mm at 96dpi */
+            background: #ffffff;
+            position: relative;
+            box-sizing: border-box;
             padding: 40px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            /* Yengil naqshinkor fon */
+            /* radial-gradient pdf-da xato berishi mumkin, shuning uchun olib tashlandi */
+            background-size: 20px 20px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            color: #0f172a;
         }
-        .verify-header {
-            text-align: center;
-            margin-bottom: 32px;
+
+        /* Tashqi ramka */
+        .cert-border-outer {
+            width: 100%;
+            height: 100%;
+            border: 2px solid #cbd5e1;
+            padding: 8px;
+            box-sizing: border-box;
         }
-        .verify-header .icon-badge {
-            width: 72px;
-            height: 72px;
-            background: linear-gradient(135deg, #2563EB, #7C3AED);
-            border-radius: 20px;
+
+        /* Ichki ramka */
+        .cert-border-inner {
+            width: 100%;
+            height: 100%;
+            border: 3px solid #1e293b;
+            padding: 40px 50px;
+            box-sizing: border-box;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            box-shadow: 0 10px 30px rgba(37,99,235,0.4);
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            background: #ffffff;
         }
-        .verify-header h1 {
-            font-family: Manrope;
-            font-size: 1.8rem;
-            font-weight: 900;
-            margin-bottom: 8px;
-        }
-        .verify-header p {
-            color: #94A3B8;
-            font-size: 0.95rem;
-        }
-        .verify-input-wrap {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 24px;
-        }
-        .verify-input {
-            flex: 1;
-            padding: 16px 20px;
-            background: #060B18;
-            border: 2px solid rgba(74,127,255,0.2);
-            border-radius: 12px;
-            color: #F1F5F9;
-            font-family: JetBrains Mono;
-            font-size: 1rem;
-            outline: none;
-            transition: all 0.2s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .verify-input:focus {
-            border-color: #2563EB;
-            box-shadow: 0 0 0 4px rgba(37,99,235,0.15);
-        }
-        .verify-btn {
-            padding: 16px 32px;
-            background: linear-gradient(135deg, #2563EB, #4A7FFF);
-            border: none;
-            border-radius: 12px;
-            color: white;
-            font-weight: 700;
-            font-size: 0.95rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .verify-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(37,99,235,0.4);
-        }
-        .verify-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-        .result {
-            margin-top: 24px;
-            padding: 24px;
-            border-radius: 16px;
-            animation: fadeIn 0.4s;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .result.valid {
-            background: rgba(16,185,129,0.08);
-            border: 1px solid rgba(16,185,129,0.3);
-        }
-        .result.invalid {
-            background: rgba(239,68,68,0.08);
-            border: 1px solid rgba(239,68,68,0.3);
-        }
-        .result-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-        .result-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .result.valid .result-icon {
-            background: rgba(16,185,129,0.2);
-            color: #10B981;
-        }
-        .result.invalid .result-icon {
-            background: rgba(239,68,68,0.2);
-            color: #EF4444;
-        }
-        .result-title {
-            font-family: Manrope;
-            font-size: 1.1rem;
-            font-weight: 800;
-        }
-        .result-subtitle {
-            font-size: 0.85rem;
-            color: #94A3B8;
-        }
-        .cert-detail {
-            display: grid;
-            grid-template-columns: 160px 1fr;
-            gap: 12px;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(74,127,255,0.1);
-        }
-        .cert-detail:last-child { border-bottom: none; }
-        .cert-detail .label {
-            color: #64748B;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 600;
-        }
-        .cert-detail .value {
-            font-weight: 600;
-            font-family: JetBrains Mono;
-            word-break: break-all;
-        }
-        .cert-owner {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 16px;
-            background: rgba(74,127,255,0.05);
-            border-radius: 12px;
-            margin-top: 16px;
-        }
-        .cert-owner img {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            border: 2px solid rgba(74,127,255,0.3);
-        }
+
+        /* Burchak bezaklari */
+        .corner { position: absolute; width: 50px; height: 50px; border: 4px solid #2563eb; }
+        .corner-tl { top: -4px; left: -4px; border-right: none; border-bottom: none; }
+        .corner-tr { top: -4px; right: -4px; border-left: none; border-bottom: none; }
+        .corner-bl { bottom: -4px; left: -4px; border-right: none; border-top: none; }
+        .corner-br { bottom: -4px; right: -4px; border-left: none; border-top: none; }
+
+        /* Yuqori qism: Logo va ID */
+        .cert-header { display: flex; justify-content: space-between; align-items: flex-start; }
+        .cert-logo { display: flex; align-items: center; gap: 10px; font-size: 28px; font-weight: 900; color: #0f172a; letter-spacing: 1px; }
+        .cert-logo svg { width: 36px; height: 36px; color: #2563eb; }
+        .cert-meta { text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #64748b; line-height: 1.4; }
+        .cert-meta strong { color: #0f172a; font-size: 14px; }
+
+        /* Asosiy matn qismi */
+        .cert-body { text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .cert-title { font-family: 'Playfair Display', serif; font-size: 54px; font-weight: 700; color: #0f172a; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 24px; }
+        .cert-subtitle { font-size: 18px; color: #475569; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 30px; font-weight: 600; }
+        .cert-name { font-family: 'Playfair Display', serif; font-size: 64px; font-weight: 700; color: #1e3a8a; border-bottom: 2px solid #cbd5e1; padding: 0 60px 10px; margin-bottom: 24px; display: inline-block; line-height: 1.2; }
+        .cert-desc { font-size: 18px; color: #334155; max-width: 750px; line-height: 1.6; margin-bottom: 16px; }
+        .cert-course { font-size: 28px; font-weight: 800; color: #0f172a; text-transform: uppercase; letter-spacing: 1px; }
+        .cert-score { margin-top: 15px; font-family: 'JetBrains Mono', monospace; font-size: 15px; font-weight: 700; color: #059669; background: #ecfdf5; padding: 6px 16px; border-radius: 999px; border: 1px solid #10b981; }
+
+        /* Pastki qism: Imzolar, Muhr va QR */
+        .cert-footer { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 30px; }
+        
+        .signature-box { text-align: center; width: 220px; }
+        .signature-line { height: 60px; border-bottom: 1px solid #0f172a; margin-bottom: 8px; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 4px; }
+        .sig-font { font-family: 'Pinyon Script', cursive; font-size: 40px; color: #1e293b; line-height: 1.5; padding: 0 25px; display: inline-block; white-space: nowrap; }
+        .signature-name { font-size: 16px; font-weight: 800; color: #0f172a; text-transform: uppercase; letter-spacing: 1px; }
+        .signature-role { font-size: 13px; color: #64748b; margin-top: 4px; }
+
+        .cert-seal { width: 120px; height: 120px; border-radius: 50%; border: 3px dashed #2563eb; background: #eff6ff; display: flex; align-items: center; justify-content: center; transform: rotate(-15deg); box-shadow: 0 4px 10px rgba(37,99,235,0.15); }
+        .cert-seal-inner { width: 106px; height: 106px; border-radius: 50%; border: 1px solid #3b82f6; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: visible; }
+        .cert-seal-text { font-size: 9.5px; font-weight: 900; color: #1e3a8a; text-align: center; line-height: 1.6; text-transform: uppercase; letter-spacing: 2px; padding: 12px; width: 100%; box-sizing: border-box; overflow: visible; }
+
+        .qr-box { display: flex; flex-direction: column; align-items: center; }
+        .qr-box img { width: 100px; height: 100px; border: 3px solid #fff; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border-radius: 8px; }
+        .qr-label { font-size: 11px; color: #64748b; font-family: 'JetBrains Mono', monospace; margin-top: 6px; text-transform: uppercase; font-weight: 700; }
+
+        /* Tugmalar paneli */
+        .action-panel { display: flex; justify-content: center; gap: 16px; margin-bottom: 40px; }
+        .btn-download { background: linear-gradient(135deg, #2563eb, #3b82f6); color: #fff; border: none; padding: 14px 28px; border-radius: 12px; font-size: 16px; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; transition: 0.3s; box-shadow: 0 10px 20px rgba(37,99,235,0.3); }
+        .btn-download:hover { transform: translateY(-3px); box-shadow: 0 15px 25px rgba(37,99,235,0.4); }
+
+        #error-box { display: none; text-align: center; padding: 60px; background: #0A1020; border: 1px solid rgba(239,68,68,0.3); border-radius: 16px; margin: 40px auto; max-width: 600px; }
+        #loading-box { text-align: center; padding: 80px; color: #94a3b8; font-size: 18px; }
     </style>
 </head>
 <body>
-
 <div class="girih-bg"></div>
 
 <header class="header">
     <a href="/" class="logo">
-        <div class="logo-mark">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-            </svg>
-        </div>
+        <div class="logo-mark"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
         <div class="logo-text">CTF<span>.UZ</span></div>
     </a>
     <nav class="nav">
-        <a href="/">Bosh sahifa</a>
         <a href="/dashboard">Dashboard</a>
-        <a href="/cyber-id">Cyber ID</a>
-        <a href="/certificate-verify" class="active">Sertifikat tekshirish</a>
+        <a href="/learn">O'rganish</a>
+        <a href="/profile">Profil</a>
     </nav>
 </header>
 
-<div class="verify-container">
-    <div class="verify-card">
-        <div class="verify-header">
-            <div class="icon-badge">
-                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                    <path d="m9 12 2 2 4-4"/>
-                </svg>
-            </div>
-            <h1>Sertifikat tekshirish</h1>
-            <p>Sertifikat ID'sini kiriting va haqiqiyligini tekshiring</p>
-        </div>
+<div class="container" style="max-width: 1200px;">
+    
+    <div class="verify-header">
+        <h1 style="font-family: Manrope; font-size: 2rem; color: #fff; margin-bottom: 8px;">Sertifikatni Tekshirish va Yuklab Olish</h1>
+        <p style="color: #94a3b8;">Xalqaro standartdagi rasmiy hujjatingizni PDF formatida yuklab oling.</p>
+    </div>
 
-        <div class="verify-input-wrap">
-            <input 
-                type="text" 
-                id="certId" 
-                class="verify-input" 
-                placeholder="CTF-2025-XXXXXXXX"
-                maxlength="30"
-                autocomplete="off"
-            >
-            <button class="verify-btn" id="verifyBtn" onclick="verifyCertificate()">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="11" cy="11" r="8"/>
-                    <path d="m21 21-4.35-4.35"/>
-                </svg>
-                Tekshirish
+    <div id="loading-box">Sertifikat ma'lumotlari yuklanmoqda...</div>
+    
+    <div id="error-box">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" style="width:48px;height:48px;margin:0 auto 16px;"></svg>
+        <h3 style="color:#ef4444;font-size:1.5rem;margin-bottom:8px;">Sertifikat topilmadi</h3>
+        <p style="color:#94a3b8;" id="error-msg">Bunday ID raqamli sertifikat bazada mavjud emas.</p>
+        <a href="/learn" class="btn btn-primary" style="margin-top:20px;">O'rganish sahifasiga qaytish</a>
+    </div>
+
+    <div id="cert-main" style="display: none;">
+        <div class="action-panel">
+            <button class="btn-download" onclick="downloadPDF()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:20px;height:20px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                PDF Yuklab Olish (Download)
             </button>
         </div>
 
-        <div id="result"></div>
+        <div class="cert-wrapper" id="cert-wrapper">
+            <div class="cert-scaler" id="cert-scaler">
+                
+                <!-- PDF QILINADIGAN ASOSIY A4 KONTEYNER -->
+                <div class="cert-a4-container" id="certificate-node">
+                    <div class="cert-border-outer">
+                        <div class="cert-border-inner">
+                            <div class="corner corner-tl"></div>
+                            <div class="corner corner-tr"></div>
+                            <div class="corner corner-bl"></div>
+                            <div class="corner corner-br"></div>
+
+                            <div class="cert-header">
+                                <div class="cert-logo">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                                    CTF.UZ
+                                </div>
+                                <div class="cert-meta">
+                                    CERTIFICATE ID<br>
+                                    <strong id="c-id">CTF-UZ-XXXXXX</strong><br>
+                                    DATE OF ISSUE: <strong id="c-date">YYYY-MM-DD</strong>
+                                </div>
+                            </div>
+
+                            <div class="cert-body">
+                                <div class="cert-title">Certificate of Completion</div>
+                                <div class="cert-subtitle">This is to proudly certify that</div>
+                                <div class="cert-name" id="c-name">Full Name</div>
+                                <div class="cert-desc">
+                                    has successfully completed all requirements, practical modules, and the final assessment for the professional cybersecurity learning path:
+                                </div>
+                                <div class="cert-course" id="c-course">Course Name</div>
+                                <div class="cert-score" id="c-score">FINAL ASSESSMENT SCORE: 100%</div>
+                            </div>
+
+                            <div class="cert-footer">
+                                <div class="signature-box">
+                                    <div class="signature-line"><span class="sig-font">Admin CTF.UZ</span></div>
+                                    <div class="signature-name">CTF.UZ Administration</div>
+                                    <div class="signature-role">Official Issuer & Instructor</div>
+                                </div>
+
+                                <div class="cert-seal">
+                                    <div class="cert-seal-inner">
+                                        <div class="cert-seal-text">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="3" style="width:20px;height:20px;margin-bottom:4px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><br>
+                                            VERIFIED<br>ACHIEVEMENT
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="qr-box">
+                                    <img id="c-qr" src="" alt="QR Code">
+                                    <div class="qr-label">Scan to Verify</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
 </div>
 
 <script>
-// ══════════════════════════════════════════
-// ESCAPE
-// ══════════════════════════════════════════
-function esc(t) {
-    if (t === null || t === undefined) return '';
-    return String(t)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;');
-}
-
-// ══════════════════════════════════════════
-// URL dan ID olish
-// ══════════════════════════════════════════
-const urlParams = new URLSearchParams(window.location.search);
-const idParam = urlParams.get('id');
-if (idParam) {
-    document.getElementById('certId').value = idParam.toUpperCase();
-    verifyCertificate();
-}
-
-// ══════════════════════════════════════════
-// Enter tugmasi
-// ══════════════════════════════════════════
-document.getElementById('certId').addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') verifyCertificate();
-});
-
-// ══════════════════════════════════════════
-// Tekshirish
-// ══════════════════════════════════════════
-async function verifyCertificate() {
-    const id = document.getElementById('certId').value.trim().toUpperCase();
-    const btn = document.getElementById('verifyBtn');
-    const resultEl = document.getElementById('result');
-
-    if (!id) {
-        resultEl.innerHTML = `
-            <div class="result invalid">
-                <div class="result-header">
-                    <div class="result-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M18 6 6 18M6 6l12 12"/>
-                        </svg>
-                    </div>
-                    <div>
-                        <div class="result-title">Sertifikat ID kiritilmadi</div>
-                        <div class="result-subtitle">Iltimos, sertifikat ID'sini kiriting</div>
-                    </div>
-                </div>
-            </div>
-        `;
-        return;
+function resizeCert() {
+    const wrapper = document.getElementById('cert-wrapper');
+    const scaler = document.getElementById('cert-scaler');
+    if (!wrapper || !scaler) return;
+    
+    // A4 qog'ozning ekrandagi kengligi (1123px)
+    const targetWidth = 1123;
+    const containerWidth = wrapper.clientWidth;
+    
+    // Agar ekran A4 dan kichik bo'lsa, moslashtirib kichraytiramiz
+    if (containerWidth < targetWidth) {
+        const scale = containerWidth / targetWidth;
+        scaler.style.transform = `scale(${scale * 0.95})`; // 5% margin qoldiramiz
+        wrapper.style.height = `${794 * scale * 0.95}px`; // Balandlikni ham moslashtiramiz
+    } else {
+        scaler.style.transform = `scale(1)`;
+        wrapper.style.height = `794px`;
     }
+}
 
-    btn.disabled = true;
-    btn.innerHTML = 'Tekshirilmoqda...';
-    resultEl.innerHTML = '';
+window.addEventListener('resize', resizeCert);
+
+async function verifyCert(urlId) {
+    const certId = (urlId || '').trim().toUpperCase();
+    if (!certId) return;
 
     try {
-        const res = await fetch(`/api/certificates/verify/${encodeURIComponent(id)}`);
+        const res = await fetch('/api/certificates/verify/' + encodeURIComponent(certId));
         const data = await res.json();
+        
+        document.getElementById('loading-box').style.display = 'none';
 
-        if (data.valid) {
-            const c = data.certificate;
-            resultEl.innerHTML = `
-                <div class="result valid">
-                    <div class="result-header">
-                        <div class="result-icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="20 6 9 17 4 12"/>
-                            </svg>
-                        </div>
-                        <div>
-                            <div class="result-title">Sertifikat haqiqiy</div>
-                            <div class="result-subtitle">CTF.UZ tomonidan berilgan</div>
-                        </div>
-                    </div>
-
-                    <div class="cert-detail">
-                        <div class="label">Sertifikat ID</div>
-                        <div class="value">${esc(c.certificateId)}</div>
-                    </div>
-                    <div class="cert-detail">
-                        <div class="label">Turi</div>
-                        <div class="value">${esc(c.type).toUpperCase()}</div>
-                    </div>
-                    <div class="cert-detail">
-                        <div class="label">Sarlavha</div>
-                        <div class="value" style="font-family: inherit;">${esc(c.title)}</div>
-                    </div>
-                    <div class="cert-detail">
-                        <div class="label">Berilgan</div>
-                        <div class="value">${new Date(c.issuedAt).toLocaleDateString('uz-UZ')}</div>
-                    </div>
-                    ${c.expiresAt ? `
-                        <div class="cert-detail">
-                            <div class="label">Amal qiladi</div>
-                            <div class="value">${new Date(c.expiresAt).toLocaleDateString('uz-UZ')} gacha</div>
-                        </div>
-                    ` : `
-                        <div class="cert-detail">
-                            <div class="label">Amal qiladi</div>
-                            <div class="value" style="color: #10B981;">Muddatsiz</div>
-                        </div>
-                    `}
-
-                    ${c.owner && !c.owner.anonymous ? `
-                        <div class="cert-owner">
-                            <img src="${esc(c.owner.avatar || '/assets/default-avatar.svg')}" 
-                                 onerror="this.src='/assets/default-avatar.svg'"
-                                 alt="avatar">
-                            <div>
-                                <div style="font-weight: 700;">${esc(c.owner.name || c.owner.username)}</div>
-                                <div style="color: #94A3B8; font-size: 0.85rem; font-family: JetBrains Mono;">@${esc(c.owner.username)}</div>
-                            </div>
-                        </div>
-                    ` : ''}
-                </div>
-            `;
-        } else {
-            resultEl.innerHTML = `
-                <div class="result invalid">
-                    <div class="result-header">
-                        <div class="result-icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M18 6 6 18M6 6l12 12"/>
-                            </svg>
-                        </div>
-                        <div>
-                            <div class="result-title">Sertifikat haqiqiy emas</div>
-                            <div class="result-subtitle">${esc(data.message || 'Tekshirib ko\'ring')}</div>
-                        </div>
-                    </div>
-                    ${data.revoked ? `
-                        <div class="cert-detail">
-                            <div class="label">Bekor qilingan</div>
-                            <div class="value">${data.certificate.revokedAt ? new Date(data.certificate.revokedAt).toLocaleDateString('uz-UZ') : '—'}</div>
-                        </div>
-                        ${data.certificate.revokeReason ? `
-                            <div class="cert-detail">
-                                <div class="label">Sabab</div>
-                                <div class="value">${esc(data.certificate.revokeReason)}</div>
-                            </div>
-                        ` : ''}
-                    ` : ''}
-                    ${data.expired ? `
-                        <div class="cert-detail">
-                            <div class="label">Muddati tugagan</div>
-                            <div class="value">${new Date(data.certificate.expiresAt).toLocaleDateString('uz-UZ')}</div>
-                        </div>
-                    ` : ''}
-                </div>
-            `;
+        if (!data.success || !data.certificate) {
+            document.getElementById('error-box').style.display = 'block';
+            if(data.message) document.getElementById('error-msg').innerText = data.message;
+            return;
         }
+
+        const c = data.certificate;
+        
+        // Domenga ma'lumotlarni yozish
+        document.getElementById('c-id').innerText = c.certId;
+        document.getElementById('c-date').innerText = new Date(c.issueDate).toISOString().split('T')[0];
+        document.getElementById('c-name').innerText = c.recipientName;
+        document.getElementById('c-course').innerText = c.courseName;
+        document.getElementById('c-score').innerText = `FINAL ASSESSMENT SCORE: ${c.scorePercent}%`;
+
+        // QR code generatsiyasi (Sertifikatning rasmiy manzili bilan)
+        const fullLink = window.location.origin + '/verify-certificate/' + encodeURIComponent(c.certId);
+        document.getElementById('c-qr').src = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&margin=0&data=' + encodeURIComponent(fullLink);
+
+        document.getElementById('cert-main').style.display = 'block';
+        resizeCert();
+
     } catch (e) {
-        resultEl.innerHTML = `
-            <div class="result invalid">
-                <div class="result-header">
-                    <div class="result-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M18 6 6 18M6 6l12 12"/>
-                        </svg>
-                    </div>
-                    <div>
-                        <div class="result-title">Ulanish xatosi</div>
-                        <div class="result-subtitle">Serverga ulanib bo'lmadi</div>
-                    </div>
-                </div>
-            </div>
-        `;
-    } finally {
-        btn.disabled = false;
-        btn.innerHTML = `
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="11" cy="11" r="8"/>
-                <path d="m21 21-4.35-4.35"/>
-            </svg>
-            Tekshirish
-        `;
+        document.getElementById('loading-box').style.display = 'none';
+        document.getElementById('error-box').style.display = 'block';
+        document.getElementById('error-msg').innerText = "Server bilan aloqada xatolik yuz berdi.";
     }
 }
+
+// PDF ga o'girish va yuklab olish funksiyasi
+function downloadPDF() {
+    const element = document.getElementById('certificate-node');
+    const certId = document.getElementById('c-id').innerText;
+    const certName = document.getElementById('c-name').innerText.replace(/\s+/g, '_');
+    
+    // HTML2PDF sozlamalari
+    const opt = {
+        margin:       0,
+        filename:     `CTF_UZ_Certificate_${certName}_${certId}.pdf`,
+        image:        { type: 'jpeg', quality: 1 },
+        html2canvas:  { scale: 3, useCORS: true, logging: false }, // Yuqori sifat (scale: 3)
+        jsPDF:        { unit: 'px', format: [1123, 794], orientation: 'landscape' } // A4 Landscape
+    };
+
+    // Yuklab olish jarayoni boshlanganda tugmani bloklaymiz
+    const btn = document.querySelector('.btn-download');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = 'Yuklanmoqda... Kuting';
+    btn.disabled = true;
+
+    // Custom shriftlar to'liq yuklanganini kutamiz, keyin PDF qilamiz
+    document.fonts.ready.then(() => {
+        html2pdf().set(opt).from(element).save().then(() => {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }).catch(err => {
+            alert("PDF yaratishda xatolik yuz berdi.");
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        });
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const parts = window.location.pathname.split('/');
+    const last = parts[parts.length - 1];
+    if (last && last.startsWith('CTF-UZ-')) {
+        verifyCert(last);
+    }
+});
 </script>
 </body>
 </html>
-<script src="/js/verify-logic.js"></script>

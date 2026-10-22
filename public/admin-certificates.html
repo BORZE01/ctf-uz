@@ -610,6 +610,14 @@ async function loadCertificates() {
                                     <circle cx="12" cy="12" r="3"/>
                                 </svg>
                             </a>
+
+            <a   class="logo" href="#employers" onclick="event.preventDefault(); window.showAdminPanelCustom('admin-employers-panel'); window.loadPendingEmployers();" style="display:flex; align-items:center; gap:10px;">
+                <span style="font-size: 1.1rem; opacity: 0.8;">🏢</span> Ish beruvchilar
+            </a>
+            <a   class="logo" href="#jobs" onclick="event.preventDefault(); window.showAdminPanelCustom('admin-jobs-panel'); window.loadAdminJobs();" style="display:flex; align-items:center; gap:10px;">
+                <span style="font-size: 1.1rem; opacity: 0.8;">💼</span> Vakansiyalar
+            </a>
+            
                             <button class="btn btn-danger btn-sm" onclick="deleteCert('${esc(c.id)}', '${esc(c.certificateId)}')" title="O'chirish (permanent)">
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/>
@@ -972,6 +980,204 @@ window.addEventListener('DOMContentLoaded', () => {
     loadStats();
     loadCertificates();
 });
+
+function showAdminPanelCustom(panelId) {
+    // Barcha .content yoki main ichidagi panellarni yopish
+    const container = document.querySelector('main') || document.querySelector('.content') || document.body;
+    const allPanels = container.querySelectorAll(':scope > div, section');
+    
+    allPanels.forEach(el => {
+        // Header, navbar yoki boshqa muhim narsalarga tegmaslik
+        if (!el.classList.contains('header') && !el.classList.contains('sidebar') && !el.classList.contains('topbar') && el.tagName !== 'NAV') {
+            el.style.display = 'none';
+        }
+    });
+
+    // Tanlangan panelni ochish
+    const activePanel = document.getElementById(panelId);
+    if (activePanel) {
+        activePanel.style.display = 'block';
+    } else {
+        console.error("Panel topilmadi: " + panelId);
+    }
+}
+
+// Global scope ga chiqarish (boshqa scriptlar ishlata olishi uchun)
+window.showAdminPanelCustom = showAdminPanelCustom;
+window.showAdminPanel = showAdminPanelCustom; // Eski funksiya nomini ham qoplaymiz
+    
 </script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Sidebar ga Ish beruvchilar linkini qo'shish
+        const sidebar = document.querySelector('.sidebar') || document.querySelector('aside') || document.body;
+        const links = sidebar.querySelectorAll('a, li, div');
+        let added = false;
+        links.forEach(l => {
+            if(!added && l.textContent.includes('Foydalanuvchilar')) {
+                
+});
+
+window.showAdminPanelCustom = function(panelId) {
+    const mainContent = document.querySelector('main') || document.querySelector('.content') || document.body;
+    // Faqat to'g'ri elementlarni yashiramiz
+    const children = mainContent.querySelectorAll(':scope > div, section');
+    children.forEach(el => {
+        if (el.id !== 'header' && !el.classList.contains('header') && !el.classList.contains('sidebar') && el.tagName !== 'NAV') {
+            el.style.display = 'none';
+        }
+    });
+    const panel = document.getElementById(panelId);
+    if (panel) panel.style.display = 'block';
+};
+
+window.loadPendingEmployers = async function() {
+    const tbody = document.getElementById('pending-employers-list');
+    if(!tbody) return;
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:30px; color:#64748B;">Yuklanmoqda...</td></tr>';
+    try {
+        const res = await fetch('/api/admin/employers/pending');
+        const data = await res.json();
+        if (data.success && data.users && data.users.length > 0) {
+            tbody.innerHTML = data.users.map(u => `
+                <tr style="border-bottom: 1px solid rgba(74,127,255,0.1);">
+                    <td style="padding: 16px;"><div style="font-weight:bold; color:#F1F5F9;">${u.name}</div><div style="font-size:0.8rem; color:#94A3B8;">@${u.username}</div></td>
+                    <td style="padding: 16px; color:#E2E8F0;">${u.email}</td>
+                    <td style="padding: 16px; color:#F59E0B; font-size:0.85rem;">Kutilmoqda</td>
+                    <td style="padding: 16px; text-align: right;">
+                        <button onclick="window.manageEmployerRole('${u.username}', 'employer')" style="background:#10B981; color:#fff; border:none; padding:6px 12px; border-radius:6px; cursor:pointer; font-size:0.8rem; margin-right:8px;">Tasdiqlash</button>
+                        <button onclick="window.manageEmployerRole('${u.username}', 'user')" style="background:#EF4444; color:#fff; border:none; padding:6px 12px; border-radius:6px; cursor:pointer; font-size:0.8rem;">Rad etish</button>
+                    </td>
+                </tr>
+            `).join('');
+        } else {
+            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:30px; color:#64748B;">Arizalar mavjud emas.</td></tr>';
+        }
+    } catch(e) { tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:30px; color:#EF4444;">Tarmoq xatosi.</td></tr>'; }
+};
+
+ return; }
+    if(msg) { msg.style.color = '#94A3B8'; msg.innerText = 'Bajarilmoqda...'; }
+    try {
+        const csrfRes = await fetch('/api/csrf-token');
+        const csrfData = await csrfRes.json();
+        const res = await fetch('/api/admin/assign-user-role', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'x-csrf-token': csrfData.csrfToken },
+            body: JSON.stringify({ username, role: roleType })
+        });
+        const data = await res.json();
+        if (data.success) { 
+            if(msg) { msg.style.color = '#10B981'; msg.innerText = '✅ ' + data.message; }
+            else alert(data.message);
+            window.loadPendingEmployers(); 
+        } else { 
+            if(msg) { msg.style.color = '#EF4444'; msg.innerText = '❌ ' + data.message; }
+            else alert(data.message);
+        }
+    } catch(e) { if(msg) { msg.style.color = '#EF4444'; msg.innerText = "Xatolik yuz berdi."; } }
+};
+
+window.loadAdminJobs = async function() {
+    const tbody = document.getElementById('admin-jobs-list');
+    if(!tbody) return;
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:40px; color:#64748B;">Yuklanmoqda...</td></tr>';
+    try {
+        const res = await fetch('/api/admin/jobs');
+        const data = await res.json();
+        if(data.success && data.jobs && data.jobs.length > 0) {
+            tbody.innerHTML = data.jobs.map(j => `
+                <tr style="border-bottom: 1px solid rgba(74,127,255,0.1);">
+                    <td style="padding: 16px; font-weight:bold; color:#F1F5F9;">${j.title}</td>
+                    <td style="padding: 16px; color:#94A3B8;">${j.author?.companyProfile?.companyName || 'Noma\\'lum'}</td>
+                    <td style="padding: 16px;"><span style="padding:4px 8px; border-radius:6px; font-size:0.8rem; background:rgba(245,158,11,0.1); color:#F59E0B;">${j.status}</span></td>
+                    <td style="padding: 16px; text-align: right;">
+                        <button onclick="window.moderateJob('${j._id}', 'approved')" style="background:#10B981; color:#fff; border:none; padding:6px 12px; border-radius:6px; cursor:pointer; font-size:0.8rem; margin-right:8px;">Tasdiqlash</button>
+                        <button onclick="window.moderateJob('${j._id}', 'rejected')" style="background:#EF4444; color:#fff; border:none; padding:6px 12px; border-radius:6px; cursor:pointer; font-size:0.8rem;">Rad etish</button>
+                    </td>
+                </tr>
+            `).join('');
+        } else {
+            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:30px; color:#64748B;">Vakansiyalar yo\\'q.</td></tr>';
+        }
+    } catch(e) { tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:30px; color:#EF4444;">Aloqa xatosi.</td></tr>'; }
+};
+
+window.moderateJob = async function(id, status) {
+    const reason = status === 'rejected' ? prompt('Rad etish sababini yozing:') : '';
+    if(status === 'rejected' && !reason) return;
+    try {
+        const csrfRes = await fetch('/api/csrf-token');
+        const csrfData = await csrfRes.json();
+        const res = await fetch(`/api/admin/jobs/${id}/moderate`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', 'x-csrf-token': csrfData.csrfToken },
+            body: JSON.stringify({ status, reason })
+        });
+        const data = await res.json();
+        alert(data.message || "Bajarildi");
+        window.loadAdminJobs();
+    } catch(e) { alert("Xato"); }
+};
+</script>
+
+
+<script>
+window.manageEmployerRole = async function(roleType) {
+    const inputEls = document.querySelectorAll('input[type="text"]');
+    let username = '';
+    // Ekranda qanday input bo'lishidan qat'iy nazar username ni topib olamiz
+    inputEls.forEach(el => { if(el.value.trim().length > 0) username = el.value.trim(); });
+    
+    let msgBox = document.getElementById('emp-action-msg') || document.querySelector('.msg-box');
+    if(!msgBox) {
+        msgBox = document.createElement('div');
+        msgBox.id = 'emp-action-msg';
+        msgBox.style.marginTop = '12px';
+        msgBox.style.fontWeight = 'bold';
+        // Eng birinchi inputning tagiga qo'shib qo'yamiz
+        if(inputEls[0]) inputEls[0].parentNode.parentNode.appendChild(msgBox);
+    }
+    
+    if(!username) {
+        msgBox.style.color = '#EF4444';
+        msgBox.innerHTML = '❌ Username kiriting!';
+        return;
+    }
+    
+    msgBox.style.color = '#94A3B8';
+    msgBox.innerHTML = 'Kuting...';
+    
+    try {
+        const csrfRes = await fetch('/api/csrf-token');
+        const csrfData = await csrfRes.json();
+        
+        const res = await fetch('/api/admin/assign-user-role', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'x-csrf-token': csrfData.csrfToken },
+            body: JSON.stringify({ username, role: roleType })
+        });
+        
+        const data = await res.json();
+        
+        if (data.success) {
+            msgBox.style.color = '#10B981';
+            msgBox.innerHTML = '✅ ' + data.message;
+            if(typeof loadPendingEmployers === 'function') loadPendingEmployers();
+        } else {
+            msgBox.style.color = '#EF4444';
+            msgBox.innerHTML = '❌ ' + (data.message || 'Xatolik');
+        }
+    } catch(e) {
+        msgBox.style.color = '#EF4444';
+        msgBox.innerHTML = "❌ Tarmoq xatosi yoki API topilmadi. Serverni qayta yurgizing.";
+    }
+};
+
+// HTML ichidagi inline onclick() lar bemalol ishlata olishi uchun
+async function manageEmployerRole(role) { return window.manageEmployerRole(role); }
+</script>
+
 </body>
 </html>

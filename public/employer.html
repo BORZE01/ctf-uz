@@ -2,1001 +2,411 @@
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ish beruvchi paneli — CTF.UZ</title>
+    <title>Ish beruvchi Paneli - CTF.UZ</title>
     <link rel="stylesheet" href="/css/design-system.css">
-    <link rel="stylesheet" href="/css/animations.css">
-    <link rel="stylesheet" href="/css/icons.css">
     <link rel="stylesheet" href="/css/modern-ui.css">
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        .emp-header {
-            background: linear-gradient(135deg, rgba(37,99,235,0.1), rgba(124,58,237,0.1));
-            border: 1px solid rgba(74,127,255,0.2);
-            border-radius: 20px;
-            padding: 32px;
-            margin-bottom: 32px;
-        }
-        .emp-logo {
-            width: 80px;
-            height: 80px;
-            border-radius: 16px;
-            background: linear-gradient(135deg, #2563EB, #7C3AED);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: Manrope;
-            font-size: 2rem;
-            font-weight: 900;
-            color: white;
-            overflow: hidden;
-        }
-        .emp-logo img { width: 100%; height: 100%; object-fit: cover; }
-        
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 4px 12px;
-            border-radius: 999px;
-            font-size: 0.72rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .status-pending { background: rgba(245,185,66,0.15); color: #F59E0B; border: 1px solid rgba(245,185,66,0.3); }
-        .status-verified { background: rgba(16,185,129,0.15); color: #10B981; border: 1px solid rgba(16,185,129,0.3); }
-        .status-rejected { background: rgba(239,68,68,0.15); color: #EF4444; border: 1px solid rgba(239,68,68,0.3); }
-        
-        .emp-tabs {
-            display: flex;
-            gap: 4px;
-            padding: 4px;
-            background: rgba(74,127,255,0.05);
-            border-radius: 12px;
-            margin-bottom: 24px;
-            border: 1px solid rgba(30,94,255,0.15);
-            overflow-x: auto;
-        }
-        .emp-tab {
-            flex: 1;
-            min-width: 140px;
-            padding: 12px 20px;
-            background: transparent;
-            border: none;
-            color: #94A3B8;
-            font-family: inherit;
-            font-weight: 600;
-            font-size: 0.85rem;
-            cursor: pointer;
-            border-radius: 8px;
-            transition: all 0.2s;
-            white-space: nowrap;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        .emp-tab.active {
-            background: #2563EB;
-            color: white;
-        }
-        .emp-tab-panel { display: none; }
-        .emp-tab-panel.active { display: block; animation: fadeIn 0.3s; }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .job-row {
-            display: grid;
-            grid-template-columns: 1fr auto;
-            gap: 16px;
-            padding: 20px;
-            background: rgba(15,22,41,0.6);
-            border: 1px solid rgba(74,127,255,0.12);
-            border-radius: 14px;
-            margin-bottom: 12px;
-            transition: all 0.2s;
-        }
-        .job-row:hover {
-            border-color: rgba(74,127,255,0.35);
-        }
-        .job-badge-status {
-            padding: 3px 10px;
-            border-radius: 999px;
-            font-size: 0.68rem;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-        .badge-draft { background: rgba(100,116,139,0.15); color: #94A3B8; }
-        .badge-pending { background: rgba(245,185,66,0.15); color: #F59E0B; }
-        .badge-published { background: rgba(16,185,129,0.15); color: #10B981; }
-        .badge-closed { background: rgba(239,68,68,0.15); color: #EF4444; }
-        
-        .app-row {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 16px 20px;
-            background: rgba(15,22,41,0.6);
-            border: 1px solid rgba(74,127,255,0.12);
-            border-radius: 14px;
-            margin-bottom: 12px;
-            transition: all 0.2s;
-            cursor: pointer;
-        }
-        .app-row:hover {
-            border-color: rgba(74,127,255,0.35);
-            transform: translateX(4px);
-        }
-        .app-avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #2563EB, #22D3EE);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            color: white;
-            font-size: 1rem;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-        .app-avatar img { width: 100%; height: 100%; object-fit: cover; }
-        
-        .match-badge {
-            font-family: JetBrains Mono;
-            font-weight: 800;
-            font-size: 0.9rem;
-            padding: 6px 14px;
-            border-radius: 999px;
-        }
-        .match-high { background: rgba(16,185,129,0.15); color: #10B981; border: 1px solid rgba(16,185,129,0.3); }
-        .match-mid { background: rgba(245,185,66,0.15); color: #F59E0B; border: 1px solid rgba(245,185,66,0.3); }
-        .match-low { background: rgba(239,68,68,0.15); color: #EF4444; border: 1px solid rgba(239,68,68,0.3); }
-        
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(6,11,24,0.92);
-            backdrop-filter: blur(8px);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            overflow-y: auto;
-        }
-        .modal-overlay.active { display: flex; }
-        .modal-box {
-            background: #0F1629;
-            border: 1px solid rgba(74,127,255,0.3);
-            border-radius: 20px;
-            padding: 32px;
-            max-width: 600px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-        .modal-box h3 {
-            font-family: Manrope;
-            font-weight: 800;
-            margin-bottom: 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .modal-close {
-            background: transparent;
-            border: none;
-            color: #94A3B8;
-            cursor: pointer;
-            padding: 0 8px;
-        }
-        .field { margin-bottom: 16px; }
-        .field label {
-            display: block;
-            font-size: 0.72rem;
-            color: #94A3B8;
-            margin-bottom: 6px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .field input,
-        .field select,
-        .field textarea {
-            width: 100%;
-            padding: 12px 14px;
-            background: #060B18;
-            border: 1px solid rgba(74,127,255,0.2);
-            border-radius: 8px;
-            color: #F1F5F9;
-            font-family: inherit;
-            font-size: 0.9rem;
-            outline: none;
-            transition: all 0.2s;
-        }
-        .field textarea { min-height: 80px; resize: vertical; }
+        .tab-btn { padding: 12px 24px; background: transparent; border: none; color: #94A3B8; font-weight: bold; cursor: pointer; border-bottom: 2px solid transparent; }
+        .tab-btn.active { color: #22D3EE; border-bottom-color: #22D3EE; }
+        .tab-content { display: none; padding: 24px 0; }
+        .tab-content.active { display: block; animation: fadeIn 0.4s; }
+        .stat-card { background: #0F1629; border: 1px solid rgba(74,127,255,0.2); padding: 24px; border-radius: 16px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 16px; color: #F1F5F9; }
+        th, td { padding: 14px; text-align: left; border-bottom: 1px solid rgba(74,127,255,0.1); }
+        th { color: #94A3B8; font-size: 0.85rem; text-transform: uppercase; }
+        input, select, textarea { width: 100%; padding: 12px; background: #060B18; border: 1px solid rgba(74,127,255,0.3); border-radius: 8px; color: #fff; margin-bottom: 16px; outline: none; }
     </style>
 </head>
 <body>
-
 <div class="girih-bg"></div>
-
-<header class="header">
-    <a href="/" class="logo">
-        <div class="logo-mark">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-            </svg>
-        </div>
-        <div class="logo-text">CTF<span>.UZ</span></div>
-    </a>
-    <nav class="nav">
-        <a href="/dashboard">Dashboard</a>
-        <a href="/career">Karyera</a>
-        <a href="/employer" class="active">Ish beruvchi</a>
-        <a id="auth-link" href="/profile"></a>
-    </nav>
+<header class="header" style="padding: 16px 40px; background: rgba(6,11,24,0.9); border-bottom: 1px solid rgba(74,127,255,0.1);">
+    <div style="display:flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto;">
+        <a href="/" style="color:#fff; font-size: 1.4rem; font-weight: 900; text-decoration: none;">CTF<span style="color:#4A7FFF">.UZ</span> Employer</a>
+        <a href="/dashboard" class="btn btn-secondary">Asosiy platformaga qaytish</a>
+    </div>
 </header>
 
-<div class="container">
-    <div id="main-content">
-        <div style="text-align:center; padding:80px;">
-            <div class="spinner"></div>
+<div class="container" style="max-width: 1400px; margin-top: 40px;">
+        
+    <!-- ARIZA YUBORISH EKRANI -->
+    <div id="emp-apply-screen" style="display:none; text-align:center; padding: 100px 20px;">
+        <div style="width: 80px; height: 80px; background: rgba(37,99,235,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#4A7FFF" stroke-width="2" style="width:40px;height:40px;"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h2 style="color:#fff; font-family:Manrope; font-size:2rem; margin-bottom:16px;">Ish beruvchi bo'lish</h2>
+        <p style="color:#94A3B8; max-width:500px; margin:0 auto 32px; line-height: 1.6;">Platformada vakansiya e'lon qilish va nomzodlarni qabul qilish uchun maxsus ish beruvchi huquqi talab etiladi.</p>
+        <button id="apply-emp-btn" class="btn btn-primary" style="padding: 14px 32px; font-size: 1.1rem;" onclick="applyToEmployer()">Ariza yuborish</button>
+    </div>
+
+    <!-- KUTILMOQDA EKRANI -->
+    <div id="emp-pending-screen" style="display:none; text-align:center; padding: 100px 20px;">
+        <div style="width: 80px; height: 80px; background: rgba(245,158,11,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2" style="width:40px;height:40px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <h2 style="color:#F59E0B; font-family:Manrope; font-size:2rem; margin-bottom:16px;">Arizangiz kutilmoqda</h2>
+        <p style="color:#94A3B8; max-width:500px; margin:0 auto 32px; line-height: 1.6;">Arizangiz adminlar tomonidan ko'rib chiqilmoqda. Tasdiqlangandan so'ng bu yerda to'liq kabinetingiz ochiladi.</p>
+        <button class="btn btn-secondary" style="padding: 14px 32px;" onclick="window.location.href='/dashboard'">Asosiy sahifaga qaytish</button>
+    </div>
+
+    <!-- ASOSIY DASHBOARD WRAPPER -->
+    <div id="emp-main-wrapper" style="display:none;">
+    
+    <div style="margin-bottom: 24px;">
+        <h1 style="color: #fff; font-family: Manrope; font-size: 2.2rem; margin-bottom: 8px;">🏢 Ish beruvchi kabineti</h1>
+        <p style="color: #94A3B8;">Vakansiyalaringizni boshqaring, nomzodlarni ko'rib chiqing va jamoangizni kengaytiring.</p>
+        <div id="company-status-badge" style="margin-top: 12px; display: inline-block; padding: 6px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: bold;"></div>
+    </div>
+
+    <div style="display: flex; gap: 16px; border-bottom: 1px solid rgba(74,127,255,0.2); margin-bottom: 24px;">
+        <button class="tab-btn active" onclick="switchTab('dashboard')">📊 Dashboard</button>
+        <button class="tab-btn" onclick="switchTab('profile')">🏢 Kompaniya Profili</button>
+        <button class="tab-btn" onclick="switchTab('jobs')">💼 Vakansiyalar</button>
+        <button class="tab-btn" onclick="switchTab('apps')">📄 Arizalar</button>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div id="dashboard-tab" class="tab-content active">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+            <div class="stat-card"><div style="color:#94A3B8; font-size:0.9rem;">Jami Vakansiyalar</div><div id="stat-jobs" style="font-size: 2rem; font-weight: bold; color: #fff;">0</div></div>
+            <div class="stat-card"><div style="color:#94A3B8; font-size:0.9rem;">Nashr qilingan</div><div id="stat-pub" style="font-size: 2rem; font-weight: bold; color: #10B981;">0</div></div>
+            <div class="stat-card"><div style="color:#94A3B8; font-size:0.9rem;">Moderatsiyada</div><div id="stat-pen" style="font-size: 2rem; font-weight: bold; color: #F59E0B;">0</div></div>
+            <div class="stat-card"><div style="color:#94A3B8; font-size:0.9rem;">Yangi arizalar</div><div id="stat-apps" style="font-size: 2rem; font-weight: bold; color: #22D3EE;">0</div></div>
+        </div>
+    </div>
+
+    <!-- PROFILE -->
+    <div id="profile-tab" class="tab-content">
+        <div class="stat-card" style="max-width: 600px;">
+            <h3 style="color:#fff; margin-bottom: 16px;">Kompaniya ma'lumotlari</h3>
+            <input type="text" id="cp-name" placeholder="Kompaniya nomi">
+            <input type="text" id="cp-industry" placeholder="Faoliyat yo'nalishi (Masalan: FinTech, CyberSec)">
+            <input type="email" id="cp-email" placeholder="Aloqa uchun email">
+            <input type="url" id="cp-web" placeholder="Veb-sayt havolasi">
+            <textarea id="cp-desc" rows="4" placeholder="Kompaniya haqida qisqacha ma'lumot..."></textarea>
+            <button class="btn btn-primary" onclick="saveProfile()" style="width: 100%;">Saqlash va Tasdiqqa yuborish</button>
+        </div>
+    </div>
+
+    <!-- JOBS -->
+    <div id="jobs-tab" class="tab-content">
+        <button class="btn btn-primary" style="margin-bottom: 16px;" onclick="document.getElementById('job-modal').style.display='flex'">+ Yangi Vakansiya</button>
+        <div class="stat-card" style="padding: 0; overflow-x: auto;">
+            <table>
+                <thead><tr><th>Lavozim</th><th>Format</th><th>Holat</th><th>Arizalar</th><th>Amallar</th></tr></thead>
+                <tbody id="jobs-list"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- APPS -->
+    <div id="apps-tab" class="tab-content">
+        <div class="stat-card" style="padding: 0; overflow-x: auto;">
+            <table>
+                <thead><tr><th>Nomzod</th><th>Vakansiya</th><th>Sana</th><th>Holat</th><th>Harakat</th></tr></thead>
+                <tbody id="apps-list"></tbody>
+            </table>
         </div>
     </div>
 </div>
 
-<!-- CREATE/EDIT EMPLOYER MODAL -->
-<div id="employer-modal" class="modal-overlay">
-    <div class="modal-box">
-        <h3>
-            <span id="employer-modal-title">Tashkilot yaratish</span>
-            <button class="modal-close" onclick="closeEmployerModal()">×</button>
-        </h3>
-        <form id="employer-form">
-            <div class="field">
-                <label>Tashkilot nomi *</label>
-                <input type="text" id="emp-name" required maxlength="100">
-            </div>
-            <div class="field">
-                <label>Website</label>
-                <input type="url" id="emp-website" placeholder="https://company.uz">
-            </div>
-            <div class="field">
-                <label>Tavsif</label>
-                <textarea id="emp-description" maxlength="2000"></textarea>
-            </div>
-            <div class="field">
-                <label>Soha (industry)</label>
-                <input type="text" id="emp-industry" placeholder="IT, Fintech, Cybersecurity...">
-            </div>
-            <div class="field">
-                <label>Kompaniya hajmi</label>
-                <select id="emp-size">
-                    <option value="unknown">Tanlanmagan</option>
-                    <option value="1-10">1-10 xodim</option>
-                    <option value="11-50">11-50 xodim</option>
-                    <option value="51-200">51-200 xodim</option>
-                    <option value="201-500">201-500 xodim</option>
-                    <option value="500+">500+ xodim</option>
-                </select>
-            </div>
-            <div class="field">
-                <label>Manzil</label>
-                <input type="text" id="emp-location" placeholder="Toshkent">
-            </div>
-            <div class="field">
-                <label>Contact email</label>
-                <input type="email" id="emp-email" placeholder="hr@company.uz">
-            </div>
-            <div class="field">
-                <label>Telefon</label>
-                <input type="text" id="emp-phone" placeholder="+998 XX XXX XX XX">
-            </div>
-            <div id="emp-message" style="font-size:0.85rem; margin-bottom:12px;"></div>
-            <div style="display:flex; gap:12px; margin-top:20px;">
-                <button type="submit" class="btn btn-primary" style="flex:1; justify-content:center;">Saqlash</button>
-                <button type="button" class="btn btn-secondary" style="flex:1; justify-content:center;" onclick="closeEmployerModal()">Bekor</button>
-            </div>
-        </form>
-    </div>
 </div>
 
-<!-- CREATE JOB MODAL -->
-<div id="job-modal" class="modal-overlay">
-    <div class="modal-box">
-        <h3>
-            <span>Yangi vakansiya</span>
-            <button class="modal-close" onclick="closeJobModal()">×</button>
-        </h3>
-        <form id="job-form">
-            <div class="field">
-                <label>Lavozim nomi *</label>
-                <input type="text" id="job-title" required maxlength="160">
-            </div>
-            <div class="field">
-                <label>Tavsif *</label>
-                <textarea id="job-description" required maxlength="5000" rows="5"></textarea>
-            </div>
-            <div class="field">
-                <label>Majburiy ko'nikmalar (vergul bilan)</label>
-                <input type="text" id="job-required" placeholder="Linux, Networking, Python">
-            </div>
-            <div class="field">
-                <label>Qo'shimcha ko'nikmalar (vergul bilan)</label>
-                <input type="text" id="job-optional" placeholder="SIEM, Docker, AWS">
-            </div>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-                <div class="field">
-                    <label>Turi</label>
-                    <select id="job-type">
-                        <option value="full-time">Full-time</option>
-                        <option value="part-time">Part-time</option>
-                        <option value="internship">Internship</option>
-                        <option value="contract">Contract</option>
-                    </select>
-                </div>
-                <div class="field">
-                    <label>Daraja</label>
-                    <select id="job-level">
-                        <option value="internship">Internship</option>
-                        <option value="junior">Junior</option>
-                        <option value="middle">Middle</option>
-                        <option value="senior">Senior</option>
-                        <option value="lead">Lead</option>
-                    </select>
-                </div>
-            </div>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-                <div class="field">
-                    <label>Minimal maosh</label>
-                    <input type="number" id="job-sal-min" placeholder="3000000">
-                </div>
-                <div class="field">
-                    <label>Maksimal maosh</label>
-                    <input type="number" id="job-sal-max" placeholder="8000000">
-                </div>
-            </div>
-            <div class="field">
-                <label>Manzil</label>
-                <input type="text" id="job-location" placeholder="Toshkent">
-            </div>
-            <div class="field">
-                <label>
-                    <input type="checkbox" id="job-remote" style="width:auto; margin-right:8px;">
-                    Remote ish
-                </label>
-            </div>
-            <div class="field">
-                <label>Muddat (deadline)</label>
-                <input type="date" id="job-deadline">
-            </div>
-            <div id="job-message" style="font-size:0.85rem; margin-bottom:12px;"></div>
-            <div style="display:flex; gap:12px; margin-top:20px;">
-                <button type="submit" class="btn btn-primary" style="flex:1; justify-content:center;">Yaratish</button>
-                <button type="button" class="btn btn-secondary" style="flex:1; justify-content:center;" onclick="closeJobModal()">Bekor</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<!-- APPLICATION MODAL -->
-<div id="app-modal" class="modal-overlay">
-    <div class="modal-box" style="max-width:800px;">
-        <h3>
-            <span>Ariza tafsilotlari</span>
-            <button class="modal-close" onclick="closeAppModal()">×</button>
-        </h3>
-        <div id="app-detail"></div>
+<!-- Yangi Vakansiya Modali -->
+<div id="job-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); z-index:100; align-items:center; justify-content:center; padding: 20px;">
+    <div style="background:#0F1629; padding: 32px; border-radius:16px; width:100%; max-width:600px; max-height:90vh; overflow-y:auto; border:1px solid rgba(74,127,255,0.3);">
+        <h2 style="color:#fff; margin-bottom: 16px;">Vakansiya yaratish</h2>
+        <input type="text" id="j-title" placeholder="Lavozim nomi (Masalan: Penetration Tester)">
+        <textarea id="j-desc" placeholder="Ish haqida qisqacha ma'lumot..." rows="3"></textarea>
+        <select id="j-format"><option value="Office">Ofis</option><option value="Remote">Masofaviy</option><option value="Hybrid">Gibrid</option></select>
+        <select id="j-level"><option value="Junior">Junior</option><option value="Middle">Middle</option><option value="Senior">Senior</option></select>
+        <input type="text" id="j-salary" placeholder="Ish haqi oralig'i (Ixtiyoriy)">
+        <div style="display:flex; gap:12px; margin-top: 16px;">
+            <button class="btn btn-secondary" onclick="document.getElementById('job-modal').style.display='none'">Bekor qilish</button>
+            <button class="btn btn-primary" onclick="createJob()">Qoralama saqlash</button>
+        </div>
     </div>
 </div>
 
 <script>
-// ══════════════════════════════════════════
-// STATE
-// ══════════════════════════════════════════
-let currentUser = null;
-let myEmployer = null;
-let myJobs = [];
-let myApplications = [];
-let currentTab = 'overview';
-
-// ══════════════════════════════════════════
-// HELPERS
-// ══════════════════════════════════════════
-function esc(t) {
-    if (t === null || t === undefined) return '';
-    return String(t)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
+function switchTab(tab) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    event.target.classList.add('active');
+    document.getElementById(tab + '-tab').classList.add('active');
 }
 
-function matchClass(score) {
-    if (score >= 75) return 'match-high';
-    if (score >= 50) return 'match-mid';
-    return 'match-low';
-}
-
-function statusLabel(s) {
-    const map = {
-        draft: 'Draft',
-        pending: 'Kutilmoqda',
-        published: 'Faol',
-        closed: 'Yopilgan',
-        rejected: 'Rad etilgan'
-    };
-    return map[s] || s;
-}
-
-function appStatusLabel(s) {
-    const map = {
-        submitted: 'Yuborilgan',
-        reviewing: 'Ko\'rilmoqda',
-        interview: 'Intervyu',
-        offered: 'Taklif qilindi',
-        accepted: 'Qabul qilindi',
-        rejected: 'Rad etildi',
-        withdrawn: 'Bekor qilindi'
-    };
-    return map[s] || s;
-}
-
-// ══════════════════════════════════════════
-// FETCH
-// ══════════════════════════════════════════
-async function api(endpoint, options = {}) {
-    const res = await fetch('/api/employer' + endpoint, {
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...(options.headers || {})
-        },
-        credentials: 'include'
-    });
-
-    if (res.status === 401) {
-        window.location.href = '/login';
-        return { success: false };
-    }
-
-    return res.json();
-}
-
-// ══════════════════════════════════════════
-// INIT
-// ══════════════════════════════════════════
-async function init() {
+async function loadEmployerData() {
     try {
-        const authRes = await fetch('/api/auth/me', { credentials: 'include' });
-        if (!authRes.ok) {
-            window.location.href = '/login';
-            return;
+        const csrfRes = await fetch('/api/csrf-token');
+        const csrfToken = (await csrfRes.json()).csrfToken;
+        window.csrf = csrfToken;
+
+        const res = await fetch('/api/employer/stats', { headers: { 'x-csrf-token': csrfToken }});
+        const data = await res.json();
+        
+        if(data.success) {
+            document.getElementById('stat-jobs').innerText = data.stats.totalJobs;
+            document.getElementById('stat-pub').innerText = data.stats.publishedJobs;
+            document.getElementById('stat-pen').innerText = data.stats.pendingJobs;
+            document.getElementById('stat-apps').innerText = data.stats.newApps;
+
+            const b = document.getElementById('company-status-badge');
+            const st = data.companyStatus;
+            b.innerText = "Status: " + st.toUpperCase();
+            b.style.background = st === 'verified' ? 'rgba(16,185,129,0.2)' : 'rgba(245,158,11,0.2)';
+            b.style.color = st === 'verified' ? '#10B981' : '#F59E0B';
+            
+            // API chaqirib jadvallarni to'ldirish kerak (Soddalashtirilgan versiya)
+            document.getElementById('jobs-list').innerHTML = "<tr><td colspan='5'>Backend dan jobs lar yuklanadi...</td></tr>";
+        } else {
+            window.location.href = '/welcome';
         }
+    } catch(e) {}
+}
+
+async function createJob() {
+    const title = document.getElementById('j-title').value;
+    const shortDesc = document.getElementById('j-desc').value;
+    if(!title || !shortDesc) return alert("Barcha maydonlarni to'ldiring");
+    
+    try {
+        const res = await fetch('/api/employer/jobs', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'x-csrf-token': window.csrf },
+            body: JSON.stringify({ title, shortDesc, workFormat: document.getElementById('j-format').value, experienceLevel: document.getElementById('j-level').value, salary: document.getElementById('j-salary').value })
+        });
+        const data = await res.json();
+        alert(data.message || "Xatolik yuz berdi. Iltimos, profilingizdan chiqib qayta kiring.");
+        document.getElementById('job-modal').style.display='none';
+        loadEmployerData();
+    } catch(e) { alert("Xato"); }
+}
+
+
+</script>
+
+<script id="emp-init-logic">
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        const authRes = await fetch('/api/auth/me', { cache: 'no-store' });
         const authData = await authRes.json();
+        
         if (!authData.success || !authData.user) {
             window.location.href = '/login';
             return;
         }
 
-        currentUser = authData.user;
+        const role = authData.user.role;
+        const mainWrapper = document.getElementById('emp-main-wrapper');
+        const applyScreen = document.getElementById('emp-apply-screen');
+        const pendingScreen = document.getElementById('emp-pending-screen');
 
-        // Navbar
-        const authLink = document.getElementById('auth-link');
-        if (authLink) {
-            authLink.innerHTML = `<img src="${currentUser.avatar || '/assets/default-avatar.svg'}" style="width:22px;height:22px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-right:6px;border:1px solid #2563EB;" onerror="this.src='/assets/default-avatar.svg'">${esc(currentUser.username)}`;
-        }
+        mainWrapper.style.display = 'none';
+        applyScreen.style.display = 'none';
+        pendingScreen.style.display = 'none';
 
-        // Load employer
-        const empRes = await api('/me');
-        if (empRes.success && empRes.employer) {
-            myEmployer = empRes.employer;
-            await loadJobs();
-            await loadApplications();
-        }
-
-        render();
-    } catch (e) {
-        console.error(e);
-    }
-}
-
-async function loadJobs() {
-    const res = await api('/jobs');
-    if (res.success) myJobs = res.jobs || [];
-}
-
-async function loadApplications() {
-    const res = await api('/applications');
-    if (res.success) myApplications = res.applications || [];
-}
-
-// ══════════════════════════════════════════
-// RENDER
-// ══════════════════════════════════════════
-function render() {
-    const container = document.getElementById('main-content');
-
-    // Employer yo'q
-    if (!myEmployer) {
-        container.innerHTML = `
-            <div style="text-align: center; padding: 80px 20px; max-width: 600px; margin: 0 auto;">
-                <div style="width: 100px; height: 100px; background: linear-gradient(135deg, #2563EB, #7C3AED); border-radius: 24px; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="2" y="7" width="20" height="14" rx="2"/>
-                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
-                    </svg>
-                </div>
-                <h1 style="font-family: Manrope; font-size: 2rem; font-weight: 900; margin-bottom: 12px;">Ish beruvchi bo'ling</h1>
-                <p style="color: #94A3B8; font-size: 0.95rem; line-height: 1.7; margin-bottom: 32px;">
-                    Tashkilot yaratib, vakansiyalar joylang va eng yaxshi cyber mutaxassislarni toping.
-                </p>
-                <button class="btn btn-primary btn-lg" onclick="openEmployerModal()" style="display: inline-flex; align-items: center; gap: 8px;">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 5v14M5 12h14"/>
-                    </svg>
-                    Tashkilot yaratish
-                </button>
-            </div>
-        `;
-        return;
-    }
-
-    // Employer mavjud
-    const verifiedBadge = myEmployer.verificationStatus === 'verified' 
-        ? '<span class="status-badge status-verified">✓ Tasdiqlangan</span>'
-        : myEmployer.verificationStatus === 'rejected'
-            ? '<span class="status-badge status-rejected">✗ Rad etilgan</span>'
-            : '<span class="status-badge status-pending">⏳ Kutilmoqda</span>';
-
-    container.innerHTML = `
-        <!-- EMPLOYER HEADER -->
-        <div class="emp-header">
-            <div style="display: flex; gap: 24px; align-items: center; flex-wrap: wrap;">
-                <div class="emp-logo">
-                    ${myEmployer.logo ? `<img src="${esc(myEmployer.logo)}">` : esc((myEmployer.name[0] || '?').toUpperCase())}
-                </div>
-                <div style="flex: 1; min-width: 200px;">
-                    <h1 style="font-family: Manrope; font-size: 1.8rem; font-weight: 900; margin-bottom: 8px;">
-                        ${esc(myEmployer.name)}
-                    </h1>
-                    <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
-                        ${verifiedBadge}
-                        ${myEmployer.website ? `<a href="${esc(myEmployer.website)}" target="_blank" style="color: #4A7FFF; text-decoration: none; font-size: 0.85rem;">${esc(myEmployer.website)}</a>` : ''}
-                        ${myEmployer.location ? `<span style="color: #94A3B8; font-size: 0.85rem;">📍 ${esc(myEmployer.location)}</span>` : ''}
-                    </div>
-                </div>
-                <button class="btn btn-secondary" onclick="openEmployerModal(true)" style="display: inline-flex; align-items: center; gap: 6px;">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-                    </svg>
-                    Tahrirlash
-                </button>
-            </div>
-
-            ${myEmployer.verificationStatus === 'pending' ? `
-                <div style="margin-top: 20px; padding: 16px; background: rgba(245,185,66,0.08); border: 1px solid rgba(245,185,66,0.3); border-radius: 12px; color: #F59E0B; font-size: 0.85rem;">
-                    ⏳ Tashkilotingiz admin tasdiqlashini kutmoqda. Tasdiqlangandan keyin vakansiyalar joylashingiz mumkin.
-                </div>
-            ` : ''}
-
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; margin-top: 24px;">
-                <div style="text-align: center;">
-                    <div style="font-family: Manrope; font-size: 1.8rem; font-weight: 900; color: #4A7FFF;">${myJobs.length}</div>
-                    <div style="color: #64748B; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1px;">Vakansiyalar</div>
-                </div>
-                <div style="text-align: center;">
-                    <div style="font-family: Manrope; font-size: 1.8rem; font-weight: 900; color: #10B981;">${myApplications.length}</div>
-                    <div style="color: #64748B; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1px;">Arizalar</div>
-                </div>
-                <div style="text-align: center;">
-                    <div style="font-family: Manrope; font-size: 1.8rem; font-weight: 900; color: #F59E0B;">${myApplications.filter(a => a.status === 'interview').length}</div>
-                    <div style="color: #64748B; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1px;">Intervyu</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- TABS -->
-        <div class="emp-tabs">
-            <button class="emp-tab ${currentTab === 'jobs' ? 'active' : ''}" onclick="switchTab('jobs', this)">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="2" y="7" width="20" height="14" rx="2"/>
-                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
-                </svg>
-                Vakansiyalar (${myJobs.length})
-            </button>
-            <button class="emp-tab ${currentTab === 'applications' ? 'active' : ''}" onclick="switchTab('applications', this)">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                    <polyline points="14 2 14 8 20 8"/>
-                    <line x1="16" y1="13" x2="8" y2="13"/>
-                    <line x1="16" y1="17" x2="8" y2="17"/>
-                </svg>
-                Arizalar (${myApplications.length})
-            </button>
-        </div>
-
-        <!-- JOBS TAB -->
-        <div id="jobs-panel" class="emp-tab-panel ${currentTab === 'jobs' ? 'active' : ''}">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h2 style="font-family: Manrope; font-size: 1.3rem; font-weight: 800;">Mening vakansiyalarim</h2>
-                ${myEmployer.verificationStatus === 'verified' ? `
-                    <button class="btn btn-primary" onclick="openJobModal()" style="display: inline-flex; align-items: center; gap: 6px;">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 5v14M5 12h14"/>
-                        </svg>
-                        Yangi vakansiya
-                    </button>
-                ` : ''}
-            </div>
-
-            ${myJobs.length === 0 ? `
-                <div style="text-align: center; padding: 60px 20px; color: #64748B;">
-                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.3; margin-bottom: 16px;">
-                        <rect x="2" y="7" width="20" height="14" rx="2"/>
-                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
-                    </svg>
-                    <p>Hozircha vakansiya yo'q</p>
-                </div>
-            ` : myJobs.map(job => `
-                <div class="job-row">
-                    <div>
-                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
-                            <h3 style="font-family: Manrope; font-weight: 700; font-size: 1rem;">${esc(job.title)}</h3>
-                            <span class="job-badge-status badge-${job.status}">${statusLabel(job.status)}</span>
-                        </div>
-                        <div style="display: flex; gap: 16px; flex-wrap: wrap; color: #94A3B8; font-size: 0.82rem;">
-                            <span>${esc(job.level)}</span>
-                            <span>${esc(job.jobType)}</span>
-                            ${job.location ? `<span>📍 ${esc(job.location)}</span>` : ''}
-                            ${job.remote ? '<span>🌐 Remote</span>' : ''}
-                            <span>📋 ${job.applicationsCount || 0} ariza</span>
-                            <span>👁 ${job.viewsCount || 0} ko\'rish</span>
-                        </div>
-                        ${job.requiredSkills && job.requiredSkills.length ? `
-                            <div style="margin-top: 12px;">
-                                ${job.requiredSkills.slice(0, 5).map(s => `<span style="display: inline-block; padding: 3px 10px; background: rgba(74,127,255,0.1); border: 1px solid rgba(74,127,255,0.2); border-radius: 6px; font-size: 0.72rem; color: #4A7FFF; margin-right: 6px; margin-bottom: 6px;">${esc(s)}</span>`).join('')}
-                            </div>
-                        ` : ''}
-                    </div>
-                    <div style="display: flex; align-items: start; gap: 8px;">
-                        <button class="btn btn-secondary btn-sm" onclick="deleteJob('${job._id}')" title="O'chirish">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-            `).join('')}
-        </div>
-
-        <!-- APPLICATIONS TAB -->
-        <div id="applications-panel" class="emp-tab-panel ${currentTab === 'applications' ? 'active' : ''}">
-            <h2 style="font-family: Manrope; font-size: 1.3rem; font-weight: 800; margin-bottom: 20px;">Kelgan arizalar</h2>
-            
-            ${myApplications.length === 0 ? `
-                <div style="text-align: center; padding: 60px 20px; color: #64748B;">
-                    <p>Hozircha ariza yo'q</p>
-                </div>
-            ` : myApplications.map(app => {
-                const applicant = app.applicantId || {};
-                const score = app.portfolioSnapshot?.matchScore || 0;
-                return `
-                    <div class="app-row" onclick="viewApplication('${app._id}')">
-                        <div class="app-avatar">
-                            ${applicant.avatar ? `<img src="${esc(applicant.avatar)}">` : esc((applicant.username?.[0] || '?').toUpperCase())}
-                        </div>
-                        <div style="flex: 1;">
-                            <div style="font-weight: 700; margin-bottom: 4px;">${esc(applicant.name || applicant.username || 'Unknown')}</div>
-                            <div style="color: #94A3B8; font-size: 0.8rem; font-family: JetBrains Mono;">@${esc(applicant.username || 'unknown')}</div>
-                            <div style="color: #64748B; font-size: 0.75rem; margin-top: 4px;">
-                                ${esc(app.jobId?.title || 'Vakansiya')} • ${appStatusLabel(app.status)}
-                            </div>
-                        </div>
-                        <span class="match-badge ${matchClass(score)}">${score}%</span>
-                    </div>
-                `;
-            }).join('')}
-        </div>
-    `;
-}
-
-// ══════════════════════════════════════════
-// TAB SWITCH
-// ══════════════════════════════════════════
-function switchTab(tab, el) {
-    currentTab = tab;
-    document.querySelectorAll('.emp-tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.emp-tab-panel').forEach(p => p.classList.remove('active'));
-    if (el) el.classList.add('active');
-    document.getElementById(tab + '-panel').classList.add('active');
-}
-
-// ══════════════════════════════════════════
-// EMPLOYER MODAL
-// ══════════════════════════════════════════
-function openEmployerModal(edit = false) {
-    document.getElementById('employer-modal').classList.add('active');
-    document.getElementById('employer-modal-title').textContent = edit ? 'Tashkilotni tahrirlash' : 'Tashkilot yaratish';
-    
-    if (edit && myEmployer) {
-        document.getElementById('emp-name').value = myEmployer.name || '';
-        document.getElementById('emp-website').value = myEmployer.website || '';
-        document.getElementById('emp-description').value = myEmployer.description || '';
-        document.getElementById('emp-industry').value = myEmployer.industry || '';
-        document.getElementById('emp-size').value = myEmployer.companySize || 'unknown';
-        document.getElementById('emp-location').value = myEmployer.location || '';
-        document.getElementById('emp-email').value = myEmployer.contactEmail || '';
-        document.getElementById('emp-phone').value = myEmployer.contactPhone || '';
-    }
-}
-
-function closeEmployerModal() {
-    document.getElementById('employer-modal').classList.remove('active');
-    document.getElementById('emp-message').textContent = '';
-}
-
-document.getElementById('employer-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const msg = document.getElementById('emp-message');
-    const btn = e.target.querySelector('button[type="submit"]');
-    
-    const data = {
-        name: document.getElementById('emp-name').value.trim(),
-        website: document.getElementById('emp-website').value.trim(),
-        description: document.getElementById('emp-description').value.trim(),
-        industry: document.getElementById('emp-industry').value.trim(),
-        companySize: document.getElementById('emp-size').value,
-        location: document.getElementById('emp-location').value.trim(),
-        contactEmail: document.getElementById('emp-email').value.trim(),
-        contactPhone: document.getElementById('emp-phone').value.trim()
-    };
-    
-    btn.disabled = true;
-    msg.textContent = 'Saqlanmoqda...';
-    msg.style.color = '#94A3B8';
-    
-    try {
-        const isEdit = !!myEmployer;
-        const res = await api(isEdit ? '/me' : '/create', {
-            method: isEdit ? 'PATCH' : 'POST',
-            body: JSON.stringify(data)
-        });
-        
-        if (res.success) {
-            msg.textContent = '✅ ' + (res.message || 'Saqlandi');
-            msg.style.color = '#10B981';
-            myEmployer = res.employer;
-            setTimeout(() => {
-                closeEmployerModal();
-                render();
-            }, 800);
+        if (role === 'admin' || role === 'super_admin' || role === 'employer') {
+            mainWrapper.style.display = 'block';
+            loadEmployerData(); // Asosiy funksiyani chaqirish
+        } else if (role === 'pending_employer') {
+            pendingScreen.style.display = 'block';
         } else {
-            msg.textContent = '❌ ' + (res.message || 'Xato');
-            msg.style.color = '#EF4444';
+            applyScreen.style.display = 'block';
         }
-    } catch (e) {
-        msg.textContent = '❌ Ulanish xatosi';
-        msg.style.color = '#EF4444';
-    } finally {
-        btn.disabled = false;
+    } catch(e) {
+        window.location.href = '/welcome';
     }
 });
 
-// ══════════════════════════════════════════
-// JOB MODAL
-// ══════════════════════════════════════════
-function openJobModal() {
-    document.getElementById('job-modal').classList.add('active');
-}
-
-function closeJobModal() {
-    document.getElementById('job-modal').classList.remove('active');
-    document.getElementById('job-message').textContent = '';
-    document.getElementById('job-form').reset();
-}
-
-document.getElementById('job-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const msg = document.getElementById('job-message');
-    const btn = e.target.querySelector('button[type="submit"]');
-    
-    const required = document.getElementById('job-required').value.split(',').map(s => s.trim()).filter(Boolean);
-    const optional = document.getElementById('job-optional').value.split(',').map(s => s.trim()).filter(Boolean);
-    
-    const data = {
-        title: document.getElementById('job-title').value.trim(),
-        description: document.getElementById('job-description').value.trim(),
-        requiredSkills: required,
-        optionalSkills: optional,
-        jobType: document.getElementById('job-type').value,
-        level: document.getElementById('job-level').value,
-        salaryMin: document.getElementById('job-sal-min').value || null,
-        salaryMax: document.getElementById('job-sal-max').value || null,
-        location: document.getElementById('job-location').value.trim(),
-        remote: document.getElementById('job-remote').checked,
-        applicationDeadline: document.getElementById('job-deadline').value || null
-    };
-    
+async function applyToEmployer() {
+    const btn = document.getElementById('apply-emp-btn');
     btn.disabled = true;
-    msg.textContent = 'Yaratilmoqda...';
-    msg.style.color = '#94A3B8';
-    
+    btn.innerText = 'Yuborilmoqda...';
     try {
-        const res = await api('/jobs', {
+        const csrfRes = await fetch('/api/csrf-token');
+        const csrfData = await csrfRes.json();
+        
+        const res = await fetch('/api/employer/apply', {
             method: 'POST',
-            body: JSON.stringify(data)
+            headers: { 
+                'Content-Type': 'application/json',
+                'x-csrf-token': csrfData.csrfToken || '' 
+            },
+            body: JSON.stringify({})
         });
         
-        if (res.success) {
-            msg.textContent = '✅ ' + (res.message || 'Yaratildi');
-            msg.style.color = '#10B981';
-            setTimeout(() => {
-                closeJobModal();
-                init();
-            }, 800);
+        const data = await res.json();
+        
+        if (data.success) {
+            alert(data.message || "Arizangiz qabul qilindi!");
+            window.location.reload();
         } else {
-            msg.textContent = '❌ ' + (res.message || 'Xato');
-            msg.style.color = '#EF4444';
+            alert("Xatolik: " + (data.message || "Noma'lum xato yuz berdi"));
         }
-    } catch (e) {
-        msg.textContent = '❌ Ulanish xatosi';
-        msg.style.color = '#EF4444';
+    } catch(e) {
+        alert("Tarmoq xatosi yoki server o'chirilgan.");
     } finally {
         btn.disabled = false;
+        btn.innerText = 'Ariza yuborish';
     }
-});
+}
+</script>
 
-// ══════════════════════════════════════════
-// DELETE JOB
-// ══════════════════════════════════════════
-async function deleteJob(id) {
-    if (!confirm('Vakansiyani o\'chirishni tasdiqlaysizmi?')) return;
-    
-    const res = await api(`/jobs/${id}`, { method: 'DELETE' });
-    if (res.success) {
-        await loadJobs();
-        render();
-    } else {
-        alert(res.message || 'Xato');
+
+<script id="employer-core-logic">
+// Tablarni almashtirish
+function switchTab(tab) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    if(event && event.target) event.target.classList.add('active');
+    const targetTab = document.getElementById(tab + '-tab');
+    if (targetTab) targetTab.classList.add('active');
+}
+
+// Global csrf token va ma'lumotlar
+window.csrf = '';
+window.companyStatus = 'incomplete';
+
+// 1. Dastlabki ma'lumotlarni yuklash
+async function loadEmployerData() {
+    try {
+        const csrfRes = await fetch('/api/csrf-token');
+        const csrfData = await csrfRes.json();
+        window.csrf = csrfData.csrfToken;
+
+        const res = await fetch('/api/employer/stats', { headers: { 'x-csrf-token': window.csrf }});
+        const data = await res.json();
+        
+        if (data.success) {
+            // Dashboard statistikasini to'ldirish
+            document.getElementById('stat-jobs').innerText = data.stats.totalJobs || 0;
+            document.getElementById('stat-pub').innerText = data.stats.publishedJobs || 0;
+            document.getElementById('stat-pen').innerText = data.stats.pendingJobs || 0;
+            document.getElementById('stat-apps').innerText = data.stats.newApps || 0;
+
+            // Status badgeni to'ldirish
+            const b = document.getElementById('company-status-badge');
+            const st = data.companyStatus || 'incomplete';
+            window.companyStatus = st;
+            
+            b.innerText = "Status: " + st.toUpperCase();
+            if (st === 'verified') {
+                b.style.background = 'rgba(16,185,129,0.2)'; b.style.color = '#10B981';
+            } else if (st === 'pending') {
+                b.style.background = 'rgba(245,158,11,0.2)'; b.style.color = '#F59E0B';
+            } else {
+                b.style.background = 'rgba(239,68,68,0.2)'; b.style.color = '#EF4444';
+            }
+            
+            // Jadvallarni yuklash (namuna)
+            document.getElementById('jobs-list').innerHTML = "<tr><td colspan='5' style='text-align:center;color:#64748B;'>Hali vakansiyalar mavjud emas</td></tr>";
+            document.getElementById('apps-list').innerHTML = "<tr><td colspan='5' style='text-align:center;color:#64748B;'>Hali arizalar mavjud emas</td></tr>";
+        }
+    } catch(e) {
+        console.error("Ma'lumotlarni yuklashda xato:", e);
     }
 }
 
-// ══════════════════════════════════════════
-// VIEW APPLICATION
-// ══════════════════════════════════════════
-async function viewApplication(id) {
-    const res = await api(`/applications/${id}`);
-    if (!res.success) {
-        alert(res.message);
+// 2. Kompaniya profilini saqlash funksiyasi (Aynan shu yo'q edi)
+async function saveProfile() {
+    const companyName = document.getElementById('cp-name').value.trim();
+    const industry = document.getElementById('cp-industry').value.trim();
+    const contactEmail = document.getElementById('cp-email').value.trim();
+    const website = document.getElementById('cp-web').value.trim();
+    const description = document.getElementById('cp-desc').value.trim();
+    
+    if (!companyName || !contactEmail || !description) {
+        alert("Kompaniya nomi, Email va Qisqacha ma'lumot to'ldirilishi shart!");
+        return;
+    }
+
+    const btn = event.target;
+    const originalText = btn.innerText;
+    btn.disabled = true;
+    btn.innerText = "Saqlanmoqda...";
+
+    try {
+        const res = await fetch('/api/employer/profile', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', 'x-csrf-token': window.csrf },
+            body: JSON.stringify({ companyName, industry, contactEmail, website, description })
+        });
+        const data = await res.json();
+        
+        if (data.success) {
+            btn.style.background = "linear-gradient(135deg, #10B981, #059669)";
+            btn.innerText = "✅ " + data.message;
+            setTimeout(() => {
+                btn.style.background = "";
+                btn.innerText = originalText;
+                btn.disabled = false;
+                loadEmployerData(); // Statusni yangilash uchun
+            }, 2000);
+        } else {
+            alert("Xatolik: " + data.message);
+            btn.disabled = false;
+            btn.innerText = originalText;
+        }
+    } catch (e) {
+        alert("Server bilan aloqa yo'q.");
+        btn.disabled = false;
+        btn.innerText = originalText;
+    }
+}
+
+// 3. Vakansiya qoralamasini yaratish
+async function createJob() {
+    const title = document.getElementById('j-title').value.trim();
+    const shortDesc = document.getElementById('j-desc').value.trim();
+    const workFormat = document.getElementById('j-format').value;
+    const experienceLevel = document.getElementById('j-level').value;
+    const salary = document.getElementById('j-salary').value.trim();
+    
+    if(!title || !shortDesc) {
+        alert("Lavozim nomi va ish haqida qisqacha ma'lumot kiritilishi shart!");
         return;
     }
     
-    const app = res.application;
-    const applicant = app.applicantId || {};
-    const snap = app.portfolioSnapshot || {};
-    
-    document.getElementById('app-detail').innerHTML = `
-        <div style="display: flex; gap: 20px; margin-bottom: 24px; align-items: center;">
-            <div class="app-avatar" style="width: 64px; height: 64px; font-size: 1.4rem;">
-                ${applicant.avatar ? `<img src="${esc(applicant.avatar)}">` : esc((applicant.username?.[0] || '?').toUpperCase())}
-            </div>
-            <div style="flex: 1;">
-                <h4 style="font-family: Manrope; font-weight: 800; font-size: 1.1rem;">${esc(applicant.name || applicant.username)}</h4>
-                <div style="color: #94A3B8; font-size: 0.85rem; font-family: JetBrains Mono;">@${esc(applicant.username)}</div>
-                <div style="margin-top: 8px;">
-                    <span class="match-badge ${matchClass(snap.matchScore || 0)}">${snap.matchScore || 0}% match</span>
-                </div>
-            </div>
-        </div>
-        
-        <div style="padding: 16px; background: rgba(74,127,255,0.05); border-radius: 12px; margin-bottom: 20px;">
-            <h5 style="font-family: Manrope; font-weight: 700; margin-bottom: 12px;">Cyber ID Snapshot</h5>
-            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; font-size: 0.85rem;">
-                <div>
-                    <div style="color: #64748B; font-size: 0.72rem;">Score</div>
-                    <div style="font-weight: 700;">${snap.score || 0}</div>
-                </div>
-                <div>
-                    <div style="color: #64748B; font-size: 0.72rem;">Level</div>
-                    <div style="font-weight: 700;">${snap.cyberLevel || 1}</div>
-                </div>
-                <div>
-                    <div style="color: #64748B; font-size: 0.72rem;">Yechilgan</div>
-                    <div style="font-weight: 700;">${snap.solvedCount || 0}</div>
-                </div>
-                <div>
-                    <div style="color: #64748B; font-size: 0.72rem;">Sertifikat</div>
-                    <div style="font-weight: 700;">${snap.certificatesCount || 0}</div>
-                </div>
-            </div>
-            
-            ${snap.matchedSkills && snap.matchedSkills.length ? `
-                <div style="margin-top: 16px;">
-                    <div style="color: #10B981; font-size: 0.72rem; font-weight: 700; margin-bottom: 6px;">✓ MOS KELGAN</div>
-                    ${snap.matchedSkills.map(s => `<span style="display: inline-block; padding: 3px 10px; background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); border-radius: 6px; font-size: 0.72rem; color: #10B981; margin-right: 6px; margin-bottom: 6px;">${esc(s)}</span>`).join('')}
-                </div>
-            ` : ''}
-            
-            ${snap.missingSkills && snap.missingSkills.length ? `
-                <div style="margin-top: 12px;">
-                    <div style="color: #EF4444; font-size: 0.72rem; font-weight: 700; margin-bottom: 6px;">✗ YETISHMAYDI</div>
-                    ${snap.missingSkills.map(s => `<span style="display: inline-block; padding: 3px 10px; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); border-radius: 6px; font-size: 0.72rem; color: #EF4444; margin-right: 6px; margin-bottom: 6px;">${esc(s)}</span>`).join('')}
-                </div>
-            ` : ''}
-        </div>
-        
-        ${app.coverLetter ? `
-            <div style="margin-bottom: 20px;">
-                <h5 style="font-family: Manrope; font-weight: 700; margin-bottom: 8px;">Cover letter</h5>
-                <div style="padding: 12px; background: rgba(6,11,24,0.5); border-radius: 8px; font-size: 0.85rem; line-height: 1.6; color: #94A3B8; white-space: pre-wrap;">${esc(app.coverLetter)}</div>
-            </div>
-        ` : ''}
-        
-        <div style="margin-bottom: 20px;">
-            <h5 style="font-family: Manrope; font-weight: 700; margin-bottom: 8px;">Statusni o'zgartirish</h5>
-            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                <button class="btn btn-secondary btn-sm" onclick="changeStatus('${app._id}', 'reviewing')">Ko'rilmoqda</button>
-                <button class="btn btn-secondary btn-sm" onclick="changeStatus('${app._id}', 'interview')">Intervyu</button>
-                <button class="btn btn-secondary btn-sm" onclick="changeStatus('${app._id}', 'offered')">Taklif</button>
-                <button class="btn btn-primary btn-sm" onclick="changeStatus('${app._id}', 'accepted')">Qabul</button>
-                <button class="btn btn-danger btn-sm" onclick="changeStatus('${app._id}', 'rejected')">Rad etish</button>
-            </div>
-        </div>
-        
-        <div style="text-align: right; color: #64748B; font-size: 0.75rem;">
-            Yuborilgan: ${new Date(app.createdAt).toLocaleString('uz-UZ')}
-        </div>
-    `;
-    
-    document.getElementById('app-modal').classList.add('active');
-}
-
-function closeAppModal() {
-    document.getElementById('app-modal').classList.remove('active');
-}
-
-async function changeStatus(id, status) {
-    const res = await api(`/applications/${id}`, {
-        method: 'PATCH',
-        body: JSON.stringify({ status })
-    });
-    
-    if (res.success) {
-        closeAppModal();
-        await loadApplications();
-        render();
-    } else {
-        alert(res.message || 'Xato');
+    if (window.companyStatus !== 'verified') {
+        alert("DIQQAT: Sizning kompaniyangiz hali tasdiqlanmagan. Vakansiya faqat qoralama (draft) sifatida saqlanadi va hammaga ko'rinmaydi.");
     }
+    
+    const btn = event.target;
+    btn.disabled = true;
+    btn.innerText = "Saqlanmoqda...";
+    
+    try {
+        const res = await fetch('/api/employer/jobs', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'x-csrf-token': window.csrf },
+            body: JSON.stringify({ title, shortDesc, workFormat, experienceLevel, salary })
+        });
+        const data = await res.json();
+        
+        if (data.success) {
+            alert(data.message || "Xatolik yuz berdi. Iltimos, profilingizdan chiqib qayta kiring.");
+            document.getElementById('job-modal').style.display = 'none';
+            document.getElementById('j-title').value = '';
+            document.getElementById('j-desc').value = '';
+            loadEmployerData();
+        } else {
+            alert("Xato: " + data.message);
+        }
+    } catch(e) {
+        alert("Xatolik yuz berdi");
+    }
+    btn.disabled = false;
+    btn.innerText = "Qoralama saqlash";
 }
 
-// ══════════════════════════════════════════
-// MODAL OUTSIDE CLICK
-// ══════════════════════════════════════════
-['employer-modal', 'job-modal', 'app-modal'].forEach(id => {
-    document.getElementById(id).addEventListener('click', (e) => {
-        if (e.target.id === id) {
-            if (id === 'employer-modal') closeEmployerModal();
-            if (id === 'job-modal') closeJobModal();
-            if (id === 'app-modal') closeAppModal();
-        }
-    });
+// Agar main wrapper bloklangan bo'lmasa, ma'lumotlarni tortish
+document.addEventListener('DOMContentLoaded', () => {
+    const mainWrapper = document.getElementById('emp-main-wrapper');
+    if (mainWrapper && mainWrapper.style.display !== 'none') {
+        loadEmployerData();
+    }
 });
-
-// ══════════════════════════════════════════
-// START
-// ══════════════════════════════════════════
-window.addEventListener('DOMContentLoaded', init);
 </script>
+
 </body>
 </html>

@@ -15,14 +15,17 @@
 
 <header class="header">
     <a href="/" class="logo"><div class="logo-mark">CU</div><div class="logo-text">CTF<span>.UZ</span></div></a>
+    
     <nav class="nav">
         <a href="/dashboard">Dashboard</a>
         <a href="/arena" class="active">Arena</a>
-        <a href="/learn" >O'rganish</a>
+        <a href="/learn">O'rganish</a>
         <a href="/battle">Battle</a>
         <a href="/leaderboard">Reyting</a>
-      <a id="auth-link" href="/profile"></a>
+        <a href="/career">Karyera</a>
+        <a id="auth-link" href="/profile"></a>
     </nav>
+
 </header>
 
 <div class="container-narrow">
@@ -52,7 +55,7 @@ async function loadChallenge() {
         document.getElementById('challenge-content').innerHTML = `
             <div class="card-glass" style="padding: 60px; text-align: center;">
                 <h2 style="color: var(--error); margin-bottom: 16px;">❌ Challenge topilmadi</h2>
-                <a href="/arena" class="btn btn-primary">Arenaga qaytish</a>
+                <a href="/arena" class="active" class="btn btn-primary">Arenaga qaytish</a>
             </div>
         `;
         return;
@@ -61,7 +64,7 @@ async function loadChallenge() {
     const c = res.challenge;
 
     document.getElementById('challenge-content').innerHTML = `
-        <a href="/arena" style="color: var(--text-secondary); text-decoration: none; font-size: 0.85rem; display: inline-block; margin-bottom: 24px;">
+        <a href="/arena" class="active" style="color: var(--text-secondary); text-decoration: none; font-size: 0.85rem; display: inline-block; margin-bottom: 24px;">
             ← Arenaga qaytish
         </a>
 

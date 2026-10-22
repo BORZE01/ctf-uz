@@ -62,7 +62,6 @@ app.use(cors({
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 
-app.use(require('./middleware/routeGuard'));
 app.use(express.static(path.join(__dirname, 'public'), {
     maxAge: isProd ? '7d' : 0,
     etag: true
@@ -92,7 +91,7 @@ app.use(session({
     }),
     cookie: {
         httpOnly: true,
-        secure: isProd,
+        secure: false,
         sameSite: 'lax',
         maxAge: (parseInt(process.env.SESSION_TTL_DAYS) || 7) * 24 * 60 * 60 * 1000
     }
@@ -231,6 +230,7 @@ const writeupRoutes = require('./routes/writeups');
 
 app.use('/api', apiLimiter);
 app.use('/api/auth', authRoutes);
+app.use('/api/jobs', require('./routes/jobs'));
 app.use('/api/users', userRoutes);
 app.use('/api/profile', cyberIdRoutes);
 app.use('/api/certificates', certificateRoutes);
@@ -286,6 +286,11 @@ app.get('/battle/:id', (req, res) => {
 
 app.get('/admin', requireAdmin, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'admin.html'));
+});
+
+
+app.get('/verify-certificate/:certId', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'certificate-verify.html'));
 });
 
 app.get('/u/:username', (req, res) => {
@@ -350,6 +355,8 @@ app.use((err, req, res, next) => {
         try {
             const { seedDatabase } = require('./utils/seed');
             await seedDatabase();
+            const { seedLearningPathsSafe } = require('./utils/seed');
+            if (seedLearningPathsSafe) await seedLearningPathsSafe();
         } catch (e) {
             console.log('⚠️ Seed xatosi:', e.message);
         }

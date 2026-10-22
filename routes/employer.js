@@ -1,411 +1,143 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
-const Employer = require('../models/Employer');
+const User = require('../models/User');
 const Job = require('../models/Job');
 const Application = require('../models/Application');
-const User = require('../models/User');
 
-// ══════════════════════════════════════════
-// HELPER
-// ══════════════════════════════════════════
-async function getCurrentUser(req) {
-    if (!req.session?.user) return null;
-    if (!mongoose.Types.ObjectId.isValid(req.session.user.id)) return null;
-    return await User.findById(req.session.user.id);
-}
-
-async function getOwnedEmployer(userId) {
-    return await Employer.findOne({ ownerUserId: userId });
-}
-
-// ══════════════════════════════════════════
-// GET /api/employer/me — mening tashkilotim
-// ══════════════════════════════════════════
-router.get('/me', async (req, res) => {
+// RBAC Middleware
+const isEmployer = async (req, res, next) => {
+    if (!req.session || !req.session.user) return res.status(401).json({ success: false, message: 'Tizimga kiring' });
     try {
-        const user = await getCurrentUser(req);
-        if (!user) return res.status(401).json({ success: false, message: 'Kirish kerak' });
+        const u = await User.findById(req.session.user.id);
+        if (!u || !['employer', 'admin', 'super_admin'].includes(u.role)) {
+            return res.status(403).json({ success: false, message: 'Faqat ish beruvchilar uchun' });
+        }
+        req.dbUser = u;
+        next();
+    } catch(e) { res.status(500).json({ success: false, message: 'Server xatosi' }); }
+};
 
-        const employer = await getOwnedEmployer(user._id);
+// 1. ARIZA YUBORISH
+router.post('/apply', async (req, res) => {
+    try {
+        if (!req.session || !req.session.user) {
+            return res.json({ success: false, message: 'Iltimos, qayta login qiling (Sessiya eskirgan).' });
+        }
         
-        if (!employer) {
-            return res.json({ 
-                success: true, 
-                employer: null,
-                message: 'Sizda hali tashkilot yo\'q' 
-            });
+        const user = await User.findById(req.session.user.id);
+        
+        if (!user) return res.json({ success: false, message: 'Profil topilmadi.' });
+        
+        if (user.role === 'employer') {
+            return res.json({ success: true, message: 'Siz allaqachon ish beruvchisiz!' });
         }
+        
+        await User.updateOne(
+            { _id: user._id }, 
+            { $set: { role: 'pending_employer' } }
+        );
+        
+        req.session.user.role = 'pending_employer';
+        
+        await new Promise((resolve, reject) => {
+            req.session.save((err) => {
+                if (err) return reject(err);
+                resolve();
+            });
+        });
 
-        res.json({ success: true, employer });
-    } catch (e) {
-        res.status(500).json({ success: false, message: e.message });
+        return res.json({ success: true, message: "Arizangiz muvaffaqiyatli qabul qilindi!" });
+    } catch(err) {
+        console.error("Apply Error:", err.message);
+        return res.json({ success: false, message: "Backend xatosi: " + err.message });
     }
 });
 
-// ══════════════════════════════════════════
-// POST /api/employer/create — tashkilot yaratish
-// ══════════════════════════════════════════
-router.post('/create', async (req, res) => {
+// 2. DASHBOARD STATS
+router.get('/stats', isEmployer, async (req, res) => {
     try {
-        const user = await getCurrentUser(req);
-        if (!user) return res.status(401).json({ success: false, message: 'Kirish kerak' });
-
-        // Allaqachon bormi?
-        const existing = await getOwnedEmployer(user._id);
-        if (existing) {
-            return res.status(400).json({ 
-                success: false, 
-                message: 'Sizda allaqachon tashkilot bor' 
-            });
-        }
-
-        const { name, website, description, industry, companySize, location, contactEmail, contactPhone } = req.body;
-
-        if (!name || name.trim().length < 2) {
-            return res.status(400).json({ 
-                success: false, 
-                message: 'Tashkilot nomi kamida 2 belgi' 
-            });
-        }
-
-        const employer = await Employer.create({
-            name: name.trim(),
-            website: website || '',
-            description: description || '',
-            industry: industry || '',
-            companySize: companySize || 'unknown',
-            location: location || '',
-            contactEmail: contactEmail || '',
-            contactPhone: contactPhone || '',
-            ownerUserId: user._id,
-            verificationStatus: 'pending'
-        });
-
-        res.json({ 
-            success: true, 
-            employer,
-            message: 'Tashkilot yaratildi. Admin tasdiqlashini kuting.' 
-        });
-    } catch (e) {
-        console.error('POST /api/employer/create xatosi:', e);
-        res.status(500).json({ success: false, message: e.message });
-    }
-});
-
-// ══════════════════════════════════════════
-// PATCH /api/employer/me — tashkilotni tahrirlash
-// ══════════════════════════════════════════
-router.patch('/me', async (req, res) => {
-    try {
-        const user = await getCurrentUser(req);
-        if (!user) return res.status(401).json({ success: false, message: 'Kirish kerak' });
-
-        const employer = await getOwnedEmployer(user._id);
-        if (!employer) {
-            return res.status(404).json({ success: false, message: 'Tashkilot topilmadi' });
-        }
-
-        const allowed = ['name', 'website', 'description', 'industry', 'companySize', 'location', 'contactEmail', 'contactPhone', 'logo'];
-        allowed.forEach(key => {
-            if (req.body[key] !== undefined) {
-                employer[key] = req.body[key];
+        const jobs = await Job.find({ author: req.dbUser._id });
+        const apps = await Application.find({ employer: req.dbUser._id });
+        res.json({
+            success: true,
+            companyStatus: req.dbUser.companyProfile?.status || 'incomplete',
+            stats: {
+                totalJobs: jobs.length,
+                pendingJobs: jobs.filter(j => j.status === 'pending').length,
+                publishedJobs: jobs.filter(j => j.status === 'published').length,
+                rejectedJobs: jobs.filter(j => j.status === 'rejected').length,
+                totalApps: apps.length,
+                newApps: apps.filter(a => a.status === 'new').length
             }
         });
-
-        await employer.save();
-        res.json({ success: true, employer, message: 'Tashkilot yangilandi' });
-    } catch (e) {
-        res.status(500).json({ success: false, message: e.message });
-    }
+    } catch (err) { res.status(500).json({ success: false, message: 'Server xatosi' }); }
 });
 
-// ══════════════════════════════════════════
-// GET /api/employer/jobs — mening vakansiyalarim
-// ══════════════════════════════════════════
-router.get('/jobs', async (req, res) => {
+// 3. PROFILNI YANGILASH
+router.put('/profile', isEmployer, async (req, res) => {
     try {
-        const user = await getCurrentUser(req);
-        if (!user) return res.status(401).json({ success: false, message: 'Kirish kerak' });
-
-        const employer = await getOwnedEmployer(user._id);
-        if (!employer) {
-            return res.status(404).json({ success: false, message: 'Tashkilot topilmadi' });
-        }
-
-        const jobs = await Job.find({ employerId: employer._id })
-            .sort({ createdAt: -1 })
-            .lean();
-
-        res.json({ success: true, jobs });
-    } catch (e) {
-        res.status(500).json({ success: false, message: e.message });
-    }
-});
-
-// ══════════════════════════════════════════
-// POST /api/employer/jobs — yangi vakansiya
-// ══════════════════════════════════════════
-router.post('/jobs', async (req, res) => {
-    try {
-        const user = await getCurrentUser(req);
-        if (!user) return res.status(401).json({ success: false, message: 'Kirish kerak' });
-
-        const employer = await getOwnedEmployer(user._id);
-        if (!employer) {
-            return res.status(404).json({ success: false, message: 'Tashkilot topilmadi' });
-        }
-
-        if (employer.verificationStatus !== 'verified') {
-            return res.status(403).json({ 
-                success: false, 
-                message: 'Tashkilot tasdiqlanmagan. Admin tasdiqlashini kuting.' 
-            });
-        }
-
-        const {
-            title, description, responsibilities, requirements, niceToHave,
-            requiredSkills, optionalSkills, jobType, level, location, remote,
-            salaryMin, salaryMax, salaryCurrency, experienceYears, applicationDeadline
-        } = req.body;
-
-        if (!title || !description) {
-            return res.status(400).json({ 
-                success: false, 
-                message: 'title va description majburiy' 
-            });
-        }
-
-        const job = await Job.create({
-            employerId: employer._id,
-            title: String(title).slice(0, 160),
-            description: String(description).slice(0, 5000),
-            responsibilities: (responsibilities || []).slice(0, 20),
-            requirements: (requirements || []).slice(0, 20),
-            niceToHave: (niceToHave || []).slice(0, 20),
-            requiredSkills: (requiredSkills || []).slice(0, 20).map(s => String(s).slice(0, 50)),
-            optionalSkills: (optionalSkills || []).slice(0, 20).map(s => String(s).slice(0, 50)),
-            jobType: jobType || 'full-time',
-            level: level || 'junior',
-            location: location || '',
-            remote: !!remote,
-            salaryMin: salaryMin ? Number(salaryMin) : null,
-            salaryMax: salaryMax ? Number(salaryMax) : null,
-            salaryCurrency: salaryCurrency || 'UZS',
-            experienceYears: experienceYears ? Number(experienceYears) : 0,
-            applicationDeadline: applicationDeadline ? new Date(applicationDeadline) : null,
-            status: 'pending',
-            createdByUserId: user._id
-        });
-
-        // Employer statistikasi
-        employer.totalJobs = (employer.totalJobs || 0) + 1;
-        await employer.save();
-
-        res.json({ 
-            success: true, 
-            job,
-            message: 'Vakansiya yaratildi. Admin tasdiqlashini kuting.' 
-        });
-    } catch (e) {
-        console.error('POST /api/employer/jobs xatosi:', e);
-        res.status(500).json({ success: false, message: e.message });
-    }
-});
-
-// ══════════════════════════════════════════
-// PATCH /api/employer/jobs/:id — vakansiyani tahrirlash
-// ══════════════════════════════════════════
-router.patch('/jobs/:id', async (req, res) => {
-    try {
-        const user = await getCurrentUser(req);
-        if (!user) return res.status(401).json({ success: false, message: 'Kirish kerak' });
-
-        const employer = await getOwnedEmployer(user._id);
-        if (!employer) {
-            return res.status(404).json({ success: false, message: 'Tashkilot topilmadi' });
-        }
-
-        const job = await Job.findOne({ 
-            _id: req.params.id, 
-            employerId: employer._id 
-        });
-        
-        if (!job) {
-            return res.status(404).json({ success: false, message: 'Vakansiya topilmadi' });
-        }
-
-        const allowed = [
-            'title', 'description', 'responsibilities', 'requirements', 'niceToHave',
-            'requiredSkills', 'optionalSkills', 'jobType', 'level', 'location',
-            'remote', 'salaryMin', 'salaryMax', 'salaryCurrency',
-            'experienceYears', 'applicationDeadline', 'status'
-        ];
-
-        allowed.forEach(key => {
-            if (req.body[key] !== undefined) {
-                job[key] = req.body[key];
+        const { companyName, description, website, contactEmail, industry } = req.body;
+        await User.updateOne({ _id: req.dbUser._id }, {
+            $set: {
+                'companyProfile.companyName': companyName,
+                'companyProfile.description': description,
+                'companyProfile.website': website,
+                'companyProfile.contactEmail': contactEmail,
+                'companyProfile.industry': industry,
+                'companyProfile.status': 'pending'
             }
         });
+        res.json({ success: true, message: "Profil yangilandi va moderatsiyaga yuborildi." });
+    } catch (err) { res.status(500).json({ success: false, message: "Server xatosi" }); }
+});
 
+// 4. VAKANSIYA QO'SHISH (Validation xatosi to'g'rilandi)
+router.post('/jobs', isEmployer, async (req, res) => {
+    try {
+        const uniqueSlug = 'job-' + Date.now() + '-' + Math.floor(Math.random() * 1000);
+        
+        const job = new Job({ 
+            title: req.body.title,
+            shortDesc: req.body.shortDesc, // <-- Mongoose aynan shuni kutmoqda
+            description: req.body.shortDesc, // Zaxira sifatida
+            type: req.body.workFormat,
+            level: req.body.experienceLevel,
+            salary: req.body.salary,
+            author: req.dbUser._id, 
+            status: 'draft' 
+        });
+        
+        job.set('slug', uniqueSlug, { strict: false });
+        
         await job.save();
-        res.json({ success: true, job, message: 'Vakansiya yangilandi' });
-    } catch (e) {
-        res.status(500).json({ success: false, message: e.message });
+        res.json({ success: true, message: "Vakansiya qoralama sifatida saqlandi!" });
+    } catch (err) { 
+        console.error("Job saqlashda xato:", err);
+        res.status(500).json({ success: false, message: "Baza xatosi: " + err.message }); 
     }
 });
 
-// ══════════════════════════════════════════
-// DELETE /api/employer/jobs/:id — o'chirish
-// ══════════════════════════════════════════
-router.delete('/jobs/:id', async (req, res) => {
+// 5. ARIZALARNI KORISH
+router.get('/applications', isEmployer, async (req, res) => {
     try {
-        const user = await getCurrentUser(req);
-        if (!user) return res.status(401).json({ success: false, message: 'Kirish kerak' });
-
-        const employer = await getOwnedEmployer(user._id);
-        if (!employer) {
-            return res.status(404).json({ success: false, message: 'Tashkilot topilmadi' });
-        }
-
-        const job = await Job.findOneAndDelete({ 
-            _id: req.params.id, 
-            employerId: employer._id 
-        });
-
-        if (!job) {
-            return res.status(404).json({ success: false, message: 'Vakansiya topilmadi' });
-        }
-
-        employer.totalJobs = Math.max(0, (employer.totalJobs || 0) - 1);
-        await employer.save();
-
-        res.json({ success: true, message: 'Vakansiya o\'chirildi' });
-    } catch (e) {
-        res.status(500).json({ success: false, message: e.message });
-    }
+        const apps = await Application.find({ employer: req.dbUser._id })
+            .populate('job', 'title')
+            .populate('candidate', 'name username email skills cyberLevel')
+            .sort('-createdAt');
+        res.json({ success: true, apps });
+    } catch (err) { res.status(500).json({ success: false }); }
 });
 
-// ══════════════════════════════════════════
-// GET /api/employer/applications — barcha arizalar
-// ══════════════════════════════════════════
-router.get('/applications', async (req, res) => {
+// 6. ARIZA HOLATINI O'ZGARTIRISH
+router.put('/applications/:id/status', isEmployer, async (req, res) => {
     try {
-        const user = await getCurrentUser(req);
-        if (!user) return res.status(401).json({ success: false, message: 'Kirish kerak' });
-
-        const employer = await getOwnedEmployer(user._id);
-        if (!employer) {
-            return res.status(404).json({ success: false, message: 'Tashkilot topilmadi' });
-        }
-
-        const { status, jobId, limit = 50 } = req.query;
-
-        const query = { employerId: employer._id };
-        if (status) query.status = status;
-        if (jobId) query.jobId = jobId;
-
-        const applications = await Application.find(query)
-            .populate('jobId', 'title level jobType location')
-            .populate('applicantId', 'username name avatar cyberId.slug')
-            .sort({ createdAt: -1 })
-            .limit(parseInt(limit))
-            .lean();
-
-        res.json({ success: true, applications });
-    } catch (e) {
-        res.status(500).json({ success: false, message: e.message });
-    }
-});
-
-// ══════════════════════════════════════════
-// GET /api/employer/applications/:id — bitta ariza
-// ══════════════════════════════════════════
-router.get('/applications/:id', async (req, res) => {
-    try {
-        const user = await getCurrentUser(req);
-        if (!user) return res.status(401).json({ success: false, message: 'Kirish kerak' });
-
-        const employer = await getOwnedEmployer(user._id);
-        if (!employer) {
-            return res.status(404).json({ success: false, message: 'Tashkilot topilmadi' });
-        }
-
-        const application = await Application.findOne({
-            _id: req.params.id,
-            employerId: employer._id
-        })
-            .populate('jobId')
-            .populate('applicantId', 'username name avatar cyberId')
-            .lean();
-
-        if (!application) {
-            return res.status(404).json({ success: false, message: 'Ariza topilmadi' });
-        }
-
-        // Mark as viewed
-        if (!application.viewedByEmployer) {
-            await Application.updateOne(
-                { _id: application._id },
-                { viewedByEmployer: true, viewedAt: new Date() }
-            );
-        }
-
-        res.json({ success: true, application });
-    } catch (e) {
-        res.status(500).json({ success: false, message: e.message });
-    }
-});
-
-// ══════════════════════════════════════════
-// PATCH /api/employer/applications/:id — statusni o'zgartirish
-// ══════════════════════════════════════════
-router.patch('/applications/:id', async (req, res) => {
-    try {
-        const user = await getCurrentUser(req);
-        if (!user) return res.status(401).json({ success: false, message: 'Kirish kerak' });
-
-        const employer = await getOwnedEmployer(user._id);
-        if (!employer) {
-            return res.status(404).json({ success: false, message: 'Tashkilot topilmadi' });
-        }
-
-        const { status, note } = req.body;
-        const validStatuses = ['submitted', 'reviewing', 'interview', 'offered', 'accepted', 'rejected'];
-
-        if (status && !validStatuses.includes(status)) {
-            return res.status(400).json({ success: false, message: 'Xato status' });
-        }
-
-        const application = await Application.findOne({
-            _id: req.params.id,
-            employerId: employer._id
-        });
-
-        if (!application) {
-            return res.status(404).json({ success: false, message: 'Ariza topilmadi' });
-        }
-
-        if (status) application.status = status;
-        if (note) {
-            application.notes = application.notes || [];
-            application.notes.push({
-                text: String(note).slice(0, 1000),
-                addedBy: user._id,
-                addedAt: new Date()
-            });
-        }
-
-        await application.save();
-
-        res.json({ 
-            success: true, 
-            application,
-            message: 'Ariza yangilandi' 
-        });
-    } catch (e) {
-        res.status(500).json({ success: false, message: e.message });
-    }
+        const { status } = req.body;
+        const app = await Application.findOne({ _id: req.params.id, employer: req.dbUser._id });
+        if (!app) return res.status(404).json({ success: false });
+        app.status = status;
+        await app.save();
+        res.json({ success: true, message: "Holat yangilandi" });
+    } catch (err) { res.status(500).json({ success: false }); }
 });
 
 module.exports = router;

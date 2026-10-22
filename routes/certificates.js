@@ -1,136 +1,194 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
-const Certificate = require('../models/Certificate');
+const crypto = require('crypto');
+const { LearningPath, Certificate, AssessmentAttempt } = require('../models/Learn');
 const User = require('../models/User');
-const { 
-    issueCertificate, 
-    verifyCertificate, 
-    revokeCertificate 
-} = require('../services/certificateService');
+const { calculatePathProgress } = require('./learn');
+const { logAction } = require('../utils/audit');
 
-// ══════════════════════════════════════════
-// GET /api/certificates/me — o'z sertifikatlarim
-// ══════════════════════════════════════════
-router.get('/me', async (req, res) => {
-    try {
-        if (!req.session?.user) {
-            return res.status(401).json({ success: false, message: 'Kirish kerak' });
-        }
-
-        const certificates = await Certificate.find({ 
-            userId: req.session.user.id 
-        })
-            .sort({ issuedAt: -1 })
-            .lean();
-
-        res.json({ success: true, certificates });
-    } catch (e) {
-        res.status(500).json({ success: false, message: e.message });
+function requireAuth(req, res, next) {
+    if (!req.session || !req.session.user) {
+        return res.status(401).json({ success: false, message: "Tizimga kiring" });
     }
-});
+    next();
+}
 
-// ══════════════════════════════════════════
-// GET /api/certificates/verify/:id — ommaviy tekshirish
-// ══════════════════════════════════════════
-router.get('/verify/:id', async (req, res) => {
+// Kriptografik xavfsiz Sertifikat ID generatori
+function generateSecureCertId() {
+    const part1 = crypto.randomBytes(3).toString('hex').toUpperCase();
+    const part2 = crypto.randomBytes(3).toString('hex').toUpperCase();
+    return `CTF-UZ-${part1}-${part2}`;
+}
+
+// POST /api/certificates/issue-course — Talablarni serverda qayta hisoblab, idempotent sertifikat berish
+router.post('/issue-course', requireAuth, async (req, res) => {
     try {
-        const result = await verifyCertificate(req.params.id.toUpperCase());
-        res.json({ success: true, ...result });
-    } catch (e) {
-        res.status(500).json({ success: false, message: e.message });
-    }
-});
+        const { pathSlug } = req.body;
+        if (!pathSlug) return res.status(400).json({ success: false, message: "pathSlug majburiy" });
 
-// ══════════════════════════════════════════
-// POST /api/certificates/issue — admin yoki avtomatik
-// ══════════════════════════════════════════
-router.post('/issue', async (req, res) => {
-    try {
-        if (!req.session?.user) {
-            return res.status(401).json({ success: false, message: 'Kirish kerak' });
-        }
+        const userId = req.session.user.id;
+        const user = await User.findById(userId).select('name username').lean();
+        if (!user) return res.status(404).json({ success: false, message: "Foydalanuvchi topilmadi" });
 
-        const currentUser = await User.findById(req.session.user.id);
-        if (!currentUser) {
-            return res.status(401).json({ success: false, message: 'Kirish kerak' });
-        }
+        const pathDoc = await LearningPath.findOne({ slug: pathSlug.toLowerCase(), isPublished: true });
+        if (!pathDoc) return res.status(404).json({ success: false, message: "O'quv yo'li topilmadi" });
 
-        const adminRoles = ['admin', 'super_admin', 'organizer'];
-        const isAdmin = adminRoles.includes(currentUser.role);
-        const isSelf = req.body.userId === currentUser._id.toString();
+        // 1. Idempotency: Oldin berilgan sertifikat bor-yo'qligini tekshirish
+        const existingCert = await Certificate.findOne({
+            userId,
+            pathSlug: pathDoc.slug,
+            type: pathDoc.certificateType
+        }).lean();
 
-        // Faqat admin boshqalarga, foydalanuvchi o'ziga — va faqat ba'zi turlar
-        if (!isAdmin && !isSelf) {
-            return res.status(403).json({ success: false, message: 'Ruxsat yo\'q' });
-        }
-
-        const { userId, type, title, sourceType, sourceId, expiresAt } = req.body;
-
-        if (!userId || !type || !title || !sourceType || !sourceId) {
-            return res.status(400).json({ 
-                success: false, 
-                message: 'userId, type, title, sourceType, sourceId majburiy' 
+        if (existingCert) {
+            if (existingCert.status === 'revoked') {
+                return res.status(403).json({
+                    success: false,
+                    message: "Sizning ushbu yo'nalishdagi sertifikatingiz ma'muriyat tomonidan bekor qilingan (Revoked)."
+                });
+            }
+            return res.json({
+                success: true,
+                alreadyIssued: true,
+                certificate: existingCert,
+                message: "Sertifikat allaqachon rasmiylashtirilgan."
             });
         }
 
-        const result = await issueCertificate({
+        // 2. Server tomonidan barcha shartlar bajarilganini qat'iy tekshirish
+        const prog = await calculatePathProgress(userId, pathDoc);
+        if (!prog.eligibleForCertificate) {
+            return res.status(400).json({
+                success: false,
+                message: "Sertifikat olish shartlari to'liq bajarilmagan (Barcha darslar, lablar va yakuniy test kamida 80% bo'lishi shart).",
+                progress: prog
+            });
+        }
+
+        // 3. Professional sertifikat bo'lsa amaliy imtihon urinishini ham tekshirish
+        if (pathDoc.certificateType === 'professional') {
+            const passedPractical = await AssessmentAttempt.findOne({
+                userId,
+                pathId: pathDoc._id,
+                type: 'practical_exam',
+                passed: true
+            }).lean();
+            if (!passedPractical) {
+                return res.status(403).json({
+                    success: false,
+                    message: "Professional sertifikat uchun ruxsat etilgan amaliy baholashdan o'tish talab qilinadi."
+                });
+            }
+        }
+
+        const certId = generateSecureCertId();
+        const verifyUrl = `/verify-certificate/${certId}`;
+
+        const newCert = await Certificate.create({
+            certId,
             userId,
-            type,
-            title,
-            sourceType,
-            sourceId,
-            expiresAt: expiresAt ? new Date(expiresAt) : null,
-            issuedBy: currentUser._id
+            recipientName: user.name || user.username,
+            username: user.username,
+            pathId: pathDoc._id,
+            pathSlug: pathDoc.slug,
+            courseName: pathDoc.certificateTitle || pathDoc.title,
+            type: pathDoc.certificateType || 'course_completion',
+            status: 'valid',
+            isValid: true,
+            scorePercent: prog.finalExamBestScore || 100,
+            verifyUrl,
+            issueDate: new Date()
         });
+
+        logAction(user.username, 'CERTIFICATE_ISSUED', { certId, pathSlug: pathDoc.slug, type: newCert.type });
 
         res.json({
             success: true,
-            certificate: result.certificate,
-            alreadyIssued: result.alreadyIssued,
-            message: result.alreadyIssued 
-                ? 'Bu sertifikat allaqachon berilgan' 
-                : 'Sertifikat berildi'
+            certificate: newCert,
+            message: "🎉 Sertifikat muvaffaqiyatli yaratildi!"
         });
     } catch (e) {
-        console.error('POST /api/certificates/issue xatosi:', e);
+        if (e.code === 11000) {
+            const cert = await Certificate.findOne({ userId: req.session.user.id, pathSlug: req.body.pathSlug }).lean();
+            return res.json({ success: true, alreadyIssued: true, certificate: cert });
+        }
         res.status(500).json({ success: false, message: e.message });
     }
 });
 
-// ══════════════════════════════════════════
-// POST /api/certificates/:id/revoke — bekor qilish
-// ══════════════════════════════════════════
-router.post('/:id/revoke', async (req, res) => {
+// GET /api/certificates/me — Foydalanuvchining barcha sertifikatlari
+router.get('/me', requireAuth, async (req, res) => {
     try {
-        if (!req.session?.user) {
-            return res.status(401).json({ success: false, message: 'Kirish kerak' });
+        const certs = await Certificate.find({ userId: req.session.user.id }).sort({ issueDate: -1 }).lean();
+        res.json({ success: true, certificates: certs });
+    } catch (e) {
+        res.status(500).json({ success: false, message: e.message });
+    }
+});
+
+// GET /api/certificates/verify/:certId — Ommaviy QR Verifikatsiya (Maxfiy ma'lumotlarsiz!)
+router.get('/verify/:certId', async (req, res) => {
+    try {
+        const certId = String(req.params.certId || '').trim().toUpperCase();
+        const cert = await Certificate.findOne({ certId }).lean();
+
+        if (!cert) {
+            return res.status(404).json({
+                success: false,
+                status: 'not_found',
+                message: "Bunday ID raqamli sertifikat CTF.UZ bazasida topilmadi."
+            });
         }
 
-        const currentUser = await User.findById(req.session.user.id);
-        if (!currentUser) {
-            return res.status(401).json({ success: false, message: 'Kirish kerak' });
-        }
+        // FAQAT ruxsat etilgan ommaviy ma'lumotlarni qaytaramiz (email, telefon, userId chiqmaydi)
+        res.json({
+            success: true,
+            certificate: {
+                certId: cert.certId,
+                recipientName: cert.recipientName,
+                username: cert.username,
+                courseName: cert.courseName,
+                pathSlug: cert.pathSlug,
+                type: cert.type === 'professional' ? 'Professional Practical Certification' : 'Course Completion Certificate',
+                rawType: cert.type,
+                status: cert.status,
+                isValid: cert.status === 'valid' && cert.isValid,
+                scorePercent: cert.scorePercent,
+                issueDate: cert.issueDate,
+                revokedAt: cert.revokedAt,
+                revokedReason: cert.revokedReason,
+                verifyUrl: cert.verifyUrl
+            }
+        });
+    } catch (e) {
+        res.status(500).json({ success: false, message: "Tekshirishda xatolik yuz berdi" });
+    }
+});
 
-        const adminRoles = ['admin', 'super_admin'];
-        if (!adminRoles.includes(currentUser.role)) {
-            return res.status(403).json({ success: false, message: 'Faqat admin bekor qila oladi' });
-        }
-
-        const { reason } = req.body;
-        const result = await revokeCertificate(
-            req.params.id.toUpperCase(),
-            currentUser._id,
-            reason || ''
-        );
+// GET /api/certificates/:certId
+router.get('/:certId', async (req, res) => {
+    try {
+        const certId = String(req.params.certId || '').trim().toUpperCase();
+        const cert = await Certificate.findOne({ certId }).lean();
+        if (!cert) return res.status(404).json({ success: false, message: "Sertifikat topilmadi" });
 
         res.json({
             success: true,
-            certificate: result.certificate,
-            message: result.alreadyRevoked ? 'Allaqachon bekor qilingan' : 'Bekor qilindi'
+            certificate: {
+                certId: cert.certId,
+                recipientName: cert.recipientName,
+                username: cert.username,
+                courseName: cert.courseName,
+                type: cert.type,
+                status: cert.status,
+                scorePercent: cert.scorePercent,
+                issueDate: cert.issueDate,
+                revokedAt: cert.revokedAt,
+                revokedReason: cert.revokedReason,
+                verifyUrl: cert.verifyUrl
+            }
         });
     } catch (e) {
-        console.error('POST /api/certificates/:id/revoke xatosi:', e);
         res.status(500).json({ success: false, message: e.message });
     }
 });

@@ -1,13 +1,168 @@
+
 <!DOCTYPE html>
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <title>CTF.UZ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karyera — CTF.UZ</title>
+    <link rel="stylesheet" href="/css/design-system.css">
+    <link rel="stylesheet" href="/css/animations.css">
+    <link rel="stylesheet" href="/css/icons.css">
+    <link rel="stylesheet" href="/css/modern-ui.css">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/preloader.css">
+    <script id="session-guard">
+        document.addEventListener("DOMContentLoaded", () => {
+            fetch('/api/auth/session')
+                .then(res => res.json())
+                .then(data => { if (!data.success || !data.user) window.location.href = '/welcome'; })
+                .catch(() => window.location.href = '/welcome');
+        });
+    </script>
+    <style>
+        .vacancy-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .vacancy-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(74, 127, 255, 0.15);
+        }
+        .tag {
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: rgba(74, 127, 255, 0.1);
+            color: #4A7FFF;
+            border: 1px solid rgba(74, 127, 255, 0.2);
+        }
+        .tag.remote { background: rgba(16, 185, 129, 0.1); color: #10B981; border-color: rgba(16, 185, 129, 0.2); }
+        .tag.salary { background: rgba(245, 158, 11, 0.1); color: #F59E0B; border-color: rgba(245, 158, 11, 0.2); }
+        .company-logo {
+            width: 48px; height: 48px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #2563EB, #7C3AED);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem; font-weight: bold; color: #fff;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+        }
+    </style>
 </head>
 <body>
-    <h1>Tez orada...</h1>
-    <a href="/career">Karyera bo'limiga qaytish</a>
-    <script src="/js/preloader.js"></script>
+
+<div class="girih-bg"></div>
+
+<header class="header">
+    <a href="/" class="logo">
+        <div class="logo-mark">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
+        </div>
+        <div class="logo-text">CTF<span>.UZ</span></div>
+    </a>
+    
+    <nav class="nav">
+        <a href="/dashboard">Dashboard</a>
+        <a href="/arena">Arena</a>
+        <a href="/learn">O'rganish</a>
+        <a href="/battle">Battle</a>
+        <a href="/leaderboard">Reyting</a>
+        <a href="/career" class="active">Karyera</a>
+        <a id="auth-link" href="/profile"></a>
+    </nav>
+
+</header>
+
+<div class="container">
+    <div id="career-content">
+        <!-- SKELETON LOADER BENTO -->
+        <div class="bento-grid" id="skeleton-loader">
+            <div class="bento-card bento-wide">
+                <div class="skeleton skeleton-title"></div>
+                <div class="skeleton skeleton-text medium"></div>
+            </div>
+            <div class="bento-card bento-square"><div class="skeleton skeleton-text long"></div></div>
+            <div class="bento-card bento-square"><div class="skeleton skeleton-text long"></div></div>
+            <div class="bento-card bento-square"><div class="skeleton skeleton-text long"></div></div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+    try {
+        const sessionRes = await fetch('/api/auth/me', { credentials: 'include', cache: 'no-store' });
+        if (!sessionRes.ok) { window.location.replace('/welcome'); return; }
+        
+        const sessionData = await sessionRes.json();
+        if (!sessionData.success || !sessionData.user) { window.location.replace('/welcome'); return; }
+
+        const user = sessionData.user;
+        const authLink = document.getElementById('auth-link');
+        if (authLink) {
+            authLink.innerHTML = `<img src="${user.avatar || '/assets/default-avatar.svg'}" style="width:22px;height:22px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-right:6px;border:1px solid #2563EB;" onerror="this.src='/assets/default-avatar.svg'"> ${user.username}`;
+        }
+
+        // Karyera ma'lumotlarini yuklash simulatsiyasi (agar API bo'lmasa namuna ko'rsatamiz)
+        // const jobsRes = await fetch('/api/jobs'); const jobsData = await jobsRes.json();
+        
+        const sampleJobs = [
+            { id: 1, title: 'Junior Penetration Tester', company: 'Cyber Muhit', location: 'Toshkent', type: 'Full-time', salary: '5-8 mln UZS', remote: false },
+            { id: 2, title: 'Web Security Analyst', company: 'Tech Shield', location: 'Remote', type: 'Part-time', salary: '4-6 mln UZS', remote: true },
+            { id: 3, title: 'SOC L1 Operator', company: 'DataGuard UZ', location: 'Farg\'ona', type: 'Full-time', salary: 'Ochiq', remote: false }
+        ];
+
+        document.getElementById('career-content').innerHTML = `
+            <div class="bento-grid">
+                <!-- HERO CARD -->
+                <div class="bento-card bento-hero fade-in-up">
+                    <div class="bento-pattern"></div>
+                    <div style="position: relative; z-index: 1;">
+                        <div class="bento-label">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 13.25V6a2 2 0 0 0-2-2h-4.5a2 2 0 0 0-2-2h-3a2 2 0 0 0-2 2H3a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h7"/></svg>
+                            Karyera Imkoniyatlari
+                        </div>
+                        <h2>Topilgan vakansiyalar: <span style="color: #4A7FFF;">${sampleJobs.length} ta</span></h2>
+                        <p>Kiberxavfsizlik sohasida o'z kelajagingizni quring. Yangi takliflar sizni kutmoqda.</p>
+                        
+                        <div style="display: flex; gap: 12px; margin-top: 24px;">
+                            <input type="text" placeholder="Qidirish (Masalan: Pentester)" style="padding: 12px 20px; border-radius: 12px; border: 1px solid rgba(74,127,255,0.3); background: rgba(6,11,24,0.6); color: #fff; width: 100%; max-width: 300px; outline: none; font-family: inherit;">
+                            <button class="btn btn-primary">Izlash</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VAKANSIYALAR RO'YXATI -->
+                ${sampleJobs.map((job, index) => `
+                    <div class="bento-card bento-square vacancy-card fade-in-up" style="animation-delay: ${0.1 * (index + 1)}s;">
+                        <div>
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
+                                <div class="company-logo">${job.company.charAt(0)}</div>
+                                <div class="tag ${job.remote ? 'remote' : ''}">${job.remote ? 'Remote' : job.location}</div>
+                            </div>
+                            <h3 style="font-family: Manrope; font-weight: 800; font-size: 1.2rem; color: #F1F5F9; margin-bottom: 6px;">${job.title}</h3>
+                            <div style="color: #94A3B8; font-size: 0.85rem; margin-bottom: 16px; display: flex; align-items: center; gap: 6px;">
+                                🏢 ${job.company}
+                            </div>
+                            <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;">
+                                <span class="tag">${job.type}</span>
+                                <span class="tag salary">💰 ${job.salary}</span>
+                            </div>
+                        </div>
+                        <a href="/job?id=${job.id}" class="btn btn-secondary" style="width: 100%; justify-content: center;">Batafsil & Ariza</a>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    } catch (err) {
+        window.location.replace('/login');
+    }
+});
+</script>
+<script src="/js/preloader.js"></script>
 </body>
 </html>

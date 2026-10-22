@@ -32,6 +32,24 @@ const userSchema = new mongoose.Schema({
     city: { type: String, default: '' },
     district: { type: String, default: '' },
 
+    
+    // ══════════════════════════════════════════
+    // COMPANY PROFILE (Employer)
+    // ══════════════════════════════════════════
+    companyProfile: {
+        companyName: { type: String, default: '' },
+        logo: { type: String, default: '' },
+        description: { type: String, default: '' },
+        website: { type: String, default: '' },
+        contactEmail: { type: String, default: '' },
+        industry: { type: String, default: '' },
+        status: { 
+            type: String, 
+            enum: ['incomplete', 'pending', 'verified', 'rejected', 'suspended'], 
+            default: 'incomplete' 
+        },
+        rejectReason: { type: String, default: null }
+    },
     role: {
         type: String,
         enum: ['user', 'moderator', 'challenge_author', 'organizer', 'admin', 'super_admin'],

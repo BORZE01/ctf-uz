@@ -781,6 +781,9 @@ router.post('/employers/:id/status', async (req, res) => {
 
 // ══════════════════════════════════════════
 // 🎓 ACADEMY (O'QUV BO'LIMI BOSHQARUVI)
+
+// ══════════════════════════════════════════
+// 🎓 ACADEMY (O'QUV BO'LIMI BOSHQARUVI)
 // ══════════════════════════════════════════
 const { Module, Lesson, Question } = require('../models/Learn');
 
@@ -823,6 +826,71 @@ router.delete('/academy/lessons/:id', async (req, res) => {
         await Lesson.findByIdAndDelete(req.params.id);
         res.json({ success: true });
     } catch(e) { res.status(500).json({ success: false, message: e.message }); }
+});
+
+// ══════════════════════════════════════════
+// 🏢 ISH BERUVCHILAR VA VAKANSIYALAR (MODERATSIYA)
+// ══════════════════════════════════════════
+router.get('/employers/pending', async (req, res) => {
+    try {
+        const User = require('../models/User');
+        const users = await User.find({
+            $or: [
+                { role: 'pending_employer' },
+                { 'companyProfile.status': 'pending' }
+            ]
+        }).select('name username email role companyProfile').lean();
+        res.json({ success: true, users });
+    } catch (e) {
+        res.status(500).json({ success: false, message: 'Server xatosi' });
+    }
+});
+
+router.post('/assign-user-role', async (req, res) => {
+    try {
+        const { username, role } = req.body;
+        const User = require('../models/User');
+        
+        const user = await User.findOne({ username: new RegExp('^' + username + '$', 'i') });
+        if (!user) return res.status(404).json({ success: false, message: "Foydalanuvchi topilmadi" });
+
+        const newStatus = role === 'employer' ? 'verified' : 'rejected';
+
+        await User.updateOne(
+            { _id: user._id },
+            { 
+                $set: { 
+                    role: role,
+                    'companyProfile.status': newStatus
+                } 
+            }
+        );
+
+        res.json({ success: true, message: "Muvaffaqiyatli tasdiqlandi!" });
+    } catch (e) { 
+        res.status(500).json({ success: false, message: "Server xatosi" }); 
+    }
+});
+
+router.get('/jobs', async (req, res) => {
+    try {
+        const Job = require('../models/Job');
+        const jobs = await Job.find().populate('author', 'companyProfile').sort('-createdAt');
+        res.json({ success: true, jobs });
+    } catch (e) { 
+        res.status(500).json({ success: false, message: 'Server xatosi' }); 
+    }
+});
+
+router.put('/jobs/:id/moderate', async (req, res) => {
+    try {
+        const { status, reason } = req.body;
+        const Job = require('../models/Job');
+        await Job.updateOne({ _id: req.params.id }, { $set: { status, rejectReason: reason || null } });
+        res.json({ success: true, message: "Vakansiya yangilandi" });
+    } catch (e) { 
+        res.status(500).json({ success: false, message: 'Server xatosi' }); 
+    }
 });
 
 module.exports = router;
