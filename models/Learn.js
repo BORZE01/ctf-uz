@@ -138,3 +138,18 @@ module.exports = {
     AssessmentAttempt: mongoose.models.AssessmentAttempt || mongoose.model('AssessmentAttempt', assessmentAttemptSchema),
     Certificate: mongoose.models.Certificate || mongoose.model('Certificate', certificateSchema)
 };
+
+
+const challengeSchema = new mongoose.Schema({
+    title: { type: String, required: true, trim: true },
+    category: { type: String, enum: ['Web', 'Crypto', 'Pwn', 'Reverse', 'Forensics', 'Misc'], required: true },
+    difficulty: { type: String, enum: ['Easy', 'Medium', 'Hard', 'Insane'], default: 'Easy' },
+    points: { type: Number, required: true, default: 100 },
+    description: { type: String, required: true },
+    flag: { type: String, required: true },
+    filePath: { type: String, default: null },
+    isPublished: { type: Boolean, default: false },
+    createdAt: { type: Date, default: Date.now }
+});
+
+module.exports.Challenge = mongoose.models.Challenge || mongoose.model('Challenge', challengeSchema);
