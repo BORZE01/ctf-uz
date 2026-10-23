@@ -324,7 +324,7 @@ function downloadPDF() {
 document.addEventListener('DOMContentLoaded', () => {
     const parts = window.location.pathname.split('/');
     const last = parts[parts.length - 1];
-    if (last && last.startsWith('CTF-UZ-')) {
+    if (last && last.startsWith('CTF-')) {
         verifyCert(last);
     }
 });

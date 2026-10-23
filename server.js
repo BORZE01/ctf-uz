@@ -25,6 +25,7 @@ app.set('trust proxy', 1);
 app.use(helmet({
   contentSecurityPolicy: false,
   crossOriginEmbedderPolicy: false,
+  crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" },
   hsts: isProd ? { maxAge: 31536000, includeSubDomains: true, preload: true } : false,
   frameguard: { action: 'deny' },
   noSniff: true,
@@ -254,6 +255,7 @@ app.get('/api/csrf-token', csrfTokenEndpoint);
 app.use('/api', csrfProtection);
 
 // Admin API
+app.use('/api/arena-admin', require('./routes/arenaAdmin'));
 app.use('/api/admin', requireAdmin, adminRoutes);
 app.use('/api/admin/certificates', requireAdmin, adminCertificateRoutes);
 

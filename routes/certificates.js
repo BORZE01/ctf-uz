@@ -130,7 +130,12 @@ router.get('/me', requireAuth, async (req, res) => {
 router.get('/verify/:certId', async (req, res) => {
     try {
         const certId = String(req.params.certId || '').trim().toUpperCase();
-        const cert = await Certificate.findOne({ certId }).lean();
+        
+        // Ham certId, ham certificateId orqali qidiramiz
+        const cert = await Certificate.findOne({ 
+            $or: [{ certId: certId }, { certificateId: certId }] 
+        }).lean();
+    
 
         if (!cert) {
             return res.status(404).json({
@@ -144,20 +149,20 @@ router.get('/verify/:certId', async (req, res) => {
         res.json({
             success: true,
             certificate: {
-                certId: cert.certId,
-                recipientName: cert.recipientName,
-                username: cert.username,
-                courseName: cert.courseName,
-                pathSlug: cert.pathSlug,
-                type: cert.type === 'professional' ? 'Professional Practical Certification' : 'Course Completion Certificate',
-                rawType: cert.type,
-                status: cert.status,
-                isValid: cert.status === 'valid' && cert.isValid,
-                scorePercent: cert.scorePercent,
-                issueDate: cert.issueDate,
+                certId: cert.certId || cert.certificateId,
+                recipientName: cert.recipientName || cert.username || "Noma'lum foydalanuvchi",
+                username: cert.username || "noma'lum",
+                courseName: cert.courseName || cert.title || "Maxsus Sertifikat",
+                pathSlug: cert.pathSlug || "custom",
+                type: cert.type === 'professional' ? 'Professional Practical Certification' : (cert.type === 'custom' ? 'Custom Award' : 'Course Completion Certificate'),
+                rawType: cert.type || "custom",
+                status: cert.status || "valid",
+                isValid: cert.status !== 'revoked',
+                scorePercent: cert.scorePercent || 100,
+                issueDate: cert.issueDate || cert.createdAt,
                 revokedAt: cert.revokedAt,
                 revokedReason: cert.revokedReason,
-                verifyUrl: cert.verifyUrl
+                verifyUrl: cert.verifyUrl || `/verify-certificate/${cert.certId || cert.certificateId}`
             }
         });
     } catch (e) {
@@ -169,23 +174,28 @@ router.get('/verify/:certId', async (req, res) => {
 router.get('/:certId', async (req, res) => {
     try {
         const certId = String(req.params.certId || '').trim().toUpperCase();
-        const cert = await Certificate.findOne({ certId }).lean();
+        
+        // Ham certId, ham certificateId orqali qidiramiz
+        const cert = await Certificate.findOne({ 
+            $or: [{ certId: certId }, { certificateId: certId }] 
+        }).lean();
+    
         if (!cert) return res.status(404).json({ success: false, message: "Sertifikat topilmadi" });
 
         res.json({
             success: true,
             certificate: {
-                certId: cert.certId,
-                recipientName: cert.recipientName,
-                username: cert.username,
-                courseName: cert.courseName,
-                type: cert.type,
-                status: cert.status,
-                scorePercent: cert.scorePercent,
-                issueDate: cert.issueDate,
+                certId: cert.certId || cert.certificateId,
+                recipientName: cert.recipientName || cert.username || "Noma'lum foydalanuvchi",
+                username: cert.username || "noma'lum",
+                courseName: cert.courseName || cert.title || "Maxsus Sertifikat",
+                type: cert.type || "custom",
+                status: cert.status || "valid",
+                scorePercent: cert.scorePercent || 100,
+                issueDate: cert.issueDate || cert.createdAt,
                 revokedAt: cert.revokedAt,
                 revokedReason: cert.revokedReason,
-                verifyUrl: cert.verifyUrl
+                verifyUrl: cert.verifyUrl || `/verify-certificate/${cert.certId || cert.certificateId}`
             }
         });
     } catch (e) {

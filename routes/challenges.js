@@ -84,7 +84,7 @@ router.get('/:id', async (req, res) => {
                 difficulty: challenge.difficulty,
                 points: challenge.points,
                 solves: challenge.solves || 0,
-                hints: challenge.hints || [],
+                hints: (challenge.hints || []).map(h => h.text || h),
                 evidence: challenge.evidence || [],
                 file: challenge.file,
                 fileName: challenge.fileName,

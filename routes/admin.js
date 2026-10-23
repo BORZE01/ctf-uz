@@ -893,4 +893,41 @@ router.put('/jobs/:id/moderate', async (req, res) => {
     }
 });
 
+
+
+
+
+// --- ADVANCED USER PROFILE ROUTES ---
+router.get('/users/:id/details', async (req, res) => {
+    try {
+        const User = require('../models/User');
+        const user = await User.findById(req.params.id);
+        res.json({success: true, user});
+    } catch(e) { res.status(500).json({success: false, message: e.message}); }
+});
+
+router.put('/users/:id/edit', async (req, res) => {
+    try {
+        const User = require('../models/User');
+        const { name, username, email, phone, location, score, cyberLevel } = req.body;
+        await User.findByIdAndUpdate(req.params.id, { 
+            name, username, email, telegram: phone, location, score, cyberLevel 
+        });
+        res.json({success: true});
+    } catch(e) { res.status(500).json({success: false, message: e.message}); }
+});
+
+router.post('/users/:id/reset-password', async (req, res) => {
+    try {
+        const User = require('../models/User');
+        const user = await User.findById(req.params.id);
+        if(!user) return res.status(404).json({success: false, message: "Foydalanuvchi topilmadi"});
+        
+        user.password = req.body.newPassword;
+        await user.save();
+        res.json({success: true});
+    } catch(e) { res.status(500).json({success: false, message: e.message}); }
+});
+// --- END ADVANCED USER PROFILE ROUTES ---
+
 module.exports = router;

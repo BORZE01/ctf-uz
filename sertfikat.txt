@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate Verification — CTF.UZ</title>
+    <link rel="stylesheet" href="/css/design-system.css">
+    <link rel="stylesheet" href="/css/icons.css">
+    <link rel="stylesheet" href="/css/modern-ui.css">
+    
+    <!-- Maxsus Shriftlar (Xalqaro standart sertifikat shriftlari) -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Manrope:wght@400;600;800&family=JetBrains+Mono:wght@400;700&family=Pinyon+Script&display=swap" rel="stylesheet">
+    
+    <!-- PDF Yuklab olish uchun kutubxona -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <style>
+        body { background: #060B18; color: #fff; font-family: 'Manrope', sans-serif; overflow-x: hidden; }
+        
+        .verify-header { text-align: center; margin-bottom: 20px; }
+        
+        /* Sertifikatni ekranda moslashtirish uchun o'ram */
+        .cert-wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            overflow: hidden;
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+
+        .cert-scaler {
+            transform-origin: top center;
+            transition: transform 0.2s;
+        }
+
+        /* 100% XALQARO STANDART A4 O'LCHAM (Landscape) */
+        .cert-a4-container {
+            width: 1123px; /* 297mm at 96dpi */
+            height: 794px; /* 210mm at 96dpi */
+            background: #ffffff;
+            position: relative;
+            box-sizing: border-box;
+            padding: 40px;
+            /* Yengil naqshinkor fon */
+            /* radial-gradient pdf-da xato berishi mumkin, shuning uchun olib tashlandi */
+            background-size: 20px 20px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            color: #0f172a;
+        }
+
+        /* Tashqi ramka */
+        .cert-border-outer {
+            width: 100%;
+            height: 100%;
+            border: 2px solid #cbd5e1;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        /* Ichki ramka */
+        .cert-border-inner {
+            width: 100%;
+            height: 100%;
+            border: 3px solid #1e293b;
+            padding: 40px 50px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            background: #ffffff;
+        }
+
+        /* Burchak bezaklari */
+        .corner { position: absolute; width: 50px; height: 50px; border: 4px solid #2563eb; }
+        .corner-tl { top: -4px; left: -4px; border-right: none; border-bottom: none; }
+        .corner-tr { top: -4px; right: -4px; border-left: none; border-bottom: none; }
+        .corner-bl { bottom: -4px; left: -4px; border-right: none; border-top: none; }
+        .corner-br { bottom: -4px; right: -4px; border-left: none; border-top: none; }
+
+        /* Yuqori qism: Logo va ID */
+        .cert-header { display: flex; justify-content: space-between; align-items: flex-start; }
+        .cert-logo { display: flex; align-items: center; gap: 10px; font-size: 28px; font-weight: 900; color: #0f172a; letter-spacing: 1px; }
+        .cert-logo svg { width: 36px; height: 36px; color: #2563eb; }
+        .cert-meta { text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #64748b; line-height: 1.4; }
+        .cert-meta strong { color: #0f172a; font-size: 14px; }
+
+        /* Asosiy matn qismi */
+        .cert-body { text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .cert-title { font-family: 'Playfair Display', serif; font-size: 54px; font-weight: 700; color: #0f172a; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 24px; }
+        .cert-subtitle { font-size: 18px; color: #475569; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 30px; font-weight: 600; }
+        .cert-name { font-family: 'Playfair Display', serif; font-size: 64px; font-weight: 700; color: #1e3a8a; border-bottom: 2px solid #cbd5e1; padding: 0 60px 10px; margin-bottom: 24px; display: inline-block; line-height: 1.2; }
+        .cert-desc { font-size: 18px; color: #334155; max-width: 750px; line-height: 1.6; margin-bottom: 16px; }
+        .cert-course { font-size: 28px; font-weight: 800; color: #0f172a; text-transform: uppercase; letter-spacing: 1px; }
+        .cert-score { margin-top: 15px; font-family: 'JetBrains Mono', monospace; font-size: 15px; font-weight: 700; color: #059669; background: #ecfdf5; padding: 6px 16px; border-radius: 999px; border: 1px solid #10b981; }
+
+        /* Pastki qism: Imzolar, Muhr va QR */
+        .cert-footer { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 30px; }
+        
+        .signature-box { text-align: center; width: 220px; }
+        .signature-line { height: 60px; border-bottom: 1px solid #0f172a; margin-bottom: 8px; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 4px; }
+        .sig-font { font-family: 'Pinyon Script', cursive; font-size: 40px; color: #1e293b; line-height: 1.5; padding: 0 25px; display: inline-block; white-space: nowrap; }
+        .signature-name { font-size: 16px; font-weight: 800; color: #0f172a; text-transform: uppercase; letter-spacing: 1px; }
+        .signature-role { font-size: 13px; color: #64748b; margin-top: 4px; }
+
+        .cert-seal { width: 120px; height: 120px; border-radius: 50%; border: 3px dashed #2563eb; background: #eff6ff; display: flex; align-items: center; justify-content: center; transform: rotate(-15deg); box-shadow: 0 4px 10px rgba(37,99,235,0.15); }
+        .cert-seal-inner { width: 106px; height: 106px; border-radius: 50%; border: 1px solid #3b82f6; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: visible; }
+        .cert-seal-text { font-size: 9.5px; font-weight: 900; color: #1e3a8a; text-align: center; line-height: 1.6; text-transform: uppercase; letter-spacing: 2px; padding: 12px; width: 100%; box-sizing: border-box; overflow: visible; }
+
+        .qr-box { display: flex; flex-direction: column; align-items: center; }
+        .qr-box img { width: 100px; height: 100px; border: 3px solid #fff; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border-radius: 8px; }
+        .qr-label { font-size: 11px; color: #64748b; font-family: 'JetBrains Mono', monospace; margin-top: 6px; text-transform: uppercase; font-weight: 700; }
+
+        /* Tugmalar paneli */
+        .action-panel { display: flex; justify-content: center; gap: 16px; margin-bottom: 40px; }
+        .btn-download { background: linear-gradient(135deg, #2563eb, #3b82f6); color: #fff; border: none; padding: 14px 28px; border-radius: 12px; font-size: 16px; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; transition: 0.3s; box-shadow: 0 10px 20px rgba(37,99,235,0.3); }
+        .btn-download:hover { transform: translateY(-3px); box-shadow: 0 15px 25px rgba(37,99,235,0.4); }
+
+        #error-box { display: none; text-align: center; padding: 60px; background: #0A1020; border: 1px solid rgba(239,68,68,0.3); border-radius: 16px; margin: 40px auto; max-width: 600px; }
+        #loading-box { text-align: center; padding: 80px; color: #94a3b8; font-size: 18px; }
+    </style>
+</head>
+<body>
+<div class="girih-bg"></div>
+
+<header class="header">
+    <a href="/" class="logo">
+        <div class="logo-mark"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+        <div class="logo-text">CTF<span>.UZ</span></div>
+    </a>
+    <nav class="nav">
+        <a href="/dashboard">Dashboard</a>
+        <a href="/learn">O'rganish</a>
+        <a href="/profile">Profil</a>
+    </nav>
+</header>
+
+<div class="container" style="max-width: 1200px;">
+    
+    <div class="verify-header">
+        <h1 style="font-family: Manrope; font-size: 2rem; color: #fff; margin-bottom: 8px;">Sertifikatni Tekshirish va Yuklab Olish</h1>
+        <p style="color: #94a3b8;">Xalqaro standartdagi rasmiy hujjatingizni PDF formatida yuklab oling.</p>
+    </div>
+
+    <div id="loading-box">Sertifikat ma'lumotlari yuklanmoqda...</div>
+    
+    <div id="error-box">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" style="width:48px;height:48px;margin:0 auto 16px;"></svg>
+        <h3 style="color:#ef4444;font-size:1.5rem;margin-bottom:8px;">Sertifikat topilmadi</h3>
+        <p style="color:#94a3b8;" id="error-msg">Bunday ID raqamli sertifikat bazada mavjud emas.</p>
+        <a href="/learn" class="btn btn-primary" style="margin-top:20px;">O'rganish sahifasiga qaytish</a>
+    </div>
+
+    <div id="cert-main" style="display: none;">
+        <div class="action-panel">
+            <button class="btn-download" onclick="downloadPDF()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:20px;height:20px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                PDF Yuklab Olish (Download)
+            </button>
+        </div>
+
+        <div class="cert-wrapper" id="cert-wrapper">
+            <div class="cert-scaler" id="cert-scaler">
+                
+                <!-- PDF QILINADIGAN ASOSIY A4 KONTEYNER -->
+                <div class="cert-a4-container" id="certificate-node">
+                    <div class="cert-border-outer">
+                        <div class="cert-border-inner">
+                            <div class="corner corner-tl"></div>
+                            <div class="corner corner-tr"></div>
+                            <div class="corner corner-bl"></div>
+                            <div class="corner corner-br"></div>
+
+                            <div class="cert-header">
+                                <div class="cert-logo">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                                    CTF.UZ
+                                </div>
+                                <div class="cert-meta">
+                                    CERTIFICATE ID<br>
+                                    <strong id="c-id">CTF-UZ-XXXXXX</strong><br>
+                                    DATE OF ISSUE: <strong id="c-date">YYYY-MM-DD</strong>
+                                </div>
+                            </div>
+
+                            <div class="cert-body">
+                                <div class="cert-title">Certificate of Completion</div>
+                                <div class="cert-subtitle">This is to proudly certify that</div>
+                                <div class="cert-name" id="c-name">Full Name</div>
+                                <div class="cert-desc">
+                                    has successfully completed all requirements, practical modules, and the final assessment for the professional cybersecurity learning path:
+                                </div>
+                                <div class="cert-course" id="c-course">Course Name</div>
+                                <div class="cert-score" id="c-score">FINAL ASSESSMENT SCORE: 100%</div>
+                            </div>
+
+                            <div class="cert-footer">
+                                <div class="signature-box">
+                                    <div class="signature-line"><span class="sig-font">Admin CTF.UZ</span></div>
+                                    <div class="signature-name">CTF.UZ Administration</div>
+                                    <div class="signature-role">Official Issuer & Instructor</div>
+                                </div>
+
+                                <div class="cert-seal">
+                                    <div class="cert-seal-inner">
+                                        <div class="cert-seal-text">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="3" style="width:20px;height:20px;margin-bottom:4px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><br>
+                                            VERIFIED<br>ACHIEVEMENT
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="qr-box">
+                                    <img id="c-qr" src="" alt="QR Code">
+                                    <div class="qr-label">Scan to Verify</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function resizeCert() {
+    const wrapper = document.getElementById('cert-wrapper');
+    const scaler = document.getElementById('cert-scaler');
+    if (!wrapper || !scaler) return;
+    
+    // A4 qog'ozning ekrandagi kengligi (1123px)
+    const targetWidth = 1123;
+    const containerWidth = wrapper.clientWidth;
+    
+    // Agar ekran A4 dan kichik bo'lsa, moslashtirib kichraytiramiz
+    if (containerWidth < targetWidth) {
+        const scale = containerWidth / targetWidth;
+        scaler.style.transform = `scale(${scale * 0.95})`; // 5% margin qoldiramiz
+        wrapper.style.height = `${794 * scale * 0.95}px`; // Balandlikni ham moslashtiramiz
+    } else {
+        scaler.style.transform = `scale(1)`;
+        wrapper.style.height = `794px`;
+    }
+}
+
+window.addEventListener('resize', resizeCert);
+
+async function verifyCert(urlId) {
+    const certId = (urlId || '').trim().toUpperCase();
+    if (!certId) return;
+
+    try {
+        const res = await fetch('/api/certificates/verify/' + encodeURIComponent(certId));
+        const data = await res.json();
+        
+        document.getElementById('loading-box').style.display = 'none';
+
+        if (!data.success || !data.certificate) {
+            document.getElementById('error-box').style.display = 'block';
+            if(data.message) document.getElementById('error-msg').innerText = data.message;
+            return;
+        }
+
+        const c = data.certificate;
+        
+        // Domenga ma'lumotlarni yozish
+        document.getElementById('c-id').innerText = c.certId;
+        document.getElementById('c-date').innerText = new Date(c.issueDate).toISOString().split('T')[0];
+        document.getElementById('c-name').innerText = c.recipientName;
+        document.getElementById('c-course').innerText = c.courseName;
+        document.getElementById('c-score').innerText = `FINAL ASSESSMENT SCORE: ${c.scorePercent}%`;
+
+        // QR code generatsiyasi (Sertifikatning rasmiy manzili bilan)
+        const fullLink = window.location.origin + '/verify-certificate/' + encodeURIComponent(c.certId);
+        document.getElementById('c-qr').src = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&margin=0&data=' + encodeURIComponent(fullLink);
+
+        document.getElementById('cert-main').style.display = 'block';
+        resizeCert();
+
+    } catch (e) {
+        document.getElementById('loading-box').style.display = 'none';
+        document.getElementById('error-box').style.display = 'block';
+        document.getElementById('error-msg').innerText = "Server bilan aloqada xatolik yuz berdi.";
+    }
+}
+
+// PDF ga o'girish va yuklab olish funksiyasi
+function downloadPDF() {
+    const element = document.getElementById('certificate-node');
+    const certId = document.getElementById('c-id').innerText;
+    const certName = document.getElementById('c-name').innerText.replace(/\s+/g, '_');
+    
+    // HTML2PDF sozlamalari
+    const opt = {
+        margin:       0,
+        filename:     `CTF_UZ_Certificate_${certName}_${certId}.pdf`,
+        image:        { type: 'jpeg', quality: 1 },
+        html2canvas:  { scale: 3, useCORS: true, logging: false }, // Yuqori sifat (scale: 3)
+        jsPDF:        { unit: 'px', format: [1123, 794], orientation: 'landscape' } // A4 Landscape
+    };
+
+    // Yuklab olish jarayoni boshlanganda tugmani bloklaymiz
+    const btn = document.querySelector('.btn-download');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = 'Yuklanmoqda... Kuting';
+    btn.disabled = true;
+
+    // Custom shriftlar to'liq yuklanganini kutamiz, keyin PDF qilamiz
+    document.fonts.ready.then(() => {
+        html2pdf().set(opt).from(element).save().then(() => {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }).catch(err => {
+            alert("PDF yaratishda xatolik yuz berdi.");
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        });
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const parts = window.location.pathname.split('/');
+    const last = parts[parts.length - 1];
+    if (last && last.startsWith('CTF-UZ-')) {
+        verifyCert(last);
+    }
+});
+</script>
+</body>
+</html>
+const express = require('express');
+const router = express.Router();
+const crypto = require('crypto');
+const { LearningPath, Certificate, AssessmentAttempt } = require('../models/Learn');
+const User = require('../models/User');
+const { calculatePathProgress } = require('./learn');
+const { logAction } = require('../utils/audit');
+
+function requireAuth(req, res, next) {
+    if (!req.session || !req.session.user) {
+        return res.status(401).json({ success: false, message: "Tizimga kiring" });
+    }
+    next();
+}
+
+// Kriptografik xavfsiz Sertifikat ID generatori
+function generateSecureCertId() {
+    const part1 = crypto.randomBytes(3).toString('hex').toUpperCase();
+    const part2 = crypto.randomBytes(3).toString('hex').toUpperCase();
+    return `CTF-UZ-${part1}-${part2}`;
+}
+
+// POST /api/certificates/issue-course — Talablarni serverda qayta hisoblab, idempotent sertifikat berish
+router.post('/issue-course', requireAuth, async (req, res) => {
+    try {
+        const { pathSlug } = req.body;
+        if (!pathSlug) return res.status(400).json({ success: false, message: "pathSlug majburiy" });
+
+        const userId = req.session.user.id;
+        const user = await User.findById(userId).select('name username').lean();
+        if (!user) return res.status(404).json({ success: false, message: "Foydalanuvchi topilmadi" });
+
+        const pathDoc = await LearningPath.findOne({ slug: pathSlug.toLowerCase(), isPublished: true });
+        if (!pathDoc) return res.status(404).json({ success: false, message: "O'quv yo'li topilmadi" });
+
+        // 1. Idempotency: Oldin berilgan sertifikat bor-yo'qligini tekshirish
+        const existingCert = await Certificate.findOne({
+            userId,
+            pathSlug: pathDoc.slug,
+            type: pathDoc.certificateType
+        }).lean();
+
+        if (existingCert) {
+            if (existingCert.status === 'revoked') {
+                return res.status(403).json({
+                    success: false,
+                    message: "Sizning ushbu yo'nalishdagi sertifikatingiz ma'muriyat tomonidan bekor qilingan (Revoked)."
+                });
+            }
+            return res.json({
+                success: true,
+                alreadyIssued: true,
+                certificate: existingCert,
+                message: "Sertifikat allaqachon rasmiylashtirilgan."
+            });
+        }
+
+        // 2. Server tomonidan barcha shartlar bajarilganini qat'iy tekshirish
+        const prog = await calculatePathProgress(userId, pathDoc);
+        if (!prog.eligibleForCertificate) {
+            return res.status(400).json({
+                success: false,
+                message: "Sertifikat olish shartlari to'liq bajarilmagan (Barcha darslar, lablar va yakuniy test kamida 80% bo'lishi shart).",
+                progress: prog
+            });
+        }
+
+        // 3. Professional sertifikat bo'lsa amaliy imtihon urinishini ham tekshirish
+        if (pathDoc.certificateType === 'professional') {
+            const passedPractical = await AssessmentAttempt.findOne({
+                userId,
+                pathId: pathDoc._id,
+                type: 'practical_exam',
+                passed: true
+            }).lean();
+            if (!passedPractical) {
+                return res.status(403).json({
+                    success: false,
+                    message: "Professional sertifikat uchun ruxsat etilgan amaliy baholashdan o'tish talab qilinadi."
+                });
+            }
+        }
+
+        const certId = generateSecureCertId();
+        const verifyUrl = `/verify-certificate/${certId}`;
+
+        const newCert = await Certificate.create({
+            certId,
+            userId,
+            recipientName: user.name || user.username,
+            username: user.username,
+            pathId: pathDoc._id,
+            pathSlug: pathDoc.slug,
+            courseName: pathDoc.certificateTitle || pathDoc.title,
+            type: pathDoc.certificateType || 'course_completion',
+            status: 'valid',
+            isValid: true,
+            scorePercent: prog.finalExamBestScore || 100,
+            verifyUrl,
+            issueDate: new Date()
+        });
+
+        logAction(user.username, 'CERTIFICATE_ISSUED', { certId, pathSlug: pathDoc.slug, type: newCert.type });
+
+        res.json({
+            success: true,
+            certificate: newCert,
+            message: "🎉 Sertifikat muvaffaqiyatli yaratildi!"
+        });
+    } catch (e) {
+        if (e.code === 11000) {
+            const cert = await Certificate.findOne({ userId: req.session.user.id, pathSlug: req.body.pathSlug }).lean();
+            return res.json({ success: true, alreadyIssued: true, certificate: cert });
+        }
+        res.status(500).json({ success: false, message: e.message });
+    }
+});
+
+// GET /api/certificates/me — Foydalanuvchining barcha sertifikatlari
+router.get('/me', requireAuth, async (req, res) => {
+    try {
+        const certs = await Certificate.find({ userId: req.session.user.id }).sort({ issueDate: -1 }).lean();
+        res.json({ success: true, certificates: certs });
+    } catch (e) {
+        res.status(500).json({ success: false, message: e.message });
+    }
+});
+
+// GET /api/certificates/verify/:certId — Ommaviy QR Verifikatsiya (Maxfiy ma'lumotlarsiz!)
+router.get('/verify/:certId', async (req, res) => {
+    try {
+        const certId = String(req.params.certId || '').trim().toUpperCase();
+        const cert = await Certificate.findOne({ certId }).lean();
+
+        if (!cert) {
+            return res.status(404).json({
+                success: false,
+                status: 'not_found',
+                message: "Bunday ID raqamli sertifikat CTF.UZ bazasida topilmadi."
+            });
+        }
+
+        // FAQAT ruxsat etilgan ommaviy ma'lumotlarni qaytaramiz (email, telefon, userId chiqmaydi)
+        res.json({
+            success: true,
+            certificate: {
+                certId: cert.certId,
+                recipientName: cert.recipientName,
+                username: cert.username,
+                courseName: cert.courseName,
+                pathSlug: cert.pathSlug,
+                type: cert.type === 'professional' ? 'Professional Practical Certification' : 'Course Completion Certificate',
+                rawType: cert.type,
+                status: cert.status,
+                isValid: cert.status === 'valid' && cert.isValid,
+                scorePercent: cert.scorePercent,
+                issueDate: cert.issueDate,
+                revokedAt: cert.revokedAt,
+                revokedReason: cert.revokedReason,
+                verifyUrl: cert.verifyUrl
+            }
+        });
+    } catch (e) {
+        res.status(500).json({ success: false, message: "Tekshirishda xatolik yuz berdi" });
+    }
+});
+
+// GET /api/certificates/:certId
+router.get('/:certId', async (req, res) => {
+    try {
+        const certId = String(req.params.certId || '').trim().toUpperCase();
+        const cert = await Certificate.findOne({ certId }).lean();
+        if (!cert) return res.status(404).json({ success: false, message: "Sertifikat topilmadi" });
+
+        res.json({
+            success: true,
+            certificate: {
+                certId: cert.certId,
+                recipientName: cert.recipientName,
+                username: cert.username,
+                courseName: cert.courseName,
+                type: cert.type,
+                status: cert.status,
+                scorePercent: cert.scorePercent,
+                issueDate: cert.issueDate,
+                revokedAt: cert.revokedAt,
+                revokedReason: cert.revokedReason,
+                verifyUrl: cert.verifyUrl
+            }
+        });
+    } catch (e) {
+        res.status(500).json({ success: false, message: e.message });
+    }
+});
+
+module.exports = router;

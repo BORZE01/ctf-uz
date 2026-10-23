@@ -766,4 +766,61 @@ router.post('/apply-employer', async (req, res) => {
     }
 });
 
+
+// --- GOOGLE AUTHENTICATION ---
+const { OAuth2Client } = require('google-auth-library');
+// GOOGLE_CLIENT_ID ni .env fayliga qo'shishni unutmang
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID || 'SİZNING_CLIENT_ID'); 
+
+router.post('/google', async (req, res) => {
+    try {
+        const { credential } = req.body;
+        const ticket = await client.verifyIdToken({
+            idToken: credential,
+            audience: process.env.GOOGLE_CLIENT_ID,
+        });
+        const payload = ticket.getPayload();
+        const { email, name, sub } = payload;
+        const User = require('../models/User');
+
+        let user = await User.findOne({ email });
+
+        if (!user) {
+            // Yangi foydalanuvchi
+            user = new User({
+                email,
+                name,
+                username: email.split('@')[0].replace(/[^a-zA-Z0-9]/g, '') + Math.floor(Math.random() * 1000),
+                googleId: sub
+            });
+            await user.save();
+        }
+
+        req.session.user = { id: user._id, username: user.username };
+        await new Promise(resolve => req.session.save(resolve));
+
+        // Telegram va turar joy yo'q bo'lsa profil to'ldirishga yo'naltirish
+        if (!user.telegram || !user.location) {
+            return res.json({ success: true, requireDetails: true });
+        }
+
+        res.json({ success: true, requireDetails: false });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+});
+
+router.post('/google/complete', async (req, res) => {
+    if (!req.session.user) return res.status(401).json({ success: false });
+    try {
+        const { telegram, location } = req.body;
+        const User = require('../models/User');
+        await User.findByIdAndUpdate(req.session.user.id, { telegram, location });
+        res.json({ success: true });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+});
+// --- END GOOGLE AUTHENTICATION ---
+
 module.exports = router;

@@ -217,6 +217,33 @@
                 </div>
             </div>
 
+            
+            <!-- SERTIFIKATLAR -->
+            <div id="certificates" class="page">
+                <div class="toolbar" style="margin-bottom: 24px;">
+                    <div>
+                        <h3 style="color:#fff;font-family:Manrope;font-size:1.4rem">🎓 Sertifikatlar Boshqaruvi</h3>
+                    </div>
+                    <button class="btn btn-primary" onclick="addCertificate()">+ Sertifikat Berish</button>
+                </div>
+                <div class="table-box">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>CERT ID</th>
+                                <th>FOYDALANUVCHI</th>
+                                <th>YONALISH NOMI</th>
+                                <th>BERILGAN SANA</th>
+                                <th>AMAL</th>
+                            </tr>
+                        </thead>
+                        <tbody id="certTableBody">
+                            <tr><td colspan="5" style="text-align:center;"><div class="spinner"></div></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+    
             <!-- CHALLENGES -->
             <div id="challenges" class="page">
                 <div class="toolbar">
@@ -298,7 +325,17 @@
                 </div>
             </div>
         </div>
-    </main>
+    
+
+
+
+    
+    
+
+    
+    
+    
+</main>
 </div>
 
 <!-- ================= MODALS ================= -->
@@ -449,9 +486,12 @@ async function loadUsers() {
     document.getElementById('usersBody').innerHTML = res.users.map(u => `
         <tr>
             <td><strong>${esc(u.name)}</strong><br><span style="font-size:.8rem;color:var(--text3)">@${esc(u.username)}</span></td>
-            <td>${esc(u.email)}</td><td><span class="badge b-blue">Lvl ${u.cyberLevel}</span></td><td><strong style="color:var(--gold)">${u.score}</strong></td>
+            <td>${esc(u.email)}</td><td><span class="badge b-blue">Lvl ${u.cyberLevel || 0}</span></td><td><strong style="color:var(--gold)">${u.score || 0}</strong></td>
             <td>${u.banned ? '<span class="badge b-red">Banned</span>' : u.verified ? '<span class="badge b-green">Verified</span>' : '<span class="badge b-gold">Unverified</span>'}</td>
-            <td><button class="btn btn-sm btn-secondary" onclick="api('/users/${u.id}/ban', {method:'POST'}).then(loadUsers)">Ban/Unban</button></td>
+            <td>
+                <button class="btn btn-sm btn-primary" onclick="openUserAdv('${u.id}')" style="margin-right:4px;">✏️ Ko'rish</button>
+                <button class="btn btn-sm btn-secondary" onclick="api('/users/${u.id}/ban', {method:'POST'}).then(loadUsers)">Ban/Unban</button>
+            </td>
         </tr>
     `).join('') || "<tr><td colspan='6' style='text-align:center;'>Ma'lumot topilmadi</td></tr>";
 }
@@ -662,6 +702,51 @@ async function toggleCertStatus(certId, action) {
 
 async function logout() { await fetch('/api/auth/logout', { method: 'POST' }); window.location.href = '/'; }
 
+
+// --- SERTIFIKATLAR LOGIKASI ---
+async function loadAdminCertificates() {
+    const tbody = document.getElementById('certTableBody');
+    if (!tbody) return;
+    try {
+        const res = await api('/certificates');
+        if (res.success) {
+            tbody.innerHTML = (res.certificates || []).map(c => `
+                <tr>
+                    <td style="font-family:JetBrains Mono; color:var(--cyan)">${c.certId || c._id.substring(0,8)}</td>
+                    <td><strong>${c.userId ? c.userId.username : 'Noma\'lum'}</strong></td>
+                    <td>${c.title || 'Umumiy'}</td>
+                    <td>${new Date(c.issueDate || c.createdAt).toLocaleDateString('uz-UZ')}</td>
+                    <td><button class="btn-icon" onclick="deleteCert('${c._id}')">🗑️</button></td>
+                </tr>
+            `).join('') || '<tr><td colspan="5" style="text-align:center">Ma\'lumot yo\'q</td></tr>';
+        }
+    } catch(e) { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center">Xatolik yuz berdi</td></tr>'; }
+}
+
+async function addCertificate() {
+    const username = prompt("Foydalanuvchi logini (Username):");
+    if (!username) return;
+    const title = prompt("Sertifikat nomi:");
+    if (!title) return;
+    
+    try {
+        const res = await api('/certificates', {
+            method: 'POST',
+            body: JSON.stringify({username, title})
+        });
+        if(res.success) { alert("Berildi!"); loadAdminCertificates(); }
+        else { alert("Xato: " + (res.message || "Topilmadi")); }
+    } catch(e) { alert("Xato"); }
+}
+
+async function deleteCert(id) {
+    if(!confirm("Bekor qilasizmi?")) return;
+    try {
+        const res = await api('/certificates/' + id, { method: 'DELETE' });
+        if(res.success) loadAdminCertificates();
+    } catch(e) {}
+}
+    
 window.addEventListener('load', () => { loadDashboard(); });
 </script>
 
@@ -764,6 +849,609 @@ window.addEventListener('load', () => { loadDashboard(); });
 </div>
 
 <script src="/js/admin-academy.js"></script>
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Sayfa yenilenmesini engelle ve modalı temizle
+    const originalReload = window.location.reload;
+    window.location.reload = function() {
+        const modal = document.querySelector('.fixed, .modal, [style*="fixed"]');
+        if (modal) modal.style.display = 'none';
+        originalReload.call(window.location);
+    };
+
+    // 2. Modalı doğrudan "Yaratish" butonu üzerinden bul ve değiştir
+    setInterval(() => {
+        // "Yaratish" yazan ve ekranda görünen butonu bul
+        const yaratishBtn = Array.from(document.querySelectorAll('button')).find(b => 
+            b.innerText.trim() === 'Yaratish' && b.style.display !== 'none'
+        );
+
+        if (yaratishBtn && !document.getElementById('ch-file')) {
+            const modalForm = yaratishBtn.closest('form') || yaratishBtn.parentElement.parentElement;
+            
+            if (modalForm) {
+                modalForm.innerHTML = `
+                    <div style="display:flex; flex-direction:column; gap:12px; text-align:left;">
+                        <div>
+                            <label style="font-size:12px; color:#94a3b8; font-weight:700;">CHALLENGE NOMI</label>
+                            <input type="text" id="ch-title" placeholder="Masalan: SQL Injection 101" style="width:100%; padding:10px; background:#060B18; border:1px solid #1e293b; border-radius:6px; color:#fff; margin-top:4px;">
+                        </div>
+                        
+                        <div style="display:flex; gap:12px;">
+                            <div style="flex:1;">
+                                <label style="font-size:12px; color:#94a3b8; font-weight:700;">KATEGORIYA</label>
+                                <select id="ch-category" style="width:100%; padding:10px; background:#060B18; border:1px solid #1e293b; border-radius:6px; color:#fff; margin-top:4px;">
+                                    <option value="Web">Web</option>
+                                    <option value="Crypto">Crypto</option>
+                                    <option value="Pwn">Pwn</option>
+                                    <option value="Reverse">Reverse</option>
+                                    <option value="Forensics">Forensics</option>
+                                    <option value="Misc">Misc</option>
+                                    <option value="OSINT">OSINT</option>
+                                </select>
+                            </div>
+                            <div style="flex:1;">
+                                <label style="font-size:12px; color:#94a3b8; font-weight:700;">QIYINLIK</label>
+                                <select id="ch-difficulty" style="width:100%; padding:10px; background:#060B18; border:1px solid #1e293b; border-radius:6px; color:#fff; margin-top:4px;">
+                                    <option value="Easy">Easy</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="Hard">Hard</option>
+                                    <option value="Insane">Insane</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div style="display:flex; gap:12px;">
+                            <div style="flex:1;">
+                                <label style="font-size:12px; color:#94a3b8; font-weight:700;">BALL (POINTS)</label>
+                                <input type="number" id="ch-points" value="100" style="width:100%; padding:10px; background:#060B18; border:1px solid #1e293b; border-radius:6px; color:#fff; margin-top:4px;">
+                            </div>
+                            <div style="flex:1;">
+                                <label style="font-size:12px; color:#94a3b8; font-weight:700;">FLAG (JAVOB)</label>
+                                <input type="text" id="ch-flag" placeholder="CTF{...}" style="width:100%; padding:10px; background:#060B18; border:1px solid #1e293b; border-radius:6px; color:#fff; margin-top:4px;">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label style="font-size:12px; color:#94a3b8; font-weight:700;">TAVSIF (SHARTLAR)</label>
+                            <textarea id="ch-desc" rows="3" placeholder="Challenge vazifasini yozing..." style="width:100%; padding:10px; background:#060B18; border:1px solid #1e293b; border-radius:6px; color:#fff; margin-top:4px;"></textarea>
+                        </div>
+
+                        <div>
+                            <label style="font-size:12px; color:#94a3b8; font-weight:700;">MASLAHATLAR (Har biri yangi qatorda)</label>
+                            <textarea id="ch-hints" rows="2" placeholder="Maslahatlar..." style="width:100%; padding:10px; background:#060B18; border:1px solid #1e293b; border-radius:6px; color:#fff; margin-top:4px;"></textarea>
+                        </div>
+
+                        <div>
+                            <label style="font-size:12px; color:#94a3b8; font-weight:700;">FAYL YUKLASH (Zip, Png, Pdf...)</label>
+                            <input type="file" id="ch-file" style="width:100%; padding:8px; background:#060B18; border:1px dashed #2563eb; border-radius:6px; color:#fff; margin-top:4px;">
+                        </div>
+
+                        <label style="display:flex; align-items:center; gap:8px; cursor:pointer; color:#e2e8f0; font-size:14px; margin-top:4px;">
+                            <input type="checkbox" id="ch-publish" value="true" checked style="width:16px; height:16px; accent-color:#2563eb;">
+                            Darhol e'lon qilish
+                        </label>
+
+                        <div style="display:flex; gap:10px; margin-top:15px;">
+                            <button id="btn-save-custom" style="flex:1; padding:12px; background:#2563eb; color:#fff; border:none; border-radius:6px; font-weight:700; cursor:pointer;">Saqlash</button>
+                            <button id="btn-cancel-custom" type="button" style="flex:1; padding:12px; background:#1e293b; color:#fff; border:none; border-radius:6px; font-weight:700; cursor:pointer;">Bekor qilish</button>
+                        </div>
+                    </div>
+                `;
+
+                document.getElementById('btn-cancel-custom').onclick = () => window.location.reload();
+                
+                document.getElementById('btn-save-custom').onclick = async (e) => {
+                    e.preventDefault();
+                    const fd = new FormData();
+                    fd.append('title', document.getElementById('ch-title').value);
+                    fd.append('category', document.getElementById('ch-category').value);
+                    fd.append('difficulty', document.getElementById('ch-difficulty').value);
+                    fd.append('points', document.getElementById('ch-points').value);
+                    fd.append('flag', document.getElementById('ch-flag').value);
+                    fd.append('description', document.getElementById('ch-desc').value);
+                    fd.append('hints', document.getElementById('ch-hints').value);
+                    fd.append('isPublished', document.getElementById('ch-publish').checked);
+
+                    const fileInput = document.getElementById('ch-file');
+                    if (fileInput && fileInput.files.length > 0) fd.append('challengeFile', fileInput.files[0]);
+
+                    const chId = document.getElementById('ch-title').dataset.id;
+                    const url = chId ? `/api/admin/challenges/${chId}` : '/api/admin/challenges';
+                    
+                    try {
+                        const csrfRes = await fetch('/api/csrf-token');
+                        let csrfToken = '';
+                        if (csrfRes.ok) {
+                            const csrfData = await csrfRes.json();
+                            csrfToken = csrfData.csrfToken || csrfData.token || '';
+                        }
+                        
+                        const res = await fetch(url, {
+                            method: chId ? 'PUT' : 'POST',
+                            body: fd,
+                            headers: { 'x-csrf-token': csrfToken, 'csrf-token': csrfToken }
+                        });
+                        const data = await res.json();
+                        if(data.success) {
+                            alert("✅ Muvaffaqiyatli saqlandi!");
+                            window.location.reload();
+                        } else {
+                            alert("❌ Xatolik: " + (data.message || "Xato yuz berdi"));
+                        }
+                    } catch(err) { alert("Server xatosi."); }
+                };
+            }
+        }
+
+        // 3. Düzenleme (✏️) ikonlarını ekle ve veriyi çek
+        const rows = document.querySelectorAll('tbody tr, .table tbody tr');
+        rows.forEach(row => {
+            const cells = row.querySelectorAll('td');
+            if (cells.length > 2) {
+                const isCtf = Array.from(cells).some(c => 
+                    ['WEB', 'CRYPTO', 'PWN', 'REVERSE', 'FORENSICS', 'MISC', 'OSINT'].includes(c.innerText.trim().toUpperCase())
+                );
+                
+                if (isCtf) {
+                    const lastCell = cells[cells.length - 1];
+                    if (lastCell && !lastCell.querySelector('.btn-edit-ch')) {
+                        const editBtn = document.createElement('button');
+                        editBtn.className = 'btn-edit-ch';
+                        editBtn.innerHTML = '✏️';
+                        editBtn.style.marginRight = '10px';
+                        editBtn.style.background = 'transparent';
+                        editBtn.style.border = 'none';
+                        editBtn.style.cursor = 'pointer';
+                        editBtn.style.fontSize = '16px';
+                        
+                        editBtn.onclick = async (e) => {
+                            e.preventDefault();
+                            const chTitle = cells[1].innerText.trim();
+                            
+                            // "Yangi Challenge" butonuna basarak formu aç
+                            const newBtns = Array.from(document.querySelectorAll('button')).filter(b => b.innerText.includes('Yangi Challenge'));
+                            if (newBtns.length > 0) newBtns[newBtns.length - 1].click();
+
+                            try {
+                                const res = await fetch('/api/admin/challenges');
+                                const data = await res.json();
+                                if (data.challenges) {
+                                    const ch = data.challenges.find(c => c.title && c.title.toLowerCase() === chTitle.toLowerCase());
+                                    if (ch) {
+                                        // Formun render edilmesi için kısa bir gecikme
+                                        setTimeout(() => {
+                                            const t = document.getElementById('ch-title'); if(t) { t.value = ch.title || ''; t.dataset.id = ch._id || ch.id; }
+                                            const p = document.getElementById('ch-points'); if(p) p.value = ch.points || 100;
+                                            const f = document.getElementById('ch-flag'); if(f) f.value = ch.flag || '';
+                                            const c = document.getElementById('ch-category'); if(c && ch.category) c.value = ch.category;
+                                            const diff = document.getElementById('ch-difficulty'); if(diff && ch.difficulty) diff.value = ch.difficulty;
+                                            const desc = document.getElementById('ch-desc'); if(desc) desc.value = ch.story || ch.description || '';
+                                            const hints = document.getElementById('ch-hints'); if(hints) hints.value = Array.isArray(ch.hints) ? ch.hints.map(h => h.text || h).join('\n') : (ch.hints || '');
+                                            const pub = document.getElementById('ch-publish'); if(pub) pub.checked = ch.status === 'live' || ch.isPublished;
+                                        }, 200);
+                                    }
+                                }
+                            } catch (err) {}
+                        };
+                        lastCell.insertBefore(editBtn, lastCell.firstChild);
+                    }
+                }
+            }
+        });
+    }, 300); 
+});
+</script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Oynani yopish va sahifani YANGILAMASDAN Challenges ro'yxatini yangilash
+    function closeModalAndRefresh() {
+        // Modalni yopish
+        const modal = document.querySelector('.fixed, .modal, [style*="fixed"]');
+        if (modal) modal.style.display = 'none';
+        
+        // Inputlarni tozalash (keyingi safar toza ochilishi uchun)
+        const inputs = document.querySelectorAll('#ch-title, #ch-points, #ch-flag, #ch-desc, #ch-hints, #ch-file');
+        inputs.forEach(inp => { if(inp) inp.value = ''; });
+        const title = document.getElementById('ch-title');
+        if(title) title.removeAttribute('data-id');
+        
+        // "Challenges" bo'limini fon rejimida qayta yuklash (Menyudagi tugmani vizual bosish orqali)
+        const chMenu = Array.from(document.querySelectorAll('li, a, span, div')).find(el => 
+            el.innerText.trim() === 'Challenges' && (el.closest('aside') || el.closest('.sidebar') || el.closest('nav'))
+        );
+        if (chMenu) {
+            chMenu.click();
+        } else if (window.showPage) {
+            window.showPage('challenges');
+        }
+    }
+
+    // 2. Modal oynani to'liq qayta qurish (Fayl yuklash va h.k)
+    setInterval(() => {
+        const yaratishBtn = Array.from(document.querySelectorAll('button')).find(b => 
+            b.innerText.trim() === 'Yaratish' && b.style.display !== 'none'
+        );
+
+        if (yaratishBtn && !document.getElementById('ch-file')) {
+            const modalForm = yaratishBtn.closest('form') || yaratishBtn.parentElement.parentElement;
+            
+            if (modalForm) {
+                modalForm.innerHTML = `
+                    <div style="display:flex; flex-direction:column; gap:12px; text-align:left;">
+                        <div>
+                            <label style="font-size:12px; color:#94a3b8; font-weight:700;">CHALLENGE NOMI</label>
+                            <input type="text" id="ch-title" placeholder="Masalan: SQL Injection 101" style="width:100%; padding:10px; background:#060B18; border:1px solid #1e293b; border-radius:6px; color:#fff; margin-top:4px;">
+                        </div>
+                        
+                        <div style="display:flex; gap:12px;">
+                            <div style="flex:1;">
+                                <label style="font-size:12px; color:#94a3b8; font-weight:700;">KATEGORIYA</label>
+                                <select id="ch-category" style="width:100%; padding:10px; background:#060B18; border:1px solid #1e293b; border-radius:6px; color:#fff; margin-top:4px;">
+                                    <option value="Web">Web</option>
+                                    <option value="Crypto">Crypto</option>
+                                    <option value="Pwn">Pwn</option>
+                                    <option value="Reverse">Reverse</option>
+                                    <option value="Forensics">Forensics</option>
+                                    <option value="Misc">Misc</option>
+                                    <option value="OSINT">OSINT</option>
+                                </select>
+                            </div>
+                            <div style="flex:1;">
+                                <label style="font-size:12px; color:#94a3b8; font-weight:700;">QIYINLIK</label>
+                                <select id="ch-difficulty" style="width:100%; padding:10px; background:#060B18; border:1px solid #1e293b; border-radius:6px; color:#fff; margin-top:4px;">
+                                    <option value="Easy">Easy</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="Hard">Hard</option>
+                                    <option value="Insane">Insane</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div style="display:flex; gap:12px;">
+                            <div style="flex:1;">
+                                <label style="font-size:12px; color:#94a3b8; font-weight:700;">BALL (POINTS)</label>
+                                <input type="number" id="ch-points" value="100" style="width:100%; padding:10px; background:#060B18; border:1px solid #1e293b; border-radius:6px; color:#fff; margin-top:4px;">
+                            </div>
+                            <div style="flex:1;">
+                                <label style="font-size:12px; color:#94a3b8; font-weight:700;">FLAG (JAVOB)</label>
+                                <input type="text" id="ch-flag" placeholder="CTF{...}" style="width:100%; padding:10px; background:#060B18; border:1px solid #1e293b; border-radius:6px; color:#fff; margin-top:4px;">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label style="font-size:12px; color:#94a3b8; font-weight:700;">TAVSIF (SHARTLAR)</label>
+                            <textarea id="ch-desc" rows="3" placeholder="Challenge vazifasini yozing..." style="width:100%; padding:10px; background:#060B18; border:1px solid #1e293b; border-radius:6px; color:#fff; margin-top:4px;"></textarea>
+                        </div>
+
+                        <div>
+                            <label style="font-size:12px; color:#94a3b8; font-weight:700;">MASLAHATLAR (Har biri yangi qatorda)</label>
+                            <textarea id="ch-hints" rows="2" placeholder="Maslahatlar..." style="width:100%; padding:10px; background:#060B18; border:1px solid #1e293b; border-radius:6px; color:#fff; margin-top:4px;"></textarea>
+                        </div>
+
+                        <div>
+                            <label style="font-size:12px; color:#94a3b8; font-weight:700;">FAYL YUKLASH (Zip, Png, Pdf...)</label>
+                            <input type="file" id="ch-file" style="width:100%; padding:8px; background:#060B18; border:1px dashed #2563eb; border-radius:6px; color:#fff; margin-top:4px;">
+                        </div>
+
+                        <label style="display:flex; align-items:center; gap:8px; cursor:pointer; color:#e2e8f0; font-size:14px; margin-top:4px;">
+                            <input type="checkbox" id="ch-publish" value="true" checked style="width:16px; height:16px; accent-color:#2563eb;">
+                            Darhol e'lon qilish
+                        </label>
+
+                        <div style="display:flex; gap:10px; margin-top:15px;">
+                            <button id="btn-save-custom" style="flex:1; padding:12px; background:#2563eb; color:#fff; border:none; border-radius:6px; font-weight:700; cursor:pointer;">Saqlash</button>
+                            <button id="btn-cancel-custom" type="button" style="flex:1; padding:12px; background:#1e293b; color:#fff; border:none; border-radius:6px; font-weight:700; cursor:pointer;">Bekor qilish</button>
+                        </div>
+                    </div>
+                `;
+
+                // Bekor qilish bosilganda sahifa yangilanmaydi, shunchaki modal yopiladi
+                document.getElementById('btn-cancel-custom').onclick = (e) => {
+                    e.preventDefault();
+                    closeModalAndRefresh();
+                };
+                
+                document.getElementById('btn-save-custom').onclick = async (e) => {
+                    e.preventDefault();
+                    const fd = new FormData();
+                    fd.append('title', document.getElementById('ch-title').value);
+                    fd.append('category', document.getElementById('ch-category').value);
+                    fd.append('difficulty', document.getElementById('ch-difficulty').value);
+                    fd.append('points', document.getElementById('ch-points').value);
+                    fd.append('flag', document.getElementById('ch-flag').value);
+                    fd.append('description', document.getElementById('ch-desc').value);
+                    fd.append('hints', document.getElementById('ch-hints').value);
+                    fd.append('isPublished', document.getElementById('ch-publish').checked);
+
+                    const fileInput = document.getElementById('ch-file');
+                    if (fileInput && fileInput.files.length > 0) fd.append('challengeFile', fileInput.files[0]);
+
+                    const chId = document.getElementById('ch-title').dataset.id;
+                    const url = chId ? `/api/admin/challenges/${chId}` : '/api/admin/challenges';
+                    
+                    try {
+                        const csrfRes = await fetch('/api/csrf-token');
+                        let csrfToken = '';
+                        if (csrfRes.ok) {
+                            const csrfData = await csrfRes.json();
+                            csrfToken = csrfData.csrfToken || csrfData.token || '';
+                        }
+                        
+                        const res = await fetch(url, {
+                            method: chId ? 'PUT' : 'POST',
+                            body: fd,
+                            headers: { 'x-csrf-token': csrfToken, 'csrf-token': csrfToken }
+                        });
+                        const data = await res.json();
+                        if(data.success) {
+                            alert("✅ Muvaffaqiyatli saqlandi!");
+                            // Saqlangandan keyin ham sahifa yangilanmaydi!
+                            closeModalAndRefresh();
+                        } else {
+                            alert("❌ Xatolik: " + (data.message || "Xato yuz berdi"));
+                        }
+                    } catch(err) { alert("Server xatosi."); }
+                };
+            }
+        }
+
+        // 3. Tahrirlash (✏️) tugmalari logikasi
+        const rows = document.querySelectorAll('tbody tr, .table tbody tr');
+        rows.forEach(row => {
+            const cells = row.querySelectorAll('td');
+            if (cells.length > 2) {
+                const isCtf = Array.from(cells).some(c => 
+                    ['WEB', 'CRYPTO', 'PWN', 'REVERSE', 'FORENSICS', 'MISC', 'OSINT'].includes(c.innerText.trim().toUpperCase())
+                );
+                
+                if (isCtf) {
+                    const lastCell = cells[cells.length - 1];
+                    if (lastCell && !lastCell.querySelector('.btn-edit-ch')) {
+                        const editBtn = document.createElement('button');
+                        editBtn.className = 'btn-edit-ch';
+                        editBtn.innerHTML = '✏️';
+                        editBtn.style.marginRight = '10px';
+                        editBtn.style.background = 'transparent';
+                        editBtn.style.border = 'none';
+                        editBtn.style.cursor = 'pointer';
+                        editBtn.style.fontSize = '16px';
+                        
+                        editBtn.onclick = async (e) => {
+                            e.preventDefault();
+                            const chTitle = cells[1].innerText.trim();
+                            
+                            const newBtns = Array.from(document.querySelectorAll('button')).filter(b => b.innerText.includes('Yangi Challenge'));
+                            if (newBtns.length > 0) newBtns[newBtns.length - 1].click();
+
+                            try {
+                                const res = await fetch('/api/admin/challenges');
+                                const data = await res.json();
+                                if (data.challenges) {
+                                    const ch = data.challenges.find(c => c.title && c.title.toLowerCase() === chTitle.toLowerCase());
+                                    if (ch) {
+                                        setTimeout(() => {
+                                            const t = document.getElementById('ch-title'); if(t) { t.value = ch.title || ''; t.dataset.id = ch._id || ch.id; }
+                                            const p = document.getElementById('ch-points'); if(p) p.value = ch.points || 100;
+                                            const f = document.getElementById('ch-flag'); if(f) f.value = ch.flag || '';
+                                            const c = document.getElementById('ch-category'); if(c && ch.category) c.value = ch.category;
+                                            const diff = document.getElementById('ch-difficulty'); if(diff && ch.difficulty) diff.value = ch.difficulty;
+                                            const desc = document.getElementById('ch-desc'); if(desc) desc.value = ch.story || ch.description || '';
+                                            const hints = document.getElementById('ch-hints'); if(hints) hints.value = Array.isArray(ch.hints) ? ch.hints.map(h => h.text || h).join('
+') : (ch.hints || '');
+                                            const pub = document.getElementById('ch-publish'); if(pub) pub.checked = ch.status === 'live' || ch.isPublished;
+                                        }, 200);
+                                    }
+                                }
+                            } catch (err) {}
+                        };
+                        lastCell.insertBefore(editBtn, lastCell.firstChild);
+                    }
+                }
+            }
+        });
+    }, 300); 
+});
+</script>
+
+
+
+
+    
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const menus = document.querySelectorAll('li, a, div, span');
+        menus.forEach(m => {
+            if(m.innerText && m.innerText.trim() === 'Sertifikatlar' && m.closest('.sidebar, aside, nav, ul')) {
+                m.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    document.querySelectorAll('section, .page-content, .admin-section').forEach(s => {
+                        if(s.id !== 'sidebar' && s.id !== 'header') s.style.display = 'none';
+                    });
+                    const panel = document.getElementById('sertifikatlar-panel');
+                    if(panel) {
+                        panel.style.display = 'block';
+                        loadFinalCerts();
+                    }
+                });
+            }
+        });
+
+        function loadFinalCerts() {
+            const tbody = document.getElementById('cert-tbody-final');
+            if(!tbody) return;
+            fetch('/api/admin/certificates')
+            .then(r => r.json())
+            .then(data => {
+                if(data.success) {
+                    tbody.innerHTML = '';
+                    if(data.certificates.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:30px; color:#94a3b8;">Hali sertifikat berilmagan.</td></tr>';
+                        return;
+                    }
+                    data.certificates.forEach(cert => {
+                        tbody.innerHTML += `
+                            <tr style="border-bottom:1px solid #1e293b;">
+                                <td style="padding:15px; font-family:monospace; color:#3b82f6;">${cert.certId || cert._id.substring(0,8)}</td>
+                                <td style="padding:15px; font-weight:bold; color:#e2e8f0;">${cert.userId ? cert.userId.username : 'O\'chirilgan'}</td>
+                                <td style="padding:15px; color:#cbd5e1;">${cert.title || 'Umumiy'}</td>
+                                <td style="padding:15px; color:#94a3b8;">${new Date(cert.issueDate || cert.createdAt).toLocaleDateString()}</td>
+                                <td style="padding:15px; text-align:center;">
+                                    <button class="del-cert-btn" data-id="${cert._id}" style="background:none;border:none;cursor:pointer;font-size:18px;">🗑️</button>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                    document.querySelectorAll('.del-cert-btn').forEach(b => {
+                        b.onclick = () => {
+                            if(confirm("Sertifikatni bekor qilmoqchimisiz?")) {
+                                fetch('/api/admin/certificates/' + b.dataset.id, {method:'DELETE'})
+                                .then(r=>r.json()).then(d=>{if(d.success) loadFinalCerts();});
+                            }
+                        }
+                    });
+                }
+            }).catch(() => {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#ef4444;">Server xatosi.</td></tr>';
+            });
+        }
+
+        const addBtn = document.getElementById('btn-add-cert-final');
+        if(addBtn) {
+            addBtn.onclick = () => {
+                const username = prompt("Foydalanuvchi logini (Username):");
+                if(!username) return;
+                const title = prompt("Sertifikat nomi (Masalan: Kiberxavfsizlik):");
+                if(!title) return;
+                fetch('/api/admin/certificates', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({username, title})
+                }).then(r=>r.json()).then(d=>{
+                    if(d.success) loadFinalCerts();
+                    else alert(d.message);
+                });
+            };
+        }
+    });
+    </script>
+    
+
+    <!-- CTF.UZ KAFOLATLANGAN SERTIFIKATLAR BO'LIMI -->
+    
+
+    
+    
+
+<!-- FOYDALANUVCHI PROFILI MODALI -->
+<div id="userAdvModal" class="modal">
+    <div class="modal-box" style="max-width: 600px;">
+        <h3>👥 Profilni Boshqarish (100% Nazorat)</h3>
+        <input type="hidden" id="uAdvId">
+        <div style="display:flex; gap:10px;">
+            <div class="field" style="flex:1"><label>To'liq ism</label><input id="uAdvName"></div>
+            <div class="field" style="flex:1"><label>Username</label><input id="uAdvUsername"></div>
+        </div>
+        <div style="display:flex; gap:10px;">
+            <div class="field" style="flex:1"><label>Email</label><input id="uAdvEmail"></div>
+            <div class="field" style="flex:1"><label>Telefon yoki Telegram</label><input id="uAdvPhone" placeholder="+998901234567 yoki @user"></div>
+        </div>
+        <div class="field"><label>Turar joyi / Location</label><input id="uAdvLoc" placeholder="Toshkent, Chilonzor"></div>
+        
+        <div style="display:flex; gap:10px;">
+            <div class="field" style="flex:1"><label>Ball (Score)</label><input type="number" id="uAdvScore"></div>
+            <div class="field" style="flex:1"><label>Level</label><input type="number" id="uAdvLevel"></div>
+        </div>
+
+        <hr style="border:none; border-top:1px solid #1e293b; margin:20px 0;">
+        
+        <h4 style="color:#ef4444; margin-bottom:10px; font-size: 14px;">🔐 Parolni Majburan O'zgartirish</h4>
+        <div style="display:flex; gap:10px; align-items:flex-end;">
+            <div class="field" style="flex:1; margin-bottom:0;"><label>Yangi parol o'rnating</label><input type="text" id="uAdvNewPass" placeholder="Yangi parolni kiriting..."></div>
+            <button class="btn btn-outline" style="border-color:#ef4444; color:#ef4444; height:42px; padding: 0 15px;" onclick="forceChangePass()">Parolni yangilash</button>
+        </div>
+
+        <div style="display:flex; gap:10px; margin-top:30px;">
+            <button class="btn btn-primary" style="flex:1" onclick="saveUserAdv()">Ma'lumotlarni Saqlash</button>
+            <button class="btn btn-secondary" style="flex:1" onclick="closeModal('userAdvModal')">Yopish</button>
+        </div>
+    </div>
+</div>
+
+<script>
+async function openUserAdv(id) {
+    document.getElementById('userAdvModal').classList.add('open');
+    document.getElementById('uAdvId').value = id;
+    
+    document.querySelectorAll('#userAdvModal input').forEach(inp => inp.value = '');
+    
+    try {
+        const res = await api('/users/' + id + '/details');
+        if(res.success) {
+            const u = res.user;
+            document.getElementById('uAdvName').value = u.name || '';
+            document.getElementById('uAdvUsername').value = u.username || '';
+            document.getElementById('uAdvEmail').value = u.email || '';
+            document.getElementById('uAdvPhone').value = u.telegram || u.phone || '';
+            document.getElementById('uAdvLoc').value = u.location || '';
+            document.getElementById('uAdvScore').value = u.score || 0;
+            document.getElementById('uAdvLevel').value = u.cyberLevel || 0;
+        }
+    } catch(e) {}
+}
+
+async function saveUserAdv() {
+    const id = document.getElementById('uAdvId').value;
+    const data = {
+        name: document.getElementById('uAdvName').value,
+        username: document.getElementById('uAdvUsername').value,
+        email: document.getElementById('uAdvEmail').value,
+        phone: document.getElementById('uAdvPhone').value,
+        location: document.getElementById('uAdvLoc').value,
+        score: Number(document.getElementById('uAdvScore').value) || 0,
+        cyberLevel: Number(document.getElementById('uAdvLevel').value) || 0
+    };
+    
+    const res = await api('/users/' + id + '/edit', { 
+        method: 'PUT', 
+        body: JSON.stringify(data) 
+    });
+    
+    if(res.success) {
+        alert("Ma'lumotlar saqlandi!");
+        closeModal('userAdvModal');
+        loadUsers();
+    } else {
+        alert("Xatolik: " + (res.message || "Server xatosi"));
+    }
+}
+
+async function forceChangePass() {
+    const id = document.getElementById('uAdvId').value;
+    const newPass = document.getElementById('uAdvNewPass').value;
+    if(newPass.length < 6) return alert("Parol kamida 6 ta belgi bo'lishi kerak!");
+    
+    if(!confirm("Ushbu foydalanuvchining hisobiga u kiritgan eski parol bilan kirish imkonsiz bo'lib qoladi. Davom etamizmi?")) return;
+    
+    const res = await api('/users/' + id + '/reset-password', { 
+        method: 'POST', 
+        body: JSON.stringify({newPassword: newPass}) 
+    });
+    
+    if(res.success) {
+        alert("Parol muvaffaqiyatli almashtirildi!");
+        document.getElementById('uAdvNewPass').value = '';
+    } else {
+        alert(res.message || "Xatolik yuz berdi");
+    }
+}
+</script>
 
 </body>
 </html>

@@ -271,5 +271,153 @@ document.getElementById('twofa-form-modern').addEventListener('submit', async (e
 </script>
 
 
+
+
+<!-- ================= GOOGLE AUTH INJECTION ================= -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<div id="g_auth_container" style="text-align: center; display: flex; justify-content: center; width: 100%; margin-top: 10px;">
+    <div id="g_id_onload"
+         data-client_id="357806518913-c6ofpdqqjd0qq37357poomth8rombrtm.apps.googleusercontent.com" 
+         data-callback="handleGoogleLogin"
+         data-auto_prompt="false">
+    </div>
+    <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline" data-text="continue_with" data-shape="rectangular" data-logo_alignment="center" style="width:100%;"></div>
+</div>
+
+<div id="googleDetailsModal" style="display:none; position:fixed; inset:0; background:rgba(6, 11, 24, 0.9); z-index:9999; align-items:center; justify-content:center; backdrop-filter:blur(5px);">
+    <div style="background:#0F1629; padding:35px; border-radius:16px; width:90%; max-width:420px; border:1px solid #1e293b; color: white; text-align:left; max-height: 90vh; overflow-y: auto;">
+        <h3 style="margin-bottom:8px; font-family: 'Manrope', sans-serif; font-size:22px; font-weight:800;">So'nggi qadam 🚀</h3>
+        <p style="color:#94a3b8; font-size:14px; margin-bottom:20px;">Profilingizni yakunlash uchun quyidagi ma'lumotlarni kiriting:</p>
+        
+        <!-- VILOYAT VA TUMAN TANLASH (YANGI KASKADLI DIZAYN) -->
+        <div style="border: 1px solid #1e293b; padding: 15px; border-radius: 8px; margin-bottom: 20px; background: rgba(37,99,235,0.05);">
+            <label style="font-size:12px; color:#3b82f6; font-weight:800; letter-spacing:1px; display:block; margin-bottom:12px;">📍 TURAR JOY</label>
+            
+            <label style="font-size:11px; color:#94a3b8; font-weight:700;">VILOYAT / RESPUBLIKA</label>
+            <select id="gRegion" onchange="updateGDistricts()" style="width:100%; padding:12px; margin-top:4px; margin-bottom:12px; background:#060B18; color:#fff; border:1px solid #1e293b; border-radius:8px; outline:none; font-family:inherit;">
+                <option value="">Viloyatni tanlang</option>
+            </select>
+            
+            <label style="font-size:11px; color:#94a3b8; font-weight:700;">SHAHAR / TUMAN NOMI</label>
+            <select id="gDistrict" style="width:100%; padding:12px; margin-top:4px; background:#060B18; color:#fff; border:1px solid #1e293b; border-radius:8px; outline:none; font-family:inherit;" disabled>
+                <option value="">Avval viloyatni tanlang</option>
+            </select>
+        </div>
+        
+        <label style="font-size:12px; color:#94a3b8; font-weight:700; letter-spacing:1px;">TELEGRAM USERNAME</label>
+        <input type="text" id="gTelegram" placeholder="@username" style="width:100%; padding:12px; margin-top:6px; margin-bottom:25px; background:#060B18; color:#fff; border:1px solid #1e293b; border-radius:8px; outline:none; font-family:inherit;">
+        
+        <button onclick="submitGoogleDetails()" style="width:100%; padding:14px; background:#2563EB; color:#fff; border:none; border-radius:8px; cursor:pointer; font-weight:800; font-size:15px; transition:0.3s; font-family:'Manrope', sans-serif;">Saqlash va Davom etish</button>
+    </div>
+</div>
+
+<script>
+// O'zbekistonning barcha viloyat, shahar va tumanlari ro'yxati
+const uzbLocations = {
+  "Andijon viloyati": ["Andijon shahri", "Asaka tumani", "Baliqchi tumani", "Bo'ston tumani", "Buloqboshi tumani", "Izboskan tumani", "Jalaquduq tumani", "Marhamat tumani", "Oltinko'l tumani", "Paxtaobod tumani", "Qo'rg'ontepa tumani", "Shahrixon tumani", "Ulug'nor tumani", "Xo'jaobod tumani"],
+  "Buxoro viloyati": ["Buxoro shahri", "Buxoro tumani", "G'ijduvon tumani", "Jondor tumani", "Kogon shahri", "Kogon tumani", "Olot tumani", "Peshku tumani", "Qorako'l tumani", "Qorovulbozor tumani", "Romitan tumani", "Shofirkon tumani", "Vobkent tumani"],
+  "Farg'ona viloyati": ["Farg'ona shahri", "Farg'ona tumani", "Beshariq tumani", "Bog'dod tumani", "Buvayda tumani", "Dang'ara tumani", "Marg'ilon shahri", "Oltiariq tumani", "Qo'qon shahri", "Qo'shtepa tumani", "Quva tumani", "Quvasoy shahri", "Rishton tumani", "So'x tumani", "Toshloq tumani", "Uchko'prik tumani", "Yozyovon tumani"],
+  "Jizzax viloyati": ["Jizzax shahri", "Arnasoy tumani", "Baxmal tumani", "Do'stlik tumani", "Forish tumani", "G'allaorol tumani", "Sharof Rashidov tumani", "Mirzacho'l tumani", "Paxtakor tumani", "Yangiobod tumani", "Zomin tumani", "Zafarobod tumani", "Zarbdor tumani"],
+  "Xorazm viloyati": ["Urganch shahri", "Urganch tumani", "Bog'ot tumani", "Gurlan tumani", "Xiva shahri", "Xiva tumani", "Xonqa tumani", "Hazorasp tumani", "Qo'shko'pir tumani", "Shovot tumani", "Yangiariq tumani", "Yangibozor tumani", "Tupproqqal'a tumani"],
+  "Namangan viloyati": ["Namangan shahri", "Namangan tumani", "Chortoq tumani", "Chust tumani", "Kosonsoy tumani", "Mingbuloq tumani", "Norin tumani", "Pop tumani", "To'raqo'rg'on tumani", "Uchqo'rg'on tumani", "Uychi tumani", "Yangiqo'rg'on tumani", "Davlatobod tumani"],
+  "Navoiy viloyati": ["Navoiy shahri", "Zarafshon shahri", "Karmana tumani", "Konimex tumani", "Qiziltepa tumani", "Xatirchi tumani", "Navbahor tumani", "Nurota tumani", "Tomdi tumani", "Uchquduq tumani"],
+  "Qashqadaryo viloyati": ["Qarshi shahri", "Qarshi tumani", "Chiroqchi tumani", "Dehqonobod tumani", "G'uzor tumani", "Kasbi tumani", "Kitob tumani", "Koson tumani", "Mirishkor tumani", "Muborak tumani", "Nishon tumani", "Qamashi tumani", "Shahrisabz shahri", "Shahrisabz tumani", "Yakkabog' tumani", "Ko'kdala tumani"],
+  "Qoraqalpog'iston Respublikasi": ["Nukus shahri", "Amudaryo tumani", "Beruniy tumani", "Chimboy tumani", "Ellikqal'a tumani", "Kegeyli tumani", "Mo'ynoq tumani", "Nukus tumani", "Qanliko'l tumani", "Qo'ng'irot tumani", "Qorao'zak tumani", "Shumanay tumani", "Taxtako'pir tumani", "To'rtko'l tumani", "Xo'jayli tumani", "Taxiatosh tumani", "Bo'zatov tumani"],
+  "Samarqand viloyati": ["Samarqand shahri", "Samarqand tumani", "Bulung'ur tumani", "Ishtixon tumani", "Jomboy tumani", "Kattaqo'rg'on shahri", "Kattaqo'rg'on tumani", "Narpay tumani", "Nurobod tumani", "Oqdaryo tumani", "Paxtachi tumani", "Payariq tumani", "Pastdarg'om tumani", "Qo'shrabot tumani", "Tayloq tumani", "Urgut tumani"],
+  "Sirdaryo viloyati": ["Guliston shahri", "Boyovut tumani", "Guliston tumani", "Xovos tumani", "Mirzaobod tumani", "Oqoltin tumani", "Sardoba tumani", "Sayxunobod tumani", "Shirin shahri", "Sirdaryo tumani", "Yangiyer shahri"],
+  "Surxondaryo viloyati": ["Termiz shahri", "Termiz tumani", "Angor tumani", "Boysun tumani", "Denov tumani", "Jarqo'rg'on tumani", "Kelif tumani", "Muzrabot tumani", "Oltinsoy tumani", "Qiziriq tumani", "Qumqo'rg'on tumani", "Sariosiyo tumani", "Sherobod tumani", "Sho'rchi tumani", "Uzun tumani", "Bandixon tumani"],
+  "Toshkent viloyati": ["Nurafshon shahri", "Olmaliq shahri", "Angren shahri", "Bekobod shahri", "Bekobod tumani", "Bo'ka tumani", "Bo'stonliq tumani", "Chinoz tumani", "Chirchiq shahri", "Ohangaron shahri", "Ohangaron tumani", "Oqqo'rg'on tumani", "Parkent tumani", "Piskent tumani", "Qibray tumani", "Quyi Chirchiq tumani", "O'rta Chirchiq tumani", "Yangiyo'l shahri", "Yangiyo'l tumani", "Yuqori Chirchiq tumani", "Zangiota tumani", "Toshkent tumani"],
+  "Toshkent shahri": ["Mirobod tumani", "Mirzo Ulug'bek tumani", "Sergeli tumani", "Olmazor tumani", "Uchtepa tumani", "Shayxontohur tumani", "Yashnobod tumani", "Chilonzor tumani", "Yunusobod tumani", "Yakkasaroy tumani", "Bektemir tumani", "Yangihayot tumani"]
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    const forms = document.querySelectorAll('form');
+    const googleBtn = document.getElementById('g_auth_container');
+    
+    if(forms.length > 0 && googleBtn) {
+        const divider = document.createElement('div');
+        divider.innerHTML = '<div style="display:flex; align-items:center; margin: 24px 0;"><hr style="flex:1; border:none; border-top:1px solid #1e293b;"><span style="padding:0 12px; color:#64748b; font-size:12px; font-weight:700;">YOKI GOOGLE ORQALI</span><hr style="flex:1; border:none; border-top:1px solid #1e293b;"></div>';
+        forms[0].appendChild(divider);
+        forms[0].appendChild(googleBtn);
+    }
+
+    // Modal oynasidagi Viloyatlar ro'yxatini to'ldirish
+    const regSelect = document.getElementById('gRegion');
+    if(regSelect) {
+        Object.keys(uzbLocations).forEach(reg => {
+            const opt = document.createElement('option');
+            opt.value = reg; 
+            opt.innerText = reg;
+            regSelect.appendChild(opt);
+        });
+    }
+});
+
+// Viloyat tanlanganda, mos tumanlarni chiqarish funksiyasi
+function updateGDistricts() {
+    const reg = document.getElementById('gRegion').value;
+    const dist = document.getElementById('gDistrict');
+    
+    dist.innerHTML = '<option value="">Shahar / Tumanni tanlang</option>';
+    
+    if(reg && uzbLocations[reg]) {
+        dist.disabled = false;
+        uzbLocations[reg].forEach(d => {
+            const opt = document.createElement('option');
+            opt.value = d; 
+            opt.innerText = d;
+            dist.appendChild(opt);
+        });
+    } else {
+        dist.disabled = true;
+        dist.innerHTML = '<option value="">Avval viloyatni tanlang</option>';
+    }
+}
+
+async function handleGoogleLogin(response) {
+    try {
+        const res = await fetch('/api/auth/google', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'x-csrf-token': document.querySelector('meta[name="csrf-token"]')?.content || '' },
+            body: JSON.stringify({ credential: response.credential })
+        });
+        const data = await res.json();
+        
+        if (data.success) {
+            if (data.requireDetails) {
+                document.getElementById('googleDetailsModal').style.display = 'flex';
+            } else {
+                window.location.href = '/dashboard';
+            }
+        } else {
+            alert('Xatolik: ' + (data.message || 'Noma\'lum xato'));
+        }
+    } catch (err) { console.error(err); }
+}
+
+async function submitGoogleDetails() {
+    const region = document.getElementById('gRegion').value;
+    const district = document.getElementById('gDistrict').value;
+    const telegram = document.getElementById('gTelegram').value;
+    
+    if(!region || !district || !telegram) return alert("Iltimos, barcha maydonlarni to'ldiring");
+    
+    // Viloyat va tumanni birlashtirib bazaga yuboramiz
+    const locationStr = `${region}, ${district}`;
+
+    const res = await fetch('/api/auth/google/complete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-csrf-token': document.querySelector('meta[name="csrf-token"]')?.content || '' },
+        body: JSON.stringify({ location: locationStr, telegram })
+    });
+    
+    const data = await res.json();
+    if(data.success) window.location.href = '/dashboard';
+    else alert(data.message);
+}
+</script>
+<!-- ================= END GOOGLE AUTH INJECTION ================= -->
+
+
 </body>
 </html>

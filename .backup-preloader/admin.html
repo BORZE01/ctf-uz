@@ -122,6 +122,31 @@
         .menu-btn{display:none;width:40px;height:40px;background:transparent;border:1px solid var(--border);border-radius:8px;color:var(--text);cursor:pointer;align-items:center;justify-content:center;font-size:1.2rem}
     </style>
     <link rel="stylesheet" href="/css/preloader.css">
+
+<script>
+// SPA sahifalarni almashtirish
+window.showPage = function(pageId) {
+    const sections = document.querySelectorAll('section, .page-content, .admin-section');
+    sections.forEach(sec => {
+        if (sec.id !== 'sidebar' && sec.id !== 'header') {
+            sec.style.display = 'none';
+        }
+    });
+    const target = document.getElementById(pageId);
+    if (target) target.style.display = 'block';
+};
+
+// Tizimdan chiqish (Logout)
+window.logout = async function() {
+    if(confirm('Haqiqatan ham tizimdan chiqmoqchimisiz?')) {
+        try {
+            await fetch('/api/auth/logout', { method: 'POST' });
+        } catch(e) {}
+        window.location.href = '/login';
+    }
+};
+</script>
+
 </head>
 <body>
 
@@ -489,447 +514,109 @@
     </div>
 </div>
 
-<script>
-// ══════════════════════════════════════════
-// CSRF TOKEN
-// ══════════════════════════════════════════
-let csrfToken = null;
-let liveCookiesInterval = null;
-
-async function getCsrfToken() {
-    if (csrfToken) return csrfToken;
-    try {
-        const res = await fetch('/api/csrf-token', { credentials: 'include' });
-        const data = await res.json();
-        csrfToken = data.csrfToken;
-        return csrfToken;
-    } catch (e) { return null; }
+<script id="arena-admin-fix">
+// 1. SPA saqlash (sahifa yangilanib Dashboardga otib ketishini to'xtatish)
+if (!window.originalReloadFlag) {
+    window.originalReloadFlag = window.location.reload;
+    window.location.reload = function() {
+        // Modalni qidirib yopamiz (asl tugmani bosish orqali)
+        const originalCancel = Array.from(document.querySelectorAll('button')).find(b => b.innerText.includes('Bekor') && b.style.display === 'none');
+        if (originalCancel) {
+            originalCancel.click();
+        } else {
+            // Yoki ekran qorayishini topib yopamiz
+            const modal = document.querySelector('.fixed, [style*="fixed"]');
+            if (modal) modal.style.display = 'none';
+        }
+        
+        // "Challenges" bo'limini orqa fonda qayta yuklash uchun yon panel menyusini avtomatik bosamiz
+        setTimeout(() => {
+            const chMenu = Array.from(document.querySelectorAll('li, div, span')).find(el => el.innerText.trim() === 'Challenges');
+            if (chMenu) chMenu.click();
+        }, 100);
+    };
 }
 
-async function api(endpoint, options) {
-    options = options || {};
-    const isForm = options.body instanceof FormData;
-    const method = (options.method || 'GET').toUpperCase();
-    const headers = {};
-    if (!isForm) headers['Content-Type'] = 'application/json';
+setInterval(() => {
+    const rows = document.querySelectorAll('tbody tr, .table tbody tr, table tbody tr');
+    
+    rows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        if (cells.length > 2) {
+            // 2. Qator faqatgina Challenge ekanligini qat'iy tekshiramiz (Boshqa bo'limlarda chiqmasligi uchun)
+            let isChallengeRow = false;
+            cells.forEach(c => {
+                const txt = c.innerText.trim().toUpperCase();
+                if(['WEB', 'CRYPTO', 'PWN', 'REVERSE', 'FORENSICS', 'MISC', 'OSINT'].includes(txt)) {
+                    isChallengeRow = true;
+                }
+            });
 
-    if (['POST', 'PUT', 'DELETE', 'PATCH'].includes(method)) {
-        const token = await getCsrfToken();
-        if (token) headers['x-csrf-token'] = token;
-    }
-
-    const res = await fetch('/api/admin' + endpoint, {
-        ...options,
-        headers: { ...headers, ...(options.headers || {}) },
-        credentials: 'include'
+            const lastCell = cells[cells.length - 1];
+            
+            if (isChallengeRow) {
+                if (lastCell && !lastCell.querySelector('.btn-edit-ch')) {
+                    const editBtn = document.createElement('button');
+                    editBtn.className = 'btn-edit-ch';
+                    editBtn.innerHTML = '✏️';
+                    editBtn.style.marginRight = '10px';
+                    editBtn.style.background = 'transparent';
+                    editBtn.style.border = 'none';
+                    editBtn.style.cursor = 'pointer';
+                    editBtn.style.fontSize = '16px';
+                    editBtn.title = "Tahrirlash va Flagni ko'rish";
+                    
+                    editBtn.onclick = async (e) => {
+                        e.preventDefault();
+                        const chTitle = cells[1].innerText.trim();
+                        try {
+                            const res = await fetch('/api/admin/challenges');
+                            const data = await res.json();
+                            if (data.challenges) {
+                                const challenge = data.challenges.find(c => c.title && c.title.toLowerCase() === chTitle.toLowerCase());
+                                if (challenge && window.editChallenge) window.editChallenge(challenge);
+                            }
+                        } catch (err) {}
+                    };
+                    lastCell.insertBefore(editBtn, lastCell.firstChild);
+                }
+            } else {
+                // Xato joydagi tugmalarni shafqatsiz tozalash (Foydalanuvchilar, Vakansiyalar va h.k)
+                const wrongBtn = lastCell ? lastCell.querySelector('.btn-edit-ch') : null;
+                if (wrongBtn) wrongBtn.remove();
+            }
+        }
     });
 
-    if (res.status === 401) { window.location.href = '/admin-login'; return { success: false }; }
-    if (res.status === 403) {
-        const text = await res.text();
-        try {
-            const err = JSON.parse(text);
-            if (err.message && err.message.includes('CSRF')) {
-                csrfToken = null;
-                alert('❌ Xavfsizlik tokeni yangilandi.');
-                return { success: false, message: err.message };
-            }
-        } catch (e) {}
-        alert('❌ Ruxsat yo\'q');
-        return { success: false };
-    }
-    return res.json();
-}
+    // 3. Formada "Bekor qilish" tugmasini chiroyli qo'shish
+    const saveBtns = Array.from(document.querySelectorAll('button')).filter(b => b.innerText.trim() === 'Saqlash' || b.id === 'btn-force-save');
+    saveBtns.forEach(saveBtn => {
+        const parent = saveBtn.parentElement;
+        if (parent && !parent.querySelector('.btn-cancel-ch')) {
+            parent.style.display = 'flex';
+            parent.style.gap = '10px';
+            saveBtn.style.flex = '1';
 
-// ══════════════════════════════════════════
-// PAGE TITLES
-// ══════════════════════════════════════════
-const PAGE_TITLES = {
-    dashboard: '<svg class="icon icon-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18M7 16v-5M12 16V8M17 16v-9"/></svg> Dashboard',
-    users: '<svg class="icon icon-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg> Foydalanuvchilar',
-    cookies: '<svg class="icon icon-cookie" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5z"/></svg> Live Cookies',
-    challenges: '<svg class="icon icon-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4a2 2 0 0 1-2-2V5h4M18 9h2a2 2 0 0 0 2-2V5h-4M6 5h12v6a6 6 0 0 1-12 0V5zM12 17v3M8 21h8"/></svg> Challenges',
-    events: '<svg class="icon icon-flag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1zM4 22v-7"/></svg> Events',
-    submissions: '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg> Submissions',
-    achievements: '<svg class="icon icon-award" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg> Achievements',
-    titles: '<svg class="icon icon-tag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41 13.42 20.58a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/></svg> Titles',
-    announcements: '<svg class="icon icon-megaphone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 18-5v12L3 14v-3z"/></svg> E\'lonlar',
-    audit: '<svg class="icon icon-scroll" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><rect x="7" y="1" width="10" height="4" rx="1"/><path d="M8 11h8M8 15h8"/></svg> Audit Logs'
-};
+            const cancelBtn = document.createElement('button');
+            cancelBtn.className = 'btn-cancel-ch';
+            cancelBtn.type = 'button';
+            cancelBtn.innerText = 'Bekor qilish';
+            cancelBtn.style.flex = '1';
+            cancelBtn.style.padding = '12px';
+            cancelBtn.style.background = '#1e293b';
+            cancelBtn.style.color = '#fff';
+            cancelBtn.style.border = 'none';
+            cancelBtn.style.borderRadius = '6px';
+            cancelBtn.style.fontWeight = 'bold';
+            cancelBtn.style.cursor = 'pointer';
 
-function showPage(id, el) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    const page = document.getElementById(id);
-    if (page) page.classList.add('active');
-
-    document.querySelectorAll('.menu a').forEach(a => a.classList.remove('active'));
-    if (el) el.classList.add('active');
-
-    document.getElementById('pageTitle').innerHTML = PAGE_TITLES[id] || id;
-
-    if (window.innerWidth < 900) document.getElementById('sidebar').classList.remove('open');
-
-    const loaders = {
-        dashboard: loadDashboard, users: loadUsers, cookies: loadLiveCookies,
-        challenges: loadChallenges, events: loadEvents, submissions: loadSubs,
-        achievements: loadAchievements, titles: loadTitles,
-        announcements: loadAnnouncements, audit: loadAudit
-    };
-    if (loaders[id]) loaders[id]();
-
-    if (liveCookiesInterval) { clearInterval(liveCookiesInterval); liveCookiesInterval = null; }
-    if (id === 'cookies') { liveCookiesInterval = setInterval(loadLiveCookies, 5000); }
-}
-
-function openModal(id) { document.getElementById(id).classList.add('open'); }
-function closeModal(id) { document.getElementById(id).classList.remove('open'); }
-
-function esc(t) {
-    if (t === null || t === undefined) return '';
-    return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-}
-
-// ══════════════════════════════════════════
-// DASHBOARD
-// ══════════════════════════════════════════
-async function loadDashboard() {
-    const res = await api('/stats');
-    if (!res.success) return;
-    const s = res.stats;
-
-    document.getElementById('statsGrid').innerHTML = [
-        { v: s.totalUsers, l: 'Foydalanuvchilar' },
-        { v: s.verifiedUsers, l: 'Tasdiqlangan' },
-        { v: s.totalChallenges, l: 'Challenges' },
-        { v: s.totalSolves, l: 'Yechimlar' },
-        { v: s.onlineUsers, l: 'Online' },
-        { v: s.totalSubmissions, l: 'Submissions' }
-    ].map(x => `<div class="stat"><div class="stat-val">${x.v}</div><div class="stat-lbl">${x.l}</div></div>`).join('');
-
-    const maxCount = Math.max(...s.userGrowth.map(d => d.count), 1);
-    document.getElementById('growthBars').innerHTML = s.userGrowth.map(d => 
-        `<div class="bar" style="height:${(d.count / maxCount) * 100}%"><span class="bar-val">${d.count}</span></div>`
-    ).join('');
-    document.getElementById('growthLabels').innerHTML = s.userGrowth.map(d => 
-        `<div class="bar-lbl">${esc(d.date)}</div>`
-    ).join('');
-
-    document.getElementById('topUsers').innerHTML = s.topUsers.map((u, i) => `
-        <tr>
-            <td><strong>${i + 1}</strong></td>
-            <td>
-                <div class="user-cell">
-                    <div class="u-avatar">${u.avatar ? `<img src="${esc(u.avatar)}">` : esc(u.username[0].toUpperCase())}</div>
-                    <div>
-                        <div class="u-name">${esc(u.name)}</div>
-                        <div class="u-user">@${esc(u.username)}</div>
-                    </div>
-                </div>
-            </td>
-            <td><span class="badge b-blue">Lvl ${u.cyberLevel}</span></td>
-            <td><strong style="color:var(--gold)">${u.score}</strong></td>
-            <td>${u.solved}</td>
-        </tr>
-    `).join('');
-}
-
-// ══════════════════════════════════════════
-// USERS
-// ══════════════════════════════════════════
-async function loadUsers() {
-    const search = document.getElementById('userSearch').value || '';
-    const status = document.getElementById('userStatus').value || '';
-    const res = await api(`/users?search=${encodeURIComponent(search)}&status=${status}`);
-    if (!res.success) return;
-
-    document.getElementById('usersBody').innerHTML = res.users.map(u => `
-        <tr>
-            <td style="font-family:JetBrains Mono">#${esc(u.id)}</td>
-            <td>
-                <div class="user-cell">
-                    <div class="u-avatar">${u.avatar ? `<img src="${esc(u.avatar)}">` : esc((u.username[0] || '?').toUpperCase())}</div>
-                    <div>
-                        <div class="u-name">${esc(u.name)}</div>
-                        <div class="u-user">@${esc(u.username)}</div>
-                    </div>
-                </div>
-            </td>
-            <td style="font-size:.75rem">${esc(u.email)}</td>
-            <td>${esc(u.region || '—')}</td>
-            <td><span class="badge b-blue">Lvl ${u.cyberLevel}</span></td>
-            <td><strong style="color:var(--gold)">${u.score}</strong></td>
-            <td>${u.banned ? '<span class="badge b-red">Banned</span>' : u.verified ? '<span class="badge b-green">Verified</span>' : '<span class="badge b-gold">Unverified</span>'}</td>
-            <td>
-                <button class="btn-icon" onclick="toggleBan('${u.id}')" title="${u.banned ? 'Blokdan chiqarish' : 'Bloklash'}">
-                    ${u.banned 
-                        ? `<svg class="icon icon-unlock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>`
-                        : `<svg class="icon icon-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`}
-                </button>
-                <button class="btn-icon" onclick="delUser('${u.id}')" title="O'chirish">
-                    <svg class="icon icon-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
-                </button>
-            </td>
-        </tr>
-    `).join('') || '<tr><td colspan="8" style="text-align:center;color:var(--text3);padding:40px">Topilmadi</td></tr>';
-}
-
-async function toggleBan(id) { await api(`/users/${id}/ban`, { method: 'POST' }); loadUsers(); }
-async function delUser(id) {
-    if (!confirm('O\'chirishni tasdiqlaysizmi?')) return;
-    await api(`/users/${id}`, { method: 'DELETE' });
-    loadUsers();
-}
-
-// ══════════════════════════════════════════
-// LIVE COOKIES
-// ══════════════════════════════════════════
-async function loadLiveCookies() {
-    const team = document.getElementById('cookieTeamFilter').value || '';
-    const url = team ? `/cookies/live?team=${encodeURIComponent(team)}` : '/cookies/live';
-    const res = await api(url);
-    if (!res.success) return;
-
-    if (res.count === 0) {
-        document.getElementById('cookiesBody').innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--text3);padding:40px">Hozircha cookie yo'q...</td></tr>`;
-        return;
-    }
-
-    document.getElementById('cookiesBody').innerHTML = res.cookies.map(c => {
-        const isAnonymous = c.role === 'anonymous' || !c.username;
-        const isTeam1 = c.team === '1-team';
-        const time = c.at ? new Date(c.at).toLocaleTimeString('uz-UZ') : '—';
-        let rowStyle = '';
-        if (isAnonymous) rowStyle = 'background:rgba(148,163,184,.06);border-left:3px solid #64748B';
-        else if (isTeam1) rowStyle = 'background:rgba(239,68,68,.06);border-left:3px solid #EF4444';
-        
-        return `
-        <tr style="${rowStyle}">
-            <td style="font-family:JetBrains Mono;font-size:.7rem;color:var(--text3)">${time}</td>
-            <td>
-                <div class="user-cell">
-                    <div class="u-avatar">${isAnonymous ? '?' : esc((c.username[0] || '?').toUpperCase())}</div>
-                    <div>
-                        <div class="u-name">${isAnonymous ? 'Anonymous' : esc(c.name || c.username)}</div>
-                        <div class="u-user">${isAnonymous ? '—' : '@' + esc(c.username)}</div>
-                    </div>
-                </div>
-            </td>
-            <td>${isAnonymous ? '<span class="badge b-gold">Anonymous</span>' : isTeam1 ? '<span class="badge b-red">1-team</span>' : '<span class="badge b-blue">' + esc(c.team) + '</span>'}</td>
-            <td style="max-width:280px">
-                <code style="font-size:.62rem;color:var(--cyan);font-family:JetBrains Mono;cursor:pointer;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"
-                      title="${esc(c.cookie)}"
-                      onclick="navigator.clipboard.writeText(this.title)">
-                    ${esc(c.cookie.slice(0, 55))}${c.cookie.length > 55 ? '...' : ''}
-                </code>
-            </td>
-            <td style="font-size:.7rem;font-family:JetBrains Mono;color:var(--text3)">${esc(c.ip)}</td>
-            <td style="font-size:.65rem;color:var(--text3)">${esc(c.userAgent.slice(0, 40))}${c.userAgent.length > 40 ? '...' : ''}</td>
-        </tr>`;
-    }).join('');
-}
-
-// ══════════════════════════════════════════
-// CHALLENGES
-// ══════════════════════════════════════════
-async function loadChallenges() {
-    const res = await api('/challenges');
-    if (!res.success) return;
-
-    document.getElementById('chBody').innerHTML = res.challenges.map(c => `
-        <tr>
-            <td style="font-family:JetBrains Mono">#${String(c.id).slice(-6)}</td>
-            <td><strong>${esc(c.title)}</strong></td>
-            <td><span class="badge b-blue">${esc(c.category)}</span></td>
-            <td><span class="badge b-gold">${esc(c.difficulty)}</span></td>
-            <td><strong style="color:var(--gold)">${c.points}</strong></td>
-            <td>${c.solves}</td>
-            <td>
-                <button class="btn-icon" onclick="delChallenge('${c.id}')" title="O'chirish">
-                    <svg class="icon icon-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
-                </button>
-            </td>
-        </tr>
-    `).join('') || '<tr><td colspan="7" style="text-align:center;color:var(--text3);padding:40px">Yo\'q</td></tr>';
-}
-
-async function createChallenge() {
-    const fd = new FormData();
-    fd.append('title', document.getElementById('chTitle').value);
-    fd.append('story', document.getElementById('chStory').value);
-    fd.append('objective', document.getElementById('chObj').value);
-    fd.append('category', document.getElementById('chCat').value);
-    fd.append('difficulty', document.getElementById('chDiff').value);
-    fd.append('points', document.getElementById('chPts').value);
-    fd.append('flag', document.getElementById('chFlag').value);
-    const file = document.getElementById('chFile').files[0];
-    if (file) fd.append('file', file);
-
-    const res = await api('/challenges', { method: 'POST', body: fd });
-    if (res.success) { closeModal('chModal'); loadChallenges(); }
-    else alert('Xato: ' + (res.message || 'noma\'lum'));
-}
-
-async function delChallenge(id) {
-    if (!confirm('O\'chirishni tasdiqlaysizmi?')) return;
-    await api(`/challenges/${id}`, { method: 'DELETE' });
-    loadChallenges();
-}
-
-// ══════════════════════════════════════════
-// EVENTS
-// ══════════════════════════════════════════
-async function loadEvents() {
-    const res = await api('/events');
-    if (!res.success) return;
-
-    document.getElementById('evBody').innerHTML = res.events.map(e => `
-        <tr>
-            <td style="font-family:JetBrains Mono">#${String(e.id).slice(-6)}</td>
-            <td><strong>${esc(e.title)}</strong></td>
-            <td><span class="badge b-blue">${esc(e.type)}</span></td>
-            <td style="font-size:.78rem">${new Date(e.startDate).toLocaleDateString('uz-UZ')}</td>
-            <td><span class="badge b-green">${esc(e.status)}</span></td>
-            <td>
-                <button class="btn-icon" onclick="delEvent('${e.id}')" title="O'chirish">
-                    <svg class="icon icon-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
-                </button>
-            </td>
-        </tr>
-    `).join('') || '<tr><td colspan="6" style="text-align:center;color:var(--text3);padding:40px">Yo\'q</td></tr>';
-}
-
-async function createEvent() {
-    const data = {
-        title: document.getElementById('evTitle').value,
-        type: document.getElementById('evType').value,
-        description: document.getElementById('evDesc').value,
-        startDate: document.getElementById('evStart').value,
-        endDate: document.getElementById('evEnd').value
-    };
-    const res = await api('/events', { method: 'POST', body: JSON.stringify(data) });
-    if (res.success) { closeModal('evModal'); loadEvents(); }
-}
-
-async function delEvent(id) {
-    if (!confirm('O\'chirishni tasdiqlaysizmi?')) return;
-    await api(`/events/${id}`, { method: 'DELETE' });
-    loadEvents();
-}
-
-// ══════════════════════════════════════════
-// SUBMISSIONS
-// ══════════════════════════════════════════
-async function loadSubs() {
-    const res = await api('/submissions');
-    if (!res.success) return;
-
-    document.getElementById('subsBody').innerHTML = res.submissions.map(s => `
-        <tr>
-            <td style="font-size:.75rem;font-family:JetBrains Mono">${new Date(s.timestamp).toLocaleString('uz-UZ')}</td>
-            <td><strong>@${esc(s.username)}</strong></td>
-            <td>${esc(s.challengeTitle)}</td>
-            <td>${s.correct 
-                ? '<span class="badge b-green"><svg class="icon icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;"><polyline points="20 6 9 17 4 12"/></svg></span>' 
-                : '<span class="badge b-red"><svg class="icon icon-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;"><path d="M18 6 6 18M6 6l12 12"/></svg></span>'}</td>
-        </tr>
-    `).join('') || '<tr><td colspan="4" style="text-align:center;color:var(--text3);padding:40px">Yo\'q</td></tr>';
-}
-
-// ══════════════════════════════════════════
-// ACHIEVEMENTS & TITLES
-// ══════════════════════════════════════════
-async function loadAchievements() {
-    const res = await api('/achievements');
-    if (!res.success) return;
-    document.getElementById('achBody').innerHTML = res.achievements.map(a => `
-        <tr>
-            <td style="font-size:1.5rem">${esc(a.icon)}</td>
-            <td><strong>${esc(a.name)}</strong></td>
-            <td style="color:var(--text2);font-size:.8rem">${esc(a.desc || '')}</td>
-            <td><span class="badge b-blue">${esc(a.rarity || 'common')}</span></td>
-        </tr>
-    `).join('') || '<tr><td colspan="4" style="text-align:center;color:var(--text3);padding:40px">Yo\'q</td></tr>';
-}
-
-async function loadTitles() {
-    const res = await api('/titles');
-    if (!res.success) return;
-    document.getElementById('titBody').innerHTML = res.titles.map(t => `
-        <tr>
-            <td style="font-size:1.5rem">${esc(t.icon)}</td>
-            <td><strong style="color:${esc(t.color || '#fff')}">${esc(t.name)}</strong></td>
-            <td><span style="display:inline-block;width:20px;height:20px;background:${esc(t.color || '#fff')};border-radius:4px;vertical-align:middle"></span> ${esc(t.color || '')}</td>
-        </tr>
-    `).join('') || '<tr><td colspan="3" style="text-align:center;color:var(--text3);padding:40px">Yo\'q</td></tr>';
-}
-
-// ══════════════════════════════════════════
-// ANNOUNCEMENTS & AUDIT
-// ══════════════════════════════════════════
-async function loadAnnouncements() {
-    const res = await api('/announcements');
-    if (!res.success) return;
-    document.getElementById('anBody').innerHTML = res.announcements.map(a => `
-        <tr>
-            <td>#${a.id}</td>
-            <td><strong>${esc(a.title)}</strong></td>
-            <td><span class="badge b-blue">${esc(a.audience)}</span></td>
-            <td style="font-size:.78rem">${new Date(a.createdAt).toLocaleDateString('uz-UZ')}</td>
-            <td>
-                <button class="btn-icon" onclick="delAnn(${a.id})">
-                    <svg class="icon icon-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
-                </button>
-            </td>
-        </tr>
-    `).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--text3);padding:40px">Yo\'q</td></tr>';
-}
-
-async function createAnn() {
-    const data = {
-        title: document.getElementById('anTitle').value,
-        message: document.getElementById('anMsg').value,
-        audience: document.getElementById('anAud').value
-    };
-    const res = await api('/announcements', { method: 'POST', body: JSON.stringify(data) });
-    if (res.success) { closeModal('anModal'); loadAnnouncements(); }
-}
-
-async function delAnn(id) {
-    if (!confirm('O\'chirishni tasdiqlaysizmi?')) return;
-    await api(`/announcements/${id}`, { method: 'DELETE' });
-    loadAnnouncements();
-}
-
-async function loadAudit() {
-    const res = await api('/audit-logs?limit=100');
-    if (!res.success) return;
-    document.getElementById('auditBody').innerHTML = res.logs.map(l => `
-        <tr>
-            <td style="font-size:.72rem;font-family:JetBrains Mono">${new Date(l.timestamp).toLocaleString('uz-UZ')}</td>
-            <td><strong>@${esc(l.admin)}</strong></td>
-            <td><span class="badge b-blue">${esc(l.action)}</span></td>
-            <td style="font-size:.72rem;font-family:JetBrains Mono;color:var(--text3)">${esc(JSON.stringify(l.details).slice(0, 80))}...</td>
-        </tr>
-    `).join('') || '<tr><td colspan="4" style="text-align:center;color:var(--text3);padding:40px">Log yo\'q</td></tr>';
-}
-
-// ══════════════════════════════════════════
-// LOGOUT & INIT
-// ══════════════════════════════════════════
-async function logout() {
-    await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
-    window.location.href = '/';
-}
-
-window.addEventListener('load', () => {
-    loadDashboard();
-    setInterval(() => {
-        if (document.getElementById('dashboard').classList.contains('active')) {
-            loadDashboard();
+            // Bekor qilish bosilganda bizning maxsus bloklangan reload ishga tushadi
+            cancelBtn.onclick = (e) => {
+                e.preventDefault();
+                window.location.reload(); 
+            };
+            parent.appendChild(cancelBtn);
         }
-    }, 30000);
-});
+    });
+}, 1000);
 </script>
-    <script src="/js/preloader.js"></script>
-</body>
-</html>
