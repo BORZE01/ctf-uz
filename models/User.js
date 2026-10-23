@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
         trim: true, 
         index: true 
     },
-    phone: { type: String, required: true, trim: true },
+    phone: { type: String, required: false, trim: true },
     email: { 
         type: String, 
         required: true, 
@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema({
         trim: true, 
         index: true 
     },
-    password: { type: String, required: true },
+    password: { type: String, required: false },
 
     avatar: { type: String, default: null },
     bio: { type: String, maxlength: 500, default: '' },
