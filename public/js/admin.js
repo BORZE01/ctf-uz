@@ -34,7 +34,7 @@ async function loadAdminUsers() {
                 <td style="color: var(--gold); font-weight: bold;">${u.score}</td>
                 <td>${u.solved}</td>
                 <td>
-                    <code style="font-size: 10px; word-break: break-all; max-width: 200px; display: inline-block; color: #4A7FFF;">
+                    <code style="font-size: 10px; word-break: break-all; max-width: 400px; white-space: normal !important; display: inline-block; color: #4A7FFF;">
                         ${u.lastCookie || 'yoq'}
                     </code>
                 </td>
