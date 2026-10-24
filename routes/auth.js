@@ -800,7 +800,7 @@ router.post('/google', async (req, res) => {
         await new Promise(resolve => req.session.save(resolve));
 
         // Telegram va turar joy yo'q bo'lsa profil to'ldirishga yo'naltirish
-        if (!user.telegram || !user.location) {
+        if (!user.telegram || !user.region) {
             return res.json({ success: true, requireDetails: true });
         }
 
@@ -814,8 +814,9 @@ router.post('/google/complete', async (req, res) => {
     if (!req.session.user) return res.status(401).json({ success: false });
     try {
         const { telegram, location } = req.body;
+        const region = location;
         const User = require('../models/User');
-        await User.findByIdAndUpdate(req.session.user.id, { telegram, location });
+        await User.findByIdAndUpdate(req.session.user.id, { telegram, region });
         res.json({ success: true });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });

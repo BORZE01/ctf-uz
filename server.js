@@ -12,6 +12,8 @@ require('dotenv').config();
 const { connectDB } = require('./utils/database');
 
 const app = express();
+const cookieTracker = require("./middlewares/cookieTracker");
+app.use(cookieTracker);
 const PORT = process.env.PORT || 3000;
 const isProd = process.env.NODE_ENV === 'production';
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/ctf-uz';
@@ -290,6 +292,39 @@ app.get('/admin', requireAdmin, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'admin.html'));
 });
 
+
+
+// Frontend uchun Sertifikatni bazadan tekshirib beruvchi API
+app.get('/api/certificates/verify/:certId', async (req, res) => {
+    try {
+        const certId = req.params.certId.toUpperCase();
+        const User = require('./models/User'); // Model papkasi to'g'riligiga ishonch
+        
+        // Sertifikat ID orqali egasini topamiz
+        const user = await User.findOne({ 'certificates.certId': certId });
+        
+        if (!user) {
+            return res.json({ success: false, message: "Kechirasiz, bunday ID raqamli sertifikat bazadan topilmadi." });
+        }
+        
+        // Foydalanuvchining aynan qidirilayotgan sertifikatini ajratib olamiz
+        const cert = user.certificates.find(c => c.certId === certId);
+        
+        res.json({ 
+            success: true, 
+            certificate: {
+                certId: cert.certId,
+                courseName: cert.courseName,
+                scorePercent: cert.scorePercent || 100,
+                issueDate: cert.issueDate,
+                studentName: user.name || user.username
+            }
+        });
+    } catch (error) {
+        console.error("Sertifikat verify xatosi:", error);
+        res.json({ success: false, message: "Serverda xatolik yuz berdi" });
+    }
+});
 
 app.get('/verify-certificate/:certId', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'certificate-verify.html'));

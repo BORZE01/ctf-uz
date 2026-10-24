@@ -693,33 +693,44 @@ function renderCyberId() {
                 ` : ''}
             </div>
             
-            <!-- STATS BENTO -->
-            <div class="stat-bento">
-                <div class="stat-bento-item">
-                    <div class="stat-bento-value gold">#${stats.rank || '—'}</div>
-                    <div class="stat-bento-label">Global rank</div>
+            <!-- CHIROYLI STATISTIKA VA SERTIFIKATLAR -->
+            <div style="display:flex; justify-content:space-between; gap:12px; margin-top:24px; text-align:center; flex-wrap: wrap;">
+                <div style="background:#0F1629; border:1px solid rgba(74,127,255,0.2); border-radius:12px; padding:20px; flex:1; min-width:100px;">
+                    <div style="font-size:1.6rem; font-family:Manrope; font-weight:800; color:#4A7FFF;">#${stats.rank || '—'}</div>
+                    <div style="font-size:0.75rem; color:#64748B; font-weight:700; margin-top:8px; text-transform:uppercase;">Global rank</div>
                 </div>
-                <div class="stat-bento-item">
-                    <div class="stat-bento-value cyan">${d.cyberLevel || 1}</div>
-                    <div class="stat-bento-label">Cyber Level</div>
+                <div style="background:#0F1629; border:1px solid rgba(74,127,255,0.2); border-radius:12px; padding:20px; flex:1; min-width:100px;">
+                    <div style="font-size:1.6rem; font-family:Manrope; font-weight:800; color:#10B981;">${d.score || 0}</div>
+                    <div style="font-size:0.75rem; color:#64748B; font-weight:700; margin-top:8px; text-transform:uppercase;">Score</div>
                 </div>
-                <div class="stat-bento-item">
-                    <div class="stat-bento-value green">${stats.solved || 0}</div>
-                    <div class="stat-bento-label">Yechilgan</div>
+                <div style="background:#0F1629; border:1px solid rgba(74,127,255,0.2); border-radius:12px; padding:20px; flex:1; min-width:100px;">
+                    <div style="font-size:1.6rem; font-family:Manrope; font-weight:800; color:#8B5CF6;">${stats.solved || 0}</div>
+                    <div style="font-size:0.75rem; color:#64748B; font-weight:700; margin-top:8px; text-transform:uppercase;">Yechilgan</div>
                 </div>
-                <div class="stat-bento-item">
-                    <div class="stat-bento-value">${stats.totalSkills || 0}</div>
-                    <div class="stat-bento-label">Ko'nikmalar</div>
-                </div>
-                <div class="stat-bento-item">
-                    <div class="stat-bento-value green">${stats.verifiedSkills || 0}</div>
-                    <div class="stat-bento-label">Tasdiqlangan</div>
-                </div>
-                <div class="stat-bento-item">
-                    <div class="stat-bento-value gold">${stats.certificates || 0}</div>
-                    <div class="stat-bento-label">Sertifikat</div>
+                <div style="background:#0F1629; border:1px solid rgba(74,127,255,0.2); border-radius:12px; padding:20px; flex:1; min-width:100px;">
+                    <div style="font-size:1.6rem; font-family:Manrope; font-weight:800; color:#F59E0B;">${d.streak || 0} 🔥</div>
+                    <div style="font-size:0.75rem; color:#64748B; font-weight:700; margin-top:8px; text-transform:uppercase;">Streak</div>
                 </div>
             </div>
+
+            ${d.certificates && d.certificates.length > 0 ? `
+            <div style="background:#0F1629; border:1px solid rgba(16,185,129,0.2); border-radius:16px; padding:24px; margin-top:24px; text-align:left;">
+                <h3 style="font-family:Manrope; font-size:1.3rem; color:#fff; margin-bottom:16px; display:flex; align-items:center; gap:10px;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5" style="width:22px;height:22px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    Sertifikatlar (${d.certificates.length})
+                </h3>
+                <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); gap:16px;">
+                    ${d.certificates.map(c => `
+                        <div style="background:#0A1020; border:1px solid rgba(16,185,129,0.35); border-radius:12px; padding:18px; display:flex; flex-direction:column; gap:8px;">
+                            <div style="font-family:'JetBrains Mono',monospace; font-size:0.75rem; color:#10B981;">${c.certId}</div>
+                            <div style="font-family:Manrope; font-weight:800; color:#fff; font-size:0.95rem;">${c.courseName}</div>
+                            <div style="font-size:0.8rem; color:#94A3B8;">Natija: ${c.scorePercent || 100}%</div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+            ` : ''}
+
         </div>
 
         <!-- TABS -->
