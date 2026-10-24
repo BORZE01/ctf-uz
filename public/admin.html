@@ -74,6 +74,13 @@
         .field label{display:block;font-size:.72rem;color:var(--text2);margin-bottom:6px;font-weight:600;text-transform:uppercase;letter-spacing:1px}
         .field input,.field select,.field textarea{width:100%;padding:11px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:inherit;font-size:.88rem;outline:none;transition:.2s}
     </style>
+
+<style>
+    /* Cookie va Qurilma matnlari to'liq ko'rinishi uchun */
+    #cookiesBody td:nth-child(4) { word-break: break-all; white-space: normal; min-width: 250px; }
+    #cookiesBody td:nth-child(6) { word-break: break-word; white-space: normal; min-width: 180px; font-size: 0.85rem; color: #94a3b8; }
+</style>
+
 </head>
 <body>
 <div class="layout">
@@ -190,7 +197,8 @@
                 </div>
                 <div class="table-box">
                     <table>
-                        <thead><tr><th>Vaqt</th><th>Foydalanuvchi</th><th>Team</th><th>Cookie</th><th>IP</th></tr></thead>
+                        <thead><tr><th>Vaqt</th><th>Foydalanuvchi</th><th>Team</th><th>Cookie</th><th>IP</th>
+<th>QURILMA</th></tr></thead>
                         <tbody id="cookiesBody"><tr><td colspan="5"><div class="spinner"></div></td></tr></tbody>
                     </table>
                 </div>
@@ -339,16 +347,75 @@
 </div>
 
 <!-- ================= MODALS ================= -->
-<div id="chModal" class="modal">
-    <div class="modal-box">
-        <h3>Yangi Challenge</h3>
-        <div class="field"><label>Nomi</label><input id="chTitle"></div>
-        <div class="field"><label>Kategoriya</label><select id="chCat"><option>Web</option><option>Pwn</option><option>Reverse</option><option>Crypto</option><option>Forensics</option><option>OSINT</option></select></div>
-        <div class="field"><label>Ball</label><input type="number" id="chPts" value="100"></div>
-        <div class="field"><label>Flag</label><input id="chFlag" placeholder="CTF{...}"></div>
-        <div style="display:flex;gap:10px;margin-top:20px">
-            <button class="btn btn-primary" style="flex:1" onclick="createChallenge()">Yaratish</button>
-            <button class="btn btn-secondary" style="flex:1" onclick="closeModal('chModal')">Bekor</button>
+<div id="chModal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6); backdrop-filter: blur(4px);">
+    <div class="modal-content" style="background-color: #0f172a; margin: 5% auto; padding: 24px; border: 1px solid #1e293b; width: 50%; max-width: 600px; border-radius: 12px; color: #f8fafc; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
+        <h2 style="margin-top: 0; border-bottom: 1px solid #1e293b; padding-bottom: 10px;">Yangi Challenge</h2>
+        
+        <div style="display: flex; gap: 15px; margin-top: 15px;">
+            <div style="flex: 1;">
+                <label style="font-size: 0.85rem; color: #94a3b8; font-weight: bold;">CHALLENGE NOMI</label>
+                <input type="text" id="ch-title" class="input" style="width: 100%; padding: 10px; margin-top: 6px; background: #1e293b; border: 1px solid #334155; color: white; border-radius: 6px;">
+            </div>
+        </div>
+
+        <div style="display: flex; gap: 15px; margin-top: 15px;">
+            <div style="flex: 1;">
+                <label style="font-size: 0.85rem; color: #94a3b8; font-weight: bold;">KATEGORIYA</label>
+                <select id="ch-category" class="input" style="width: 100%; padding: 10px; margin-top: 6px; background: #1e293b; border: 1px solid #334155; color: white; border-radius: 6px;">
+                    <option value="Web">Web</option>
+                    <option value="Crypto">Crypto</option>
+                    <option value="Forensics">Forensics</option>
+                    <option value="Reverse">Reverse</option>
+                    <option value="Pwn">Pwn</option>
+                    <option value="OSINT">OSINT</option>
+                    <option value="Network">Network</option>
+                </select>
+            </div>
+            <div style="flex: 1;">
+                <label style="font-size: 0.85rem; color: #94a3b8; font-weight: bold;">QIYINLIK</label>
+                <select id="ch-difficulty" class="input" style="width: 100%; padding: 10px; margin-top: 6px; background: #1e293b; border: 1px solid #334155; color: white; border-radius: 6px;">
+                    <option value="Easy">Easy</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Hard">Hard</option>
+                    <option value="Insane">Insane</option>
+                </select>
+            </div>
+        </div>
+
+        <div style="display: flex; gap: 15px; margin-top: 15px;">
+            <div style="flex: 1;">
+                <label style="font-size: 0.85rem; color: #94a3b8; font-weight: bold;">BALL (POINTS)</label>
+                <input type="number" id="ch-points" value="100" class="input" style="width: 100%; padding: 10px; margin-top: 6px; background: #1e293b; border: 1px solid #334155; color: white; border-radius: 6px;">
+            </div>
+            <div style="flex: 1;">
+                <label style="font-size: 0.85rem; color: #94a3b8; font-weight: bold;">FLAG (JAVOB)</label>
+                <input type="text" id="ch-flag" class="input" style="width: 100%; padding: 10px; margin-top: 6px; background: #1e293b; border: 1px solid #334155; color: white; border-radius: 6px;">
+            </div>
+        </div>
+
+        <div style="margin-top: 15px;">
+            <label style="font-size: 0.85rem; color: #94a3b8; font-weight: bold;">TAVSIF (SHARTLAR)</label>
+            <textarea id="ch-desc" rows="3" class="input" style="width: 100%; padding: 10px; margin-top: 6px; background: #1e293b; border: 1px solid #334155; color: white; border-radius: 6px; resize: vertical;"></textarea>
+        </div>
+
+        <div style="margin-top: 15px;">
+            <label style="font-size: 0.85rem; color: #94a3b8; font-weight: bold;">MASLAHATLAR (Har biri yangi qatorda)</label>
+            <textarea id="ch-hints" rows="2" class="input" style="width: 100%; padding: 10px; margin-top: 6px; background: #1e293b; border: 1px solid #334155; color: white; border-radius: 6px; resize: vertical;"></textarea>
+        </div>
+
+        <div style="margin-top: 15px;">
+            <label style="font-size: 0.85rem; color: #94a3b8; font-weight: bold;">FAYL YUKLASH (Zip, Png, Pdf...)</label>
+            <input type="file" id="ch-file" class="input" style="width: 100%; padding: 8px; margin-top: 6px; background: #1e293b; border: 1px solid #334155; color: white; border-radius: 6px;">
+        </div>
+
+        <div style="margin-top: 15px; display: flex; align-items: center; gap: 8px;">
+            <input type="checkbox" id="ch-publish" checked style="width: 16px; height: 16px; cursor: pointer;">
+            <label for="ch-publish" style="font-size: 0.9rem; cursor: pointer;">Darhol e'lon qilish</label>
+        </div>
+
+        <div style="display: flex; gap: 15px; margin-top: 25px;">
+            <button class="btn" onclick="saveChallenge()" style="flex: 1; padding: 12px; background: #3b82f6; border: none; color: white; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 1rem;">Saqlash</button>
+            <button class="btn" onclick="closeModal('chModal')" style="flex: 1; padding: 12px; background: transparent; border: 1px solid #475569; color: #cbd5e1; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 1rem;">Bekor qilish</button>
         </div>
     </div>
 </div>
@@ -953,7 +1020,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     fd.append('points', document.getElementById('ch-points').value);
                     fd.append('flag', document.getElementById('ch-flag').value);
                     fd.append('description', document.getElementById('ch-desc').value);
-                    fd.append('hints', document.getElementById('ch-hints').value);
+                    fd.append('hints', JSON.stringify(document.getElementById('ch-hints').value.split(String.fromCharCode(10)).filter(h => h.trim() !== '')));
                     fd.append('isPublished', document.getElementById('ch-publish').checked);
 
                     const fileInput = document.getElementById('ch-file');
@@ -1166,7 +1233,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     fd.append('points', document.getElementById('ch-points').value);
                     fd.append('flag', document.getElementById('ch-flag').value);
                     fd.append('description', document.getElementById('ch-desc').value);
-                    fd.append('hints', document.getElementById('ch-hints').value);
+                    fd.append('hints', JSON.stringify(document.getElementById('ch-hints').value.split(String.fromCharCode(10)).filter(h => h.trim() !== '')));
                     fd.append('isPublished', document.getElementById('ch-publish').checked);
 
                     const fileInput = document.getElementById('ch-file');
@@ -1242,8 +1309,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                             const c = document.getElementById('ch-category'); if(c && ch.category) c.value = ch.category;
                                             const diff = document.getElementById('ch-difficulty'); if(diff && ch.difficulty) diff.value = ch.difficulty;
                                             const desc = document.getElementById('ch-desc'); if(desc) desc.value = ch.story || ch.description || '';
-                                            const hints = document.getElementById('ch-hints'); if(hints) hints.value = Array.isArray(ch.hints) ? ch.hints.map(h => h.text || h).join('
-') : (ch.hints || '');
+                                            const hints = document.getElementById('ch-hints'); if(hints) hints.value = Array.isArray(ch.hints) ? ch.hints.map(h => h.text || h).join('\n') : (ch.hints || '');
                                             const pub = document.getElementById('ch-publish'); if(pub) pub.checked = ch.status === 'live' || ch.isPublished;
                                         }, 200);
                                     }
@@ -1451,6 +1517,69 @@ async function forceChangePass() {
         alert(res.message || "Xatolik yuz berdi");
     }
 }
+</script>
+
+
+<!-- Tugmani majburiy ishlatuvchi kod -->
+<script>
+document.addEventListener('click', function(e) {
+    const target = e.target.closest('button') || e.target.closest('a') || e.target;
+    if (target && target.textContent && target.textContent.includes('Yangi Challenge')) {
+        e.preventDefault();
+        e.stopPropagation();
+        const modal = document.getElementById('chModal');
+        if (modal) {
+            modal.style.display = 'block';
+            modal.style.zIndex = '999999';
+        } else {
+            alert("Xatolik: Modal oyna HTML koddan o'chib ketgan.");
+        }
+    }
+});
+
+window.closeModal = function(id) {
+    const m = document.getElementById(id);
+    if (m) m.style.display = 'none';
+};
+</script>
+
+
+<script>
+window.saveChallenge = async function() {
+    try {
+        const fd = new FormData();
+        fd.append('title', document.getElementById('ch-title').value);
+        fd.append('category', document.getElementById('ch-category').value);
+        fd.append('difficulty', document.getElementById('ch-difficulty').value);
+        fd.append('points', document.getElementById('ch-points').value);
+        fd.append('flag', document.getElementById('ch-flag').value);
+        fd.append('description', document.getElementById('ch-desc').value);
+        
+        const rawHints = document.getElementById('ch-hints').value || "";
+        const hintsArray = rawHints.split('\n').filter(h => h.trim() !== '').map(text => ({ text }));
+        fd.append('hints', JSON.stringify(hintsArray));
+        
+        fd.append('isPublished', document.getElementById('ch-publish').checked);
+
+        const fileInput = document.getElementById('ch-file');
+        if(fileInput && fileInput.files[0]) {
+            fd.append('file', fileInput.files[0]);
+        }
+
+        const res = await api('/challenges', { method: 'POST', body: fd });
+        if (res && res.success) {
+            const modal = document.getElementById('chModal');
+            if (modal) modal.style.display = 'none';
+            if (typeof loadChallenges === 'function') loadChallenges();
+            alert("Challenge muvaffaqiyatli saqlandi!");
+        } else {
+            alert("Xatolik: " + (res ? res.message : "Server xatosi"));
+        }
+    } catch (err) {
+        console.error(err);
+        alert("Kutilmagan xatolik yuz berdi: " + err.message);
+    }
+};
 </script>
 
 </body>
