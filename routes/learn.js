@@ -309,18 +309,29 @@ router.post('/submit', requireAuth, async (req, res) => {
         const question = await Question.findOne({ _id: questionId, lessonId: lesson._id });
         if (!question) return res.status(404).json({ success: false, message: "Savol topilmadi" });
 
-        const cleanSubmitted = String(answer || '').trim().toLowerCase();
-        const isCorrect = (question.answers || []).some(a => String(a).trim().toLowerCase() === cleanSubmitted);
+        const cleanSubmitted = String(answer || '').trim().toLowerCase().replace(/\s+/g, ' ');
+        let isCorrect = false;
+        if (question.correctAnswer) {
+            isCorrect = (String(question.correctAnswer).trim().toLowerCase().replace(/\s+/g, ' ') === cleanSubmitted);
+        }
+        if (!isCorrect && Array.isArray(question.answers)) {
+            isCorrect = question.answers.some(a => String(a).trim().toLowerCase().replace(/\s+/g, ' ') === cleanSubmitted);
+        }
+        
         const alreadyAnswered = (prog.answeredQuestions || []).some(id => id.toString() === question._id.toString());
 
-        await LearnSubmission.create({
-            userId,
-            lessonId: lesson._id,
-            questionId: question._id,
-            submittedAnswer: String(answer || '').trim(),
-            isCorrect,
-            pointsAwarded: (isCorrect && !alreadyAnswered) ? (question.points || 20) : 0
-        });
+        await LearnSubmission.findOneAndUpdate(
+            { userId, questionId: question._id },
+            {
+                $set: {
+                    lessonId: lesson._id,
+                    submittedAnswer: String(answer || '').trim(),
+                    isCorrect,
+                    pointsAwarded: (isCorrect && !alreadyAnswered) ? (question.points || 20) : 0
+                }
+            },
+            { upsert: true, new: true, setDefaultsOnInsert: true }
+        );
 
         if (!isCorrect) {
             return res.json({
