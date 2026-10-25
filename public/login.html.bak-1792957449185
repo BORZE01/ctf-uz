@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kirish — CTF.UZ</title>
+    <link rel="stylesheet" href="/css/design-system.css">
+    <link rel="stylesheet" href="/css/animations.css">
+    <link rel="stylesheet" href="/css/icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+    /* Zamonaviy OTP (2FA) Inputlari */
+    #login-view { display: block; }
+    #twofa-view { display: none; text-align: center; animation: fadeInUp 0.4s ease forwards; }
+    
+    .otp-wrapper {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        margin: 30px 0;
+        direction: ltr;
+    }
+    .otp-digit {
+        width: 55px;
+        height: 65px;
+        font-size: 28px;
+        font-weight: 800;
+        font-family: 'JetBrains Mono', monospace;
+        text-align: center;
+        background: rgba(15,22,41,0.8);
+        border: 2px solid rgba(74,127,255,0.2);
+        border-radius: 14px;
+        color: #fff;
+        transition: all 0.3s ease;
+        box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+    }
+    .otp-digit:focus {
+        border-color: #22D3EE;
+        box-shadow: 0 0 15px rgba(34,211,238,0.3), inset 0 2px 4px rgba(0,0,0,0.5);
+        outline: none;
+        transform: translateY(-2px);
+    }
+    .otp-digit::selection { background: transparent; }
+    
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(15px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+
+</head>
+<body>
+
+<div class="girih-bg"></div>
+
+<header class="header">
+    <a href="/" class="logo">
+        <div class="logo-mark">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
+        </div>
+        <div class="logo-text">CTF<span>.UZ</span></div>
+    </a>
+    
+    <nav class="nav">
+        <a href="/dashboard">Dashboard</a>
+        <a href="/arena">Arena</a>
+        <a href="/learn">O'rganish</a>
+        <a href="/battle">Battle</a>
+        <a href="/leaderboard">Reyting</a>
+        <a href="/career">Karyera</a>
+        <a id="auth-link" href="/profile"></a>
+    </nav>
+
+</header>
+
+<div class="container-narrow">
+    <div class="card-glass fade-in-up" style="max-width: 450px; margin: 80px auto; padding: 40px;">
+        <div style="text-align: center; margin-bottom: 32px;">
+            <div style="width: 64px; height: 64px; margin: 0 auto 16px; background: linear-gradient(135deg, var(--uz-blue, #2563EB), var(--accent-cyan, #22D3EE)); border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 30px rgba(37,99,235,0.4);">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2"/>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+            </div>
+            <h2 style="margin-bottom: 8px; font-family: Manrope; font-weight: 800;">Kirish</h2>
+            <p style="color: var(--text-secondary, #94A3B8); font-size: 0.9rem;">Cyber ID ingizga kiring</p>
+        </div>
+
+        <div id="login-view">
+<form id="login-form">
+            <div class="input-group">
+                <input type="text" id="login-user" placeholder=" " required>
+                <label>Username yoki Email</label>
+            </div>
+            <div class="input-group">
+                <input type="password" id="login-pass" placeholder=" " required>
+                <label>Parol</label>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; display: inline-flex; align-items: center; justify-content: center; gap: 8px;">
+                Kirish
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </button>
+        </form>
+
+        
+
+
+        <div id="login-message" class="msg-box"></div>
+</div>
+
+        <div id="twofa-view">
+            <div style="width: 70px; height: 70px; margin: 0 auto 20px; background: linear-gradient(135deg, #10B981, #059669); border-radius: 20px; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 30px rgba(16,185,129,0.3);">
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+            </div>
+            <h2 style="font-family: Manrope; font-weight: 900; font-size: 1.8rem; margin-bottom: 10px; color: #fff;">Xavfsizlik tekshiruvi</h2>
+            <p style="color: #94A3B8; font-size: 0.95rem;">Google Authenticator'dagi 6 xonali kodni kiriting.</p>
+            
+            <form id="twofa-form-modern">
+                <div class="otp-wrapper" id="otp-inputs">
+                    <input type="text" class="otp-digit" maxlength="1" pattern="[0-9]" inputmode="numeric" required autocomplete="off">
+                    <input type="text" class="otp-digit" maxlength="1" pattern="[0-9]" inputmode="numeric" required autocomplete="off">
+                    <input type="text" class="otp-digit" maxlength="1" pattern="[0-9]" inputmode="numeric" required autocomplete="off">
+                    <input type="text" class="otp-digit" maxlength="1" pattern="[0-9]" inputmode="numeric" required autocomplete="off">
+                    <input type="text" class="otp-digit" maxlength="1" pattern="[0-9]" inputmode="numeric" required autocomplete="off">
+                    <input type="text" class="otp-digit" maxlength="1" pattern="[0-9]" inputmode="numeric" required autocomplete="off">
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; justify-content: center; font-size: 1.1rem; height: 55px; box-shadow: 0 10px 25px rgba(37,99,235,0.4);">
+                    Tasdiqlash
+                </button>
+    
+                <button type="button" onclick="cancel2FA()" class="btn btn-outline" style="width: 100%; justify-content: center; margin-top: 12px; border: none; color: #94A3B8;">
+                    Orqaga qaytish
+                </button>
+            </form>
+        </div>
+
+
+        <p style="text-align: center; margin-top: 16px; color: var(--text-secondary, #94A3B8); font-size: 0.85rem;">
+            <a href="/forgot-password" style="color: var(--text-muted, #64748B); text-decoration: none;">Parolni unutdingizmi?</a>
+        </p>
+        <p style="text-align: center; margin-top: 12px; color: var(--text-secondary, #94A3B8); font-size: 0.85rem;">
+            Hisobingiz yo'qmi? <a href="/register" style="color: var(--uz-blue, #2563EB); text-decoration: none; font-weight: 600;">Ro'yxatdan o'ting</a>
+        </p>
+    </div>
+</div>
+
+<script src="/js/api.js"></script>
+<script src="/js/preloader.js"></script>
+
+
+<script>
+// OTP Input Logic
+const otpInputs = document.querySelectorAll('.otp-digit');
+otpInputs.forEach((input, index) => {
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace' && !input.value && index > 0) {
+            otpInputs[index - 1].focus();
+        }
+    });
+    input.addEventListener('input', (e) => {
+        if (e.target.value && index < otpInputs.length - 1) {
+            otpInputs[index + 1].focus();
+        }
+    });
+    input.addEventListener('paste', (e) => {
+        e.preventDefault();
+        const pastedData = e.clipboardData.getData('text').slice(0, 6).replace(/\D/g, '');
+        for (let i = 0; i < pastedData.length; i++) {
+            if (otpInputs[i]) {
+                otpInputs[i].value = pastedData[i];
+                if (i < 5) otpInputs[i + 1].focus();
+            }
+        }
+    });
+});
+
+function cancel2FA() {
+    document.getElementById('twofa-view').style.display = 'none';
+    document.getElementById('login-view').style.display = 'block';
+    document.getElementById('login-message').className = 'msg-box';
+    document.getElementById('login-message').innerText = '';
+    otpInputs.forEach(i => i.value = '');
+}
+
+document.getElementById('login-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const username = document.getElementById('login-user').value.trim();
+    const password = document.getElementById('login-pass').value.trim();
+    const msg = document.getElementById('login-message');
+    const btn = e.target.querySelector('button[type="submit"]');
+
+    if (!username || !password) return;
+    btn.disabled = true; btn.innerText = 'Kutib turing...';
+
+    try {
+        const csrfRes = await fetch('/api/csrf-token', { credentials: 'include' });
+        const csrfData = await csrfRes.json();
+
+        const res = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'x-csrf-token': csrfData.csrfToken },
+            credentials: 'include',
+            body: JSON.stringify({ username, password })
+        });
+        const data = await res.json();
+
+        if (data.success) {
+            if (data.requires2FA) {
+                document.getElementById('login-view').style.display = 'none';
+                document.getElementById('twofa-view').style.display = 'block';
+                otpInputs[0].focus();
+            } else {
+                msg.className = 'msg-box success'; msg.innerText = data.message;
+                const redirect = sessionStorage.getItem('redirectAfterLogin') || '/dashboard';
+                sessionStorage.removeItem('redirectAfterLogin');
+                setTimeout(() => { window.location.href = redirect; }, 500);
+            }
+        } else {
+            msg.className = 'msg-box error'; msg.innerText = data.message || 'Xato';
+        }
+    } catch (err) {
+        msg.className = 'msg-box error'; msg.innerText = 'Ulanish xatosi';
+    } finally {
+        btn.disabled = false; btn.innerHTML = `Kirish <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`;
+    }
+});
+
+document.getElementById('twofa-form-modern').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type="submit"]');
+    let token = '';
+    otpInputs.forEach(i => token += i.value);
+    
+    if (token.length !== 6) return;
+
+    btn.disabled = true; btn.innerText = 'Tekshirilmoqda...';
+
+    try {
+        const csrfRes = await fetch('/api/csrf-token', { credentials: 'include' });
+        const csrfData = await csrfRes.json();
+
+        const res = await fetch('/api/auth/verify-login-2fa', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'x-csrf-token': csrfData.csrfToken },
+            credentials: 'include',
+            body: JSON.stringify({ token })
+        });
+        const data = await res.json();
+
+        if (data.success) {
+            btn.style.background = '#10B981'; btn.innerText = "Tasdiqlandi!";
+            const redirect = sessionStorage.getItem('redirectAfterLogin') || '/dashboard';
+            sessionStorage.removeItem('redirectAfterLogin');
+            setTimeout(() => { window.location.href = redirect; }, 500);
+        } else {
+            btn.style.background = '#EF4444'; btn.innerText = data.message;
+            otpInputs.forEach(i => i.value = ''); otpInputs[0].focus();
+            setTimeout(() => { btn.style.background = ''; btn.innerText = 'Tasdiqlash'; btn.disabled = false; }, 2000);
+        }
+    } catch (err) {
+        btn.disabled = false; btn.innerText = 'Xatolik yuz berdi';
+    }
+});
+</script>
+
+
+
+
+<!-- ================= GOOGLE AUTH INJECTION ================= -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<div id="g_auth_container" style="text-align:center; display:flex; flex-direction:column; align-items:center; width:100%; margin-top:10px;">
+    <div id="g_id_onload"
+         data-client_id="357806518913-c6ofpdqqjd0qq37357poomth8rombrtm.apps.googleusercontent.com" 
+         data-callback="handleGoogleLogin"
+         data-auto_prompt="false">
+    </div>
+    <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline" data-text="continue_with" data-shape="rectangular" data-logo_alignment="center" style="width:100%;"></div>
+    <button type="button" class="gh-oauth-btn" onclick="location.href='/api/auth/github'" style="display:flex; align-items:center; justify-content:center; gap:10px; background:#24292f; color:#ffffff; border:1px solid #3d444d; border-radius:4px; padding:11px 20px; font-weight:600; font-size:0.95rem; cursor:pointer; width:100%; margin-top:12px; font-family:inherit; transition:background 0.2s;" onmouseover="this.style.background='#32383f'" onmouseout="this.style.background='#24292f'">
+        <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+        GitHub orqali kirish
+    </button>
+</div>
+
+<div id="googleDetailsModal" style="display:none; position:fixed; inset:0; background:rgba(6, 11, 24, 0.9); z-index:9999; align-items:center; justify-content:center; backdrop-filter:blur(5px);">
+    <div style="background:#0F1629; padding:35px; border-radius:16px; width:90%; max-width:420px; border:1px solid #1e293b; color: white; text-align:left; max-height: 90vh; overflow-y: auto;">
+        <h3 style="margin-bottom:8px; font-family: 'Manrope', sans-serif; font-size:22px; font-weight:800;">So'nggi qadam 🚀</h3>
+        <p style="color:#94a3b8; font-size:14px; margin-bottom:20px;">Profilingizni yakunlash uchun quyidagi ma'lumotlarni kiriting:</p>
+        
+        <!-- VILOYAT VA TUMAN TANLASH (YANGI KASKADLI DIZAYN) -->
+        <div style="border: 1px solid #1e293b; padding: 15px; border-radius: 8px; margin-bottom: 20px; background: rgba(37,99,235,0.05);">
+            <label style="font-size:12px; color:#3b82f6; font-weight:800; letter-spacing:1px; display:block; margin-bottom:12px;">📍 TURAR JOY</label>
+            
+            <label style="font-size:11px; color:#94a3b8; font-weight:700;">VILOYAT / RESPUBLIKA</label>
+            <select id="gRegion" onchange="updateGDistricts()" style="width:100%; padding:12px; margin-top:4px; margin-bottom:12px; background:#060B18; color:#fff; border:1px solid #1e293b; border-radius:8px; outline:none; font-family:inherit;">
+                <option value="">Viloyatni tanlang</option>
+            </select>
+            
+            <label style="font-size:11px; color:#94a3b8; font-weight:700;">SHAHAR / TUMAN NOMI</label>
+            <select id="gDistrict" style="width:100%; padding:12px; margin-top:4px; background:#060B18; color:#fff; border:1px solid #1e293b; border-radius:8px; outline:none; font-family:inherit;" disabled>
+                <option value="">Avval viloyatni tanlang</option>
+            </select>
+        </div>
+        
+        <label style="font-size:12px; color:#94a3b8; font-weight:700; letter-spacing:1px;">TELEGRAM USERNAME</label>
+        <input type="text" id="gTelegram" placeholder="@username" style="width:100%; padding:12px; margin-top:6px; margin-bottom:25px; background:#060B18; color:#fff; border:1px solid #1e293b; border-radius:8px; outline:none; font-family:inherit;">
+        
+        <button onclick="submitGoogleDetails()" style="width:100%; padding:14px; background:#2563EB; color:#fff; border:none; border-radius:8px; cursor:pointer; font-weight:800; font-size:15px; transition:0.3s; font-family:'Manrope', sans-serif;">Saqlash va Davom etish</button>
+    </div>
+</div>
+
+<script>
+// O'zbekistonning barcha viloyat, shahar va tumanlari ro'yxati
+const uzbLocations = {
+  "Andijon viloyati": ["Andijon shahri", "Asaka tumani", "Baliqchi tumani", "Bo'ston tumani", "Buloqboshi tumani", "Izboskan tumani", "Jalaquduq tumani", "Marhamat tumani", "Oltinko'l tumani", "Paxtaobod tumani", "Qo'rg'ontepa tumani", "Shahrixon tumani", "Ulug'nor tumani", "Xo'jaobod tumani"],
+  "Buxoro viloyati": ["Buxoro shahri", "Buxoro tumani", "G'ijduvon tumani", "Jondor tumani", "Kogon shahri", "Kogon tumani", "Olot tumani", "Peshku tumani", "Qorako'l tumani", "Qorovulbozor tumani", "Romitan tumani", "Shofirkon tumani", "Vobkent tumani"],
+  "Farg'ona viloyati": ["Farg'ona shahri", "Farg'ona tumani", "Beshariq tumani", "Bog'dod tumani", "Buvayda tumani", "Dang'ara tumani", "Marg'ilon shahri", "Oltiariq tumani", "Qo'qon shahri", "Qo'shtepa tumani", "Quva tumani", "Quvasoy shahri", "Rishton tumani", "So'x tumani", "Toshloq tumani", "Uchko'prik tumani", "Yozyovon tumani"],
+  "Jizzax viloyati": ["Jizzax shahri", "Arnasoy tumani", "Baxmal tumani", "Do'stlik tumani", "Forish tumani", "G'allaorol tumani", "Sharof Rashidov tumani", "Mirzacho'l tumani", "Paxtakor tumani", "Yangiobod tumani", "Zomin tumani", "Zafarobod tumani", "Zarbdor tumani"],
+  "Xorazm viloyati": ["Urganch shahri", "Urganch tumani", "Bog'ot tumani", "Gurlan tumani", "Xiva shahri", "Xiva tumani", "Xonqa tumani", "Hazorasp tumani", "Qo'shko'pir tumani", "Shovot tumani", "Yangiariq tumani", "Yangibozor tumani", "Tupproqqal'a tumani"],
+  "Namangan viloyati": ["Namangan shahri", "Namangan tumani", "Chortoq tumani", "Chust tumani", "Kosonsoy tumani", "Mingbuloq tumani", "Norin tumani", "Pop tumani", "To'raqo'rg'on tumani", "Uchqo'rg'on tumani", "Uychi tumani", "Yangiqo'rg'on tumani", "Davlatobod tumani"],
+  "Navoiy viloyati": ["Navoiy shahri", "Zarafshon shahri", "Karmana tumani", "Konimex tumani", "Qiziltepa tumani", "Xatirchi tumani", "Navbahor tumani", "Nurota tumani", "Tomdi tumani", "Uchquduq tumani"],
+  "Qashqadaryo viloyati": ["Qarshi shahri", "Qarshi tumani", "Chiroqchi tumani", "Dehqonobod tumani", "G'uzor tumani", "Kasbi tumani", "Kitob tumani", "Koson tumani", "Mirishkor tumani", "Muborak tumani", "Nishon tumani", "Qamashi tumani", "Shahrisabz shahri", "Shahrisabz tumani", "Yakkabog' tumani", "Ko'kdala tumani"],
+  "Qoraqalpog'iston Respublikasi": ["Nukus shahri", "Amudaryo tumani", "Beruniy tumani", "Chimboy tumani", "Ellikqal'a tumani", "Kegeyli tumani", "Mo'ynoq tumani", "Nukus tumani", "Qanliko'l tumani", "Qo'ng'irot tumani", "Qorao'zak tumani", "Shumanay tumani", "Taxtako'pir tumani", "To'rtko'l tumani", "Xo'jayli tumani", "Taxiatosh tumani", "Bo'zatov tumani"],
+  "Samarqand viloyati": ["Samarqand shahri", "Samarqand tumani", "Bulung'ur tumani", "Ishtixon tumani", "Jomboy tumani", "Kattaqo'rg'on shahri", "Kattaqo'rg'on tumani", "Narpay tumani", "Nurobod tumani", "Oqdaryo tumani", "Paxtachi tumani", "Payariq tumani", "Pastdarg'om tumani", "Qo'shrabot tumani", "Tayloq tumani", "Urgut tumani"],
+  "Sirdaryo viloyati": ["Guliston shahri", "Boyovut tumani", "Guliston tumani", "Xovos tumani", "Mirzaobod tumani", "Oqoltin tumani", "Sardoba tumani", "Sayxunobod tumani", "Shirin shahri", "Sirdaryo tumani", "Yangiyer shahri"],
+  "Surxondaryo viloyati": ["Termiz shahri", "Termiz tumani", "Angor tumani", "Boysun tumani", "Denov tumani", "Jarqo'rg'on tumani", "Kelif tumani", "Muzrabot tumani", "Oltinsoy tumani", "Qiziriq tumani", "Qumqo'rg'on tumani", "Sariosiyo tumani", "Sherobod tumani", "Sho'rchi tumani", "Uzun tumani", "Bandixon tumani"],
+  "Toshkent viloyati": ["Nurafshon shahri", "Olmaliq shahri", "Angren shahri", "Bekobod shahri", "Bekobod tumani", "Bo'ka tumani", "Bo'stonliq tumani", "Chinoz tumani", "Chirchiq shahri", "Ohangaron shahri", "Ohangaron tumani", "Oqqo'rg'on tumani", "Parkent tumani", "Piskent tumani", "Qibray tumani", "Quyi Chirchiq tumani", "O'rta Chirchiq tumani", "Yangiyo'l shahri", "Yangiyo'l tumani", "Yuqori Chirchiq tumani", "Zangiota tumani", "Toshkent tumani"],
+  "Toshkent shahri": ["Mirobod tumani", "Mirzo Ulug'bek tumani", "Sergeli tumani", "Olmazor tumani", "Uchtepa tumani", "Shayxontohur tumani", "Yashnobod tumani", "Chilonzor tumani", "Yunusobod tumani", "Yakkasaroy tumani", "Bektemir tumani", "Yangihayot tumani"]
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    const forms = document.querySelectorAll('form');
+    const googleBtn = document.getElementById('g_auth_container');
+    
+    if(forms.length > 0 && googleBtn) {
+        const divider = document.createElement('div');
+        divider.innerHTML = '<div style="display:flex; align-items:center; margin: 24px 0;"><hr style="flex:1; border:none; border-top:1px solid #1e293b;"><span style="padding:0 12px; color:#64748b; font-size:12px; font-weight:700;">YOKI GOOGLE ORQALI</span><hr style="flex:1; border:none; border-top:1px solid #1e293b;"></div>';
+        forms[0].appendChild(divider);
+        forms[0].appendChild(googleBtn);
+    }
+
+    // Modal oynasidagi Viloyatlar ro'yxatini to'ldirish
+    const regSelect = document.getElementById('gRegion');
+    if(regSelect) {
+        Object.keys(uzbLocations).forEach(reg => {
+            const opt = document.createElement('option');
+            opt.value = reg; 
+            opt.innerText = reg;
+            regSelect.appendChild(opt);
+        });
+    }
+});
+
+// Viloyat tanlanganda, mos tumanlarni chiqarish funksiyasi
+function updateGDistricts() {
+    const reg = document.getElementById('gRegion').value;
+    const dist = document.getElementById('gDistrict');
+    
+    dist.innerHTML = '<option value="">Shahar / Tumanni tanlang</option>';
+    
+    if(reg && uzbLocations[reg]) {
+        dist.disabled = false;
+        uzbLocations[reg].forEach(d => {
+            const opt = document.createElement('option');
+            opt.value = d; 
+            opt.innerText = d;
+            dist.appendChild(opt);
+        });
+    } else {
+        dist.disabled = true;
+        dist.innerHTML = '<option value="">Avval viloyatni tanlang</option>';
+    }
+}
+
+async function handleGoogleLogin(response) {
+    try {
+        const res = await fetch('/api/auth/google', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'x-csrf-token': document.querySelector('meta[name="csrf-token"]')?.content || '' },
+            body: JSON.stringify({ credential: response.credential })
+        });
+        const data = await res.json();
+        
+        if (data.success) {
+            if (data.requireDetails) {
+                document.getElementById('googleDetailsModal').style.display = 'flex';
+            } else {
+                window.location.href = '/dashboard';
+            }
+        } else {
+            alert('Xatolik: ' + (data.message || 'Noma\'lum xato'));
+        }
+    } catch (err) { console.error(err); }
+}
+
+async function submitGoogleDetails() {
+    const region = document.getElementById('gRegion').value;
+    const district = document.getElementById('gDistrict').value;
+    const telegram = document.getElementById('gTelegram').value;
+    
+    if(!region || !district || !telegram) return alert("Iltimos, barcha maydonlarni to'ldiring");
+    
+    // Viloyat va tumanni birlashtirib bazaga yuboramiz
+    const locationStr = `${region}, ${district}`;
+
+    const res = await fetch('/api/auth/google/complete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-csrf-token': document.querySelector('meta[name="csrf-token"]')?.content || '' },
+        body: JSON.stringify({ location: locationStr, telegram })
+    });
+    
+    const data = await res.json();
+    if(data.success) window.location.href = '/dashboard';
+    else alert(data.message);
+}
+</script>
+<!-- ================= END GOOGLE AUTH INJECTION ================= -->
+
+
+
+<script>
+(function () {
+    var p = new URLSearchParams(location.search);
+    if (p.get('github2fa') === '1') {
+        document.getElementById('login-view').style.display = 'none';
+        document.getElementById('twofa-view').style.display = 'block';
+        var f = document.querySelector('.otp-digit'); if (f) f.focus();
+    }
+    var errs = {
+        github_failed: 'GitHub orqali kirish amalga oshmadi. Qaytadan urinib ko\'ring.',
+        github_no_email: 'GitHub akkauntingizda tasdiqlangan email topilmadi.',
+        github_banned: 'Hisobingiz bloklangan.'
+    };
+    var e = p.get('error');
+    if (e && errs[e]) {
+        var m = document.getElementById('login-message');
+        if (m) { m.className = 'msg-box error'; m.innerText = errs[e]; }
+    }
+})();
+</script>
+</body>
+</html>
