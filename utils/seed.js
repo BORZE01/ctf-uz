@@ -296,6 +296,187 @@ async function seedLearningPathsSafe() {
 
     // 2. Har bir modul uchun Darslar va Savollar (Upsert)
     const lessonsData = [
+
+    {
+        moduleSlug: "path1-modul-1",
+        slug: "path1-dars-1",
+        title: "Dars 1",
+        content: "Bu 1-dars matni va mashqlari",
+        order: 1,
+        xpReward: 50,
+        questions: [{ order: 1, prompt: "Test savoli path1-dars-1", options: ["A", "B", "C", "D"], correctAnswer: "A", points: 20 }]
+    },
+    {
+        moduleSlug: "path1-modul-1",
+        slug: "path1-dars-2",
+        title: "Dars 2",
+        content: "Bu 2-dars matni va mashqlari",
+        order: 2,
+        xpReward: 50,
+        questions: [{ order: 1, prompt: "Test savoli path1-dars-2", options: ["A", "B", "C", "D"], correctAnswer: "A", points: 20 }]
+    },
+    {
+        moduleSlug: "path1-modul-1",
+        slug: "path1-dars-3",
+        title: "Dars 3",
+        content: "Bu 3-dars matni va mashqlari",
+        order: 3,
+        xpReward: 50,
+        questions: [{ order: 1, prompt: "Test savoli path1-dars-3", options: ["A", "B", "C", "D"], correctAnswer: "A", points: 20 }]
+    },
+    {
+        moduleSlug: "path1-modul-1",
+        slug: "path1-dars-4",
+        title: "Dars 4",
+        content: "Bu 4-dars matni va mashqlari",
+        order: 4,
+        xpReward: 50,
+        questions: [{ order: 1, prompt: "Test savoli path1-dars-4", options: ["A", "B", "C", "D"], correctAnswer: "A", points: 20 }]
+    },
+    {
+        moduleSlug: "path1-modul-2",
+        slug: "path1-dars-5",
+        title: "Dars 5",
+        content: "Bu 5-dars matni va mashqlari",
+        order: 1,
+        xpReward: 50,
+        questions: [{ order: 1, prompt: "Test savoli path1-dars-5", options: ["A", "B", "C", "D"], correctAnswer: "A", points: 20 }]
+    },
+    {
+        moduleSlug: "path1-modul-2",
+        slug: "path1-dars-6",
+        title: "Dars 6",
+        content: "Bu 6-dars matni va mashqlari",
+        order: 2,
+        xpReward: 50,
+        questions: [{ order: 1, prompt: "Test savoli path1-dars-6", options: ["A", "B", "C", "D"], correctAnswer: "A", points: 20 }]
+    },
+    {
+        moduleSlug: "path1-modul-2",
+        slug: "path1-dars-7",
+        title: "Dars 7",
+        content: "Bu 7-dars matni va mashqlari",
+        order: 3,
+        xpReward: 50,
+        questions: [{ order: 1, prompt: "Test savoli path1-dars-7", options: ["A", "B", "C", "D"], correctAnswer: "A", points: 20 }]
+    },
+    {
+        moduleSlug: "path1-modul-2",
+        slug: "path1-dars-8",
+        title: "Dars 8",
+        content: "Bu 8-dars matni va mashqlari",
+        order: 4,
+        xpReward: 50,
+        questions: [{ order: 1, prompt: "Test savoli path1-dars-8", options: ["A", "B", "C", "D"], correctAnswer: "A", points: 20 }]
+    },
+    {
+        moduleSlug: "path1-modul-3",
+        slug: "path1-dars-9",
+        title: "Dars 9",
+        content: "Bu 9-dars matni va mashqlari",
+        order: 1,
+        xpReward: 50,
+        questions: [{ order: 1, prompt: "Test savoli path1-dars-9", options: ["A", "B", "C", "D"], correctAnswer: "A", points: 20 }]
+    },
+    {
+        moduleSlug: "path1-modul-3",
+        slug: "path1-dars-10",
+        title: "Dars 10",
+        content: "Bu 10-dars matni va mashqlari",
+        order: 2,
+        xpReward: 50,
+        questions: [{ order: 1, prompt: "Test savoli path1-dars-10", options: ["A", "B", "C", "D"], correctAnswer: "A", points: 20 }]
+    },
+    {
+        moduleSlug: "path1-modul-3",
+        slug: "path1-dars-11",
+        title: "Dars 11",
+        content: "Bu 11-dars matni va mashqlari",
+        order: 3,
+        xpReward: 50,
+        questions: [{ order: 1, prompt: "Test savoli path1-dars-11", options: ["A", "B", "C", "D"], correctAnswer: "A", points: 20 }]
+    },
+    {
+        moduleSlug: "path1-modul-3",
+        slug: "path1-dars-12",
+        title: "Dars 12",
+        content: "Bu 12-dars matni va mashqlari",
+        order: 4,
+        xpReward: 50,
+        questions: [{ order: 1, prompt: "Test savoli path1-dars-12", options: ["A", "B", "C", "D"], correctAnswer: "A", points: 20 }]
+    },
+    {
+        moduleSlug: "path1-modul-4",
+        slug: "path1-dars-13",
+        title: "Dars 13",
+        content: "Bu 13-dars matni va mashqlari",
+        order: 1,
+        xpReward: 50,
+        questions: [{ order: 1, prompt: "Test savoli path1-dars-13", options: ["A", "B", "C", "D"], correctAnswer: "A", points: 20 }]
+    },
+    {
+        moduleSlug: "path1-modul-4",
+        slug: "path1-dars-14",
+        title: "Dars 14",
+        content: "Bu 14-dars matni va mashqlari",
+        order: 2,
+        xpReward: 50,
+        questions: [{ order: 1, prompt: "Test savoli path1-dars-14", options: ["A", "B", "C", "D"], correctAnswer: "A", points: 20 }]
+    },
+    {
+        moduleSlug: "path1-modul-4",
+        slug: "path1-dars-15",
+        title: "Dars 15",
+        content: "Bu 15-dars matni va mashqlari",
+        order: 3,
+        xpReward: 50,
+        questions: [{ order: 1, prompt: "Test savoli path1-dars-15", options: ["A", "B", "C", "D"], correctAnswer: "A", points: 20 }]
+    },
+    {
+        moduleSlug: "path1-modul-4",
+        slug: "path1-dars-16",
+        title: "Dars 16",
+        content: "Bu 16-dars matni va mashqlari",
+        order: 4,
+        xpReward: 50,
+        questions: [{ order: 1, prompt: "Test savoli path1-dars-16", options: ["A", "B", "C", "D"], correctAnswer: "A", points: 20 }]
+    },
+    {
+        moduleSlug: "path1-modul-5",
+        slug: "path1-dars-17",
+        title: "Dars 17",
+        content: "Bu 17-dars matni va mashqlari",
+        order: 1,
+        xpReward: 50,
+        questions: [{ order: 1, prompt: "Test savoli path1-dars-17", options: ["A", "B", "C", "D"], correctAnswer: "A", points: 20 }]
+    },
+    {
+        moduleSlug: "path1-modul-5",
+        slug: "path1-dars-18",
+        title: "Dars 18",
+        content: "Bu 18-dars matni va mashqlari",
+        order: 2,
+        xpReward: 50,
+        questions: [{ order: 1, prompt: "Test savoli path1-dars-18", options: ["A", "B", "C", "D"], correctAnswer: "A", points: 20 }]
+    },
+    {
+        moduleSlug: "path1-modul-5",
+        slug: "path1-dars-19",
+        title: "Dars 19",
+        content: "Bu 19-dars matni va mashqlari",
+        order: 3,
+        xpReward: 50,
+        questions: [{ order: 1, prompt: "Test savoli path1-dars-19", options: ["A", "B", "C", "D"], correctAnswer: "A", points: 20 }]
+    },
+    {
+        moduleSlug: "path1-modul-5",
+        slug: "path1-dars-20",
+        title: "Dars 20",
+        content: "Bu 20-dars matni va mashqlari",
+        order: 4,
+        xpReward: 50,
+        questions: [{ order: 1, prompt: "Test savoli path1-dars-20", options: ["A", "B", "C", "D"], correctAnswer: "A", points: 20 }]
+    },
         {
             moduleSlug: 'cyber-intro',
             slug: 'cia-triad-va-etika',
@@ -419,7 +600,7 @@ async function seedLearningPathsSafe() {
             level: 'Beginner',
             category: 'Foundations',
             icon: '🛡️',
-            moduleSlugs: ['cyber-intro', 'network-fundamentals', 'linux-cli', 'web-auth-basics', 'practical-labs-review'],
+            moduleSlugs: ['path1-modul-1', 'path1-modul-2', 'path1-modul-3', 'path1-modul-4', 'path1-modul-5'],
             finalExamMinPercent: 80,
             certificateType: 'course_completion',
             certificateTitle: 'CTF.UZ Cybersecurity Foundations — Course Completion Certificate',

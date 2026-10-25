@@ -1,0 +1,82 @@
+{
+  "backedUpAt": "2026-10-25T14:34:50.612Z",
+  "learningPath": {
+    "_id": "6ada298c3d14c091b7afdca1",
+    "slug": "foundations",
+    "__v": 0,
+    "category": "Foundations",
+    "certificateTitle": "CTF.UZ Cybersecurity Foundations — Course Completion Certificate",
+    "certificateType": "course_completion",
+    "createdAt": "2026-10-22T15:19:40.488Z",
+    "description": "Kompyuter tarmoqlari, Linux, Windows, HTTP, DNS va axborot xavfsizligi asoslari.",
+    "finalExamMinPercent": 80,
+    "finalQuestions": [
+      {
+        "id": "f1",
+        "prompt": "CIA triadasining uchta komponenti qaysi?",
+        "options": [
+          "Confidentiality, Integrity, Availability",
+          "Control, Internet, Access",
+          "Crypto, Identity, Auth"
+        ],
+        "correctAnswer": "Confidentiality, Integrity, Availability",
+        "points": 25,
+        "_id": "6ade12a0a37f1fd215283275"
+      },
+      {
+        "id": "f2",
+        "prompt": "HTTPS standart qaysi portdan foydalanadi?",
+        "options": [
+          "80",
+          "22",
+          "443",
+          "8080"
+        ],
+        "correctAnswer": "443",
+        "points": 25,
+        "_id": "6ade12a0a37f1fd215283276"
+      },
+      {
+        "id": "f3",
+        "prompt": "Linuxda fayl huquqlarini o'zgartirish buyrug'i qaysi?",
+        "options": [
+          "ls -la",
+          "chmod",
+          "pwd",
+          "cat"
+        ],
+        "correctAnswer": "chmod",
+        "points": 25,
+        "_id": "6ade12a0a37f1fd215283277"
+      },
+      {
+        "id": "f4",
+        "prompt": "XSS orqali cookie o'g'irlanishini qaysi bayroq (flag) to'xtatadi?",
+        "options": [
+          "HttpOnly",
+          "SameSite=None",
+          "Path=/",
+          "Domain"
+        ],
+        "correctAnswer": "HttpOnly",
+        "points": 25,
+        "_id": "6ade12a0a37f1fd215283278"
+      }
+    ],
+    "isPublished": true,
+    "level": "Beginner",
+    "moduleSlugs": [
+      "cyber-intro",
+      "network-fundamentals",
+      "linux-cli",
+      "web-auth-basics",
+      "practical-labs-review"
+    ],
+    "order": 1,
+    "subtitle": "Boshlang'ich daraja · 5 modul",
+    "title": "Foundations"
+  },
+  "modules": [],
+  "lessons": [],
+  "questions": []
+}
