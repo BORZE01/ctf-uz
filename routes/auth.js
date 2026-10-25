@@ -58,12 +58,15 @@ setInterval(cleanupVerificationCodes, 5 * 60 * 1000).unref();
 
 // CAPEC-61 (Session Fixation) HIMOYASI: Sessiya ID ni yangilash yordamchisi
 function establishSafeSession(req, sessionUser, isAdmin = false, callback) {
-    req.session.user = sessionUser;
-    if (isAdmin) {
-        req.session.isAdmin = true;
-        req.session.adminLoginTime = Date.now();
-    }
-    req.session.save((saveErr) => callback(saveErr));
+    req.session.regenerate((regenErr) => {
+        if (regenErr) return callback(regenErr);
+        req.session.user = sessionUser;
+        if (isAdmin) {
+            req.session.isAdmin = true;
+            req.session.adminLoginTime = Date.now();
+        }
+        req.session.save((saveErr) => callback(saveErr));
+    });
 }
 
 // ══════════════════════════════════════════
@@ -322,7 +325,7 @@ router.post('/login', loginLimiter, async (req, res) => {
             return res.status(403).json({ success: false, message: "Hisobingiz bloklangan" });
         }
 
-        const match = await bcrypt.compare(password, user.password);
+        const match = (user.password ? await bcrypt.compare(password, user.password) : false);
         if (!match) {
             recordLoginAttempt(identifier, false);
             return res.status(400).json({ success: false, message: "Login yoki parol xato" });
@@ -399,7 +402,7 @@ router.post('/admin-login', adminLoginLimiter, async (req, res) => {
             return res.status(400).json({ success: false, message: "Login yoki parol xato" });
         }
 
-        const match = await bcrypt.compare(password, user.password);
+        const match = (user.password ? await bcrypt.compare(password, user.password) : false);
         if (!match) {
             recordLoginAttempt(identifier, false);
             return res.status(400).json({ success: false, message: "Login yoki parol xato" });
@@ -581,7 +584,7 @@ router.post('/disable-2fa', codeLimiter, async (req, res) => {
             return res.status(400).json({ success: false, message: "2FA yoqilmagan." });
         }
 
-        const pwdMatch = await bcrypt.compare(password, user.password);
+        const pwdMatch = (user.password ? await bcrypt.compare(password, user.password) : false);
         if (!pwdMatch) {
             return res.status(400).json({ success: false, message: "Joriy parol noto'g'ri!" });
         }
@@ -781,6 +784,9 @@ router.post('/google', async (req, res) => {
         });
         const payload = ticket.getPayload();
         const { email, name, sub } = payload;
+        if (!payload.email_verified) {
+            return res.status(400).json({ success: false, message: 'Google email tasdiqlanmagan' });
+        }
         const User = require('../models/User');
 
         let user = await User.findOne({ email });
@@ -796,7 +802,18 @@ router.post('/google', async (req, res) => {
             await user.save();
         }
 
-        req.session.user = { id: user._id, username: user.username };
+        if (user.banned) {
+            return res.status(403).json({ success: false, message: 'Hisobingiz bloklangan' });
+        }
+        if (user.twoFactor && user.twoFactorSecret) {
+            await new Promise((resolve, reject) => req.session.regenerate(e => e ? reject(e) : resolve()));
+            req.session.pending2FA = user._id.toString();
+            req.session.twoFactorAttempts = 0;
+            await new Promise(resolve => req.session.save(resolve));
+            return res.json({ success: true, requires2FA: true });
+        }
+        await new Promise((resolve, reject) => req.session.regenerate(e => e ? reject(e) : resolve()));
+        req.session.user = { id: user._id.toString(), email: user.email, username: user.username, name: user.name, avatar: user.avatar, role: user.role };
         await new Promise(resolve => req.session.save(resolve));
 
         // Telegram va turar joy yo'q bo'lsa profil to'ldirishga yo'naltirish
@@ -823,5 +840,122 @@ router.post('/google/complete', async (req, res) => {
     }
 });
 // --- END GOOGLE AUTHENTICATION ---
+
+
+// ==================== GITHUB AUTH ====================
+const ghCrypto = require('crypto');
+
+router.get('/github', (req, res) => {
+    if (!process.env.GITHUB_CLIENT_ID) return res.redirect('/login?error=github_failed');
+    const state = ghCrypto.randomBytes(16).toString('hex');
+    req.session.githubState = state;
+    const redirectUri = process.env.GITHUB_REDIRECT_URI || 'https://ctf-uz.onrender.com/api/auth/github/callback';
+    const params = new URLSearchParams({
+        client_id: process.env.GITHUB_CLIENT_ID,
+        redirect_uri: redirectUri,
+        scope: 'read:user user:email',
+        state: state
+    });
+    req.session.save(() => res.redirect('https://github.com/login/oauth/authorize?' + params.toString()));
+});
+
+router.get('/github/callback', async (req, res) => {
+    try {
+        const code = String(req.query.code || '');
+        const state = String(req.query.state || '');
+        const expected = req.session && req.session.githubState;
+        if (req.session) delete req.session.githubState;
+        if (!code || !state || !expected || state !== expected) throw new Error('state mismatch');
+
+        const redirectUri = process.env.GITHUB_REDIRECT_URI || 'https://ctf-uz.onrender.com/api/auth/github/callback';
+        const tokenRes = await fetch('https://github.com/login/oauth/access_token', {
+            method: 'POST',
+            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                client_id: process.env.GITHUB_CLIENT_ID,
+                client_secret: process.env.GITHUB_CLIENT_SECRET,
+                code: code,
+                redirect_uri: redirectUri
+            })
+        });
+        const tokenData = await tokenRes.json();
+        if (!tokenData.access_token) throw new Error('token olinmadi');
+
+        const gh = {
+            'Authorization': 'Bearer ' + tokenData.access_token,
+            'User-Agent': 'ctf-uz',
+            'Accept': 'application/vnd.github+json'
+        };
+        const profile = await (await fetch('https://api.github.com/user', { headers: gh })).json();
+        const emails = await (await fetch('https://api.github.com/user/emails', { headers: gh })).json();
+        if (!profile || !profile.id) throw new Error('profil olinmadi');
+
+        // Faqat GitHub tasdiqlagan email ishlatiladi
+        let verifiedEmail = null;
+        if (Array.isArray(emails)) {
+            const pick = emails.find(e => e.primary && e.verified) || emails.find(e => e.verified);
+            if (pick) verifiedEmail = String(pick.email).toLowerCase();
+        }
+        if (!verifiedEmail) return res.redirect('/login?error=github_no_email');
+
+        const githubId = String(profile.id);
+        let ghUser = await User.findOne({ githubId: githubId });
+        if (!ghUser) ghUser = await User.findOne({ email: verifiedEmail });
+
+        if (!ghUser) {
+            let base = String(profile.login || 'user').toLowerCase().replace(/[^a-z0-9_]/g, '').slice(0, 20);
+            if (base.length < 3) base = 'user' + base;
+            let username = base;
+            while (await User.exists({ username: username })) {
+                username = base + '_' + ghCrypto.randomBytes(2).toString('hex');
+            }
+            ghUser = new User({
+                name: String(profile.name || profile.login || username).slice(0, 50),
+                username: username,
+                email: verifiedEmail,
+                githubId: githubId,
+                github: String(profile.login || ''),
+                verified: true,
+                role: 'user'
+            });
+            await ghUser.save();
+        } else if (!ghUser.githubId) {
+            ghUser.githubId = githubId;
+            if (!ghUser.github) ghUser.github = String(profile.login || '');
+        }
+
+        if (ghUser.banned) return res.redirect('/login?error=github_banned');
+
+        ghUser.lastActive = new Date();
+        await ghUser.save();
+
+        // 2FA yoqilgan akkauntda 2FA aylanib o'tilmaydi
+        if (ghUser.twoFactor && ghUser.twoFactorSecret) {
+            return req.session.regenerate((err) => {
+                if (err) return res.redirect('/login?error=github_failed');
+                req.session.pending2FA = ghUser._id.toString();
+                req.session.twoFactorAttempts = 0;
+                req.session.save(() => res.redirect('/login?github2fa=1'));
+            });
+        }
+
+        const sessionUser = {
+            id: ghUser._id.toString(),
+            email: ghUser.email,
+            username: ghUser.username,
+            name: ghUser.name,
+            avatar: ghUser.avatar,
+            role: ghUser.role
+        };
+        establishSafeSession(req, sessionUser, false, (err) => {
+            if (err) return res.redirect('/login?error=github_failed');
+            res.redirect('/dashboard');
+        });
+    } catch (e) {
+        console.error('GitHub callback xatosi:', e.message);
+        res.redirect('/login?error=github_failed');
+    }
+});
+// ==================== END GITHUB AUTH ====================
 
 module.exports = router;

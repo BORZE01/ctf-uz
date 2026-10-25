@@ -24,6 +24,8 @@ const userSchema = new mongoose.Schema({
         index: true 
     },
     password: { type: String, required: false },
+    githubId: { type: String, unique: true, sparse: true },
+    googleId: { type: String, unique: true, sparse: true },
 
     avatar: { type: String, default: null },
     bio: { type: String, maxlength: 500, default: '' },

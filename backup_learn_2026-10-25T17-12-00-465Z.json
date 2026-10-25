@@ -1,0 +1,2118 @@
+{
+  "createdAt": "2026-10-25T17:12:00.467Z",
+  "paths": [
+    {
+      "_id": "6ada205dc827f5261875080a",
+      "slug": "slug-korsat2",
+      "title": "SARLAVHA KOSATILADU",
+      "subtitle": "QISQACHA TARIFI TEST",
+      "description": "exxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "level": "Beginner",
+      "category": "Foundations",
+      "moduleSlugs": [
+        "slugi-modul2"
+      ],
+      "finalExamMinPercent": 80,
+      "certificateType": "course_completion",
+      "certificateTitle": "CTF.UZ Course Completion Certificate",
+      "isPublished": true,
+      "order": 2,
+      "finalQuestions": [
+        {
+          "id": "ex_1792680134093",
+          "prompt": "uacbypass nima9999",
+          "options": [
+            "hechnarsa A",
+            "nima u B",
+            "hechnarsa2 C"
+          ],
+          "correctAnswer": "hechnarsa A",
+          "points": 90,
+          "_id": "6ada20c6c827f5261875083c"
+        }
+      ],
+      "createdAt": "2026-10-22T14:40:29.808Z",
+      "__v": 1
+    },
+    {
+      "_id": "6ade060d27f78a97714a8a71",
+      "title": "CTF.UZ — Kiberxavfsizlik: 1-oylik kirish yo‘li",
+      "slug": "kiberxavfsizlik-1-oylik-kirish-yoli",
+      "description": "Boshlang‘ich daraja • 5 modul • 20 dars • nazariya + xavfsiz amaliyot. Kiberxavfsizlikka kirish, CIA triadasi, asosiy terminlar, raqamli tahdidlar, operatsion tizimlar va amaliy himoya.",
+      "overview": "# CTF.UZ — Kiberxavfsizlik: 1-oylik kirish yo‘li\n\nBoshlang‘ich daraja • 5 modul • 20 dars • nazariya + xavfsiz amaliyot\n\nUshbu o‘quv yo‘li yuklangan materiallardagi kiberxavfsizlikka kirish, CIA triadasi, asosiy terminlar, tahdidlar, zararli dasturlar va operatsion tizimlar mavzulari asosida qayta tuzildi. Darslarga kundalik hayotiy misollar, mashqlar, mustahkamlash savollari va mustaqil vazifalar qo‘shildi.\n\n## Kurs haqida\n\nBu yo‘l kiberxavfsizlikni endi o‘rganayotganlar uchun mo‘ljallangan. Dasturlash yoki ilg‘or texnik tajriba talab qilinmaydi. Maqsad — xavfsizlik haqida to‘g‘ri fikrlash, muammolarni izchil tahlil qilish, kompyuter va internetdagi xavflarni tanish hamda xavfsiz himoya choralarini tushunish.\n\n### Kurs yakunida o‘quvchi\n\n- kiberxavfsizlikning maqsadi va CIA triadasini misollar bilan tushuntira oladi;\n- tahdid, zaiflik, risk, hujum va ekspluatatsiya tushunchalarini farqlaydi;\n- phishing va zararli dasturlarning keng tarqalgan belgilarini taniydi;\n- operatsion tizim, fayl, jarayon, foydalanuvchi huquqi va log tushunchalarini izohlaydi;\n- shaxsiy qurilma va akkauntlar uchun boshlang‘ich himoya rejasini tuzadi;\n- faqat o‘ziga tegishli yoki yozma ruxsat berilgan laboratoriya muhitida ishlash qoidalarini biladi.\n\n### Tavsiya etiladigan dars formati\n\nHar bir darsning vaqti taxminiy. O‘quvchi shoshilmasdan o‘qishi, mashqni bajarishi va javoblarini izohlashi kerak. 30–35 daqiqalik darslar avval tushuncha va sodda mashqlarga, keyingilari esa ko‘proq tahlil, taqqoslash va mustaqil ishga ajratiladi. Darsni faqat matnni ko‘zdan kechirish bilan tugatish yetarli emas.\n\nTavsiya: 1–4-darslar 30–35 daqiqa; 5–8-darslar 35–40 daqiqa; 9–12-darslar 40–45 daqiqa; 13–16-darslar 45–50 daqiqa; 17–20-darslar 50–60 daqiqa.\n\n### Muhim xavfsizlik qoidasi\n\nBarcha amaliy ishlar shaxsiy qurilma, maxsus o‘quv laboratoriyasi yoki aniq ruxsat berilgan muhitda bajariladi. Begona akkauntga kirishga urinish, haqiqiy saytni ruxsatsiz tekshirish, ma’lumot yig‘ish yoki tizim ishiga xalaqit berish ushbu kurs doirasiga kirmaydi. Red Team/penetratsion test faqat belgilangan doira va ruxsat asosida amalga oshiriladi.\n\n## Yakuniy baholash va sertifikat mezonlari\n\nTavsiya etiladigan kursni tugatish mezoni: 20 darsning barchasini o‘qish; har dars oxiridagi savollardan kamida 80% to‘g‘ri javob berish; har modulning amaliy topshirig‘ini topshirish; yakuniy loyihani yuborish va xavfsiz ishlash qoidalariga rioya qilish. Platformada sertifikat berish mezonlari oldindan ko‘rsatilishi, natijalar esa server tomonida tekshirilishi kerak.\n\n### CTF.UZ platformasi uchun kontent tavsiyasi\n\n- Har bir darsni alohida lesson sifatida saqlang; matn, misol, amaliy mashq, savollar va javoblarni alohida maydonlarda tutish qulay.\n- Savollar uchun bir nechta variantli test, qisqa javob va amaliy topshiriq turlarini aralashtiring.\n- Darsning “30–60 daqiqa” qiymatini taxminiy o‘quv vaqti sifatida ko‘rsating; vaqtning o‘zi darsni tugatganlikni isbotlamaydi.\n- Sertifikatni faqat barcha majburiy darslar, testlar va yakuniy loyiha mezonlari serverda bajarilgandan keyin berish ma’qul.\n- Bepul kursni tugatish sertifikati bilan pullik amaliy imtihon sertifikatini alohida nomlang. Pullik imtihon bu o‘quv yo‘lining ichida hali ishlab chiqilmagan bo‘lsa, uni mavjud deb ko‘rsatmang.\n- Har bir amaliy topshiriq yonida ruxsatli laboratoriya va ma’lumot xavfsizligi qoidalarini eslatib turing.\n\n## Manba va moslashtirish qaydi\n\nAsos sifatida foydalanuvchi yuborgan matndagi kiberxavfsizlikka kirish, CIA triadasi, xavfsizlik yo‘nalishlari, zaiflik/tahdid/risk/hujum/eksploit terminlari, phishing va malware turlari hamda operatsion tizimlarning vazifalari haqidagi mavzular ishlatildi. Dars ketma-ketligini boshlang‘ich auditoriyaga moslash, misollar, mashqlar, himoya tavsiyalari, baholash mezonlari va yakuniy loyiha qo‘shish — ushbu o‘quv yo‘li uchun tahririy kengaytmalardir.\n",
+      "order": 1,
+      "difficulty": "Boshlang‘ich",
+      "duration": "1 oy (20 dars · 30–60 daqiqadan)",
+      "totalModules": 5,
+      "totalLessons": 20,
+      "icon": "shield-alt",
+      "updatedAt": "2026-10-25T14:24:22.524Z",
+      "createdAt": "2026-10-25T13:37:17.313Z"
+    }
+  ],
+  "modules": [
+    {
+      "_id": "6ad3b3e99bcd00772931fc3d",
+      "slug": "module-1",
+      "title": "1-modul. Asoslar va qonunchilik",
+      "order": 1,
+      "__v": 0,
+      "category": "Cybersecurity Fundamentals",
+      "difficulty": "Beginner",
+      "isActive": true
+    },
+    {
+      "_id": "6ad3b3e99bcd00772931fc58",
+      "slug": "module-2",
+      "title": "2-modul. Linux OS",
+      "order": 2,
+      "__v": 0,
+      "category": "Cybersecurity Fundamentals",
+      "difficulty": "Beginner",
+      "isActive": true
+    },
+    {
+      "_id": "6ad3b3e99bcd00772931fc86",
+      "slug": "module-4",
+      "title": "4-modul. Tarmoq asoslari va hujumlar",
+      "order": 4,
+      "__v": 0,
+      "category": "Cybersecurity Fundamentals",
+      "difficulty": "Beginner",
+      "isActive": true
+    },
+    {
+      "_id": "6ad3d012ad29592ee6219160",
+      "slug": "5-modul-test-uchun",
+      "title": "test sarlavha uchun ",
+      "description": "Kiberxavfsizlik asoslari va amaliyot",
+      "category": "Cybersecurity Fundamentals",
+      "difficulty": "Beginner",
+      "order": 1,
+      "isActive": true,
+      "__v": 0
+    },
+    {
+      "_id": "6ada0f8e41b2ff30972ae03a",
+      "slug": "slugi-modul",
+      "title": "SARLAVHASI MODULNI",
+      "description": "BU MODUL TEST UCHUN YARATILDI KU NIMA QILASAN OQIB KOPO YOZISH KEREE",
+      "category": "TEST KATEGORIYA",
+      "difficulty": "Beginner",
+      "order": 1,
+      "pathSlug": "oqyv-slug",
+      "isPublished": true,
+      "createdAt": "2026-10-22T13:28:46.277Z",
+      "__v": 0
+    },
+    {
+      "_id": "6ada2071c827f52618750816",
+      "slug": "slugi-modul2",
+      "title": "SARLAVHASI MODULNI2",
+      "description": "22222222222222222",
+      "category": "Cybersecurity",
+      "difficulty": "Beginner",
+      "order": 1,
+      "pathSlug": "slug-korsat2",
+      "isPublished": true,
+      "createdAt": "2026-10-22T14:40:49.512Z",
+      "__v": 0
+    },
+    {
+      "_id": "6ade1116dfeb32865f893763",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "title": "1-MODUL. KIBERXAVFSIZLIKKA KIRISH",
+      "slug": "path1-modul-1-1-modul-kiberxavfsizlikka-kirish",
+      "description": "4 dars · 30–35 daqiqadan — Bu modul kiberxavfsizlik nima ekanini, nima uchun kerakligini va mutaxassislar qanday fikrlashini o‘rgatadi.",
+      "duration": "4 dars · 30–35 daqiqadan",
+      "order": 1,
+      "createdAt": "2026-10-25T14:24:22.542Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f89377c",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "title": "2-MODUL. ASOSIY TERMINLAR VA RISKNI TUSHUNISH",
+      "slug": "path1-modul-2-2-modul-asosiy-terminlar-va-riskni-tushunish",
+      "description": "4 dars · 35–40 daqiqadan — Bu modul zaiflik, tahdid, hujum, ekspluatatsiya va riskni aralashtirib yubormaslikka yordam beradi.",
+      "duration": "4 dars · 35–40 daqiqadan",
+      "order": 2,
+      "createdAt": "2026-10-25T14:24:22.637Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f893795",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "title": "3-MODUL. RAQAMLI TAHDIDLAR VA FOYDALANUVCHI XAVFSIZLIGI",
+      "slug": "path1-modul-3-3-modul-raqamli-tahdidlar-va-foydalanuvchi-xavfsizligi",
+      "description": "4 dars · 40–45 daqiqadan — Bu modul phishing, zararli dasturlar, parollar va akkauntni himoyalashni kundalik misollar orqali o‘rgatadi.",
+      "duration": "4 dars · 40–45 daqiqadan",
+      "order": 3,
+      "createdAt": "2026-10-25T14:24:22.701Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937ae",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "title": "4-MODUL. KOMPYUTER, OPERATSION TIZIM VA MA’LUMOTLAR",
+      "slug": "path1-modul-4-4-modul-kompyuter-operatsion-tizim-va-malumotlar",
+      "description": "4 dars · 45–50 daqiqadan — Bu modul operatsion tizim, fayllar, jarayonlar, ruxsatlar va loglar haqida boshlang‘ich tasavvur beradi.",
+      "duration": "4 dars · 45–50 daqiqadan",
+      "order": 4,
+      "createdAt": "2026-10-25T14:24:22.757Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937c7",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "title": "5-MODUL. AMALIY HIMOYA VA YAKUNIY LOYIHA",
+      "slug": "path1-modul-5-5-modul-amaliy-himoya-va-yakuniy-loyiha",
+      "description": "4 dars · 50–60 daqiqadan — Bu modul avvalgi bilimlarni birlashtiradi: xavfsizlik tekshiruvi, hodisani tahlil qilish, hisobot va yakuniy loyiha.",
+      "duration": "4 dars · 50–60 daqiqadan",
+      "order": 5,
+      "createdAt": "2026-10-25T14:24:22.813Z"
+    }
+  ],
+  "lessons": [
+    {
+      "_id": "6ad3b3e99bcd00772931fc40",
+      "moduleSlug": "module-1",
+      "slug": "cia-triad",
+      "title": "CIA Triadasi",
+      "content": "<h3>CIA Triadasi (Axborot Xavfsizligi Ustunlari)</h3><p>Axborot xavfsizligining fundamental poydevori CIA triadasi deb ataluvchi uchta asosiy prinsipga tayanadi: <b>Maxfiylik (Confidentiality)</b>, <b>Yaxlitlik (Integrity)</b>, <b>Mavjudlik (Availability)</b>.</p>",
+      "order": 1,
+      "__v": 0,
+      "duration": 15,
+      "type": "quiz",
+      "xpReward": 50
+    },
+    {
+      "_id": "6ad3b3e99bcd00772931fc46",
+      "moduleSlug": "module-1",
+      "slug": "ethical-hacking",
+      "title": "Etik Xakerlik",
+      "content": "<h3>Etik Xakerlik va Qonunchilik</h3><p>Xakerlik faoliyati niyat va ruxsatga ko'ra toifalarga bo'linadi: White Hat, Black Hat, Grey Hat.</p><ul><li><b>Rules of Engagement (RoE):</b> Tekshiruv boshlanishidan oldin imzolanadigan rasmiy hujjat.</li><li><b>O'zbekiston Respublikasi JK XX¹ bobi:</b> 278-4, 278-5, 278-6 moddalari axborot texnologiyalari sohasidagi jinoyatlarni belgilaydi.</li></ul>",
+      "order": 2,
+      "__v": 0,
+      "duration": 15,
+      "type": "quiz",
+      "xpReward": 50
+    },
+    {
+      "_id": "6ad3b3e99bcd00772931fc4c",
+      "moduleSlug": "module-1",
+      "slug": "kali-linux",
+      "title": "Kali Linux",
+      "content": "<h3>Kali Linux</h3><p>Kali Linux — Debian asosida yaratilgan, penetratsion testlar uchun maxsus yig'ilgan distributiv.</p>",
+      "order": 3,
+      "__v": 0,
+      "duration": 15,
+      "type": "quiz",
+      "xpReward": 50
+    },
+    {
+      "_id": "6ad3b3e99bcd00772931fc52",
+      "moduleSlug": "module-1",
+      "slug": "virtualbox",
+      "title": "VirtualBox",
+      "content": "<h3>VirtualBox</h3><p>Type-2 gipervizorlari orqali izolyatsiyalangan laboratoriya yaratiladi. Tarmoq rejimlari: NAT, Bridged, Internal Network, Host-Only.</p>",
+      "order": 4,
+      "__v": 0,
+      "duration": 15,
+      "type": "quiz",
+      "xpReward": 50
+    },
+    {
+      "_id": "6ad3b3e99bcd00772931fc5a",
+      "moduleSlug": "module-2",
+      "slug": "bash-scripts",
+      "title": "Bash Scriptlar",
+      "content": "<h3>Bash Scriptlar</h3><p>Bash (Bourne Again Shell) xavfsizlik mutaxassisiga vazifalarni avtomatlashtirishda qo'l keladi.</p>",
+      "order": 1,
+      "__v": 0,
+      "duration": 15,
+      "type": "quiz",
+      "xpReward": 50
+    },
+    {
+      "_id": "6ad3b3e99bcd00772931fc60",
+      "moduleSlug": "module-2",
+      "slug": "ssh",
+      "title": "SSH",
+      "content": "<h3>SSH (Secure Shell)</h3><p>SSH (Port 22) — masofaviy serverlarni xavfsiz boshqarish protokoli.</p>",
+      "order": 2,
+      "__v": 0,
+      "duration": 15,
+      "type": "quiz",
+      "xpReward": 50
+    },
+    {
+      "_id": "6ad3b3e99bcd00772931fc66",
+      "moduleSlug": "module-2",
+      "slug": "ufw",
+      "title": "UFW",
+      "content": "<h3>UFW (Uncomplicated Firewall)</h3><p>Linux yadrosida tarmoq paketlarini filtrlashni osonlashtirish uchun UFW ishlatiladi.</p>",
+      "order": 3,
+      "__v": 0,
+      "duration": 15,
+      "type": "quiz",
+      "xpReward": 50
+    },
+    {
+      "_id": "6ad3b3e99bcd00772931fc6c",
+      "moduleSlug": "module-2",
+      "slug": "wireshark",
+      "title": "Wireshark",
+      "content": "<h3>Wireshark bilan Tarmoq Tahlili</h3><p>Wireshark — paket analizatori (Sniffer).</p>",
+      "order": 4,
+      "__v": 0,
+      "duration": 15,
+      "type": "quiz",
+      "xpReward": 50
+    },
+    {
+      "_id": "6ad3b3e99bcd00772931fc88",
+      "moduleSlug": "module-4",
+      "slug": "osi",
+      "title": "OSI",
+      "content": "<h3>OSI Modeli</h3><p>OSI modeli — tarmoq orqali qanday bog'lanishni standartlashtiruvchi 7 bosqichli model.</p>",
+      "order": 1,
+      "__v": 0,
+      "duration": 15,
+      "type": "quiz",
+      "xpReward": 50
+    },
+    {
+      "_id": "6ad3b3e99bcd00772931fc8e",
+      "moduleSlug": "module-4",
+      "slug": "tcp-ip",
+      "title": "TCP/IP",
+      "content": "<h3>TCP/IP Staki va 3-Way Handshake</h3><p>TCP vs UDP farqlari hamda 3 bosqichli aloqa.</p>",
+      "order": 2,
+      "__v": 0,
+      "duration": 15,
+      "type": "quiz",
+      "xpReward": 50
+    },
+    {
+      "_id": "6ad3b3e99bcd00772931fc94",
+      "moduleSlug": "module-4",
+      "slug": "nmap",
+      "title": "Nmap",
+      "content": "<h3>Nmap (Network Mapper)</h3><p>Ochiq portlarni topish va xizmatlarni aniqlash.</p>",
+      "order": 3,
+      "__v": 0,
+      "duration": 15,
+      "type": "quiz",
+      "xpReward": 50
+    },
+    {
+      "_id": "6ad3b3e99bcd00772931fc9a",
+      "moduleSlug": "module-4",
+      "slug": "mitm",
+      "title": "MITM",
+      "content": "<h3>MITM va ARP Spoofing</h3><p>MITM (O'rtadagi odam) va soxta ARP paketlarini tarmoqqa yuborish.</p>",
+      "order": 4,
+      "__v": 0,
+      "duration": 15,
+      "type": "quiz",
+      "xpReward": 50
+    },
+    {
+      "_id": "6ad3b3e99bcd00772931fca0",
+      "moduleSlug": "module-4",
+      "slug": "dns-spoofing",
+      "title": "DNS Spoofing",
+      "content": "<h3>DNS Spoofing</h3><p>Qurbon brauzeriga soxta IP manzil yuborish orqali fishing hujumi.</p>",
+      "order": 5,
+      "__v": 0,
+      "duration": 15,
+      "type": "quiz",
+      "xpReward": 50
+    },
+    {
+      "_id": "6ad3cbe005668c5e0a6562e2",
+      "moduleSlug": "test-uchun-dars",
+      "slug": "dars-slugi-bankomat-buzish",
+      "title": "dars sarlavhasi yozilad",
+      "description": "qisqacha tasvif yoilegon joy",
+      "content": "matin html sarlavha ",
+      "duration": 25,
+      "xpReward": 50,
+      "type": "quiz",
+      "order": 1,
+      "__v": 0
+    },
+    {
+      "_id": "6ad3cc5905668c5e0a65630b",
+      "moduleSlug": "test-sarlavha",
+      "slug": "2dars-slugi-bankomat-buzish",
+      "title": "dars sarlavhasi yozilad2",
+      "description": "qisqacha tasvif yoilegon joy2",
+      "content": "",
+      "duration": 25,
+      "xpReward": 50,
+      "type": "quiz",
+      "order": 1,
+      "__v": 0
+    },
+    {
+      "_id": "6ad3d039ad29592ee621916e",
+      "moduleSlug": "5-modul-test-uchun",
+      "slug": "1dars-slugi-bankomat-buzish",
+      "title": "dars sarlavhasi yozilad1",
+      "description": "qisqacha tasvif yoilegon joy1",
+      "content": "html matni",
+      "duration": 15,
+      "xpReward": 50,
+      "type": "quiz",
+      "order": 1,
+      "__v": 0
+    },
+    {
+      "_id": "6ada0540f3d777c6b1c3fb55",
+      "moduleSlug": "5-modul-test-uchun",
+      "slug": "slugi-darsni",
+      "title": "DARS SARLAVHASI",
+      "description": "",
+      "content": "TEST UCHUN NAZARIY MALUMOT KORSATILAR EKAN BU JOYDA KO[RPQ YOZISH KERE SHUNING UCHUN YZOVOBMAN EKAN NIMA GA SHUNAQA AI XATO QILAVERAV EKAN KU",
+      "type": "mixed",
+      "duration": 15,
+      "xpReward": 500,
+      "order": 1,
+      "requiredChallengeIds": [],
+      "minQuizPassPercent": 80,
+      "isMandatory": true,
+      "createdAt": "2026-10-22T12:44:48.740Z",
+      "__v": 0
+    },
+    {
+      "_id": "6ada055df3d777c6b1c3fb67",
+      "moduleSlug": "5-modul-test-uchun",
+      "slug": "slugi-darsni2",
+      "title": "DARS SARLAVHASI",
+      "description": "",
+      "content": "TEST UCHUN NAZARIY MALUMOT KORSATILAR EKAN BU JOYDA KO[RPQ YOZISH KERE SHUNING UCHUN YZOVOBMAN EKAN NIMA GA SHUNAQA AI XATO QILAVERAV EKAN KU",
+      "type": "mixed",
+      "duration": 15,
+      "xpReward": 500,
+      "order": 1,
+      "requiredChallengeIds": [],
+      "minQuizPassPercent": 80,
+      "isMandatory": true,
+      "createdAt": "2026-10-22T12:45:17.385Z",
+      "__v": 0
+    },
+    {
+      "_id": "6ada100441b2ff30972ae051",
+      "moduleSlug": "slugi-modul",
+      "slug": "slugi-darsni4",
+      "title": "DARS SARLAVHASI",
+      "description": "DARSNING QISQACHA TARIFI SHUKI ",
+      "content": "<H3> NIMAGA BUNDAY NOAM SHUMI <P> NIMA CODE YOASH KEREM NEGA <CODE> BU KODE NIMA QILARKIN",
+      "duration": 20,
+      "xpReward": 50,
+      "order": 1,
+      "isMandatory": true,
+      "createdAt": "2026-10-22T13:30:44.051Z",
+      "__v": 0
+    },
+    {
+      "_id": "6ada209fc827f52618750823",
+      "moduleSlug": "slugi-modul2",
+      "slug": "slugi-darsni42",
+      "title": "DARS SARLAVHASI2",
+      "description": "2222222222222222222222",
+      "content": "<H3> H3 EKAN\n<P> P EKAN\n<CODE> CODE EKAN",
+      "duration": 15,
+      "xpReward": 50,
+      "order": 1,
+      "isMandatory": true,
+      "createdAt": "2026-10-22T14:41:35.905Z",
+      "__v": 0
+    },
+    {
+      "_id": "6ade1116dfeb32865f893764",
+      "moduleId": "6ade1116dfeb32865f893763",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "title": "1-dars. Kiberxavfsizlik nima va nima uchun kerak?",
+      "slug": "path1-dars-1-1-dars-kiberxavfsizlik-nima-va-nima-uchun-kerak",
+      "duration": "30 daqiqa",
+      "difficulty": "boshlang‘ich",
+      "content": "# CTF.UZ — Kiberxavfsizlik: 1-oylik kirish yo‘li\n\nBoshlang‘ich daraja • 5 modul • 20 dars • nazariya + xavfsiz amaliyot\n\nUshbu o‘quv yo‘li yuklangan materiallardagi kiberxavfsizlikka kirish, CIA triadasi, asosiy terminlar, tahdidlar, zararli dasturlar va operatsion tizimlar mavzulari asosida qayta tuzildi. Darslarga kundalik hayotiy misollar, mashqlar, mustahkamlash savollari va mustaqil vazifalar qo‘shildi.\n\n## Kurs haqida\n\nBu yo‘l kiberxavfsizlikni endi o‘rganayotganlar uchun mo‘ljallangan. Dasturlash yoki ilg‘or texnik tajriba talab qilinmaydi. Maqsad — xavfsizlik haqida to‘g‘ri fikrlash, muammolarni izchil tahlil qilish, kompyuter va internetdagi xavflarni tanish hamda xavfsiz himoya choralarini tushunish.\n\n### Kurs yakunida o‘quvchi\n\n- kiberxavfsizlikning maqsadi va CIA triadasini misollar bilan tushuntira oladi;\n- tahdid, zaiflik, risk, hujum va ekspluatatsiya tushunchalarini farqlaydi;\n- phishing va zararli dasturlarning keng tarqalgan belgilarini taniydi;\n- operatsion tizim, fayl, jarayon, foydalanuvchi huquqi va log tushunchalarini izohlaydi;\n- shaxsiy qurilma va akkauntlar uchun boshlang‘ich himoya rejasini tuzadi;\n- faqat o‘ziga tegishli yoki yozma ruxsat berilgan laboratoriya muhitida ishlash qoidalarini biladi.\n\n### Tavsiya etiladigan dars formati\n\nHar bir darsning vaqti taxminiy. O‘quvchi shoshilmasdan o‘qishi, mashqni bajarishi va javoblarini izohlashi kerak. 30–35 daqiqalik darslar avval tushuncha va sodda mashqlarga, keyingilari esa ko‘proq tahlil, taqqoslash va mustaqil ishga ajratiladi. Darsni faqat matnni ko‘zdan kechirish bilan tugatish yetarli emas.\n\nTavsiya: 1–4-darslar 30–35 daqiqa; 5–8-darslar 35–40 daqiqa; 9–12-darslar 40–45 daqiqa; 13–16-darslar 45–50 daqiqa; 17–20-darslar 50–60 daqiqa.\n\n### Muhim xavfsizlik qoidasi\n\nBarcha amaliy ishlar shaxsiy qurilma, maxsus o‘quv laboratoriyasi yoki aniq ruxsat berilgan muhitda bajariladi. Begona akkauntga kirishga urinish, haqiqiy saytni ruxsatsiz tekshirish, ma’lumot yig‘ish yoki tizim ishiga xalaqit berish ushbu kurs doirasiga kirmaydi. Red Team/penetratsion test faqat belgilangan doira va ruxsat asosida amalga oshiriladi.\n\n---\n\n## 1-MODUL. KIBERXAVFSIZLIKKA KIRISH\nBu modul kiberxavfsizlik nima ekanini, nima uchun kerakligini va mutaxassislar qanday fikrlashini o‘rgatadi.\n\n### 1-dars. Kiberxavfsizlik nima va nima uchun kerak?\n\nTaxminiy vaqt: 30 daqiqa  |  Daraja: boshlang‘ich\n\n#### Dars maqsadi\n\nKiberxavfsizlikni faqat xakerlar bilan bog‘lamasdan, qurilmalar, hisoblar, ma’lumotlar va xizmatlarni himoya qilish amaliyoti sifatida tushunish.\n\n#### Darsni o‘rganamiz\n\n#### 1. Raqamli hayot va himoya qilinadigan narsalar\n\nBugun telefon, kompyuter, elektron pochta, ijtimoiy tarmoq, bank ilovasi va bulutli fayllar bir-biriga bog‘langan. Har birida qiymatli narsa bor: shaxsiy suratlar, yozishmalar, parollar, o‘qish hujjatlari yoki pulga oid ma’lumotlar. Kiberxavfsizlik — shu aktivlarni ruxsatsiz ko‘rish, o‘zgartirish, yo‘qotish yoki xizmatni ishdan chiqarishdan himoya qilishga qaratilgan texnologiya, jarayon va odatlar majmuasi.\n\n#### 2. Himoya faqat antivirus emas\n\nAntivirus muhim bo‘lishi mumkin, lekin u barcha muammoni hal qilmaydi. Kuchli va takrorlanmaydigan parol, ko‘p bosqichli tasdiqlash, dastur yangilanishi, zaxira nusxa, foydalanuvchi huquqlarini cheklash va shubhali xabarlarni tekshirish ham himoyaning bir qismi. Xavfsizlik odatda bir nechta qatlamdan tashkil topadi; bitta qatlam ishlamay qolsa, boshqasi zararni kamaytirishi mumkin.\n\n#### 3. Himoya, aniqlash va tiklanish\n\nYaxshi xavfsizlik uchta savolga javob beradi: muammoning oldini qanday olamiz, sodir bo‘lsa qanday aniqlaymiz, keyin qanday tiklanamiz? Masalan, zaxira nusxa hujumning oldini olmasligi mumkin, lekin fayllar yo‘qolsa tiklashga yordam beradi. Hodisani tez aniqlash ham zarar tarqalishini kamaytiradi.\n\n#### Hayotiy vaziyat\n\nTasavvur qiling, o‘quvchi akkauntida kuchli parol bor, lekin u soxta havolada parolni kiritdi. Bu vaziyat kuchli parolning o‘zi yetarli emasligini ko‘rsatadi: havolani tekshirish, ko‘p bosqichli tasdiqlash va shubhali kirish haqida ogohlantirish ham kerak.\n\n#### Amaliy mashq\n\nQog‘ozga yoki eslatma fayliga o‘zingiz foydalanadigan 5 ta raqamli aktivni yozing. Har biri uchun: u yo‘qolsa nima bo‘ladi, kim ko‘rmasligi kerak va qanday himoya chorasi mos kelishini belgilang. Haqiqiy parol yoki maxfiy ma’lumotni yozmang.\n\n#### Dars oxiridagi savollar\n\n1. Kiberxavfsizlik nimani himoya qiladi?\n2. Nega antivirusning o‘zi yetarli emas?\n3. Himoya, aniqlash va tiklanish orasidagi farq nima?\n\n#### Qisqa javoblar\n\n- Qurilma, hisob, ma’lumot va xizmatlarni.\n- Chunki xavflar turli manbalardan keladi; qatlamli himoya kerak.\n- Oldini olish, muammoni payqash va ishni xavfsiz tiklash.\n\n#### Uyga vazifa / qo‘shimcha topshiriq\n\n“Mening raqamli hayotim” nomli kichik ro‘yxat tuzing: 5 ta aktiv, har biriga bittadan xavf va bittadan himoya chorasi.\n\n#### Qo‘shimcha chaqiriq\n\nBiror raqamli xizmat ishlamay qolsa, bu faqat texnik muammomi yoki xavfsizlik muammosi ham bo‘lishi mumkinmi? Ikki ehtimolni asoslang.\n\nO‘quvchi o‘z so‘zi bilan tushuntira olishi kerak: mavzuning asosiy g‘oyasi, kamida ikki misol va uni himoya nuqtayi nazaridan qanday qo‘llash mumkinligi.",
+      "order": 1,
+      "xp": 100,
+      "createdAt": "2026-10-25T14:24:22.554Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f89376a",
+      "moduleId": "6ade1116dfeb32865f893763",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "title": "2-dars. CIA triadasi: maxfiylik, yaxlitlik va mavjudlik",
+      "slug": "path1-dars-2-2-dars-cia-triadasi-maxfiylik-yaxlitlik-va-mavjudlik",
+      "duration": "32 daqiqa",
+      "difficulty": "boshlang‘ich",
+      "content": "## 1-MODUL. KIBERXAVFSIZLIKKA KIRISH\nBu modul kiberxavfsizlik nima ekanini, nima uchun kerakligini va mutaxassislar qanday fikrlashini o‘rgatadi.\n\n### 2-dars. CIA triadasi: maxfiylik, yaxlitlik va mavjudlik\n\nTaxminiy vaqt: 32 daqiqa  |  Daraja: boshlang‘ich\n\n#### Dars maqsadi\n\nMa’lumotlar xavfsizligining uchta asosiy xususiyatini real vaziyatlar orqali farqlash.\n\n#### Darsni o‘rganamiz\n\n#### 1. Maxfiylik (Confidentiality)\n\nMaxfiylik ma’lumotni faqat tegishli ruxsatga ega odamlar ko‘rishini anglatadi. Masalan, sinf jurnalidagi baholar hamma uchun ochiq bo‘lishi shart emas. Parol, kirish huquqi va shifrlash maxfiylikni qo‘llab-quvvatlaydi. Ma’lumotga kerak bo‘lmagan odamlar ham kira olsa, maxfiylik buziladi.\n\n#### 2. Yaxlitlik (Integrity)\n\nYaxlitlik ma’lumot ruxsatsiz yoki noto‘g‘ri tarzda o‘zgartirilmaganini anglatadi. Masalan, imtihon natijasi saqlangandan keyin kimdir bahoni o‘zgartirsa, ma’lumot maxfiy qolgan bo‘lsa ham yaxlitlik buziladi. Kirish huquqlari, o‘zgarishlar tarixi va nazorat summalari yaxlitlikni tekshirishga yordam beradi.\n\n#### 3. Mavjudlik (Availability)\n\nMavjudlik vakolatli foydalanuvchi kerakli vaqtda xizmat yoki ma’lumotdan foydalana olishini anglatadi. Elektr uzilishi, server nosozligi yoki xizmatga ortiqcha so‘rovlar kelishi tizimni ishlatib bo‘lmaydigan holatga olib kelishi mumkin. Zaxira tizim, muntazam backup va tiklash rejasi mavjudlikni oshiradi.\n\n#### Hayotiy vaziyat\n\nMaktab platformasidagi baholar hammaga ko‘rinib qolsa — maxfiylik muammosi. Baholar noto‘g‘ri o‘zgartirilsa — yaxlitlik muammosi. Platforma imtihon kuni ochilmasa — mavjudlik muammosi. Bitta hodisa ba’zan uchalasiga ham ta’sir qilishi mumkin.\n\n#### Amaliy mashq\n\nQuyidagi vaziyatlarni C, I yoki A bilan belgilang: (a) ruxsatsiz odam shaxsiy faylni ko‘rdi; (b) fayldagi raqam o‘zgardi; (c) sayt ochilmayapti. Keyin har biriga bittadan himoya chorasini yozing.\n\n#### Dars oxiridagi savollar\n\n1. CIA nimani anglatadi?\n2. Fayl ruxsatsiz o‘zgartirilsa qaysi xususiyat buziladi?\n3. Backup qaysi xususiyatni qo‘llab-quvvatlaydi?\n\n#### Qisqa javoblar\n\n- Maxfiylik, yaxlitlik, mavjudlik.\n- Yaxlitlik.\n- Asosan mavjudlik va tiklanish; nazorat bilan yaxlitlikka ham yordam beradi.\n\n#### Uyga vazifa / qo‘shimcha topshiriq\n\nUyda yoki o‘qishda ishlatiladigan bitta xizmatni tanlang va CIA triadasining har bir qismi uchun bittadan xavf hamda yechim yozing.\n\n#### Qo‘shimcha chaqiriq\n\nBitta voqea bir vaqtning o‘zida maxfiylik va mavjudlikka qanday ta’sir qilishi mumkin? Misol keltiring.\n\nO‘quvchi o‘z so‘zi bilan tushuntira olishi kerak: mavzuning asosiy g‘oyasi, kamida ikki misol va uni himoya nuqtayi nazaridan qanday qo‘llash mumkinligi.",
+      "order": 2,
+      "xp": 100,
+      "createdAt": "2026-10-25T14:24:22.587Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f893770",
+      "moduleId": "6ade1116dfeb32865f893763",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "title": "3-dars. Kiberxavfsizlik yo‘nalishlari va mutaxassis rollari",
+      "slug": "path1-dars-3-3-dars-kiberxavfsizlik-yonalishlari-va-mutaxassis-rollari",
+      "duration": "35 daqiqa",
+      "difficulty": "boshlang‘ich",
+      "content": "## 1-MODUL. KIBERXAVFSIZLIKKA KIRISH\nBu modul kiberxavfsizlik nima ekanini, nima uchun kerakligini va mutaxassislar qanday fikrlashini o‘rgatadi.\n\n### 3-dars. Kiberxavfsizlik yo‘nalishlari va mutaxassis rollari\n\nTaxminiy vaqt: 35 daqiqa  |  Daraja: boshlang‘ich\n\n#### Dars maqsadi\n\nKiberxavfsizlik bir nechta yo‘nalishdan iboratligini va mutaxassislar vazifalari turlicha bo‘lishini tushunish.\n\n#### Darsni o‘rganamiz\n\n#### 1. Tarmoq, qurilma va ma’lumot xavfsizligi\n\nTarmoq xavfsizligi qurilmalar va tarmoq orqali harakatlanayotgan ma’lumotni himoya qiladi. Endpoint xavfsizligi noutbuk, telefon va server kabi oxirgi qurilmalarga qaratiladi. Ma’lumot xavfsizligi esa fayl qayerda turganidan qat’i nazar, unga kim kira olishi, qanday saqlanishi va qanday tiklanishini ko‘rib chiqadi.\n\n#### 2. Ilova, veb va bulut xavfsizligi\n\nIlova xavfsizligi dastur yaratilishidan boshlab xatolarni kamaytirishga intiladi. Veb xavfsizligi sayt, brauzer, server va API o‘rtasidagi aloqani qamrab oladi. Bulut xavfsizligida esa provayder infratuzilmani, mijoz esa o‘z ma’lumotlari, ruxsatlari va sozlamalarining muhim qismini boshqaradi. Mas’uliyat chegarasi xizmat turiga qarab farqlanadi.\n\n#### 3. Blue Team, Red Team va xavfsizlik tahlilchisi\n\nBlue Team himoya, kuzatish, ogohlantirishlarni tahlil qilish va hodisalarga javob berishga e’tibor beradi. Red Team belgilangan ruxsat va doirada tashkilot himoyasini sinab ko‘radi. Xavfsizlik tahlilchisi loglar, ogohlantirishlar va hodisa belgilarini tekshirishi mumkin. Bu rollar raqib emas: maqsad — tizimni yaxshilash.\n\n#### Hayotiy vaziyat\n\nKompaniya saytida muammo aniqlansa, veb xavfsizlik mutaxassisi kodni ko‘radi, Blue Team loglardan shubhali faoliyat izlaydi, tizim administratori yangilanishni o‘rnatadi, Red Team esa keyin ruxsat etilgan qayta sinovni bajarishi mumkin.\n\n#### Amaliy mashq\n\nQuyidagi vazifalarni yo‘nalish bilan moslang: yo‘qolgan noutbukdagi ma’lumotni himoyalash; saytning xavfsiz ishlashini tekshirish; shubhali kirish loglarini tahlil qilish; bulut papkasiga kirish huquqlarini tekshirish.\n\n#### Dars oxiridagi savollar\n\n1. Blue Teamning asosiy vazifasi nima?\n2. Veb xavfsizligi nimani qamrab oladi?\n3. Red Team sinovi uchun nima muhim?\n\n#### Qisqa javoblar\n\n- Himoya, kuzatish va hodisaga javob.\n- Sayt, server, brauzer, protokol va API kabi qismlarni.\n- Aniq ruxsat, doira va qoidalar.\n\n#### Uyga vazifa / qo‘shimcha topshiriq\n\nSizga qiziq bo‘lgan ikkita kiberxavfsizlik rolini tanlang. Har biri nima qiladi va qanday boshlang‘ich ko‘nikma kerakligini 4–5 gapda yozing.\n\n#### Qo‘shimcha chaqiriq\n\nBir tashkilotda Blue Team va Red Team natijalarni qanday qilib birgalikda xavfsizlikni yaxshilashga aylantirishi mumkin?\n\nO‘quvchi o‘z so‘zi bilan tushuntira olishi kerak: mavzuning asosiy g‘oyasi, kamida ikki misol va uni himoya nuqtayi nazaridan qanday qo‘llash mumkinligi.",
+      "order": 3,
+      "xp": 100,
+      "createdAt": "2026-10-25T14:24:22.605Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f893776",
+      "moduleId": "6ade1116dfeb32865f893763",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "title": "4-dars. Etika, ruxsat va xavfsiz o‘rganish muhiti",
+      "slug": "path1-dars-4-4-dars-etika-ruxsat-va-xavfsiz-organish-muhiti",
+      "duration": "35 daqiqa",
+      "difficulty": "boshlang‘ich",
+      "content": "## 1-MODUL. KIBERXAVFSIZLIKKA KIRISH\nBu modul kiberxavfsizlik nima ekanini, nima uchun kerakligini va mutaxassislar qanday fikrlashini o‘rgatadi.\n\n### 4-dars. Etika, ruxsat va xavfsiz o‘rganish muhiti\n\nTaxminiy vaqt: 35 daqiqa  |  Daraja: boshlang‘ich\n\n#### Dars maqsadi\n\nKiberxavfsizlikdagi qonuniy va axloqiy chegaralarni bilish hamda laboratoriya muhitida xavfsiz ishlashni rejalash.\n\n#### Darsni o‘rganamiz\n\n#### 1. Ruxsat va doira (scope)\n\nTexnik imkoniyat biror tizimni tekshirishga ruxsat bor degani emas. Ruxsat — kim, qaysi tizimni, qachon, qanday usulda va qanday chegaralarda tekshirishi mumkinligini ko‘rsatadi. Sinov doirasi domen, IP manzil, hisoblar, vaqt va taqiqlangan harakatlarni aniq belgilashi kerak. Shubha bo‘lsa, ishni to‘xtatib, mas’ul shaxsdan aniqlik olish to‘g‘ri yo‘l.\n\n#### 2. Laboratoriya va xavfni cheklash\n\nO‘rganish uchun maxsus laboratoriya, sun’iy ma’lumotlar va ajratilgan virtual muhitdan foydalanish ma’qul. Haqiqiy foydalanuvchi ma’lumotlarini ko‘chirmang, begona tizimga sinov so‘rovlari yubormang va zarar yetkazishi mumkin bo‘lgan harakatlarni bajarmang. Mashq boshlashdan oldin nimani o‘rganish, qayerda ishlash va qanday qilib to‘xtatish rejasini tuzing.\n\n#### 3. Mas’uliyatli xabar berish\n\nAgar ruxsatli sinovda zaiflik topsangiz, faqat zarur dalilni yozib oling, maxfiy ma’lumotlarni oshkor qilmang va belgilangan aloqa kanali orqali xabar bering. Hisobotda muammo, ta’sir, takrorlash uchun xavfsiz shartlar va tuzatish tavsiyasi bo‘lishi kerak. Maqsad sharmanda qilish emas, xavfni kamaytirish.\n\n#### Hayotiy vaziyat\n\nSiz tanish bo‘lmagan saytning kirish oynasida xato ko‘rdingiz. Sayt ommaga ochiq ekanligi uni tekshirishga avtomatik ruxsat bermaydi. To‘g‘ri yo‘l — ruxsatsiz test qilmaslik va saytning rasmiy xavfsizlik xabar berish siyosatini ko‘rish.\n\n#### Amaliy mashq\n\nBir sahifalik laboratoriya qoidasi yozing: maqsad, ruxsat berilgan muhit, taqiqlangan harakatlar, ishlatiladigan sun’iy ma’lumotlar, favqulodda to‘xtatish va natijani topshirish usuli.\n\n#### Dars oxiridagi savollar\n\n1. Ommaga ochiq saytni tekshirishga avtomatik ruxsat bormi?\n2. Scope nimani belgilaydi?\n3. Zaiflik topilsa birinchi navbatda nima qilish kerak?\n\n#### Qisqa javoblar\n\n- Yo‘q.\n- Qaysi tizim va qanday chegarada sinov o‘tkazilishini.\n- Ruxsat shartlariga amal qilib, mas’ul kanal orqali xavfsiz xabar berish.\n\n#### Uyga vazifa / qo‘shimcha topshiriq\n\n“Ruxsat bor” va “ruxsat yo‘q” bo‘lgan 3 tadan vaziyat tuzing va har bir qaroringizni izohlang.\n\n#### Qo‘shimcha chaqiriq\n\nLaboratoriya uchun tekshiruvdan oldin to‘ldiriladigan 5 bandli xavfsizlik ro‘yxatini yarating.\n\nO‘quvchi o‘z so‘zi bilan tushuntira olishi kerak: mavzuning asosiy g‘oyasi, kamida ikki misol va uni himoya nuqtayi nazaridan qanday qo‘llash mumkinligi.",
+      "order": 4,
+      "xp": 100,
+      "createdAt": "2026-10-25T14:24:22.620Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f89377d",
+      "moduleId": "6ade1116dfeb32865f89377c",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "title": "5-dars. Aktiv, tahdid va zaiflik",
+      "slug": "path1-dars-5-5-dars-aktiv-tahdid-va-zaiflik",
+      "duration": "35 daqiqa",
+      "difficulty": "boshlang‘ich",
+      "content": "## 2-MODUL. ASOSIY TERMINLAR VA RISKNI TUSHUNISH\nBu modul zaiflik, tahdid, hujum, ekspluatatsiya va riskni aralashtirib yubormaslikka yordam beradi.\n\n### 5-dars. Aktiv, tahdid va zaiflik\n\nTaxminiy vaqt: 35 daqiqa  |  Daraja: boshlang‘ich\n\n#### Dars maqsadi\n\nNimani himoya qilish, nimadan xavf kelishi va tizimda qanday nuqson bo‘lishi mumkinligini ajratish.\n\n#### Darsni o‘rganamiz\n\n#### 1. Aktiv (asset)\n\nAktiv — qiymatga ega va himoya qilinishi kerak bo‘lgan narsa. Bu faqat kompyuter emas: foydalanuvchi akkaunti, ma’lumotlar bazasi, domen nomi, xizmat obro‘si yoki ish jarayoni ham aktiv hisoblanadi. Aktivni aniqlash xavfsizlik ishining boshlanishidir, chunki nimani himoya qilishni bilmasdan to‘g‘ri ustuvorlik tanlab bo‘lmaydi.\n\n#### 2. Tahdid (threat)\n\nTahdid — aktivga zarar yetkazishi mumkin bo‘lgan shaxs, hodisa yoki sharoit. Masalan, fishing xabari, o‘g‘irlangan noutbuk, elektr uzilishi yoki xodimning xatosi tahdid manbai bo‘lishi mumkin. Tahdid doimo yomon niyatli odam degani emas; tabiiy ofat yoki tasodifiy xato ham xavf tug‘diradi.\n\n#### 3. Zaiflik (vulnerability)\n\nZaiflik — himoyani susaytiradigan nuqson yoki noto‘g‘ri sozlama. Misol: yangilanmagan dastur, hammaga ochiq fayl, ortiqcha ruxsat yoki oddiy parol. Zaiflikning mavjudligi zarar allaqachon yuz berdi degani emas; u tahdid tomonidan ishlatilishi mumkin bo‘lgan sharoitdir.\n\n#### Hayotiy vaziyat\n\nKutubxonadagi kompyuterda foydalanuvchi tizimdan chiqmay ketgan. Aktiv — foydalanuvchi akkaunti va uning fayllari; tahdid — keyingi odamning ruxsatsiz foydalanishi; zaiflik — ochiq qolgan sessiya.\n\n#### Amaliy mashq\n\n3 ta vaziyat o‘ylab toping. Har birida aktiv, tahdid va zaiflikni alohida satrda yozing. “Hujum sodir bo‘ldi” deb xulosa qilishdan oldin qanday dalil kerakligini ham ko‘rsating.\n\n#### Dars oxiridagi savollar\n\n1. Aktiv nima?\n2. Tahdid va zaiflikning farqi nima?\n3. Zaiflik bo‘lsa, hujum albatta sodir bo‘ladimi?\n\n#### Qisqa javoblar\n\n- Himoya qilinishi kerak bo‘lgan qiymatli narsa.\n- Tahdid zarar keltirishi mumkin; zaiflik esa tizimdagi nuqson.\n- Yo‘q.\n\n#### Uyga vazifa / qo‘shimcha topshiriq\n\nUy yoki maktab uchun 5 ta aktiv ro‘yxatini tuzing, har biri uchun bitta tahdid va bitta zaiflik misolini yozing.\n\n#### Qo‘shimcha chaqiriq\n\nBitta zaiflikni bartaraf etish bir nechta tahdidning ta’sirini qanday kamaytirishi mumkin?\n\nO‘quvchi o‘z so‘zi bilan tushuntira olishi kerak: mavzuning asosiy g‘oyasi, kamida ikki misol va uni himoya nuqtayi nazaridan qanday qo‘llash mumkinligi.",
+      "order": 5,
+      "xp": 100,
+      "createdAt": "2026-10-25T14:24:22.644Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f893783",
+      "moduleId": "6ade1116dfeb32865f89377c",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "title": "6-dars. Hujum, ekspluatatsiya va oqibat",
+      "slug": "path1-dars-6-6-dars-hujum-ekspluatatsiya-va-oqibat",
+      "duration": "38 daqiqa",
+      "difficulty": "boshlang‘ich",
+      "content": "## 2-MODUL. ASOSIY TERMINLAR VA RISKNI TUSHUNISH\nBu modul zaiflik, tahdid, hujum, ekspluatatsiya va riskni aralashtirib yubormaslikka yordam beradi.\n\n### 6-dars. Hujum, ekspluatatsiya va oqibat\n\nTaxminiy vaqt: 38 daqiqa  |  Daraja: boshlang‘ich\n\n#### Dars maqsadi\n\nHujum tushunchasini, zaiflikdan foydalanish usuli va hujumdan keyingi oqibatni farqlash.\n\n#### Darsni o‘rganamiz\n\n#### 1. Hujum (attack)\n\nHujum — tizim yoki ma’lumotga zarar yetkazish, ruxsatsiz kirish yoki xizmatni buzishga qaratilgan amaliy harakat. Hujum muvaffaqiyatli bo‘lishi shart emas: urinish bloklangan bo‘lsa ham, u xavfsizlik hodisasi sifatida tekshirilishi mumkin. Loglarda ko‘ringan g‘alati urinishni darhol muvaffaqiyatli buzib kirish deb atamaslik kerak.\n\n#### 2. Ekspluatatsiya (exploit)\n\nEksploit — muayyan zaiflikdan foydalanishga mo‘ljallangan usul yoki kod. U zaiflikning o‘zi emas va har bir zaiflik uchun ishlaydigan eksploit mavjud bo‘lavermaydi. Boshlang‘ich bosqichda eksploit tushunchasini nazariy bilish, zaiflikning sababini va tuzatish yo‘lini tushunish muhim; begona tizimlarda sinab ko‘rish mumkin emas.\n\n#### 3. Oqibat va dalil\n\nOqibat — hodisa natijasida yuzaga kelgan zarar: ma’lumot ochilishi, fayl buzilishi, xizmat to‘xtashi yoki hisob nazoratining yo‘qolishi. Tahlilchi fakt va taxminni ajratadi. Masalan, bir nechta muvaffaqiyatsiz kirish urinishlari hujumga urinish belgisi bo‘lishi mumkin, lekin akkaunt buzilganini isbotlamaydi.\n\n#### Hayotiy vaziyat\n\nSayt logida ko‘plab noto‘g‘ri parol urinishlari qayd etildi. Bu hujumga urinish bo‘lishi mumkin. Lekin tizimga kirilganini bilish uchun muvaffaqiyatli autentifikatsiya, yangi sessiya yoki boshqa dalillarni tekshirish zarur.\n\n#### Amaliy mashq\n\n“Belgi — taxmin — tekshiriladigan dalil — tavsiya” ustunlaridan iborat jadval yarating. Masalan, “ko‘p muvaffaqiyatsiz login” belgisini kiriting va ehtimoliy izohlarni yozing.\n\n#### Dars oxiridagi savollar\n\n1. Eksploit nima?\n2. Muvaffaqiyatsiz urinish ham ahamiyatlimi?\n3. Nega fakt va taxminni ajratish kerak?\n\n#### Qisqa javoblar\n\n- Zaiflikdan foydalanish usuli yoki kodi.\n- Ha, u tahdid yoki hujum urinishini ko‘rsatishi mumkin.\n- Noto‘g‘ri xulosa va ortiqcha choralarni oldini olish uchun.\n\n#### Uyga vazifa / qo‘shimcha topshiriq\n\nZaiflikdan boshlab oqibatgacha bo‘lgan zanjirni 4–5 bosqichda tushuntiring, ammo real tizimga hujum qilish bo‘yicha ko‘rsatma bermang.\n\n#### Qo‘shimcha chaqiriq\n\nBitta log belgisi asosida xulosa chiqarish nega xavfli? Kamida ikki sabab keltiring.\n\nO‘quvchi o‘z so‘zi bilan tushuntira olishi kerak: mavzuning asosiy g‘oyasi, kamida ikki misol va uni himoya nuqtayi nazaridan qanday qo‘llash mumkinligi.",
+      "order": 6,
+      "xp": 100,
+      "createdAt": "2026-10-25T14:24:22.660Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f893789",
+      "moduleId": "6ade1116dfeb32865f89377c",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "title": "7-dars. Risk: ehtimol, ta’sir va ustuvorlik",
+      "slug": "path1-dars-7-7-dars-risk-ehtimol-tasir-va-ustuvorlik",
+      "duration": "40 daqiqa",
+      "difficulty": "boshlang‘ich",
+      "content": "## 2-MODUL. ASOSIY TERMINLAR VA RISKNI TUSHUNISH\nBu modul zaiflik, tahdid, hujum, ekspluatatsiya va riskni aralashtirib yubormaslikka yordam beradi.\n\n### 7-dars. Risk: ehtimol, ta’sir va ustuvorlik\n\nTaxminiy vaqt: 40 daqiqa  |  Daraja: boshlang‘ich\n\n#### Dars maqsadi\n\nXavfni faqat “bor/yo‘q” deb emas, ehtimol va oqibatni hisobga olib baholash.\n\n#### Darsni o‘rganamiz\n\n#### 1. Risk nimani anglatadi?\n\nRisk — tahdid zaiflikdan foydalanishi ehtimoli va buning oqibati bilan bog‘liq xavf. Oddiy tushuntirishda risk tahdid, zaiflik, ehtimol va ta’sirning o‘zaro bog‘liqligi orqali ko‘riladi. “Risk = tahdid × zaiflik” kabi qisqa formula tushunishni osonlashtiradi, ammo real tashkilotlarda bu ko‘pincha sifatli yoki miqdoriy baholash usullari bilan kengaytiriladi.\n\n#### 2. Ehtimol va ta’sir\n\nEhtimol hodisa yuz berishi qanchalik mumkinligini, ta’sir esa sodir bo‘lsa qancha zarar yetishini ifodalaydi. Masalan, kam ishlatiladigan eski kompyuterda kichik nuqson bo‘lishi mumkin, ammo unda muhim ma’lumot saqlansa ta’sir yuqori bo‘ladi. Aksincha, keng tarqalgan kichik muammo ham juda kam oqibat keltirishi mumkin.\n\n#### 3. Ustuvorlikni tanlash\n\nBarcha muammoni bir vaqtda tuzatish imkoni bo‘lmasligi mumkin. Shuning uchun yuqori ehtimol va katta ta’sirga ega risklar odatda oldin ko‘riladi. Baholashda aktivning qiymati, tizim internetga ochiqligi, mavjud himoya va tiklash imkoniyatlari ham hisobga olinadi. Ballar yordamchi vosita, yakuniy qaror esa kontekstga bog‘liq.\n\n#### Hayotiy vaziyat\n\nIkki vazifa bor: (A) o‘quv laboratoriyasidagi sinov fayli yo‘qolishi; (B) umumiy akkaunt paroli ko‘plab xizmatlarda takror ishlatilishi. B vazifasi ko‘proq hisob va ma’lumotlarga ta’sir qilishi mumkin, shuning uchun ustuvorlik yuqoriroq bo‘lishi ehtimol.\n\n#### Amaliy mashq\n\n3 ta riskni 1 dan 3 gacha ehtimol va ta’sir bo‘yicha baholang. Ballarni ko‘paytirib taxminiy ustuvorlik chiqaring. Nega bu baho aniq haqiqat emasligini ham yozing.\n\n#### Dars oxiridagi savollar\n\n1. Riskni baholashda qaysi ikki jihat muhim?\n2. Nega eng katta ball avtomatik ravishda yakuniy haqiqat emas?\n3. Riskni kamaytirishning bir usuli nima?\n\n#### Qisqa javoblar\n\n- Ehtimol va ta’sir.\n- Chunki kontekst va mavjud himoya choralarini ham ko‘rish kerak.\n- Zaiflikni tuzatish, kirishni cheklash yoki backup.\n\n#### Uyga vazifa / qo‘shimcha topshiriq\n\nShaxsiy qurilmangiz uchun 5 ta risk va har biri uchun ehtimol, ta’sir hamda kamaytirish chorasini yozing. Maxfiy ma’lumot kiritmang.\n\n#### Qo‘shimcha chaqiriq\n\nBir xil zaiflik ikki tashkilotda nega turlicha risk darajasiga ega bo‘lishi mumkin?\n\nO‘quvchi o‘z so‘zi bilan tushuntira olishi kerak: mavzuning asosiy g‘oyasi, kamida ikki misol va uni himoya nuqtayi nazaridan qanday qo‘llash mumkinligi.",
+      "order": 7,
+      "xp": 100,
+      "createdAt": "2026-10-25T14:24:22.675Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f89378f",
+      "moduleId": "6ade1116dfeb32865f89377c",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "title": "8-dars. Zaiflikni boshqarish va xavfsiz hisobot",
+      "slug": "path1-dars-8-8-dars-zaiflikni-boshqarish-va-xavfsiz-hisobot",
+      "duration": "40 daqiqa",
+      "difficulty": "boshlang‘ich",
+      "content": "## 2-MODUL. ASOSIY TERMINLAR VA RISKNI TUSHUNISH\nBu modul zaiflik, tahdid, hujum, ekspluatatsiya va riskni aralashtirib yubormaslikka yordam beradi.\n\n### 8-dars. Zaiflikni boshqarish va xavfsiz hisobot\n\nTaxminiy vaqt: 40 daqiqa  |  Daraja: boshlang‘ich\n\n#### Dars maqsadi\n\nZaiflik topilganda uni tartibli qayd qilish, ta’sirini tushuntirish va tuzatishni tavsiya etish.\n\n#### Darsni o‘rganamiz\n\n#### 1. Zaiflikni topishdan tuzatishgacha\n\nZaiflikni boshqarish faqat skaner ishlatish emas. Jarayon odatda aktivlarni aniqlash, ruxsatli tekshiruv, topilmani tasdiqlash, riskni baholash, tuzatish, qayta tekshirish va hujjatlashtirishdan iborat. Tekshirish paytida tizimga zarar yetkazmaslik va keraksiz ma’lumotni ko‘chirmaslik muhim.\n\n#### 2. Hisobotning asosiy qismlari\n\nYaxshi hisobotda sarlavha, qisqa tavsif, ta’sirlangan aktiv, jiddiylik sababi, xavfsiz dalil, tuzatish tavsiyasi va holat ko‘rsatiladi. Texnik bo‘lmagan o‘quvchi ham muammo nimada ekanini tushunishi kerak. Haqiqiy parol yoki foydalanuvchi ma’lumotini hisobotga qo‘shish shart emas.\n\n#### 3. Tuzatish va qayta tekshirish\n\nTuzatish muammoning sababiga qaratilishi kerak. Masalan, ortiqcha ruxsatni olib tashlash, dasturiy ta’minotni yangilash, kuchli autentifikatsiya joriy etish yoki sozlamani xavfsizlashtirish. Keyin aynan o‘sha nuqson bartaraf bo‘lganini xavfsiz va ruxsatli usulda qayta tekshirish lozim. Faqat “ishladi” deb belgilash yetarli emas.\n\n#### Hayotiy vaziyat\n\nJamoa umumiy hujjatni hamma ko‘ra oladigan qilib qo‘ygan. Hisobotda hujjatning maxfiy mazmunini nusxalash o‘rniga, ruxsat sozlamasining dalili va ta’sirlangan joy ko‘rsatiladi; tavsiya — kirishni zarur foydalanuvchilar bilan cheklash va keyin qayta tekshirish.\n\n#### Amaliy mashq\n\nXavfsiz, sun’iy misol asosida bir sahifalik hisobot tuzing: muammo, aktiv, ehtimoliy ta’sir, dalil (maxfiy ma’lumotsiz), tavsiya, qayta tekshirish mezoni.\n\n#### Dars oxiridagi savollar\n\n1. Zaiflikni boshqarish faqat topishdan iboratmi?\n2. Hisobotda nima bo‘lishi kerak?\n3. Tuzatishdan keyin nima uchun qayta tekshiriladi?\n\n#### Qisqa javoblar\n\n- Yo‘q, baholash, tuzatish va qayta tekshirish ham bor.\n- Muammo, ta’sir, dalil, tavsiya va holat.\n- Muammo haqiqatan bartaraf etilganini tekshirish uchun.\n\n#### Uyga vazifa / qo‘shimcha topshiriq\n\nOldingi darsdagi eng yuqori riskni tanlang va uni bartaraf etish bo‘yicha 3 bosqichli reja yozing.\n\n#### Qo‘shimcha chaqiriq\n\nTexnik va texnik bo‘lmagan auditoriya uchun bir muammoni ikki xil uslubda izohlab ko‘ring.\n\nO‘quvchi o‘z so‘zi bilan tushuntira olishi kerak: mavzuning asosiy g‘oyasi, kamida ikki misol va uni himoya nuqtayi nazaridan qanday qo‘llash mumkinligi.",
+      "order": 8,
+      "xp": 100,
+      "createdAt": "2026-10-25T14:24:22.688Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f893796",
+      "moduleId": "6ade1116dfeb32865f893795",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "title": "9-dars. Phishing va ijtimoiy muhandislik",
+      "slug": "path1-dars-9-9-dars-phishing-va-ijtimoiy-muhandislik",
+      "duration": "40 daqiqa",
+      "difficulty": "boshlang‘ich",
+      "content": "## 3-MODUL. RAQAMLI TAHDIDLAR VA FOYDALANUVCHI XAVFSIZLIGI\nBu modul phishing, zararli dasturlar, parollar va akkauntni himoyalashni kundalik misollar orqali o‘rgatadi.\n\n### 9-dars. Phishing va ijtimoiy muhandislik\n\nTaxminiy vaqt: 40 daqiqa  |  Daraja: boshlang‘ich\n\n#### Dars maqsadi\n\nAldovga asoslangan xabarlarni tanish va shubhali vaziyatda xavfsiz qaror qabul qilish.\n\n#### Darsni o‘rganamiz\n\n#### 1. Ijtimoiy muhandislik\n\nIjtimoiy muhandislik — texnik himoyani emas, insonning ishonchi, shoshilishi yoki qiziquvchanligidan foydalanishga urinish. Xabar yuboruvchi o‘zini bank, o‘qituvchi, yetkazib beruvchi yoki texnik yordam xodimi sifatida tanishtirishi mumkin. Asosiy belgi — odamni odatdagi tekshiruvni chetlab o‘tishga undash.\n\n#### 2. Phishing belgilarini aniqlash\n\nPhishing xabari shoshiltirishi, akkaunt yopilishi bilan qo‘rqitishi, sovrin va’da qilishi, noodatiy havola yuborishi yoki parol/kod so‘rashi mumkin. Jo‘natuvchining nomi ko‘rinishi yetarli dalil emas; manzil, havola domeni, til uslubi va so‘rovning mantiqiyligini tekshiring. Hatto tanish odamdan kelgan xabar ham uning akkaunti buzilgan bo‘lsa soxta bo‘lishi mumkin.\n\n#### 3. Xavfsiz javob\n\nShubhali havolani bosmang va parol yoki tasdiqlash kodini kiritmang. Xizmatga xabardagi havola orqali emas, o‘zingiz biladigan rasmiy ilova yoki manzil orqali kiring. Xabarni tashkilotning rasmiy kanali orqali tekshiring, zarur bo‘lsa spam yoki phishing sifatida belgilang. Ish yoki maktab akkaunti bo‘lsa, mas’ul xodimga xabar bering.\n\n#### Hayotiy vaziyat\n\nXabar “hisobingiz 10 daqiqada yopiladi” deb yozadi va havola orqali parol kiritishni so‘raydi. Shoshiltirish va maxfiy ma’lumot talab qilish — xavf belgisi. Xavfsiz yo‘l — havolani ochmasdan rasmiy ilovani mustaqil ochib, xabarning haqiqiyligini tekshirish.\n\n#### Amaliy mashq\n\nO‘qituvchi tayyorlagan 5 ta namunaviy xabarni tekshiring. Har birida jo‘natuvchi, shoshiltirish, havola, so‘ralayotgan ma’lumot va xavfsiz keyingi qadamni yozing. Haqiqiy fishing xabarini tarqatmang.\n\n#### Dars oxiridagi savollar\n\n1. Phishingning maqsadi nima?\n2. Nega jo‘natuvchi nomiga ishonish yetarli emas?\n3. Shubhali xabarda birinchi xavfsiz qadam nima?\n\n#### Qisqa javoblar\n\n- Aldov orqali ma’lumot yoki amalni qo‘lga kiritish.\n- Ko‘rinadigan nom soxtalashtirilishi mumkin.\n- Havolani bosmasdan, rasmiy kanal orqali tekshirish.\n\n#### Uyga vazifa / qo‘shimcha topshiriq\n\nPhishingni aniqlash uchun 7 bandli tekshiruv ro‘yxatini tuzing.\n\n#### Qo‘shimcha chaqiriq\n\nPhishing xabarining uchta ogohlantiruvchi belgisini ko‘rsatadigan, ammo haqiqiy xizmatga taqlid qilmaydigan o‘quv namunasi yozing.\n\nO‘quvchi o‘z so‘zi bilan tushuntira olishi kerak: mavzuning asosiy g‘oyasi, kamida ikki misol va uni himoya nuqtayi nazaridan qanday qo‘llash mumkinligi.",
+      "order": 9,
+      "xp": 100,
+      "createdAt": "2026-10-25T14:24:22.707Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f89379c",
+      "moduleId": "6ade1116dfeb32865f893795",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "title": "10-dars. Zararli dasturlar: virus, troyan va ransomware",
+      "slug": "path1-dars-10-10-dars-zararli-dasturlar-virus-troyan-va-ransomware",
+      "duration": "42 daqiqa",
+      "difficulty": "boshlang‘ich",
+      "content": "## 3-MODUL. RAQAMLI TAHDIDLAR VA FOYDALANUVCHI XAVFSIZLIGI\nBu modul phishing, zararli dasturlar, parollar va akkauntni himoyalashni kundalik misollar orqali o‘rgatadi.\n\n### 10-dars. Zararli dasturlar: virus, troyan va ransomware\n\nTaxminiy vaqt: 42 daqiqa  |  Daraja: boshlang‘ich\n\n#### Dars maqsadi\n\nZararli dasturlarning asosiy turlarini va ulardan himoyalanish usullarini tushunish.\n\n#### Darsni o‘rganamiz\n\n#### 1. Malware nima?\n\nMalware — qurilma yoki ma’lumotga zarar yetkazish, josuslik qilish, ruxsatsiz boshqarish yoki pul undirish kabi maqsadlarda ishlatiladigan zararli dastur. U fayl, soxta ilova, zararli havola yoki zaiflangan xizmat orqali kelishi mumkin. Noma’lum manbadan dastur o‘rnatish va xavfsizlik ogohlantirishini e’tiborsiz qoldirish xavfni oshiradi.\n\n#### 2. Virus, troyan, ransomware va keylogger\n\nVirus odatda boshqa fayl yoki dastur bilan bog‘lanib tarqaladi. Troyan foydali dastur ko‘rinishida kelishi mumkin, lekin yashirin zararli vazifa bajaradi. Ransomware ma’lumotni bloklashi yoki shifrlab, to‘lov talab qilishi mumkin. Keylogger klaviatura kiritmalarini kuzatishga urinadi. Bu atamalarni bilish hodisani tushunishga yordam beradi; turini faqat tashqi ko‘rinishdan ishonchli aniqlab bo‘lmaydi.\n\n#### 3. Himoya va hodisa paytida harakat\n\nOperatsion tizim va ilovalarni yangilang, dasturlarni ishonchli manbadan oling, zaxira nusxa yarating va oddiy foydalanuvchi huquqlaridan foydalaning. Shubhali fayl ishga tushgan deb o‘ylasangiz, parol kiritishni to‘xtating, qurilmani tarmoqdan uzish bo‘yicha tashkilot ko‘rsatmalariga amal qiling va mas’ul mutaxassisga xabar bering. Dalillarni o‘chirish yoki fayllarni ko‘r-ko‘rona ishga tushirish vaziyatni yomonlashtirishi mumkin.\n\n#### Hayotiy vaziyat\n\nBepul dastur deb yuklangan fayl o‘rnatilgandan so‘ng qurilma g‘alati ishlay boshladi. Bu malware bo‘lishi mumkin, ammo sababini tekshirmasdan aniq xulosa qilish to‘g‘ri emas. Xavfsiz yondashuv — foydalanishni to‘xtatish, mas’ul shaxsga xabar berish va ishonchli himoya vositalari bilan tekshirish.\n\n#### Amaliy mashq\n\nVirus, troyan, ransomware va keylogger uchun “asosiy belgi — ehtimoliy zarar — himoya chorasi” jadvalini tuzing. Zararli dastur yaratish yoki ishga tushirish talab qilinmaydi.\n\n#### Dars oxiridagi savollar\n\n1. Troyan nimasi bilan xavfli?\n2. Ransomware qanday zarar keltirishi mumkin?\n3. Zararli faylga shubha tug‘ilsa nima qilish kerak?\n\n#### Qisqa javoblar\n\n- Foydali dastur ko‘rinishida zararli vazifani yashirishi mumkin.\n- Ma’lumotni bloklash yoki shifrlab, to‘lov talab qilish.\n- Uni ishga tushirmaslik, xavfsiz tartibda xabar berish va tekshirtirish.\n\n#### Uyga vazifa / qo‘shimcha topshiriq\n\nShaxsiy qurilmangizda yangilanishlar yoqilganini, zaxira nusxa borligini va ilovalar ishonchli manbadan olinganini tekshiring.\n\n#### Qo‘shimcha chaqiriq\n\nNega zaxira nusxa malware’ni oldini olmasa ham juda muhim himoya chorasi hisoblanadi?\n\nO‘quvchi o‘z so‘zi bilan tushuntira olishi kerak: mavzuning asosiy g‘oyasi, kamida ikki misol va uni himoya nuqtayi nazaridan qanday qo‘llash mumkinligi.",
+      "order": 10,
+      "xp": 100,
+      "createdAt": "2026-10-25T14:24:22.720Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937a2",
+      "moduleId": "6ade1116dfeb32865f893795",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "title": "11-dars. Parollar, MFA va akkaunt himoyasi",
+      "slug": "path1-dars-11-11-dars-parollar-mfa-va-akkaunt-himoyasi",
+      "duration": "45 daqiqa",
+      "difficulty": "boshlang‘ich",
+      "content": "## 3-MODUL. RAQAMLI TAHDIDLAR VA FOYDALANUVCHI XAVFSIZLIGI\nBu modul phishing, zararli dasturlar, parollar va akkauntni himoyalashni kundalik misollar orqali o‘rgatadi.\n\n### 11-dars. Parollar, MFA va akkaunt himoyasi\n\nTaxminiy vaqt: 45 daqiqa  |  Daraja: boshlang‘ich\n\n#### Dars maqsadi\n\nAkkauntlarni kuchliroq himoyalash uchun parol, parol menejeri va ko‘p bosqichli tasdiqlashni qo‘llash.\n\n#### Darsni o‘rganamiz\n\n#### 1. Kuchli va takrorlanmaydigan parol\n\nParol uzun va taxmin qilish qiyin bo‘lishi kerak. Eng muhimi, bitta parolni ko‘plab xizmatlarda qayta ishlatmaslik: bir xizmatdagi ma’lumot sizib chiqsa, boshqa akkauntlar ham xavf ostida qoladi. Bir nechta so‘zdan iborat uzun parol iborasi ko‘pincha qisqa va murakkab ko‘rinadigan paroldan foydalanishga qulayroq bo‘lishi mumkin.\n\n#### 2. Parol menejeri va MFA\n\nParol menejeri har bir xizmat uchun alohida parol saqlashga yordam beradi. MFA (Multi-Factor Authentication) kirishda paroldan tashqari yana bir tasdiq omilini talab qiladi, masalan, autentifikator ilovasi yoki xavfsizlik kaliti. SMS orqali kod ham foydali qatlam bo‘lishi mumkin, lekin barcha vaziyatlarda eng kuchli variant emas. Tasdiqlash kodini hech kimga bermang.\n\n#### 3. Hisob buzilganidan shubha bo‘lsa\n\nIshonchli qurilmadan parolni almashtiring, boshqa sessiyalarni tugating, tiklash emaili va telefon raqami to‘g‘riligini tekshiring hamda MFAni yoqing. Agar bir xil parol boshqa joylarda ishlatilgan bo‘lsa, ularni ham alohida yangilang. Shubhali kirish haqida xizmatning rasmiy yordam kanaliga xabar bering.\n\n#### Hayotiy vaziyat\n\nBir xil parol elektron pochta va o‘yin akkauntida ishlatilgan. O‘yin xizmatidagi ma’lumot sizib chiqsa, tajovuzkor shu parolni boshqa xizmatlarda ham sinab ko‘rishi mumkin. Har bir akkaunt uchun alohida parol va MFA bu xavfni kamaytiradi.\n\n#### Amaliy mashq\n\nHaqiqiy parollaringizni yozmasdan, akkauntlar ro‘yxatini tuzing va qaysilarida MFA yoqilganini belgilang. Parolni takror ishlatish odati bor-yo‘qligini o‘zingiz tekshiring.\n\n#### Dars oxiridagi savollar\n\n1. Nega parolni takror ishlatmaslik kerak?\n2. MFA nima qo‘shadi?\n3. Tasdiqlash kodini boshqaga berish mumkinmi?\n\n#### Qisqa javoblar\n\n- Bitta sizib chiqish bir nechta akkauntni xavf ostiga qo‘yadi.\n- Paroldan tashqari qo‘shimcha tasdiq qatlamini.\n- Yo‘q.\n\n#### Uyga vazifa / qo‘shimcha topshiriq\n\nEng muhim 3 akkauntingiz uchun himoya rejasini tuzing: alohida parol, MFA, tiklash usuli va sessiyalarni tekshirish.\n\n#### Qo‘shimcha chaqiriq\n\nParol menejeri va MFAning vazifalari nimasi bilan farq qilishini 3–4 gapda tushuntiring.\n\nO‘quvchi o‘z so‘zi bilan tushuntira olishi kerak: mavzuning asosiy g‘oyasi, kamida ikki misol va uni himoya nuqtayi nazaridan qanday qo‘llash mumkinligi.",
+      "order": 11,
+      "xp": 100,
+      "createdAt": "2026-10-25T14:24:22.733Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937a8",
+      "moduleId": "6ade1116dfeb32865f893795",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "title": "12-dars. Brauzer, havola, HTTPS va raqamli iz",
+      "slug": "path1-dars-12-12-dars-brauzer-havola-https-va-raqamli-iz",
+      "duration": "45 daqiqa",
+      "difficulty": "boshlang‘ich",
+      "content": "## 3-MODUL. RAQAMLI TAHDIDLAR VA FOYDALANUVCHI XAVFSIZLIGI\nBu modul phishing, zararli dasturlar, parollar va akkauntni himoyalashni kundalik misollar orqali o‘rgatadi.\n\n### 12-dars. Brauzer, havola, HTTPS va raqamli iz\n\nTaxminiy vaqt: 45 daqiqa  |  Daraja: boshlang‘ich\n\n#### Dars maqsadi\n\nVebdan foydalanishda havolalarni, sayt manzilini, HTTPSni va shaxsiy ma’lumot izlarini to‘g‘ri baholash.\n\n#### Darsni o‘rganamiz\n\n#### 1. Domen va havolani tekshirish\n\nSayt manzili domen va boshqa qismlardan iborat bo‘ladi. Firibgarlar haqiqiy nomga o‘xshash harflar, qo‘shimcha so‘zlar yoki chalg‘ituvchi subdomenlardan foydalanishi mumkin. Havolani bosishdan oldin to‘liq manzilni ko‘rish, domenni diqqat bilan o‘qish va kutilmagan xabardagi havola o‘rniga rasmiy ilovadan foydalanish xavfsizroq.\n\n#### 2. HTTPS nimani anglatadi?\n\nHTTPS brauzer va sayt orasidagi aloqani shifrlashga yordam beradi va odatda server sertifikatini tekshiradi. Lekin HTTPS borligi saytning halol ekanini kafolatlamaydi: firibgar sayt ham HTTPS ishlatishi mumkin. Shuning uchun domenning to‘g‘riligini, sayt nima so‘rayotganini va xabar kontekstini ham tekshirish kerak.\n\n#### 3. Raqamli iz va maxfiylik\n\nRaqamli iz — internetdagi harakatlardan qoladigan ma’lumotlar: joylashtirilgan postlar, profil ma’lumotlari, ilova ruxsatlari va ayrim xizmatlar yig‘adigan foydalanish ma’lumotlari. Ortiqcha ma’lumot ulashish ijtimoiy muhandislikni osonlashtirishi mumkin. Maxfiylik sozlamalarini ko‘rib chiqing va joylashuv, maktab, telefon yoki kundalik tartib kabi ma’lumotlarni hammaga ochiq qoldirmang.\n\n#### Hayotiy vaziyat\n\nSizga tanish brend nomi bor, lekin domeni biroz boshqacha bo‘lgan sahifa yuborildi. Sahifada HTTPS belgisi bor. Bu belgi aloqani shifrlashi mumkin, ammo sahifaning haqiqiyligini tasdiqlamaydi. Domenni rasmiy manba bilan solishtirish kerak.\n\n#### Amaliy mashq\n\nO‘qituvchi bergan sun’iy URL misollarini tekshiring. Domen qismi qayerdaligini belgilang, shubhali belgilarni sanang va qaysi havolani ochmasdan tekshirish kerakligini izohlang.\n\n#### Dars oxiridagi savollar\n\n1. HTTPS nimani kafolatlamaydi?\n2. Havolani tekshirishning xavfsiz usuli nima?\n3. Raqamli iz nima?\n\n#### Qisqa javoblar\n\n- Saytning halol yoki ishonchli ekanini.\n- Domenni tekshirish va rasmiy ilova/manzil orqali mustaqil kirish.\n- Internetdagi faoliyatdan qoladigan ma’lumotlar.\n\n#### Uyga vazifa / qo‘shimcha topshiriq\n\nBrauzer va ijtimoiy tarmoqdagi maxfiylik sozlamalarini ko‘rib chiqing. Ochiq turgan ortiqcha profil ma’lumotlarini qisqartiring.\n\n#### Qo‘shimcha chaqiriq\n\nOdamning ochiq profilidagi qaysi ma’lumotlar fishingni ishonchliroq ko‘rsatishga yordam berishi mumkin? Maxfiylik nuqtayi nazaridan javob bering.\n\nO‘quvchi o‘z so‘zi bilan tushuntira olishi kerak: mavzuning asosiy g‘oyasi, kamida ikki misol va uni himoya nuqtayi nazaridan qanday qo‘llash mumkinligi.",
+      "order": 12,
+      "xp": 100,
+      "createdAt": "2026-10-25T14:24:22.744Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937af",
+      "moduleId": "6ade1116dfeb32865f8937ae",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "title": "13-dars. Operatsion tizim qanday ishlaydi?",
+      "slug": "path1-dars-13-13-dars-operatsion-tizim-qanday-ishlaydi",
+      "duration": "45 daqiqa",
+      "difficulty": "boshlang‘ich",
+      "content": "## 4-MODUL. KOMPYUTER, OPERATSION TIZIM VA MA’LUMOTLAR\nBu modul operatsion tizim, fayllar, jarayonlar, ruxsatlar va loglar haqida boshlang‘ich tasavvur beradi.\n\n### 13-dars. Operatsion tizim qanday ishlaydi?\n\nTaxminiy vaqt: 45 daqiqa  |  Daraja: boshlang‘ich\n\n#### Dars maqsadi\n\nOperatsion tizimning vazifalari va asosiy tarkibiy qismlarini kiberxavfsizlik bilan bog‘lash.\n\n#### Darsni o‘rganamiz\n\n#### 1. Operatsion tizimning roli\n\nOperatsion tizim (OT) apparat qismlari va dasturlar o‘rtasidagi boshqaruvchi qatlamdir. U protsessor va xotira resurslarini taqsimlaydi, dasturlarni ishga tushiradi, fayllarni boshqaradi va foydalanuvchi bilan qurilma o‘rtasida aloqa yaratadi. Windows, Linux, macOS, Android va iOS turli qurilmalarda ishlatiladigan OTlarga misoldir.\n\n#### 2. Yadro, drayver va fayl tizimi\n\nYadro OTning muhim qismi bo‘lib, xotira, jarayon va apparat resurslarini boshqaradi. Drayverlar OTga klaviatura, tarmoq adapteri yoki printer kabi qurilmalar bilan ishlashga yordam beradi. Fayl tizimi esa fayllarni nom, papka va saqlash joyi orqali tartiblaydi. Har bir qismdagi xato yoki eskirgan komponent xavfsizlikka ta’sir qilishi mumkin.\n\n#### 3. GUI va CLI\n\nGUI — grafik interfeys: oyna, tugma va menyular orqali ishlash. CLI — buyruq satri: matnli buyruqlar orqali boshqarish. CLI ko‘p vazifani aniq va takrorlanuvchi bajarishga yordam beradi, ammo noto‘g‘ri buyruq zarar yetkazishi mumkin. Buyruqni tushunmasdan nusxalab ishga tushirmang, ayniqsa administrator huquqi talab qilinsa.\n\n#### Hayotiy vaziyat\n\nDastur faylni saqlay olmayapti. Sabab diskda joy yetishmasligi, ruxsat yo‘qligi yoki dastur xatosi bo‘lishi mumkin. OT fayl va resurslarni boshqaradi, shuning uchun muammoni tekshirishda faqat dasturni emas, ruxsat va disk holatini ham ko‘rish kerak.\n\n#### Amaliy mashq\n\nO‘zingiz foydalanadigan OT nomi va versiyasini toping. Fayl menejeri, tizim yangilanishi, foydalanuvchi hisoblari va xavfsizlik sozlamalari qayerda ekanini aniqlang; hech qanday sozlamani o‘zgartirish shart emas.\n\n#### Dars oxiridagi savollar\n\n1. OTning asosiy vazifasi nima?\n2. Yadro nima qiladi?\n3. GUI va CLI farqi nima?\n\n#### Qisqa javoblar\n\n- Apparat, dastur va foydalanuvchi ishini boshqaradi.\n- Resurslar va tizimning asosiy jarayonlarini boshqaradi.\n- GUI grafik, CLI matnli buyruqlar orqali ishlaydi.\n\n#### Uyga vazifa / qo‘shimcha topshiriq\n\nOTning 5 vazifasini yozing va har biri xavfsizlikka qanday aloqasi borligini izohlang.\n\n#### Qo‘shimcha chaqiriq\n\nNega buyruq satrida administrator huquqi bilan ishlashda ehtiyot bo‘lish kerak?\n\nO‘quvchi o‘z so‘zi bilan tushuntira olishi kerak: mavzuning asosiy g‘oyasi, kamida ikki misol va uni himoya nuqtayi nazaridan qanday qo‘llash mumkinligi.",
+      "order": 13,
+      "xp": 100,
+      "createdAt": "2026-10-25T14:24:22.763Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937b5",
+      "moduleId": "6ade1116dfeb32865f8937ae",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "title": "14-dars. Fayllar, ruxsatlar va eng kam huquq tamoyili",
+      "slug": "path1-dars-14-14-dars-fayllar-ruxsatlar-va-eng-kam-huquq-tamoyili",
+      "duration": "48 daqiqa",
+      "difficulty": "boshlang‘ich",
+      "content": "## 4-MODUL. KOMPYUTER, OPERATSION TIZIM VA MA’LUMOTLAR\nBu modul operatsion tizim, fayllar, jarayonlar, ruxsatlar va loglar haqida boshlang‘ich tasavvur beradi.\n\n### 14-dars. Fayllar, ruxsatlar va eng kam huquq tamoyili\n\nTaxminiy vaqt: 48 daqiqa  |  Daraja: boshlang‘ich\n\n#### Dars maqsadi\n\nFayl va papkalarga kirish huquqlari nima uchun kerakligini hamda eng kam huquq tamoyilini tushunish.\n\n#### Darsni o‘rganamiz\n\n#### 1. Fayl va papka tuzilishi\n\nFayllar hujjat, rasm, dastur yoki sozlama ma’lumotini saqlaydi. Papkalar fayllarni guruhlashga yordam beradi. Fayl kengaytmasi uning turiga ishora qilishi mumkin, lekin kengaytma o‘zgartirilgani faylni xavfsiz yoki boshqa turga aylantirmaydi. Noma’lum faylni faqat nomiga qarab ishga tushirmang.\n\n#### 2. Ruxsatlar: o‘qish, yozish, bajarish\n\nRuxsatlar foydalanuvchi yoki dastur faylni ko‘rishi, o‘zgartirishi yoki ishga tushirishi mumkinligini belgilaydi. Har kimga to‘liq ruxsat berish qulay tuyulishi mumkin, lekin tasodifiy o‘zgartirish yoki zararli dastur ta’sirini kengaytiradi. Ruxsat faqat kerakli foydalanuvchi va kerakli amal uchun berilishi ma’qul.\n\n#### 3. Eng kam huquq tamoyili\n\nEng kam huquq tamoyili foydalanuvchi va dasturga vazifasini bajarish uchun zarur bo‘lgan eng kichik vakolatni berishni anglatadi. Kundalik ish uchun administrator hisobidan doimiy foydalanmaslik, umumiy papkalarni ehtiyotkorlik bilan ulashish va eski akkauntlarni o‘chirish shu tamoyilga mos keladi.\n\n#### Hayotiy vaziyat\n\nJamoa hujjatni ko‘rishi kerak, lekin hamma uni tahrirlashi shart emas. Faqat ko‘rish huquqi berish noto‘g‘ri tahrirlarni kamaytiradi. Hujjat egasi va muharrirlar uchun boshqa, o‘quvchilar uchun esa cheklangan ruxsat berish mumkin.\n\n#### Amaliy mashq\n\nSun’iy vaziyat uchun ruxsat jadvali tuzing: egasi, muharrir, o‘quvchi. Har biri faylni o‘qishi, o‘zgartirishi va o‘chirishi kerakmi? Har bir tanlovni asoslang.\n\n#### Dars oxiridagi savollar\n\n1. Ruxsatlar nima uchun kerak?\n2. Eng kam huquq tamoyili nima?\n3. Nega hamma foydalanuvchiga administrator huquqi berilmaydi?\n\n#### Qisqa javoblar\n\n- Faylga kim va qanday amal bilan kira olishini boshqarish uchun.\n- Faqat zarur vakolatni berish.\n- Xato yoki zararli amal ta’sirini kamaytirish uchun.\n\n#### Uyga vazifa / qo‘shimcha topshiriq\n\nBiror shaxsiy papkangizdagi ulashish ruxsatlarini ko‘rib chiqing. O‘zgartirish kiritishdan oldin mavjud ruxsatlar nima uchun berilganini tushuning.\n\n#### Qo‘shimcha chaqiriq\n\nBir ilova faqat faylni ko‘rishi kerak bo‘lsa, unga fayllarni o‘chirish huquqi berish nega ortiqcha?\n\nO‘quvchi o‘z so‘zi bilan tushuntira olishi kerak: mavzuning asosiy g‘oyasi, kamida ikki misol va uni himoya nuqtayi nazaridan qanday qo‘llash mumkinligi.",
+      "order": 14,
+      "xp": 100,
+      "createdAt": "2026-10-25T14:24:22.775Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937bb",
+      "moduleId": "6ade1116dfeb32865f8937ae",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "title": "15-dars. Jarayonlar, yangilanishlar va dastur manbalari",
+      "slug": "path1-dars-15-15-dars-jarayonlar-yangilanishlar-va-dastur-manbalari",
+      "duration": "50 daqiqa",
+      "difficulty": "boshlang‘ich",
+      "content": "## 4-MODUL. KOMPYUTER, OPERATSION TIZIM VA MA’LUMOTLAR\nBu modul operatsion tizim, fayllar, jarayonlar, ruxsatlar va loglar haqida boshlang‘ich tasavvur beradi.\n\n### 15-dars. Jarayonlar, yangilanishlar va dastur manbalari\n\nTaxminiy vaqt: 50 daqiqa  |  Daraja: boshlang‘ich\n\n#### Dars maqsadi\n\nJarayon tushunchasi, dastur yangilanishi va ishonchli manbadan o‘rnatishning ahamiyatini tushunish.\n\n#### Darsni o‘rganamiz\n\n#### 1. Jarayon (process)\n\nJarayon — ishga tushgan dastur nusxasi va uning ishlash holati. Bir dastur bir nechta jarayon yaratishi mumkin. Jarayonlar protsessor va xotiradan foydalanadi. Noma’lum jarayonni ko‘rish darhol zararli dastur degani emas; nomi, joylashuvi, ishlab chiqaruvchisi va faoliyati kabi dalillarni birgalikda baholash kerak.\n\n#### 2. Yangilanishlar va zaifliklar\n\nDastur yangilanishi yangi imkoniyatlar bilan birga xavfsizlik nuqsonlarini ham tuzatishi mumkin. Uzoq vaqt yangilanmagan tizimda ommaga ma’lum zaifliklar saqlanib qolishi ehtimoli bor. Yangilanishni ishonchli manbadan o‘rnatish va muhim qurilmalarda oldindan sinov qilish foydali. Yangilanishni doimiy kechiktirish xavfni oshiradi.\n\n#### 3. Ishonchli dastur manbalari\n\nDasturlarni rasmiy do‘kon, ishlab chiqaruvchining sayti yoki tashkilot tasdiqlagan katalogdan olish ma’qul. “Bepul premium”, noma’lum arxiv yoki shubhali o‘rnatuvchi xavf tug‘dirishi mumkin. Yuklangan faylning manbasi, ishlab chiqaruvchisi va ruxsat so‘rovlari mos keladimi, tekshiring. Keraksiz dasturlarni o‘rnatmaslik ham xavfsizlikni yaxshilaydi.\n\n#### Hayotiy vaziyat\n\nKompyuter sekinlashdi va vazifa boshqaruvchisida ko‘p jarayon ko‘rinmoqda. Bu yangilanish, ko‘p ochilgan ilovalar yoki boshqa sabab bo‘lishi mumkin. Jarayon nomiga qarab darhol o‘chirish o‘rniga resurs sarfi va ishonchli ma’lumotlarni tekshirish kerak.\n\n#### Amaliy mashq\n\nQurilmangizdagi jarayonlar ro‘yxatini faqat kuzating: qaysi ilovalar ishlayapti, qaysi biri ko‘p resurs ishlatyapti. Jarayonni tugatish yoki tizim faylini o‘chirish talab qilinmaydi.\n\n#### Dars oxiridagi savollar\n\n1. Jarayon nima?\n2. Nega yangilanish muhim?\n3. Dastur yuklashda qaysi manbalar ma’qul?\n\n#### Qisqa javoblar\n\n- Ishga tushgan dastur nusxasi va holati.\n- Ma’lum xavfsizlik nuqsonlarini tuzatishi mumkin.\n- Rasmiy yoki tashkilot tasdiqlagan manbalar.\n\n#### Uyga vazifa / qo‘shimcha topshiriq\n\nYangilanishlarni tekshirish va ishonchli manbadan ilova o‘rnatish bo‘yicha o‘zingiz uchun 6 qadamli yo‘riqnoma yozing.\n\n#### Qo‘shimcha chaqiriq\n\nNega noma’lum jarayonni tekshirmasdan o‘chirish yoki faylini yo‘qotish noto‘g‘ri bo‘lishi mumkin?\n\nO‘quvchi o‘z so‘zi bilan tushuntira olishi kerak: mavzuning asosiy g‘oyasi, kamida ikki misol va uni himoya nuqtayi nazaridan qanday qo‘llash mumkinligi.",
+      "order": 15,
+      "xp": 100,
+      "createdAt": "2026-10-25T14:24:22.789Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937c1",
+      "moduleId": "6ade1116dfeb32865f8937ae",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "title": "16-dars. Loglar, zaxira nusxa va tiklash",
+      "slug": "path1-dars-16-16-dars-loglar-zaxira-nusxa-va-tiklash",
+      "duration": "50 daqiqa",
+      "difficulty": "boshlang‘ich",
+      "content": "## 4-MODUL. KOMPYUTER, OPERATSION TIZIM VA MA’LUMOTLAR\nBu modul operatsion tizim, fayllar, jarayonlar, ruxsatlar va loglar haqida boshlang‘ich tasavvur beradi.\n\n### 16-dars. Loglar, zaxira nusxa va tiklash\n\nTaxminiy vaqt: 50 daqiqa  |  Daraja: boshlang‘ich\n\n#### Dars maqsadi\n\nLoglar hodisani tushunishga, zaxira nusxa esa ma’lumotni tiklashga qanday yordam berishini anglash.\n\n#### Darsni o‘rganamiz\n\n#### 1. Log (jurnal) nima?\n\nLog — tizim yoki ilovada sodir bo‘lgan hodisalar haqidagi yozuvlar. Ularda vaqt, foydalanuvchi, hodisa turi, natija yoki xato bo‘lishi mumkin. Loglar nosozlikni topish, kirish urinishlarini tekshirish va hodisalar ketma-ketligini tiklashga yordam beradi. Biroq loglar to‘liq bo‘lmasligi, vaqt sozlamasi noto‘g‘ri bo‘lishi yoki muhim yozuvlar yo‘qolishi mumkin.\n\n#### 2. Logni qanday o‘qish kerak?\n\nAvval vaqt, hodisa turi va natijani ajrating. Keyin bir nechta yozuv orasidagi ketma-ketlikni ko‘ring. Bitta g‘alati yozuvni yakuniy dalil deb qabul qilmang; odatiy faoliyat bilan solishtiring. Tahlil davomida shaxsiy ma’lumotlarni keraksiz ko‘chirmang va loglarni o‘zgartirmang.\n\n#### 3. Backup va tiklash\n\nZaxira nusxa — muhim fayl yoki tizim ma’lumotining alohida nusxasi. U tasodifiy o‘chirish, qurilma ishdan chiqishi yoki zararli dastur oqibatida tiklanishga yordam beradi. Nusxa asl qurilma bilan bir joyda bo‘lsa, bir hodisa ikkalasiga ham zarar yetkazishi mumkin. Backup borligi yetarli emas: vaqti-vaqti bilan undan tiklashni sinash kerak.\n\n#### Hayotiy vaziyat\n\nMuhim fayl yo‘qoldi. Logda o‘chirish hodisasi bo‘lishi mumkin, backup esa faylni qaytarishga yordam beradi. Log “nima bo‘lganini” tushuntirishga, backup “qanday tiklashni” hal qilishga yordam beradi — ular bir-birining o‘rnini bosmaydi.\n\n#### Amaliy mashq\n\nSun’iy log yozuvlari bilan jadval tuzing: vaqt, hodisa, natija, nimani bilamiz, nimani hali bilmaymiz. So‘ng 3 ta muhim fayl uchun backup rejasi yozing.\n\n#### Dars oxiridagi savollar\n\n1. Log nima uchun kerak?\n2. Backup nima qiladi?\n3. Nega tiklashni sinab ko‘rish muhim?\n\n#### Qisqa javoblar\n\n- Hodisalarni tushunish va tahlil qilishga yordam beradi.\n- Ma’lumot yo‘qolsa qaytarishga yordam beradi.\n- Nusxa buzilgan yoki tiklab bo‘lmaydigan bo‘lishi mumkin.\n\n#### Uyga vazifa / qo‘shimcha topshiriq\n\nShaxsiy ma’lumotlar uchun backup rejasini tuzing: nimalar nusxalanadi, qanchalik tez-tez, qayerda saqlanadi va tiklash qanday tekshiriladi.\n\n#### Qo‘shimcha chaqiriq\n\nLog va backupdan qaysi biri hodisa sababini aniqlaydi, qaysi biri tiklashga yordam beradi? Ikkalasining chegarasini izohlang.\n\nO‘quvchi o‘z so‘zi bilan tushuntira olishi kerak: mavzuning asosiy g‘oyasi, kamida ikki misol va uni himoya nuqtayi nazaridan qanday qo‘llash mumkinligi.",
+      "order": 16,
+      "xp": 100,
+      "createdAt": "2026-10-25T14:24:22.801Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937c8",
+      "moduleId": "6ade1116dfeb32865f8937c7",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "title": "17-dars. Tarmoq va internetning boshlang‘ich tushunchalari",
+      "slug": "path1-dars-17-17-dars-tarmoq-va-internetning-boshlangich-tushunchalari",
+      "duration": "50 daqiqa",
+      "difficulty": "boshlang‘ich",
+      "content": "## 5-MODUL. AMALIY HIMOYA VA YAKUNIY LOYIHA\nBu modul avvalgi bilimlarni birlashtiradi: xavfsizlik tekshiruvi, hodisani tahlil qilish, hisobot va yakuniy loyiha.\n\n### 17-dars. Tarmoq va internetning boshlang‘ich tushunchalari\n\nTaxminiy vaqt: 50 daqiqa  |  Daraja: boshlang‘ich\n\n#### Dars maqsadi\n\nTarmoq, IP manzil, DNS, router va firewall tushunchalarini xavfsizlik bilan bog‘lash.\n\n#### Darsni o‘rganamiz\n\n#### 1. Tarmoq, IP manzil va router\n\nTarmoq qurilmalarga ma’lumot almashish imkonini beradi. IP manzil tarmoqdagi qurilma yoki interfeysni aniqlashga yordam beradi. Router turli tarmoqlar orasida trafikni yo‘naltiradi. Uy tarmog‘ida telefon, noutbuk va televizor bitta router orqali internetga chiqishi mumkin. Tarmoqdagi qurilma sonini va qaysi biri kimga tegishli ekanini bilish himoya uchun muhim.\n\n#### 2. DNS va domen\n\nDNS domen nomini IP manzilga moslashtirishga yordam beradi. Odamlar domen nomini eslab qoladi, qurilmalar esa tarmoq manzillari orqali aloqa qiladi. DNSdagi muammo saytga kira olmaslikka olib kelishi mumkin; soxta yoki noto‘g‘ri manzilga yo‘naltirish xavfi ham bor. Shuning uchun domenni tekshirish va ishonchli tarmoq sozlamalaridan foydalanish kerak.\n\n#### 3. Firewall va VPN\n\nFirewall tarmoq trafigini belgilangan qoidalarga ko‘ra ruxsat etishi yoki bloklashi mumkin. VPN qurilma bilan VPN xizmatining nuqtasi orasidagi aloqani shifrlashi mumkin, ammo foydalanuvchini barcha xavflardan himoya qilmaydi. VPN ishlatish fishing, zararli dastur yoki noto‘g‘ri sozlamalarni avtomatik hal qilmaydi.\n\n#### Hayotiy vaziyat\n\nTelefon uy Wi-Fi tarmog‘iga ulangan, lekin sayt ochilmayapti. Sabab DNS, router, internet provayderi yoki saytning o‘zi bo‘lishi mumkin. Tizimli tahlil bitta sababni taxmin qilishdan ko‘ra, bosqichma-bosqich tekshirishga yordam beradi.\n\n#### Amaliy mashq\n\nUy yoki laboratoriya tarmog‘ining oddiy xaritasini chizing: internet, router, kompyuter, telefon. Har bir qurilma qanday himoyalanishi kerakligini yozing. Begona tarmoqqa skanerlash qilmang.\n\n#### Dars oxiridagi savollar\n\n1. DNS nima qiladi?\n2. Firewall vazifasi nima?\n3. VPN barcha xavflarni yo‘q qiladimi?\n\n#### Qisqa javoblar\n\n- Domen nomini IP manzil bilan moslashtiradi.\n- Trafikni qoidalar asosida ruxsat etadi yoki bloklaydi.\n- Yo‘q.\n\n#### Uyga vazifa / qo‘shimcha topshiriq\n\nIP, DNS, router, firewall va VPN terminlarining har biriga o‘zingizning so‘zingiz bilan ta’rif va bitta xavfsizlik misoli yozing.\n\n#### Qo‘shimcha chaqiriq\n\nUy routerida standart parolni almashtirish va dasturiy ta’minotni yangilash nega muhim?\n\nO‘quvchi o‘z so‘zi bilan tushuntira olishi kerak: mavzuning asosiy g‘oyasi, kamida ikki misol va uni himoya nuqtayi nazaridan qanday qo‘llash mumkinligi.",
+      "order": 17,
+      "xp": 100,
+      "createdAt": "2026-10-25T14:24:22.818Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937ce",
+      "moduleId": "6ade1116dfeb32865f8937c7",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "title": "18-dars. Shaxsiy qurilma uchun himoya rejasi",
+      "slug": "path1-dars-18-18-dars-shaxsiy-qurilma-uchun-himoya-rejasi",
+      "duration": "55 daqiqa",
+      "difficulty": "boshlang‘ich",
+      "content": "## 5-MODUL. AMALIY HIMOYA VA YAKUNIY LOYIHA\nBu modul avvalgi bilimlarni birlashtiradi: xavfsizlik tekshiruvi, hodisani tahlil qilish, hisobot va yakuniy loyiha.\n\n### 18-dars. Shaxsiy qurilma uchun himoya rejasi\n\nTaxminiy vaqt: 55 daqiqa  |  Daraja: boshlang‘ich\n\n#### Dars maqsadi\n\nAvvalgi modullardagi bilimlardan foydalanib, shaxsiy kompyuter yoki telefon uchun sodda, amaliy himoya rejasini yaratish.\n\n#### Darsni o‘rganamiz\n\n#### 1. Qurilma xavfsizligining qatlamlari\n\nQurilma himoyasi ekran qulfi, yangilanishlar, disk shifrlash mavjud bo‘lsa uni yoqish, ishonchli ilovalar, zaxira nusxa va foydalanuvchi huquqlaridan iborat bo‘lishi mumkin. Barcha qurilmada bir xil sozlama mavjud emas, shuning uchun model va OT bo‘yicha rasmiy ko‘rsatmalarni tekshiring. Maqsad — yo‘qolish, o‘g‘irlanish yoki zararli dastur ta’sirini kamaytirish.\n\n#### 2. Hisob va kirish nazorati\n\nHar bir foydalanuvchi o‘z akkauntiga ega bo‘lsa, kim nima qilganini tushunish osonlashadi. Umumiy akkauntlar va ulashilgan parollar javobgarlikni noaniq qiladi. MFA, tiklash usullarini tekshirish, keraksiz sessiyalarni tugatish va administrator huquqini cheklash hisob xavfsizligini oshiradi.\n\n#### 3. Rejani ustuvorlashtirish\n\nMukammal xavfsizlikka birdan erishish qiyin. Avval katta ta’sirli, bajarish oson bo‘lgan ishlarni tanlang: yangilanish, MFA, alohida parollar, backup va ekran qulfi. Keyin tarmoq, maxfiylik sozlamalari va dasturlarni ko‘rib chiqing. Har bir chora uchun mas’ul shaxs va tekshirish sanasini yozish rejaning bajarilishiga yordam beradi.\n\n#### Hayotiy vaziyat\n\nO‘quvchining noutbuki yo‘qolsa, ekran qulfi va disk shifrlash ma’lumotlarni himoyalashga yordam berishi mumkin; backup esa fayllarni qayta tiklashga yordam beradi. Bular turli xavfni kamaytiradi, shuning uchun ularni birga ko‘rib chiqish kerak.\n\n#### Amaliy mashq\n\nShaxsiy qurilma uchun 10 bandli tekshiruv ro‘yxati yarating. Har bandga “bajarildi”, “tekshirish kerak” yoki “mavjud emas” holatini belgilang. Parol yoki shaxsiy faylni topshirmang.\n\n#### Dars oxiridagi savollar\n\n1. Nega qatlamli himoya kerak?\n2. Qaysi choralar akkauntni himoyalaydi?\n3. Himoya rejasida ustuvorlik nima uchun kerak?\n\n#### Qisqa javoblar\n\n- Bitta chora yetarli bo‘lmasligi mumkin.\n- Alohida parol, MFA, sessiyalarni tekshirish va huquqlarni cheklash.\n- Vaqt va resurslarni eng muhim xavflarga yo‘naltirish uchun.\n\n#### Uyga vazifa / qo‘shimcha topshiriq\n\nEng muhim 3 xavfni tanlab, har biri uchun bajariladigan chora va tekshirish sanasini yozing.\n\n#### Qo‘shimcha chaqiriq\n\nHimoya rejangizdagi bitta chora bajarilmasa, qaysi boshqa qatlam zararini kamaytirishi mumkin?\n\nO‘quvchi o‘z so‘zi bilan tushuntira olishi kerak: mavzuning asosiy g‘oyasi, kamida ikki misol va uni himoya nuqtayi nazaridan qanday qo‘llash mumkinligi.",
+      "order": 18,
+      "xp": 100,
+      "createdAt": "2026-10-25T14:24:22.829Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937d4",
+      "moduleId": "6ade1116dfeb32865f8937c7",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "title": "19-dars. Hodisani tahlil qilish va sodda hisobot yozish",
+      "slug": "path1-dars-19-19-dars-hodisani-tahlil-qilish-va-sodda-hisobot-yozish",
+      "duration": "55 daqiqa",
+      "difficulty": "boshlang‘ich",
+      "content": "## 5-MODUL. AMALIY HIMOYA VA YAKUNIY LOYIHA\nBu modul avvalgi bilimlarni birlashtiradi: xavfsizlik tekshiruvi, hodisani tahlil qilish, hisobot va yakuniy loyiha.\n\n### 19-dars. Hodisani tahlil qilish va sodda hisobot yozish\n\nTaxminiy vaqt: 55 daqiqa  |  Daraja: boshlang‘ich\n\n#### Dars maqsadi\n\nShubhali vaziyatni faktlarga asoslanib tahlil qilish va tushunarli hisobot tuzish.\n\n#### Darsni o‘rganamiz\n\n#### 1. Hodisa va oddiy nosozlikni farqlash\n\nQurilmaning sekinlashishi yoki sayt ochilmasligi o‘z-o‘zidan kiberhujum isboti emas. Hodisa ehtimolini baholash uchun vaqt, xabarlar, loglar, foydalanuvchi kuzatuvi va boshqa belgilarni yig‘ish kerak. Maqsad — taxminni dalildan ajratish va xavfsiz chorani tanlash.\n\n#### 2. Hodisaga javob berish bosqichlari\n\nBoshlang‘ich javob odatda aniqlash, ta’sir doirasini tushunish, zarar tarqalishini cheklash, sababni bartaraf etish, tiklash va o‘rganilgan saboqlarni yozishni o‘z ichiga oladi. Oddiy foydalanuvchi uchun bu — shubhali amalni to‘xtatish, mas’ul shaxsga xabar berish va ko‘rsatmaga amal qilish. Tashkilotdagi javob rejasi ustun turadi.\n\n#### 3. Qisqa va foydali hisobot\n\nHisobotda qachon va qayerda kuzatilgani, nimalar ko‘ringani, nima aniq va nima taxmin ekanligi, ko‘rilgan xavfsiz chora va keyingi tavsiya bo‘lishi kerak. Ortiqcha dramatik til o‘rniga aniq fakt ishlating. Maxfiy ma’lumotni keraksiz tarqatmang.\n\n#### Hayotiy vaziyat\n\nO‘quvchi kutilmagan kirish xabari oldi. U parolini xabardagi havolada kiritmagan, xabar vaqtini yozib oldi va rasmiy ilovadan hisob faolligini tekshirdi. Hisobotda faqat kuzatilgan faktlar va amalga oshirilgan qadamlar ko‘rsatiladi.\n\n#### Amaliy mashq\n\nQuyidagi shartli hodisa bo‘yicha hisobot yozing: “Akkaunt egasi tanimagan kirish ogohlantirishi kelgan, ammo hali buzib kirish tasdiqlanmagan”. Sarlavha, vaqt, faktlar, noaniqlik, ko‘rilgan chora va tavsiya bo‘lsin.\n\n#### Dars oxiridagi savollar\n\n1. G‘alati holat avtomatik ravishda hujum deganimi?\n2. Hisobotda fakt va taxminni nega ajratamiz?\n3. Hodisa haqida kimga xabar berish kerak?\n\n#### Qisqa javoblar\n\n- Yo‘q, dalil bilan tekshirish kerak.\n- Noto‘g‘ri xulosani oldini olish uchun.\n- Xizmat yoki tashkilotning rasmiy mas’ul kanaliga.\n\n#### Uyga vazifa / qo‘shimcha topshiriq\n\nBir sahifalik “Shubhali xabar yoki kirish hodisasida nima qilaman?” rejasi tuzing.\n\n#### Qo‘shimcha chaqiriq\n\nBir hodisani 3 gapda texnik bo‘lmagan foydalanuvchiga tushuntiring.\n\nO‘quvchi o‘z so‘zi bilan tushuntira olishi kerak: mavzuning asosiy g‘oyasi, kamida ikki misol va uni himoya nuqtayi nazaridan qanday qo‘llash mumkinligi.",
+      "order": 19,
+      "xp": 100,
+      "createdAt": "2026-10-25T14:24:22.843Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937da",
+      "moduleId": "6ade1116dfeb32865f8937c7",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "title": "20-dars. Yakuniy loyiha: xavfsiz raqamli muhit auditi",
+      "slug": "path1-dars-20-20-dars-yakuniy-loyiha-xavfsiz-raqamli-muhit-auditi",
+      "duration": "60 daqiqa",
+      "difficulty": "boshlang‘ich",
+      "content": "## 5-MODUL. AMALIY HIMOYA VA YAKUNIY LOYIHA\nBu modul avvalgi bilimlarni birlashtiradi: xavfsizlik tekshiruvi, hodisani tahlil qilish, hisobot va yakuniy loyiha.\n\n### 20-dars. Yakuniy loyiha: xavfsiz raqamli muhit auditi\n\nTaxminiy vaqt: 60 daqiqa  |  Daraja: boshlang‘ich\n\n#### Dars maqsadi\n\nBirinchi oyda o‘rganilgan tushunchalarni qo‘llab, kichik va xavfsiz himoya loyihasini yakunlash.\n\n#### Darsni o‘rganamiz\n\n#### 1. Audit doirasi va aktivlar\n\nYakuniy loyiha faqat o‘zingizga tegishli qurilma yoki sun’iy ssenariyga asoslanadi. Avval nimani baholashingizni yozing: masalan, shaxsiy akkauntlar xavfsizligi, zaxira nusxa rejasi yoki laboratoriya kompyuterining boshlang‘ich sozlamalari. Doiraga kirmaydigan tizimni tekshirmang.\n\n#### 2. Risk jadvali va tavsiyalar\n\nHar bir aktiv uchun tahdid, zaiflik, ehtimol, ta’sir va mavjud himoyani yozing. Eng muhim 3 riskni tanlab, bajarilishi mumkin bo‘lgan tavsiya bering. Tavsiya aniq bo‘lsin: “xavfsizlikni yaxshilash” o‘rniga “asosiy akkauntda MFAni yoqish va tiklash usulini tekshirish” kabi.\n\n#### 3. Natijani taqdim etish\n\nLoyiha yakunida qisqa hisobot tuzing: maqsad, doira, usul, topilmalar, ustuvorliklar, tavsiyalar va cheklovlar. Tekshirilmagan narsani tekshirilgan deb yozmang. Maqsad ko‘p muammo topish emas, xavfni tushunish va amaliy himoya choralarini asoslashdir.\n\n#### Hayotiy vaziyat\n\nLoyiha doirasida o‘quvchi o‘z akkauntlarida MFA holatini tekshiradi, qurilma yangilanishini ko‘radi, backup borligini aniqlaydi va shubhali xabarni tekshirish tartibini yozadi. Hech qanday begona sayt yoki akkaunt sinovdan o‘tkazilmaydi.\n\n#### Amaliy mashq\n\nYakuniy loyiha: 1) doirani yozing; 2) kamida 5 aktivni sanang; 3) 5 riskni baholang; 4) eng muhim 3 ta tavsiya bering; 5) tekshirish natijasi va cheklovlarni yozing; 6) 3–5 daqiqalik taqdimot tayyorlang.\n\n#### Dars oxiridagi savollar\n\n1. Yakuniy audit nimani qamrab oladi?\n2. Nega tekshirilmagan narsani hisobotga qo‘shmaslik kerak?\n3. Yaxshi tavsiya qanday bo‘ladi?\n\n#### Qisqa javoblar\n\n- Faqat belgilangan, ruxsatli va xavfsiz doirani.\n- Ishonchlilik va halollik uchun.\n- Aniq, bajariladigan va muayyan riskka bog‘langan.\n\n#### Uyga vazifa / qo‘shimcha topshiriq\n\nLoyihani yakunlab, hisobotni qayta ko‘rib chiqing. Har bir tavsiya bajarilishi mumkin, aniq va xavfsiz ekanini tekshiring.\n\n#### Qo‘shimcha chaqiriq\n\nLoyihangizni boshqa o‘quvchi ko‘rib, tavsiyalaringizni mustaqil tekshira olishi uchun qanday dalillarni qo‘shasiz?\n\nO‘quvchi o‘z so‘zi bilan tushuntira olishi kerak: mavzuning asosiy g‘oyasi, kamida ikki misol va uni himoya nuqtayi nazaridan qanday qo‘llash mumkinligi.\n\n---\n\n## Yakuniy baholash va sertifikat mezonlari\n\nTavsiya etiladigan kursni tugatish mezoni: 20 darsning barchasini o‘qish; har dars oxiridagi savollardan kamida 80% to‘g‘ri javob berish; har modulning amaliy topshirig‘ini topshirish; yakuniy loyihani yuborish va xavfsiz ishlash qoidalariga rioya qilish. Platformada sertifikat berish mezonlari oldindan ko‘rsatilishi, natijalar esa server tomonida tekshirilishi kerak.\n\n### CTF.UZ platformasi uchun kontent tavsiyasi\n\n- Har bir darsni alohida lesson sifatida saqlang; matn, misol, amaliy mashq, savollar va javoblarni alohida maydonlarda tutish qulay.\n- Savollar uchun bir nechta variantli test, qisqa javob va amaliy topshiriq turlarini aralashtiring.\n- Darsning “30–60 daqiqa” qiymatini taxminiy o‘quv vaqti sifatida ko‘rsating; vaqtning o‘zi darsni tugatganlikni isbotlamaydi.\n- Sertifikatni faqat barcha majburiy darslar, testlar va yakuniy loyiha mezonlari serverda bajarilgandan keyin berish ma’qul.\n- Bepul kursni tugatish sertifikati bilan pullik amaliy imtihon sertifikatini alohida nomlang. Pullik imtihon bu o‘quv yo‘lining ichida hali ishlab chiqilmagan bo‘lsa, uni mavjud deb ko‘rsatmang.\n- Har bir amaliy topshiriq yonida ruxsatli laboratoriya va ma’lumot xavfsizligi qoidalarini eslatib turing.\n\n## Manba va moslashtirish qaydi\n\nAsos sifatida foydalanuvchi yuborgan matndagi kiberxavfsizlikka kirish, CIA triadasi, xavfsizlik yo‘nalishlari, zaiflik/tahdid/risk/hujum/eksploit terminlari, phishing va malware turlari hamda operatsion tizimlarning vazifalari haqidagi mavzular ishlatildi. Dars ketma-ketligini boshlang‘ich auditoriyaga moslash, misollar, mashqlar, himoya tavsiyalari, baholash mezonlari va yakuniy loyiha qo‘shish — ushbu o‘quv yo‘li uchun tahririy kengaytmalardir.\n",
+      "order": 20,
+      "xp": 100,
+      "createdAt": "2026-10-25T14:24:22.854Z"
+    }
+  ],
+  "questions": [
+    {
+      "_id": "6ad3b3e99bcd00772931fc42",
+      "lessonId": "6ad3b3e99bcd00772931fc40",
+      "prompt": "Tizimdagi ma'lumotlarning tranzit va saqlash vaqtida ruxsatsiz o'zgartirilmaganligini kafolatlovchi CIA prinsipi nima?",
+      "answers": [
+        "integrity",
+        "yaxlitlik"
+      ],
+      "points": 20,
+      "__v": 0
+    },
+    {
+      "_id": "6ad3b3e99bcd00772931fc44",
+      "lessonId": "6ad3b3e99bcd00772931fc40",
+      "prompt": "DDoS hujumi CIA triadasining aynan qaysi elementini ishdan chiqarishga qaratilgan?",
+      "answers": [
+        "availability",
+        "mavjudlik"
+      ],
+      "points": 20,
+      "__v": 0
+    },
+    {
+      "_id": "6ad3b3e99bcd00772931fc48",
+      "lessonId": "6ad3b3e99bcd00772931fc46",
+      "prompt": "Penetratsion test paytida qaysi serverlarni tekshirish mumkinligi va qaysilari taqiqlanganligini belgilab beruvchi rasmiy kelishuv hujjati nima deb ataladi?",
+      "answers": [
+        "rules of engagement",
+        "roe",
+        "scope"
+      ],
+      "points": 20,
+      "__v": 0
+    },
+    {
+      "_id": "6ad3b3e99bcd00772931fc4a",
+      "lessonId": "6ad3b3e99bcd00772931fc46",
+      "prompt": "O'zbekiston Respublikasi Jinoyat Kodeksida 'Kompyuter axborotidan qonunga xilof ravishda (ruxsatsiz) foydalanish' qaysi moddada bayon etilgan?",
+      "answers": [
+        "278-4",
+        "278 prim 4",
+        "278 4"
+      ],
+      "points": 20,
+      "__v": 0
+    },
+    {
+      "_id": "6ad3b3e99bcd00772931fc4e",
+      "lessonId": "6ad3b3e99bcd00772931fc4c",
+      "prompt": "Kali Linux qaysi ommabop Linux distributivi bazasiga asoslangan?",
+      "answers": [
+        "debian"
+      ],
+      "points": 20,
+      "__v": 0
+    },
+    {
+      "_id": "6ad3b3e99bcd00772931fc50",
+      "lessonId": "6ad3b3e99bcd00772931fc4c",
+      "prompt": "Kali Linux tizimida mashhur so'zlar ro'yxati (masalan, rockyou.txt) standart bo'yicha qaysi katalogda saqlanadi?",
+      "answers": [
+        "/usr/share/wordlists",
+        "/usr/share/wordlists/"
+      ],
+      "points": 20,
+      "__v": 0
+    },
+    {
+      "_id": "6ad3b3e99bcd00772931fc54",
+      "lessonId": "6ad3b3e99bcd00772931fc52",
+      "prompt": "Virtual mashinaning ayni damdagi holatini xotirada saqlab, keyinchalik xatolar sodir bo'lganda unga qaytish imkonini beruvchi funksiya nima?",
+      "answers": [
+        "snapshot"
+      ],
+      "points": 20,
+      "__v": 0
+    },
+    {
+      "_id": "6ad3b3e99bcd00772931fc56",
+      "lessonId": "6ad3b3e99bcd00772931fc52",
+      "prompt": "VirtualBox-dagi qaysi tarmoq rejimi tashqi internetni to'liq uzgan holda faqat virtual mashinalarning o'zaro xavfsiz aloqasini ta'minlaydi?",
+      "answers": [
+        "internal network",
+        "internal"
+      ],
+      "points": 20,
+      "__v": 0
+    },
+    {
+      "_id": "6ad3b3e99bcd00772931fc5c",
+      "lessonId": "6ad3b3e99bcd00772931fc5a",
+      "prompt": "Linux skriptlarining eng boshida interpretator yo'lini ko'rsatish uchun ishlatiladigan #! belgilar juftligi qanday ataladi?",
+      "answers": [
+        "shebang"
+      ],
+      "points": 20,
+      "__v": 0
+    },
+    {
+      "_id": "6ad3b3e99bcd00772931fc5e",
+      "lessonId": "6ad3b3e99bcd00772931fc5a",
+      "prompt": "Bash skriptida oldingi buyruq xatosiz muvaffaqiyatli yakunlanganini tekshirish uchun qaysi maxsus o'zgaruvchi tekshiriladi?",
+      "answers": [
+        "$?"
+      ],
+      "points": 20,
+      "__v": 0
+    },
+    {
+      "_id": "6ad3b3e99bcd00772931fc62",
+      "lessonId": "6ad3b3e99bcd00772931fc60",
+      "prompt": "SSH protokoli standart sozlamalarga ko'ra qaysi TCP port orqali ishlaydi?",
+      "answers": [
+        "22"
+      ],
+      "points": 20,
+      "__v": 0
+    },
+    {
+      "_id": "6ad3b3e99bcd00772931fc64",
+      "lessonId": "6ad3b3e99bcd00772931fc60",
+      "prompt": "Foydalanuvchining ochiq SSH kalitlari serverning qaysi fayliga joylashtirilishi kerak?",
+      "answers": [
+        "authorized_keys"
+      ],
+      "points": 20,
+      "__v": 0
+    },
+    {
+      "_id": "6ad3b3e99bcd00772931fc68",
+      "lessonId": "6ad3b3e99bcd00772931fc66",
+      "prompt": "Standart bo'yicha barcha kiruvchi ulanishlarni bloklab qo'yish uchun UFW-da qanday buyruq beriladi?",
+      "answers": [
+        "sudo ufw default deny incoming",
+        "ufw default deny incoming"
+      ],
+      "points": 20,
+      "__v": 0
+    },
+    {
+      "_id": "6ad3b3e99bcd00772931fc6a",
+      "lessonId": "6ad3b3e99bcd00772931fc66",
+      "prompt": "UFW xavfsizlik devori qoidalarini raqamlari bilan birga ko'rish uchun status parametriga qaysi kalit qo'shiladi?",
+      "answers": [
+        "numbered"
+      ],
+      "points": 20,
+      "__v": 0
+    },
+    {
+      "_id": "6ad3b3e99bcd00772931fc6e",
+      "lessonId": "6ad3b3e99bcd00772931fc6c",
+      "prompt": "Wireshark-da faqat DNS so'rov va javoblarini saralab olish uchun qanday oddiy filtr yoziladi?",
+      "answers": [
+        "dns"
+      ],
+      "points": 20,
+      "__v": 0
+    },
+    {
+      "_id": "6ad3b3e99bcd00772931fc70",
+      "lessonId": "6ad3b3e99bcd00772931fc6c",
+      "prompt": "Tarmoq kartasiga unga tegishli bo'lmagan boshqa qurilmalar paketlarini ham o'qish imkonini beruvchi rejim qanday ataladi?",
+      "answers": [
+        "promiscuous mode",
+        "promiscuous"
+      ],
+      "points": 20,
+      "__v": 0
+    },
+    {
+      "_id": "6ad3b3e99bcd00772931fc8a",
+      "lessonId": "6ad3b3e99bcd00772931fc88",
+      "prompt": "Routerlar va IP manzillar OSI modelining nechanchi (qaysi nomdagi) qatlamida ishlaydi?",
+      "answers": [
+        "network",
+        "3",
+        "tarmoq"
+      ],
+      "points": 20,
+      "__v": 0
+    },
+    {
+      "_id": "6ad3b3e99bcd00772931fc8c",
+      "lessonId": "6ad3b3e99bcd00772931fc88",
+      "prompt": "2-qatlamda (Data Link) tarmoq orqali uzatilayotgan ma'lumot bloklari qanday ataladi?",
+      "answers": [
+        "frame",
+        "freym"
+      ],
+      "points": 20,
+      "__v": 0
+    },
+    {
+      "_id": "6ad3b3e99bcd00772931fc90",
+      "lessonId": "6ad3b3e99bcd00772931fc8e",
+      "prompt": "TCP 3-Way Handshake mexanizmining ikkinchi bosqichida server mijozga qanday flaglar kombinatsiyasini yuboradi?",
+      "answers": [
+        "syn-ack",
+        "syn ack"
+      ],
+      "points": 20,
+      "__v": 0
+    },
+    {
+      "_id": "6ad3b3e99bcd00772931fc92",
+      "lessonId": "6ad3b3e99bcd00772931fc8e",
+      "prompt": "DNS so'rovlari odatda tezlik ustun bo'lgani uchun qaysi transport protokolidan foydalanadi?",
+      "answers": [
+        "udp"
+      ],
+      "points": 20,
+      "__v": 0
+    },
+    {
+      "_id": "6ad3b3e99bcd00772931fc96",
+      "lessonId": "6ad3b3e99bcd00772931fc94",
+      "prompt": "Nmap vositasida ochiq portlarda ishlayotgan dasturlar versiyasini aniqlash uchun qaysi kalit ishlatiladi?",
+      "answers": [
+        "-sv",
+        "sv"
+      ],
+      "points": 20,
+      "__v": 0
+    },
+    {
+      "_id": "6ad3b3e99bcd00772931fc98",
+      "lessonId": "6ad3b3e99bcd00772931fc94",
+      "prompt": "Nmap-da ulanishni to'liq yakunlamay yashirincha skanerlash qiluvchi 'SYN Stealth Scan' kaliti qaysi?",
+      "answers": [
+        "-ss",
+        "ss"
+      ],
+      "points": 20,
+      "__v": 0
+    },
+    {
+      "_id": "6ad3b3e99bcd00772931fc9c",
+      "lessonId": "6ad3b3e99bcd00772931fc9a",
+      "prompt": "Mahalliy tarmoqda IP manzilni MAC manzilga bog'lash uchun qaysi protokol xizmat qiladi?",
+      "answers": [
+        "arp"
+      ],
+      "points": 20,
+      "__v": 0
+    },
+    {
+      "_id": "6ad3b3e99bcd00772931fc9e",
+      "lessonId": "6ad3b3e99bcd00772931fc9a",
+      "prompt": "Tarmoq svichlarida soxta ARP javoblarini aniqlab bloklaydigan himoya mexanizmi nima deyiladi?",
+      "answers": [
+        "dynamic arp inspection",
+        "dai"
+      ],
+      "points": 20,
+      "__v": 0
+    },
+    {
+      "_id": "6ad3b3e99bcd00772931fca2",
+      "lessonId": "6ad3b3e99bcd00772931fca0",
+      "prompt": "DNS so'rovlariga kriptografik imzo qo'yish orqali javoblarning soxtalashtirilmaganini kafolatlovchi kengaytma?",
+      "answers": [
+        "dnssec"
+      ],
+      "points": 20,
+      "__v": 0
+    },
+    {
+      "_id": "6ad3b3e99bcd00772931fca4",
+      "lessonId": "6ad3b3e99bcd00772931fca0",
+      "prompt": "DNS so'rovlarini shifrlangan HTTPS protokoli ichiga o'rab jo'natuvchi texnologiyaning qisqartmasi nima?",
+      "answers": [
+        "doh"
+      ],
+      "points": 20,
+      "__v": 0
+    },
+    {
+      "_id": "6ad3d2850ef1bca2293e5405",
+      "lessonId": "6ad3d039ad29592ee621916e",
+      "prompt": "bu yerda savol korsatiladi",
+      "answers": [
+        "test"
+      ],
+      "points": 20,
+      "type": "flag",
+      "__v": 0
+    },
+    {
+      "_id": "6ad3d2bf0ef1bca2293e5434",
+      "lessonId": "6ad3d039ad29592ee621916e",
+      "prompt": "savol matni koratiladi",
+      "answers": [
+        "test"
+      ],
+      "points": 800,
+      "type": "flag",
+      "__v": 0
+    },
+    {
+      "_id": "6ada102241b2ff30972ae05d",
+      "lessonId": "6ada100441b2ff30972ae051",
+      "prompt": "SAVOL NIMAGA SIZ BUNI OQIYABSIZ",
+      "answers": [
+        "savol"
+      ],
+      "points": 25,
+      "isMandatory": true,
+      "order": 1,
+      "createdAt": "2026-10-22T13:31:14.412Z",
+      "__v": 0
+    },
+    {
+      "_id": "6ada20aec827f5261875082f",
+      "lessonId": "6ada209fc827f52618750823",
+      "prompt": "SAVOL NIMAGA SIZ BUNI OQIYABSIZ",
+      "answers": [
+        "savol"
+      ],
+      "points": 99,
+      "isMandatory": true,
+      "order": 1,
+      "createdAt": "2026-10-22T14:41:50.257Z",
+      "__v": 0
+    },
+    {
+      "_id": "6ade1116dfeb32865f893765",
+      "lessonId": "6ade1116dfeb32865f893764",
+      "moduleId": "6ade1116dfeb32865f893763",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Kiberxavfsizlik nimani himoya qiladi? (Qisqa javob: Qurilma, hisob, ma'lumot va xizmatlarni)",
+      "answer": "Qurilma, hisob, ma'lumot va xizmatlarni",
+      "order": 1,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.563Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f893766",
+      "lessonId": "6ade1116dfeb32865f893764",
+      "moduleId": "6ade1116dfeb32865f893763",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Nega antivirusning o'zi yetarli emas? (Kalit ibora: qatlamli himoya kerak)",
+      "answer": "qatlamli himoya kerak",
+      "order": 2,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.563Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f893767",
+      "lessonId": "6ade1116dfeb32865f893764",
+      "moduleId": "6ade1116dfeb32865f893763",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Yaxshi xavfsizlikda oldini olish va aniqlashdan keyingi uchinchi bosqich nima?",
+      "answer": "tiklanish",
+      "order": 3,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.564Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f893768",
+      "lessonId": "6ade1116dfeb32865f893764",
+      "moduleId": "6ade1116dfeb32865f893763",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Fayllar yo'qolganda ularni qayta tiklashga yordam beradigan nusxa nima deyiladi?",
+      "answer": "zaxira nusxa",
+      "order": 4,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.564Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f893769",
+      "lessonId": "6ade1116dfeb32865f893764",
+      "moduleId": "6ade1116dfeb32865f893763",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Amaliy mashqda o'zingiz foydalanadigan nechta raqamli aktivni yozish topshirilgan?",
+      "answer": "5",
+      "order": 5,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.564Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f89376b",
+      "lessonId": "6ade1116dfeb32865f89376a",
+      "moduleId": "6ade1116dfeb32865f893763",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "CIA nimani anglatadi? (Maxfiylik, yaxlitlik, mavjudlik)",
+      "answer": "Maxfiylik, yaxlitlik, mavjudlik",
+      "order": 1,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.595Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f89376c",
+      "lessonId": "6ade1116dfeb32865f89376a",
+      "moduleId": "6ade1116dfeb32865f893763",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Fayl ruxsatsiz o'zgartirilsa qaysi xususiyat buziladi?",
+      "answer": "Yaxlitlik",
+      "order": 2,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.595Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f89376d",
+      "lessonId": "6ade1116dfeb32865f89376a",
+      "moduleId": "6ade1116dfeb32865f893763",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Backup (zaxira nusxa) asosan qaysi xususiyatni qo'llab-quvvatlaydi?",
+      "answer": "Mavjudlik",
+      "order": 3,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.595Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f89376e",
+      "lessonId": "6ade1116dfeb32865f89376a",
+      "moduleId": "6ade1116dfeb32865f893763",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Ma'lumotni faqat tegishli ruxsatga ega odamlar ko'rishi CIA triadasining qaysi qismi?",
+      "answer": "Maxfiylik",
+      "order": 4,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.595Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f89376f",
+      "lessonId": "6ade1116dfeb32865f89376a",
+      "moduleId": "6ade1116dfeb32865f893763",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Maktab platformasi imtihon kuni ochilmasa, bu qaysi xususiyat muammosi hisoblanadi?",
+      "answer": "Mavjudlik",
+      "order": 5,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.595Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f893771",
+      "lessonId": "6ade1116dfeb32865f893770",
+      "moduleId": "6ade1116dfeb32865f893763",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Himoya, kuzatish va hodisaga javob berish qaysi jamoaning asosiy vazifasi? (Blue Team / Red Team)",
+      "answer": "Blue Team",
+      "order": 1,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.611Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f893772",
+      "lessonId": "6ade1116dfeb32865f893770",
+      "moduleId": "6ade1116dfeb32865f893763",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Belgilangan ruxsat va doirada tashkilot himoyasini sinab ko'radigan jamoa qanday ataladi?",
+      "answer": "Red Team",
+      "order": 2,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.611Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f893773",
+      "lessonId": "6ade1116dfeb32865f893770",
+      "moduleId": "6ade1116dfeb32865f893763",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Noutbuk, telefon va server kabi oxirgi qurilmalarga qaratilgan xavfsizlik yo'nalishi nima deyiladi? (Endpoint / Bulut)",
+      "answer": "Endpoint",
+      "order": 3,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.611Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f893774",
+      "lessonId": "6ade1116dfeb32865f893770",
+      "moduleId": "6ade1116dfeb32865f893763",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Sayt, server, brauzer, protokol va API kabi qismlarni qaysi xavfsizlik yo'nalishi qamrab oladi?",
+      "answer": "Veb xavfsizligi",
+      "order": 4,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.611Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f893775",
+      "lessonId": "6ade1116dfeb32865f893770",
+      "moduleId": "6ade1116dfeb32865f893763",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Red Team sinovi uchun eng muhim shart nima? (Aniq ruxsat, doira va qoidalar)",
+      "answer": "Aniq ruxsat, doira va qoidalar",
+      "order": 5,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.611Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f893777",
+      "lessonId": "6ade1116dfeb32865f893776",
+      "moduleId": "6ade1116dfeb32865f893763",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Ommaga ochiq saytni tekshirishga avtomatik ruxsat bormi? (Ha / Yo'q)",
+      "answer": "Yo'q",
+      "order": 1,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.627Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f893778",
+      "lessonId": "6ade1116dfeb32865f893776",
+      "moduleId": "6ade1116dfeb32865f893763",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Qaysi tizim va qanday chegarada sinov o'tkazilishini belgilovchi tushuncha ingliz tilida nima deyiladi?",
+      "answer": "Scope",
+      "order": 2,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.627Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f893779",
+      "lessonId": "6ade1116dfeb32865f893776",
+      "moduleId": "6ade1116dfeb32865f893763",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "O'rganish uchun haqiqiy tizim o'rniga qanday muhitdan foydalanish ma'qul?",
+      "answer": "laboratoriya",
+      "order": 3,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.627Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f89377a",
+      "lessonId": "6ade1116dfeb32865f893776",
+      "moduleId": "6ade1116dfeb32865f893763",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Ruxsatli sinovda zaiflik topilsa, maqsad sharmanda qilish emas, balki nimani kamaytirishdir?",
+      "answer": "xavfni",
+      "order": 4,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.627Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f89377b",
+      "lessonId": "6ade1116dfeb32865f893776",
+      "moduleId": "6ade1116dfeb32865f893763",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Sinov paytida shubha tug'ilsa, ishni davom ettirish kerakmi yoki to'xtatib mas'ul shaxsdan aniqlik olish kerakmi? (to'xtatish / davom ettirish)",
+      "answer": "to'xtatish",
+      "order": 5,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.627Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f89377e",
+      "lessonId": "6ade1116dfeb32865f89377d",
+      "moduleId": "6ade1116dfeb32865f89377c",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Qiymatga ega va himoya qilinishi kerak bo'lgan narsa nima deb ataladi?",
+      "answer": "Aktiv",
+      "order": 1,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.651Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f89377f",
+      "lessonId": "6ade1116dfeb32865f89377d",
+      "moduleId": "6ade1116dfeb32865f89377c",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Aktivga zarar yetkazishi mumkin bo'lgan shaxs, hodisa yoki sharoit nima deyiladi?",
+      "answer": "Tahdid",
+      "order": 2,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.651Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f893780",
+      "lessonId": "6ade1116dfeb32865f89377d",
+      "moduleId": "6ade1116dfeb32865f89377c",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Himoyani susaytiradigan nuqson yoki noto'g'ri sozlama qanday ataladi?",
+      "answer": "Zaiflik",
+      "order": 3,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.651Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f893781",
+      "lessonId": "6ade1116dfeb32865f89377d",
+      "moduleId": "6ade1116dfeb32865f89377c",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Zaiflik bo'lsa, hujum albatta sodir bo'ladimi? (Ha / Yo'q)",
+      "answer": "Yo'q",
+      "order": 4,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.651Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f893782",
+      "lessonId": "6ade1116dfeb32865f89377d",
+      "moduleId": "6ade1116dfeb32865f89377c",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Kutubxonadagi kompyuterda foydalanuvchi tizimdan chiqmay ketgan bo'lsa, ochiq qolgan sessiya nimaga misol bo'ladi? (Aktiv / Tahdid / Zaiflik)",
+      "answer": "Zaiflik",
+      "order": 5,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.651Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f893784",
+      "lessonId": "6ade1116dfeb32865f893783",
+      "moduleId": "6ade1116dfeb32865f89377c",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Muayyan zaiflikdan foydalanishga mo'ljallangan usul yoki kod nima deb ataladi?",
+      "answer": "Eksploit",
+      "order": 1,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.668Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f893785",
+      "lessonId": "6ade1116dfeb32865f893783",
+      "moduleId": "6ade1116dfeb32865f89377c",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Muvaffaqiyatsiz kirish urinishi ham xavfsizlik uchun ahamiyatlimi? (Ha / Yo'q)",
+      "answer": "Ha",
+      "order": 2,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.668Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f893786",
+      "lessonId": "6ade1116dfeb32865f893783",
+      "moduleId": "6ade1116dfeb32865f89377c",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Tizim yoki ma'lumotga zarar yetkazish, ruxsatsiz kirishga qaratilgan amaliy harakat nima deyiladi?",
+      "answer": "Hujum",
+      "order": 3,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.668Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f893787",
+      "lessonId": "6ade1116dfeb32865f893783",
+      "moduleId": "6ade1116dfeb32865f89377c",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Hodisa natijasida yuzaga kelgan zarar (ma'lumot ochilishi, xizmat to'xtashi) nima deb ataladi?",
+      "answer": "Oqibat",
+      "order": 4,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.668Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f893788",
+      "lessonId": "6ade1116dfeb32865f893783",
+      "moduleId": "6ade1116dfeb32865f89377c",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Noto'g'ri xulosa va ortiqcha choralarning oldini olish uchun tahlilchi fakt va nimani ajratishi kerak?",
+      "answer": "taxmin",
+      "order": 5,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.668Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f89378a",
+      "lessonId": "6ade1116dfeb32865f893789",
+      "moduleId": "6ade1116dfeb32865f89377c",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Riskni baholashda qaysi ikki jihat muhim? (Ehtimol va ta'sir)",
+      "answer": "Ehtimol va ta'sir",
+      "order": 1,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.681Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f89378b",
+      "lessonId": "6ade1116dfeb32865f893789",
+      "moduleId": "6ade1116dfeb32865f89377c",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Hodisa yuz berishi qanchalik mumkinligini ifodalovchi tushuncha nima?",
+      "answer": "Ehtimol",
+      "order": 2,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.681Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f89378c",
+      "lessonId": "6ade1116dfeb32865f893789",
+      "moduleId": "6ade1116dfeb32865f89377c",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Hodisa sodir bo'lsa qancha zarar yetishini ifodalovchi tushuncha nima?",
+      "answer": "Ta'sir",
+      "order": 3,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.681Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f89378d",
+      "lessonId": "6ade1116dfeb32865f893789",
+      "moduleId": "6ade1116dfeb32865f89377c",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Eng katta ball avtomatik ravishda yakuniy haqiqat hisoblanadimi? (Ha / Yo'q)",
+      "answer": "Yo'q",
+      "order": 4,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.681Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f89378e",
+      "lessonId": "6ade1116dfeb32865f893789",
+      "moduleId": "6ade1116dfeb32865f89377c",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Barcha muammoni bir vaqtda tuzatish imkoni bo'lmagani uchun yuqori ehtimol va katta ta'sirga ega risklarga nima beriladi?",
+      "answer": "ustuvorlik",
+      "order": 5,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.681Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f893790",
+      "lessonId": "6ade1116dfeb32865f89378f",
+      "moduleId": "6ade1116dfeb32865f89377c",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Zaiflikni boshqarish faqat uni topishdan iboratmi? (Ha / Yo'q)",
+      "answer": "Yo'q",
+      "order": 1,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.693Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f893791",
+      "lessonId": "6ade1116dfeb32865f89378f",
+      "moduleId": "6ade1116dfeb32865f89377c",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Hisobotda muammo, ta'sir, xavfsiz dalil va holat bilan birga yana nima bo'lishi kerak?",
+      "answer": "tavsiya",
+      "order": 2,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.693Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f893792",
+      "lessonId": "6ade1116dfeb32865f89378f",
+      "moduleId": "6ade1116dfeb32865f89377c",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Tuzatish kiritilgandan keyin muammo haqiqatan bartaraf etilganini bilish uchun nima qilinadi?",
+      "answer": "qayta tekshirish",
+      "order": 3,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.693Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f893793",
+      "lessonId": "6ade1116dfeb32865f89378f",
+      "moduleId": "6ade1116dfeb32865f89377c",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Xavfsizlik hisobotiga haqiqiy parol yoki foydalanuvchining maxfiy ma'lumotini qo'shish shartmi? (Ha / Yo'q)",
+      "answer": "Yo'q",
+      "order": 4,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.693Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f893794",
+      "lessonId": "6ade1116dfeb32865f89378f",
+      "moduleId": "6ade1116dfeb32865f89377c",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Umumiy hujjat hamma ko'ra oladigan bo'lib qolgan bo'lsa, kirishni kimlar bilan cheklash tavsiya etiladi? (zarur foydalanuvchilar)",
+      "answer": "zarur foydalanuvchilar",
+      "order": 5,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.693Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f893797",
+      "lessonId": "6ade1116dfeb32865f893796",
+      "moduleId": "6ade1116dfeb32865f893795",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Texnik himoyani emas, insonning ishonchi va shoshilishidan foydalanishga urinish qanday ataladi?",
+      "answer": "Ijtimoiy muhandislik",
+      "order": 1,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.712Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f893798",
+      "lessonId": "6ade1116dfeb32865f893796",
+      "moduleId": "6ade1116dfeb32865f893795",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Aldov orqali parol, kod yoki ma'lumotni qo'lga kiritishga qaratilgan soxta xabarlar hujumi nima deyiladi?",
+      "answer": "Phishing",
+      "order": 2,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.712Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f893799",
+      "lessonId": "6ade1116dfeb32865f893796",
+      "moduleId": "6ade1116dfeb32865f893795",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Jo'natuvchining ko'rinadigan nomiga ishonish yetarli dalilmi? (Ha / Yo'q)",
+      "answer": "Yo'q",
+      "order": 3,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.712Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f89379a",
+      "lessonId": "6ade1116dfeb32865f893796",
+      "moduleId": "6ade1116dfeb32865f893795",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Shubhali xabar kelganda undagi havolani bosmasdan, qaysi kanal orqali tekshirish kerak? (rasmiy kanal)",
+      "answer": "rasmiy kanal",
+      "order": 4,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.712Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f89379b",
+      "lessonId": "6ade1116dfeb32865f893796",
+      "moduleId": "6ade1116dfeb32865f893795",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Uyga vazifada phishingni aniqlash uchun necha bandli tekshiruv ro'yxatini tuzish topshirilgan?",
+      "answer": "7",
+      "order": 5,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.712Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f89379d",
+      "lessonId": "6ade1116dfeb32865f89379c",
+      "moduleId": "6ade1116dfeb32865f893795",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Qurilma yoki ma'lumotga zarar yetkazish, josuslik qilish uchun ishlatiladigan zararli dasturlar umumiy qanday ataladi?",
+      "answer": "Malware",
+      "order": 1,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.725Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f89379e",
+      "lessonId": "6ade1116dfeb32865f89379c",
+      "moduleId": "6ade1116dfeb32865f893795",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Foydali dastur ko'rinishida kelib, yashirin zararli vazifa bajaradigan dastur turi nima?",
+      "answer": "Troyan",
+      "order": 2,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.725Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f89379f",
+      "lessonId": "6ade1116dfeb32865f89379c",
+      "moduleId": "6ade1116dfeb32865f893795",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Ma'lumotni bloklashi yoki shifrlab, to'lov talab qilishi mumkin bo'lgan zararli dastur turi nima?",
+      "answer": "Ransomware",
+      "order": 3,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.725Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937a0",
+      "lessonId": "6ade1116dfeb32865f89379c",
+      "moduleId": "6ade1116dfeb32865f893795",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Klaviatura kiritmalarini yashirincha kuzatishga urinadigan zararli dastur nima deyiladi?",
+      "answer": "Keylogger",
+      "order": 4,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.725Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937a1",
+      "lessonId": "6ade1116dfeb32865f89379c",
+      "moduleId": "6ade1116dfeb32865f893795",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Boshqa fayl yoki dastur bilan bog'lanib tarqaladigan zararli dastur turi nima?",
+      "answer": "Virus",
+      "order": 5,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.725Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937a3",
+      "lessonId": "6ade1116dfeb32865f8937a2",
+      "moduleId": "6ade1116dfeb32865f893795",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Kirishda paroldan tashqari yana bir tasdiq omilini talab qiluvchi tizim qisqartmasi nima?",
+      "answer": "MFA",
+      "order": 1,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.738Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937a4",
+      "lessonId": "6ade1116dfeb32865f8937a2",
+      "moduleId": "6ade1116dfeb32865f893795",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Tasdiqlash kodini boshqa shaxsga berish mumkinmi? (Ha / Yo'q)",
+      "answer": "Yo'q",
+      "order": 2,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.738Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937a5",
+      "lessonId": "6ade1116dfeb32865f8937a2",
+      "moduleId": "6ade1116dfeb32865f893795",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Har bir xizmat uchun alohida va murakkab parol saqlashga yordam beradigan dastur nima deyiladi? (Parol menejeri)",
+      "answer": "Parol menejeri",
+      "order": 3,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.738Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937a6",
+      "lessonId": "6ade1116dfeb32865f8937a2",
+      "moduleId": "6ade1116dfeb32865f893795",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Bitta sizib chiqish bir nechta akkauntni xavf ostiga qo'ymasligi uchun parolni nima qilmaslik kerak? (takror ishlatmaslik)",
+      "answer": "takror ishlatmaslik",
+      "order": 4,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.738Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937a7",
+      "lessonId": "6ade1116dfeb32865f8937a2",
+      "moduleId": "6ade1116dfeb32865f893795",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Hisob buzilganidan shubha bo'lsa, parolni almashtirish bilan birga faol bo'lgan boshqa nimalarni tugatish kerak? (sessiyalarni)",
+      "answer": "sessiyalarni",
+      "order": 5,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.738Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937a9",
+      "lessonId": "6ade1116dfeb32865f8937a8",
+      "moduleId": "6ade1116dfeb32865f893795",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Brauzer va sayt orasidagi aloqani shifrlashga yordam beradigan xavfsiz protokol qanday ataladi?",
+      "answer": "HTTPS",
+      "order": 1,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.750Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937aa",
+      "lessonId": "6ade1116dfeb32865f8937a8",
+      "moduleId": "6ade1116dfeb32865f893795",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "HTTPS borligi saytning halol yoki ishonchli ekanini to'liq kafolatlaydimi? (Ha / Yo'q)",
+      "answer": "Yo'q",
+      "order": 2,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.750Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937ab",
+      "lessonId": "6ade1116dfeb32865f8937a8",
+      "moduleId": "6ade1116dfeb32865f893795",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Internetdagi faoliyatdan (postlar, profil ma'lumotlari) qoladigan ma'lumotlar nima deb ataladi? (Raqamli iz)",
+      "answer": "Raqamli iz",
+      "order": 3,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.750Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937ac",
+      "lessonId": "6ade1116dfeb32865f8937a8",
+      "moduleId": "6ade1116dfeb32865f893795",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Havolani bosishdan oldin sayt manzilining qaysi asosiy qismini diqqat bilan tekshirish kerak? (domen)",
+      "answer": "domen",
+      "order": 4,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.750Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937ad",
+      "lessonId": "6ade1116dfeb32865f8937a8",
+      "moduleId": "6ade1116dfeb32865f893795",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Ortiqcha ochiq ma'lumot ulashish qaysi turdagi hujumni osonlashtirishi mumkin? (ijtimoiy muhandislik)",
+      "answer": "ijtimoiy muhandislik",
+      "order": 5,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.750Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937b0",
+      "lessonId": "6ade1116dfeb32865f8937af",
+      "moduleId": "6ade1116dfeb32865f8937ae",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Apparat qismlari va dasturlar o'rtasidagi boshqaruvchi qatlam qisqartmasi nima? (OT)",
+      "answer": "OT",
+      "order": 1,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.768Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937b1",
+      "lessonId": "6ade1116dfeb32865f8937af",
+      "moduleId": "6ade1116dfeb32865f8937ae",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Operatsion tizimning xotira, jarayon va apparat resurslarini boshqaruvchi eng muhim qismi nima deyiladi?",
+      "answer": "Yadro",
+      "order": 2,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.768Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937b2",
+      "lessonId": "6ade1116dfeb32865f8937af",
+      "moduleId": "6ade1116dfeb32865f8937ae",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Oyna, tugma va menyular orqali ishlash interfeysi qisqartmasi nima?",
+      "answer": "GUI",
+      "order": 3,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.768Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937b3",
+      "lessonId": "6ade1116dfeb32865f8937af",
+      "moduleId": "6ade1116dfeb32865f8937ae",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Matnli buyruqlar orqali boshqarish interfeysi (buyruq satri) qisqartmasi nima?",
+      "answer": "CLI",
+      "order": 4,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.768Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937b4",
+      "lessonId": "6ade1116dfeb32865f8937af",
+      "moduleId": "6ade1116dfeb32865f8937ae",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "OTga klaviatura, tarmoq adapteri yoki printer kabi qurilmalar bilan ishlashga yordam beruvchi dasturlar nima deyiladi?",
+      "answer": "Drayverlar",
+      "order": 5,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.768Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937b6",
+      "lessonId": "6ade1116dfeb32865f8937b5",
+      "moduleId": "6ade1116dfeb32865f8937ae",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Foydalanuvchi va dasturga vazifasini bajarish uchun zarur bo'lgan eng kichik vakolatni berish qanday tamoyil deyiladi? (Eng kam huquq tamoyili)",
+      "answer": "Eng kam huquq tamoyili",
+      "order": 1,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.782Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937b7",
+      "lessonId": "6ade1116dfeb32865f8937b5",
+      "moduleId": "6ade1116dfeb32865f8937ae",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Fayl ruxsatlarining uchta asosiy turi: o'qish, yozish va uchinchisi nima?",
+      "answer": "bajarish",
+      "order": 2,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.782Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937b8",
+      "lessonId": "6ade1116dfeb32865f8937b5",
+      "moduleId": "6ade1116dfeb32865f8937ae",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Kundalik oddiy ishlar uchun doimiy ravishda qaysi hisobdan foydalanmaslik tavsiya etiladi? (administrator)",
+      "answer": "administrator",
+      "order": 3,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.782Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937b9",
+      "lessonId": "6ade1116dfeb32865f8937b5",
+      "moduleId": "6ade1116dfeb32865f8937ae",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Fayl kengaytmasi o'zgartirilgani faylni avtomatik xavfsiz qiladimi? (Ha / Yo'q)",
+      "answer": "Yo'q",
+      "order": 4,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.782Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937ba",
+      "lessonId": "6ade1116dfeb32865f8937b5",
+      "moduleId": "6ade1116dfeb32865f8937ae",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Faylga kim va qanday amal bilan kira olishini boshqarish uchun nimalar kerak?",
+      "answer": "Ruxsatlar",
+      "order": 5,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.782Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937bc",
+      "lessonId": "6ade1116dfeb32865f8937bb",
+      "moduleId": "6ade1116dfeb32865f8937ae",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Ishga tushgan dastur nusxasi va uning ishlash holati nima deb ataladi?",
+      "answer": "Jarayon",
+      "order": 1,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.793Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937bd",
+      "lessonId": "6ade1116dfeb32865f8937bb",
+      "moduleId": "6ade1116dfeb32865f8937ae",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Ma'lum xavfsizlik nuqsonlarini tuzatish uchun dasturlarda nimani o'z vaqtida o'rnatish muhim?",
+      "answer": "yangilanish",
+      "order": 2,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.793Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937be",
+      "lessonId": "6ade1116dfeb32865f8937bb",
+      "moduleId": "6ade1116dfeb32865f8937ae",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Dastur yuklashda qanday manbalar ma'qul? (rasmiy)",
+      "answer": "rasmiy",
+      "order": 3,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.793Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937bf",
+      "lessonId": "6ade1116dfeb32865f8937bb",
+      "moduleId": "6ade1116dfeb32865f8937ae",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Noma'lum jarayonni ko'rish darhol u zararli dastur ekanini anglatadimi? (Ha / Yo'q)",
+      "answer": "Yo'q",
+      "order": 4,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.793Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937c0",
+      "lessonId": "6ade1116dfeb32865f8937bb",
+      "moduleId": "6ade1116dfeb32865f8937ae",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Jarayonlar ishlash davomida kompyuterning protsessori va nimasidan foydalanadi?",
+      "answer": "xotira",
+      "order": 5,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.793Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937c2",
+      "lessonId": "6ade1116dfeb32865f8937c1",
+      "moduleId": "6ade1116dfeb32865f8937ae",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Tizim yoki ilovada sodir bo'lgan hodisalar haqidagi jurnal yozuvlari nima deb ataladi?",
+      "answer": "Log",
+      "order": 1,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.806Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937c3",
+      "lessonId": "6ade1116dfeb32865f8937c1",
+      "moduleId": "6ade1116dfeb32865f8937ae",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Muhim fayl yoki tizim ma'lumotining alohida saqlangan zaxira nusxasi ingliz tilida nima deyiladi?",
+      "answer": "Backup",
+      "order": 2,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.806Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937c4",
+      "lessonId": "6ade1116dfeb32865f8937c1",
+      "moduleId": "6ade1116dfeb32865f8937ae",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Zaxira nusxa buzilgan yoki tiklab bo'lmaydigan bo'lib qolmasligi uchun vaqti-vaqti bilan nimani sinab ko'rish muhim? (tiklashni)",
+      "answer": "tiklashni",
+      "order": 3,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.806Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937c5",
+      "lessonId": "6ade1116dfeb32865f8937c1",
+      "moduleId": "6ade1116dfeb32865f8937ae",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Log va backupdan qaysi biri 'nima bo'lganini' tushuntirishga yordam beradi?",
+      "answer": "Log",
+      "order": 4,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.806Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937c6",
+      "lessonId": "6ade1116dfeb32865f8937c1",
+      "moduleId": "6ade1116dfeb32865f8937ae",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Tahlil davomida loglarni o'zgartirish mumkinmi? (Ha / Yo'q)",
+      "answer": "Yo'q",
+      "order": 5,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.806Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937c9",
+      "lessonId": "6ade1116dfeb32865f8937c8",
+      "moduleId": "6ade1116dfeb32865f8937c7",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Domen nomini IP manzil bilan moslashtirib beruvchi xizmat qanday ataladi?",
+      "answer": "DNS",
+      "order": 1,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.823Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937ca",
+      "lessonId": "6ade1116dfeb32865f8937c8",
+      "moduleId": "6ade1116dfeb32865f8937c7",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Tarmoq trafigini belgilangan qoidalar asosida ruxsat etuvchi yoki bloklovchi vosita nima?",
+      "answer": "Firewall",
+      "order": 2,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.823Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937cb",
+      "lessonId": "6ade1116dfeb32865f8937c8",
+      "moduleId": "6ade1116dfeb32865f8937c7",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "VPN barcha kiberxavflarni (masalan, fishing va zararli dasturlarni) to'liq yo'q qiladimi? (Ha / Yo'q)",
+      "answer": "Yo'q",
+      "order": 3,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.823Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937cc",
+      "lessonId": "6ade1116dfeb32865f8937c8",
+      "moduleId": "6ade1116dfeb32865f8937c7",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Turli tarmoqlar orasida trafikni yo'naltiruvchi qurilma nima deb ataladi?",
+      "answer": "Router",
+      "order": 4,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.823Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937cd",
+      "lessonId": "6ade1116dfeb32865f8937c8",
+      "moduleId": "6ade1116dfeb32865f8937c7",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Tarmoqdagi qurilma yoki interfeysni aniqlashga yordam beruvchi raqamli manzil nima?",
+      "answer": "IP manzil",
+      "order": 5,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.823Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937cf",
+      "lessonId": "6ade1116dfeb32865f8937ce",
+      "moduleId": "6ade1116dfeb32865f8937c7",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Bitta himoya chorasi yetarli bo'lmasligi mumkinligi sababli qanday himoya kerak? (qatlamli himoya)",
+      "answer": "qatlamli himoya",
+      "order": 1,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.837Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937d0",
+      "lessonId": "6ade1116dfeb32865f8937ce",
+      "moduleId": "6ade1116dfeb32865f8937c7",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Noutbuk yo'qolganda yoki o'g'irlanganda diskdagi ma'lumotlarni o'qib bo'lmasligi uchun nimani yoqish kerak? (disk shifrlash)",
+      "answer": "disk shifrlash",
+      "order": 2,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.837Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937d1",
+      "lessonId": "6ade1116dfeb32865f8937ce",
+      "moduleId": "6ade1116dfeb32865f8937c7",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Kim nima qilganini aniq bilish uchun umumiy akkaunt o'rniga har bir foydalanuvchida nima bo'lishi kerak? (shaxsiy akkaunt)",
+      "answer": "shaxsiy akkaunt",
+      "order": 3,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.837Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937d2",
+      "lessonId": "6ade1116dfeb32865f8937ce",
+      "moduleId": "6ade1116dfeb32865f8937c7",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Vaqt va resurslarni eng muhim xavflarga yo'naltirish uchun himoya rejasida nima belgilanadi? (ustuvorlik)",
+      "answer": "ustuvorlik",
+      "order": 4,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.837Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937d3",
+      "lessonId": "6ade1116dfeb32865f8937ce",
+      "moduleId": "6ade1116dfeb32865f8937c7",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Amaliy mashqda shaxsiy qurilma uchun necha bandli tekshiruv ro'yxati yaratish topshirilgan?",
+      "answer": "10",
+      "order": 5,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.837Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937d5",
+      "lessonId": "6ade1116dfeb32865f8937d4",
+      "moduleId": "6ade1116dfeb32865f8937c7",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Qurilmaning sekinlashishi yoki g'alati holat avtomatik ravishda hujum deganimi? (Ha / Yo'q)",
+      "answer": "Yo'q",
+      "order": 1,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.848Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937d6",
+      "lessonId": "6ade1116dfeb32865f8937d4",
+      "moduleId": "6ade1116dfeb32865f8937c7",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Hisobotda noto'g'ri xulosaning oldini olish uchun fakt va nimani ajratamiz?",
+      "answer": "taxmin",
+      "order": 2,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.848Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937d7",
+      "lessonId": "6ade1116dfeb32865f8937d4",
+      "moduleId": "6ade1116dfeb32865f8937c7",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Hodisa haqida xizmat yoki tashkilotning qanday kanaliga xabar berish kerak? (rasmiy mas'ul kanaliga)",
+      "answer": "rasmiy mas'ul kanaliga",
+      "order": 3,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.848Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937d8",
+      "lessonId": "6ade1116dfeb32865f8937d4",
+      "moduleId": "6ade1116dfeb32865f8937c7",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Hisobotda ortiqcha dramatik til o'rniga nima ishlatish kerak? (aniq fakt)",
+      "answer": "aniq fakt",
+      "order": 4,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.848Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937d9",
+      "lessonId": "6ade1116dfeb32865f8937d4",
+      "moduleId": "6ade1116dfeb32865f8937c7",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Oddiy foydalanuvchi shubhali amalni payqaganda birinchi navbatda uni nima qilishi kerak? (to'xtatish)",
+      "answer": "to'xtatish",
+      "order": 5,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.848Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937db",
+      "lessonId": "6ade1116dfeb32865f8937da",
+      "moduleId": "6ade1116dfeb32865f8937c7",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Yakuniy audit faqat qanday doirani qamrab oladi? (belgilangan, ruxsatli va xavfsiz doirani)",
+      "answer": "belgilangan, ruxsatli va xavfsiz doirani",
+      "order": 1,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.859Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937dc",
+      "lessonId": "6ade1116dfeb32865f8937da",
+      "moduleId": "6ade1116dfeb32865f8937c7",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Ishonchlilik va halollik uchun tekshirilmagan narsani hisobotga tekshirilgan deb qo'shish mumkinmi? (Ha / Yo'q)",
+      "answer": "Yo'q",
+      "order": 2,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.859Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937dd",
+      "lessonId": "6ade1116dfeb32865f8937da",
+      "moduleId": "6ade1116dfeb32865f8937c7",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Yakuniy loyiha amaliy mashqida kamida nechta aktivni sanash va nechta riskni baholash so'ralgan?",
+      "answer": "5",
+      "order": 3,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.859Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937de",
+      "lessonId": "6ade1116dfeb32865f8937da",
+      "moduleId": "6ade1116dfeb32865f8937c7",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Risk jadvalidan eng muhim nechta riskni tanlab, aniq tavsiya berish kerak?",
+      "answer": "3",
+      "order": 4,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.859Z"
+    },
+    {
+      "_id": "6ade1116dfeb32865f8937df",
+      "lessonId": "6ade1116dfeb32865f8937da",
+      "moduleId": "6ade1116dfeb32865f8937c7",
+      "pathId": "6ade060d27f78a97714a8a71",
+      "question": "Kursni tugatish mezoniga ko'ra, har dars oxiridagi savollardan kamida necha foiz to'g'ri javob berish tavsiya etiladi? (80%)",
+      "answer": "80%",
+      "order": 5,
+      "xp": 20,
+      "createdAt": "2026-10-25T14:24:22.859Z"
+    }
+  ]
+}
