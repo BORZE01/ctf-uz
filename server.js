@@ -391,9 +391,9 @@ app.use((err, req, res, next) => {
 
         try {
             const { seedDatabase } = require('./utils/seed');
-            await seedDatabase();
+            // await seedDatabase();
             const { seedLearningPathsSafe } = require('./utils/seed');
-            if (seedLearningPathsSafe) await seedLearningPathsSafe();
+            // if (seedLearningPathsSafe) await seedLearningPathsSafe();
         } catch (e) {
             console.log('⚠️ Seed xatosi:', e.message);
         }
