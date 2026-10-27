@@ -1,0 +1,2 @@
+- API_SECRET = 'CTF{g1t_d1ff_n3v3r_f0rg3ts}'
++ API_SECRET = process.env.SECRET

@@ -1,0 +1,2 @@
+User-agent: *
+Disallow: /secret_CTF{r0b0ts_d1s4ll0w_s3cr3t}/

@@ -1,0 +1,1 @@
+const re = /^CTF\{r3g3x_7{3}_m4st3r\}$/;

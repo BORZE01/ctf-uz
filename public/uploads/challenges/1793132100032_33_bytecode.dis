@@ -1,0 +1,7 @@
+LOAD_CONST ('CTF{')
+LOAD_CONST ('byt3')
+LOAD_CONST ('c0d3')
+LOAD_CONST ('_d1s')
+LOAD_CONST ('4ss3')
+LOAD_CONST ('mbly')
+LOAD_CONST ('}')

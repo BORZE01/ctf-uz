@@ -1,0 +1,1 @@
+INSERT INTO users VALUES (1, 'admin', 'Q1RGe3NxbF9kMG1wX2wzNGszZF9kYn0=');
