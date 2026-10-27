@@ -1,0 +1,918 @@
+{
+  "learning_path": {
+    "slug": "ntfk1_2",
+    "title": "NTFK1 2 — Network va Linux xavfsizligi asoslari",
+    "short_description": "Tarmoq va Linux asoslaridan boshlab, xizmatlar auditi va himoyalashgacha olib boruvchi amaliy kiberxavfsizlik o‘quv yo‘li.",
+    "full_description": "Ushbu o‘quv yo‘li yangi boshlovchilar uchun tuzilgan. O‘quvchi tarmoq arxitekturasi, OSI/TCP-IP, IP va portlar, Linux terminali, fayl tizimi, foydalanuvchi va ruxsatlar, jarayonlar va xizmatlar, paketlar, Nmap orqali ruxsatli inventarizatsiya, SSH/FTP/SMB/NFS xavfsizligi, cron, arxivlash, zaxiralash va Linux konfiguratsiya auditini bosqichma-bosqich o‘rganadi. Har bir dars nazariya, real hayotdan misol, xavfsiz laboratoriya topshirig‘i va savollar bilan yakunlanadi. Barcha skanerlash va audit mashqlari faqat o‘zingizga tegishli yoki yozma ruxsat berilgan laboratoriyada bajarilishi kerak. Modulni tugatish uchun darslarni yakunlash va yakuniy bilim tekshiruvidan kamida 80% olish tavsiya etiladi.",
+    "level": "Beginner",
+    "pass_score": 80,
+    "order": 2,
+    "certificate_name": "NTFK1 2 — Network va Linux xavfsizligi asoslari sertifikati"
+  },
+  "modules": [
+    {
+      "slug": "ntfk1-modul-1",
+      "title": "Tarmoq asoslari va OSI modeli",
+      "short_description": "Tarmoq qanday ishlashi, qurilmalar, manzillash va protokollarni tushunish.",
+      "category": "Networking",
+      "order": 1,
+      "lessons": [
+        {
+          "slug": "m1-dars-1",
+          "title": "Tarmoq nima va qurilmalar qanday bog‘lanadi",
+          "short_description": "Tarmoq nima va qurilmalar qanday bog‘lanadi: tushuncha, misol, xavfsiz amaliyot va bilimni tekshirish.",
+          "full_text_html": "<h3>Dars maqsadi</h3><p>Bu dars oxirida siz tarmoq nima va qurilmalar qanday bog‘lanadi bo‘yicha asosiy tushunchalarni izohlash, oddiy vaziyatda qo‘llash va natijani dalil bilan tushuntirishni bilasiz.</p>\n<h3>Asosiy mavzular</h3><p>Tarmoq tushunchasi; LAN, WAN, MAN, PAN; host, switch, router, access point, firewall.</p>\n<h3>Tushuntirish</h3><p>Uy tarmog‘i misolida telefon Wi-Fi orqali access pointga ulanadi, switch mahalliy qurilmalarni bog‘laydi, router esa boshqa tarmoqlarga yo‘l ochadi. LAN kichik hududni, WAN esa katta geografik hududni qamrab oladi. Qurilma tarmoqqa ulangan bo‘lishi uning barcha xizmatlariga ochiq degani emas: ruxsatlar va firewall qoidalari aloqani cheklashi mumkin.</p>\n<h3>Amaliy misol va tahlil</h3><p>Misolni bajarishdan oldin vazifani aniqlang: nima tekshirilmoqda, qaysi natija kutiladi va qanday holatda ishni to‘xtatish kerak? Buyruq yoki sozlamani ishlatganda uning ta’sir doirasini tekshiring. Kuzatilgan faktni taxmindan ajrating va natijani yozib boring. Agar natija kutilganidan farq qilsa, bir vaqtning o‘zida ko‘p narsani o‘zgartirmang; bitta omilni tekshirib, qayta sinang.</p>\n<h3>Amaliy laboratoriya</h3><p>O‘z uyingiz yoki laboratoriyangizdagi tarmoq xaritasini chizing: kamida 5 ta qurilma, router va internet yo‘lini belgilang.</p><p><strong>Topshiriqni topshirish:</strong> ishlatilgan buyruq yoki qadamlar, kuzatilgan natija va undan chiqargan xulosangizni 3–5 jumlada yozing. Faqat izolyatsiyalangan laboratoriya yoki ruxsatli muhitdan foydalaning; real tizimdagi ma’lumotlarni o‘zgartirmang.</p>\n<h3>Ko‘p uchraydigan xatolar</h3><p>Natijani kontekstdan uzib talqin qilish, buyruqni nima qilishini tushunmasdan nusxalash va muvaffaqiyatsiz natijani qayd etmaslik eng ko‘p uchraydigan xatolardir. Xavfsizlikda bitta belgi yakuniy xulosa uchun yetarli bo‘lmasligi mumkin. Zarur bo‘lsa, qo‘shimcha dalil to‘plang va o‘zgarishdan oldin qaytarish rejasini tayyorlang.</p>\n<h3>Vaqt taqsimoti</h3><ul><li>Konseptlarni o‘rganish: 12 daqiqa</li><li>Misollarni tahlil qilish: 8 daqiqa</li><li>Amaliy laboratoriya: 12 daqiqa</li><li>Xulosa va savollar: 5 daqiqa</li></ul>\n<h3>Dars yakuni</h3><p>O‘zingizga quyidagi savolni bering: men bu tushunchani boshqa odamga sodda misol bilan tushuntira olamanmi? Agar yo‘q bo‘lsa, asosiy terminlarni qayta ko‘rib chiqing va laboratoriyani takrorlang.</p>",
+          "duration_minutes": 35,
+          "xp": 100,
+          "order": 1,
+          "questions": [
+            {
+              "question": "Tarmoq nima va qurilmalar qanday bog‘lanadi mavzusida eng muhim tushuncha nima?",
+              "answer": "Uy tarmog‘i misolida telefon Wi-Fi orqali access pointga ulanadi, switch mahalliy qurilmalarni bog‘laydi, router esa boshqa tarmoqlarga yo‘l ochadi.",
+              "xp": 10
+            },
+            {
+              "question": "Tarmoq tushunchasi nima uchun kerak?",
+              "answer": "Tarmoq tushunchasi — mavzuni tushunish va vazifani to‘g‘ri bajarishga yordam beradigan asosiy tushuncha.",
+              "xp": 10
+            },
+            {
+              "question": "Amaliy tekshiruvda nima uchun natijani qayd etish va ruxsat doirasida qolish muhim?",
+              "answer": "Natijani qayta tekshirish, dalilni saqlash va tizimga zarar yetkazmaslik uchun.",
+              "xp": 10
+            }
+          ]
+        },
+        {
+          "slug": "m1-dars-2",
+          "title": "OSI va TCP/IP modellari",
+          "short_description": "OSI va TCP/IP modellari: tushuncha, misol, xavfsiz amaliyot va bilimni tekshirish.",
+          "full_text_html": "<h3>Dars maqsadi</h3><p>Bu dars oxirida siz osi va tcp/ip modellari bo‘yicha asosiy tushunchalarni izohlash, oddiy vaziyatda qo‘llash va natijani dalil bilan tushuntirishni bilasiz.</p>\n<h3>Asosiy mavzular</h3><p>OSI ning 7 qatlami; TCP/IP qatlamlari; kapsulyatsiya; troubleshooting.</p>\n<h3>Tushuntirish</h3><p>OSI modeli muammoni qatlamlar bo‘yicha ajratishga yordam beradi: fizik ulanish, kanal, IP yo‘li, transport porti va ilova protokoli alohida tekshiriladi. Ma’lumot yuborilganda har qatlam o‘z sarlavhasini qo‘shadi; qabul qiluvchi tomonda ular ketma-ket yechiladi. Amaliy internet ko‘pincha TCP/IP modeli bilan tushuntiriladi, OSI esa umumiy tushuncha va diagnostika vositasi sifatida qulay.</p>\n<h3>Amaliy misol va tahlil</h3><p>Misolni bajarishdan oldin vazifani aniqlang: nima tekshirilmoqda, qaysi natija kutiladi va qanday holatda ishni to‘xtatish kerak? Buyruq yoki sozlamani ishlatganda uning ta’sir doirasini tekshiring. Kuzatilgan faktni taxmindan ajrating va natijani yozib boring. Agar natija kutilganidan farq qilsa, bir vaqtning o‘zida ko‘p narsani o‘zgartirmang; bitta omilni tekshirib, qayta sinang.</p>\n<h3>Amaliy laboratoriya</h3><p>“Sayt ochilmayapti” holati uchun OSI qatlamlari bo‘yicha tekshiruv ketma-ketligini yozing.</p><p><strong>Topshiriqni topshirish:</strong> ishlatilgan buyruq yoki qadamlar, kuzatilgan natija va undan chiqargan xulosangizni 3–5 jumlada yozing. Faqat izolyatsiyalangan laboratoriya yoki ruxsatli muhitdan foydalaning; real tizimdagi ma’lumotlarni o‘zgartirmang.</p>\n<h3>Ko‘p uchraydigan xatolar</h3><p>Natijani kontekstdan uzib talqin qilish, buyruqni nima qilishini tushunmasdan nusxalash va muvaffaqiyatsiz natijani qayd etmaslik eng ko‘p uchraydigan xatolardir. Xavfsizlikda bitta belgi yakuniy xulosa uchun yetarli bo‘lmasligi mumkin. Zarur bo‘lsa, qo‘shimcha dalil to‘plang va o‘zgarishdan oldin qaytarish rejasini tayyorlang.</p>\n<h3>Vaqt taqsimoti</h3><ul><li>Konseptlarni o‘rganish: 12 daqiqa</li><li>Misollarni tahlil qilish: 9 daqiqa</li><li>Amaliy laboratoriya: 12 daqiqa</li><li>Xulosa va savollar: 5 daqiqa</li></ul>\n<h3>Dars yakuni</h3><p>O‘zingizga quyidagi savolni bering: men bu tushunchani boshqa odamga sodda misol bilan tushuntira olamanmi? Agar yo‘q bo‘lsa, asosiy terminlarni qayta ko‘rib chiqing va laboratoriyani takrorlang.</p>",
+          "duration_minutes": 37,
+          "xp": 110,
+          "order": 2,
+          "questions": [
+            {
+              "question": "OSI va TCP/IP modellari mavzusida eng muhim tushuncha nima?",
+              "answer": "OSI modeli muammoni qatlamlar bo‘yicha ajratishga yordam beradi: fizik ulanish, kanal, IP yo‘li, transport porti va ilova protokoli alohida tekshiriladi.",
+              "xp": 10
+            },
+            {
+              "question": "OSI ning 7 qatlami nima uchun kerak?",
+              "answer": "OSI ning 7 qatlami — mavzuni tushunish va vazifani to‘g‘ri bajarishga yordam beradigan asosiy tushuncha.",
+              "xp": 10
+            },
+            {
+              "question": "Amaliy tekshiruvda nima uchun natijani qayd etish va ruxsat doirasida qolish muhim?",
+              "answer": "Natijani qayta tekshirish, dalilni saqlash va tizimga zarar yetkazmaslik uchun.",
+              "xp": 10
+            }
+          ]
+        },
+        {
+          "slug": "m1-dars-3",
+          "title": "IPv4, subnet va MAC manzillar",
+          "short_description": "IPv4, subnet va MAC manzillar: tushuncha, misol, xavfsiz amaliyot va bilimni tekshirish.",
+          "full_text_html": "<h3>Dars maqsadi</h3><p>Bu dars oxirida siz ipv4, subnet va mac manzillar bo‘yicha asosiy tushunchalarni izohlash, oddiy vaziyatda qo‘llash va natijani dalil bilan tushuntirishni bilasiz.</p>\n<h3>Asosiy mavzular</h3><p>IPv4; xususiy va ommaviy IP; subnet mask; MAC; ARP.</p>\n<h3>Tushuntirish</h3><p>IP manzil tarmoqdagi mantiqiy manzildir, MAC esa mahalliy kanal doirasidagi interfeys identifikatoridir. IPv4 manzil to‘rt oktetdan iborat, masalan 192.168.1.20. Subnet mask qurilma qaysi manzillarni mahalliy tarmoq deb bilishini aniqlaydi. Xususiy diapazonlar odatda uy/ofis LAN uchun ishlatiladi; internetga chiqishda router NAT bajarishi mumkin. ARP mahalliy tarmoqda IP manzilga mos MAC manzilni topishga yordam beradi.</p>\n<h3>Amaliy misol va tahlil</h3><p>Misolni bajarishdan oldin vazifani aniqlang: nima tekshirilmoqda, qaysi natija kutiladi va qanday holatda ishni to‘xtatish kerak? Buyruq yoki sozlamani ishlatganda uning ta’sir doirasini tekshiring. Kuzatilgan faktni taxmindan ajrating va natijani yozib boring. Agar natija kutilganidan farq qilsa, bir vaqtning o‘zida ko‘p narsani o‘zgartirmang; bitta omilni tekshirib, qayta sinang.</p>\n<h3>Amaliy laboratoriya</h3><p>Quyidagi 192.168.10.25/24 manzil uchun tarmoq prefiksi va odatiy broadcast manzilini aniqlang.</p><p><strong>Topshiriqni topshirish:</strong> ishlatilgan buyruq yoki qadamlar, kuzatilgan natija va undan chiqargan xulosangizni 3–5 jumlada yozing. Faqat izolyatsiyalangan laboratoriya yoki ruxsatli muhitdan foydalaning; real tizimdagi ma’lumotlarni o‘zgartirmang.</p>\n<h3>Ko‘p uchraydigan xatolar</h3><p>Natijani kontekstdan uzib talqin qilish, buyruqni nima qilishini tushunmasdan nusxalash va muvaffaqiyatsiz natijani qayd etmaslik eng ko‘p uchraydigan xatolardir. Xavfsizlikda bitta belgi yakuniy xulosa uchun yetarli bo‘lmasligi mumkin. Zarur bo‘lsa, qo‘shimcha dalil to‘plang va o‘zgarishdan oldin qaytarish rejasini tayyorlang.</p>\n<h3>Vaqt taqsimoti</h3><ul><li>Konseptlarni o‘rganish: 13 daqiqa</li><li>Misollarni tahlil qilish: 9 daqiqa</li><li>Amaliy laboratoriya: 13 daqiqa</li><li>Xulosa va savollar: 5 daqiqa</li></ul>\n<h3>Dars yakuni</h3><p>O‘zingizga quyidagi savolni bering: men bu tushunchani boshqa odamga sodda misol bilan tushuntira olamanmi? Agar yo‘q bo‘lsa, asosiy terminlarni qayta ko‘rib chiqing va laboratoriyani takrorlang.</p>",
+          "duration_minutes": 39,
+          "xp": 120,
+          "order": 3,
+          "questions": [
+            {
+              "question": "IPv4, subnet va MAC manzillar mavzusida eng muhim tushuncha nima?",
+              "answer": "IP manzil tarmoqdagi mantiqiy manzildir, MAC esa mahalliy kanal doirasidagi interfeys identifikatoridir.",
+              "xp": 10
+            },
+            {
+              "question": "IPv4 nima uchun kerak?",
+              "answer": "IPv4 — mavzuni tushunish va vazifani to‘g‘ri bajarishga yordam beradigan asosiy tushuncha.",
+              "xp": 10
+            },
+            {
+              "question": "Amaliy tekshiruvda nima uchun natijani qayd etish va ruxsat doirasida qolish muhim?",
+              "answer": "Natijani qayta tekshirish, dalilni saqlash va tizimga zarar yetkazmaslik uchun.",
+              "xp": 10
+            }
+          ]
+        },
+        {
+          "slug": "m1-dars-4",
+          "title": "TCP, UDP, portlar va DNS",
+          "short_description": "TCP, UDP, portlar va DNS: tushuncha, misol, xavfsiz amaliyot va bilimni tekshirish.",
+          "full_text_html": "<h3>Dars maqsadi</h3><p>Bu dars oxirida siz tcp, udp, portlar va dns bo‘yicha asosiy tushunchalarni izohlash, oddiy vaziyatda qo‘llash va natijani dalil bilan tushuntirishni bilasiz.</p>\n<h3>Asosiy mavzular</h3><p>TCP handshake; UDP; port; DNS; DHCP; HTTP/HTTPS.</p>\n<h3>Tushuntirish</h3><p>TCP ulanishni o‘rnatadi va yetkazib berishni nazorat qiladi; UDP esa kamroq boshqaruv bilan datagrammalar uzatadi. Port raqami bitta hostdagi xizmatni ajratadi. DNS domen nomini IP manzilga yechadi, DHCP esa qurilmaga IP sozlamalarini avtomatik beradi. HTTPS veb trafikni TLS bilan himoyalaydi, lekin noto‘g‘ri sozlangan server yoki fishing havolasini o‘z-o‘zidan xavfsiz qilib qo‘ymaydi.</p>\n<h3>Amaliy misol va tahlil</h3><p>Misolni bajarishdan oldin vazifani aniqlang: nima tekshirilmoqda, qaysi natija kutiladi va qanday holatda ishni to‘xtatish kerak? Buyruq yoki sozlamani ishlatganda uning ta’sir doirasini tekshiring. Kuzatilgan faktni taxmindan ajrating va natijani yozib boring. Agar natija kutilganidan farq qilsa, bir vaqtning o‘zida ko‘p narsani o‘zgartirmang; bitta omilni tekshirib, qayta sinang.</p>\n<h3>Amaliy laboratoriya</h3><p>Brauzerda domen yozilgandan sahifa ochilguncha sodir bo‘ladigan kamida 5 bosqichni tartiblang.</p><p><strong>Topshiriqni topshirish:</strong> ishlatilgan buyruq yoki qadamlar, kuzatilgan natija va undan chiqargan xulosangizni 3–5 jumlada yozing. Faqat izolyatsiyalangan laboratoriya yoki ruxsatli muhitdan foydalaning; real tizimdagi ma’lumotlarni o‘zgartirmang.</p>\n<h3>Ko‘p uchraydigan xatolar</h3><p>Natijani kontekstdan uzib talqin qilish, buyruqni nima qilishini tushunmasdan nusxalash va muvaffaqiyatsiz natijani qayd etmaslik eng ko‘p uchraydigan xatolardir. Xavfsizlikda bitta belgi yakuniy xulosa uchun yetarli bo‘lmasligi mumkin. Zarur bo‘lsa, qo‘shimcha dalil to‘plang va o‘zgarishdan oldin qaytarish rejasini tayyorlang.</p>\n<h3>Vaqt taqsimoti</h3><ul><li>Konseptlarni o‘rganish: 13 daqiqa</li><li>Misollarni tahlil qilish: 10 daqiqa</li><li>Amaliy laboratoriya: 13 daqiqa</li><li>Xulosa va savollar: 5 daqiqa</li></ul>\n<h3>Dars yakuni</h3><p>O‘zingizga quyidagi savolni bering: men bu tushunchani boshqa odamga sodda misol bilan tushuntira olamanmi? Agar yo‘q bo‘lsa, asosiy terminlarni qayta ko‘rib chiqing va laboratoriyani takrorlang.</p>",
+          "duration_minutes": 41,
+          "xp": 130,
+          "order": 4,
+          "questions": [
+            {
+              "question": "TCP, UDP, portlar va DNS mavzusida eng muhim tushuncha nima?",
+              "answer": "TCP ulanishni o‘rnatadi va yetkazib berishni nazorat qiladi; UDP esa kamroq boshqaruv bilan datagrammalar uzatadi.",
+              "xp": 10
+            },
+            {
+              "question": "TCP handshake nima uchun kerak?",
+              "answer": "TCP handshake — mavzuni tushunish va vazifani to‘g‘ri bajarishga yordam beradigan asosiy tushuncha.",
+              "xp": 10
+            },
+            {
+              "question": "Amaliy tekshiruvda nima uchun natijani qayd etish va ruxsat doirasida qolish muhim?",
+              "answer": "Natijani qayta tekshirish, dalilni saqlash va tizimga zarar yetkazmaslik uchun.",
+              "xp": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "ntfk1-modul-2",
+      "title": "Linux muhiti va terminal",
+      "short_description": "Linux tuzilishi, shell, fayl tizimi, buyruqlar va yordam olish.",
+      "category": "Linux",
+      "order": 2,
+      "lessons": [
+        {
+          "slug": "m2-dars-1",
+          "title": "Linux distributivlari va terminal bilan tanishish",
+          "short_description": "Linux distributivlari va terminal bilan tanishish: tushuncha, misol, xavfsiz amaliyot va bilimni tekshirish.",
+          "full_text_html": "<h3>Dars maqsadi</h3><p>Bu dars oxirida siz linux distributivlari va terminal bilan tanishish bo‘yicha asosiy tushunchalarni izohlash, oddiy vaziyatda qo‘llash va natijani dalil bilan tushuntirishni bilasiz.</p>\n<h3>Asosiy mavzular</h3><p>Kernel va user space; distributiv; shell; terminal; buyruq sintaksisi.</p>\n<h3>Tushuntirish</h3><p>Linux yadrosi qurilmalar, xotira va jarayonlarni boshqaradi; distributiv esa yadro atrofida utilitalar, paketlar va sozlamalarni birlashtiradi. Terminal matnli interfeys, shell esa buyruqlarni talqin qiluvchi dasturdir. Buyruqlar odatda buyruq, parametr va argumentlardan tuziladi. Buyruqni bajarishdan oldin ayniqsa sudo, rm va fayl yo‘llari bilan ishlaganda nima o‘zgarishini tushunish muhim.</p>\n<h3>Amaliy misol va tahlil</h3><p>Misolni bajarishdan oldin vazifani aniqlang: nima tekshirilmoqda, qaysi natija kutiladi va qanday holatda ishni to‘xtatish kerak? Buyruq yoki sozlamani ishlatganda uning ta’sir doirasini tekshiring. Kuzatilgan faktni taxmindan ajrating va natijani yozib boring. Agar natija kutilganidan farq qilsa, bir vaqtning o‘zida ko‘p narsani o‘zgartirmang; bitta omilni tekshirib, qayta sinang.</p>\n<h3>Amaliy laboratoriya</h3><p>Terminalda whoami, pwd, uname -a va man pwd buyruqlarini bajarib, natijalarini o‘z so‘zingiz bilan izohlang.</p><p><strong>Topshiriqni topshirish:</strong> ishlatilgan buyruq yoki qadamlar, kuzatilgan natija va undan chiqargan xulosangizni 3–5 jumlada yozing. Faqat izolyatsiyalangan laboratoriya yoki ruxsatli muhitdan foydalaning; real tizimdagi ma’lumotlarni o‘zgartirmang.</p>\n<h3>Ko‘p uchraydigan xatolar</h3><p>Natijani kontekstdan uzib talqin qilish, buyruqni nima qilishini tushunmasdan nusxalash va muvaffaqiyatsiz natijani qayd etmaslik eng ko‘p uchraydigan xatolardir. Xavfsizlikda bitta belgi yakuniy xulosa uchun yetarli bo‘lmasligi mumkin. Zarur bo‘lsa, qo‘shimcha dalil to‘plang va o‘zgarishdan oldin qaytarish rejasini tayyorlang.</p>\n<h3>Vaqt taqsimoti</h3><ul><li>Konseptlarni o‘rganish: 12 daqiqa</li><li>Misollarni tahlil qilish: 9 daqiqa</li><li>Amaliy laboratoriya: 12 daqiqa</li><li>Xulosa va savollar: 5 daqiqa</li></ul>\n<h3>Dars yakuni</h3><p>O‘zingizga quyidagi savolni bering: men bu tushunchani boshqa odamga sodda misol bilan tushuntira olamanmi? Agar yo‘q bo‘lsa, asosiy terminlarni qayta ko‘rib chiqing va laboratoriyani takrorlang.</p>",
+          "duration_minutes": 38,
+          "xp": 120,
+          "order": 1,
+          "questions": [
+            {
+              "question": "Linux distributivlari va terminal bilan tanishish mavzusida eng muhim tushuncha nima?",
+              "answer": "Linux yadrosi qurilmalar, xotira va jarayonlarni boshqaradi; distributiv esa yadro atrofida utilitalar, paketlar va sozlamalarni birlashtiradi.",
+              "xp": 10
+            },
+            {
+              "question": "Kernel va user space nima uchun kerak?",
+              "answer": "Kernel va user space — mavzuni tushunish va vazifani to‘g‘ri bajarishga yordam beradigan asosiy tushuncha.",
+              "xp": 10
+            },
+            {
+              "question": "Amaliy tekshiruvda nima uchun natijani qayd etish va ruxsat doirasida qolish muhim?",
+              "answer": "Natijani qayta tekshirish, dalilni saqlash va tizimga zarar yetkazmaslik uchun.",
+              "xp": 10
+            }
+          ]
+        },
+        {
+          "slug": "m2-dars-2",
+          "title": "Fayl tizimi va muhim kataloglar",
+          "short_description": "Fayl tizimi va muhim kataloglar: tushuncha, misol, xavfsiz amaliyot va bilimni tekshirish.",
+          "full_text_html": "<h3>Dars maqsadi</h3><p>Bu dars oxirida siz fayl tizimi va muhim kataloglar bo‘yicha asosiy tushunchalarni izohlash, oddiy vaziyatda qo‘llash va natijani dalil bilan tushuntirishni bilasiz.</p>\n<h3>Asosiy mavzular</h3><p>/; /home; /etc; /var; /tmp; mutlaq va nisbiy yo‘l.</p>\n<h3>Tushuntirish</h3><p>Linuxda kataloglar bitta ildiz `/` ostida joylashadi. `/home` foydalanuvchi fayllari, `/etc` ko‘plab tizim sozlamalari, `/var/log` jurnallar, `/tmp` esa vaqtinchalik fayllar uchun ishlatiladi. Mutlaq yo‘l ildizdan boshlanadi; nisbiy yo‘l joriy katalogga bog‘liq. Fayl joylashuvini bilish sozlama, jurnal va ruxsat muammolarini topishni osonlashtiradi.</p>\n<h3>Amaliy misol va tahlil</h3><p>Misolni bajarishdan oldin vazifani aniqlang: nima tekshirilmoqda, qaysi natija kutiladi va qanday holatda ishni to‘xtatish kerak? Buyruq yoki sozlamani ishlatganda uning ta’sir doirasini tekshiring. Kuzatilgan faktni taxmindan ajrating va natijani yozib boring. Agar natija kutilganidan farq qilsa, bir vaqtning o‘zida ko‘p narsani o‘zgartirmang; bitta omilni tekshirib, qayta sinang.</p>\n<h3>Amaliy laboratoriya</h3><p>`pwd`, `ls -la`, `cd /etc` va `find`ning xavfsiz, tor doiradagi misoli bilan kataloglarni o‘rganing.</p><p><strong>Topshiriqni topshirish:</strong> ishlatilgan buyruq yoki qadamlar, kuzatilgan natija va undan chiqargan xulosangizni 3–5 jumlada yozing. Faqat izolyatsiyalangan laboratoriya yoki ruxsatli muhitdan foydalaning; real tizimdagi ma’lumotlarni o‘zgartirmang.</p>\n<h3>Ko‘p uchraydigan xatolar</h3><p>Natijani kontekstdan uzib talqin qilish, buyruqni nima qilishini tushunmasdan nusxalash va muvaffaqiyatsiz natijani qayd etmaslik eng ko‘p uchraydigan xatolardir. Xavfsizlikda bitta belgi yakuniy xulosa uchun yetarli bo‘lmasligi mumkin. Zarur bo‘lsa, qo‘shimcha dalil to‘plang va o‘zgarishdan oldin qaytarish rejasini tayyorlang.</p>\n<h3>Vaqt taqsimoti</h3><ul><li>Konseptlarni o‘rganish: 13 daqiqa</li><li>Misollarni tahlil qilish: 10 daqiqa</li><li>Amaliy laboratoriya: 13 daqiqa</li><li>Xulosa va savollar: 5 daqiqa</li></ul>\n<h3>Dars yakuni</h3><p>O‘zingizga quyidagi savolni bering: men bu tushunchani boshqa odamga sodda misol bilan tushuntira olamanmi? Agar yo‘q bo‘lsa, asosiy terminlarni qayta ko‘rib chiqing va laboratoriyani takrorlang.</p>",
+          "duration_minutes": 40,
+          "xp": 130,
+          "order": 2,
+          "questions": [
+            {
+              "question": "Fayl tizimi va muhim kataloglar mavzusida eng muhim tushuncha nima?",
+              "answer": "Linuxda kataloglar bitta ildiz `/` ostida joylashadi.",
+              "xp": 10
+            },
+            {
+              "question": "/ nima uchun kerak?",
+              "answer": "/ — mavzuni tushunish va vazifani to‘g‘ri bajarishga yordam beradigan asosiy tushuncha.",
+              "xp": 10
+            },
+            {
+              "question": "Amaliy tekshiruvda nima uchun natijani qayd etish va ruxsat doirasida qolish muhim?",
+              "answer": "Natijani qayta tekshirish, dalilni saqlash va tizimga zarar yetkazmaslik uchun.",
+              "xp": 10
+            }
+          ]
+        },
+        {
+          "slug": "m2-dars-3",
+          "title": "Fayllarni boshqarish va matnni ko‘rish",
+          "short_description": "Fayllarni boshqarish va matnni ko‘rish: tushuncha, misol, xavfsiz amaliyot va bilimni tekshirish.",
+          "full_text_html": "<h3>Dars maqsadi</h3><p>Bu dars oxirida siz fayllarni boshqarish va matnni ko‘rish bo‘yicha asosiy tushunchalarni izohlash, oddiy vaziyatda qo‘llash va natijani dalil bilan tushuntirishni bilasiz.</p>\n<h3>Asosiy mavzular</h3><p>ls, cp, mv, mkdir, touch, cat, less, head, tail.</p>\n<h3>Tushuntirish</h3><p>Fayl boshqaruvi kundalik Linux ishining asosidir. `cp` nusxa oladi, `mv` ko‘chiradi yoki nomini o‘zgartiradi, `mkdir` katalog yaratadi. `less` katta faylni qulay ko‘rish, `head` boshini, `tail` oxirini tekshirish uchun foydali. `tail -f` jurnalga yangi yozuvlar kelishini kuzatadi. Buyruqlarni muhim tizim kataloglarida bajarishdan oldin yo‘l va fayl nomini qayta tekshiring.</p>\n<h3>Amaliy misol va tahlil</h3><p>Misolni bajarishdan oldin vazifani aniqlang: nima tekshirilmoqda, qaysi natija kutiladi va qanday holatda ishni to‘xtatish kerak? Buyruq yoki sozlamani ishlatganda uning ta’sir doirasini tekshiring. Kuzatilgan faktni taxmindan ajrating va natijani yozib boring. Agar natija kutilganidan farq qilsa, bir vaqtning o‘zida ko‘p narsani o‘zgartirmang; bitta omilni tekshirib, qayta sinang.</p>\n<h3>Amaliy laboratoriya</h3><p>`~/ntfk-lab` katalogi yarating, uchta matn fayli tuzing, nusxa oling va ularning tarkibini tekshiring.</p><p><strong>Topshiriqni topshirish:</strong> ishlatilgan buyruq yoki qadamlar, kuzatilgan natija va undan chiqargan xulosangizni 3–5 jumlada yozing. Faqat izolyatsiyalangan laboratoriya yoki ruxsatli muhitdan foydalaning; real tizimdagi ma’lumotlarni o‘zgartirmang.</p>\n<h3>Ko‘p uchraydigan xatolar</h3><p>Natijani kontekstdan uzib talqin qilish, buyruqni nima qilishini tushunmasdan nusxalash va muvaffaqiyatsiz natijani qayd etmaslik eng ko‘p uchraydigan xatolardir. Xavfsizlikda bitta belgi yakuniy xulosa uchun yetarli bo‘lmasligi mumkin. Zarur bo‘lsa, qo‘shimcha dalil to‘plang va o‘zgarishdan oldin qaytarish rejasini tayyorlang.</p>\n<h3>Vaqt taqsimoti</h3><ul><li>Konseptlarni o‘rganish: 14 daqiqa</li><li>Misollarni tahlil qilish: 10 daqiqa</li><li>Amaliy laboratoriya: 14 daqiqa</li><li>Xulosa va savollar: 6 daqiqa</li></ul>\n<h3>Dars yakuni</h3><p>O‘zingizga quyidagi savolni bering: men bu tushunchani boshqa odamga sodda misol bilan tushuntira olamanmi? Agar yo‘q bo‘lsa, asosiy terminlarni qayta ko‘rib chiqing va laboratoriyani takrorlang.</p>",
+          "duration_minutes": 42,
+          "xp": 140,
+          "order": 3,
+          "questions": [
+            {
+              "question": "Fayllarni boshqarish va matnni ko‘rish mavzusida eng muhim tushuncha nima?",
+              "answer": "Fayl boshqaruvi kundalik Linux ishining asosidir.",
+              "xp": 10
+            },
+            {
+              "question": "ls, cp, mv, mkdir, touch, cat, less, head, tail nima uchun kerak?",
+              "answer": "ls, cp, mv, mkdir, touch, cat, less, head, tail — mavzuni tushunish va vazifani to‘g‘ri bajarishga yordam beradigan asosiy tushuncha.",
+              "xp": 10
+            },
+            {
+              "question": "Amaliy tekshiruvda nima uchun natijani qayd etish va ruxsat doirasida qolish muhim?",
+              "answer": "Natijani qayta tekshirish, dalilni saqlash va tizimga zarar yetkazmaslik uchun.",
+              "xp": 10
+            }
+          ]
+        },
+        {
+          "slug": "m2-dars-4",
+          "title": "Quvur, qidiruv va chiqishni yo‘naltirish",
+          "short_description": "Quvur, qidiruv va chiqishni yo‘naltirish: tushuncha, misol, xavfsiz amaliyot va bilimni tekshirish.",
+          "full_text_html": "<h3>Dars maqsadi</h3><p>Bu dars oxirida siz quvur, qidiruv va chiqishni yo‘naltirish bo‘yicha asosiy tushunchalarni izohlash, oddiy vaziyatda qo‘llash va natijani dalil bilan tushuntirishni bilasiz.</p>\n<h3>Asosiy mavzular</h3><p>grep; find; sort; uniq; pipe; &gt;; &gt;&gt;; stderr.</p>\n<h3>Tushuntirish</h3><p>Shell bir buyruq chiqishini boshqasiga quvur orqali uzatishi mumkin. `&gt;` faylni qayta yozadi, `&gt;&gt;` oxiriga qo‘shadi; shuning uchun noto‘g‘ri ishlatilgan `&gt;` mavjud ma’lumotni yo‘qotishi mumkin. `grep` matn ichidan moslik qidiradi, `find` esa fayllarni mezon bo‘yicha topadi. Chiqish va xatolik oqimlari alohida bo‘lgani sababli diagnostikani aniqroq qilish mumkin.</p>\n<h3>Amaliy misol va tahlil</h3><p>Misolni bajarishdan oldin vazifani aniqlang: nima tekshirilmoqda, qaysi natija kutiladi va qanday holatda ishni to‘xtatish kerak? Buyruq yoki sozlamani ishlatganda uning ta’sir doirasini tekshiring. Kuzatilgan faktni taxmindan ajrating va natijani yozib boring. Agar natija kutilganidan farq qilsa, bir vaqtning o‘zida ko‘p narsani o‘zgartirmang; bitta omilni tekshirib, qayta sinang.</p>\n<h3>Amaliy laboratoriya</h3><p>Sun’iy jurnal faylida `grep` orqali `error` so‘zini toping, natijani faylga saqlang va qayta tekshiring.</p><p><strong>Topshiriqni topshirish:</strong> ishlatilgan buyruq yoki qadamlar, kuzatilgan natija va undan chiqargan xulosangizni 3–5 jumlada yozing. Faqat izolyatsiyalangan laboratoriya yoki ruxsatli muhitdan foydalaning; real tizimdagi ma’lumotlarni o‘zgartirmang.</p>\n<h3>Ko‘p uchraydigan xatolar</h3><p>Natijani kontekstdan uzib talqin qilish, buyruqni nima qilishini tushunmasdan nusxalash va muvaffaqiyatsiz natijani qayd etmaslik eng ko‘p uchraydigan xatolardir. Xavfsizlikda bitta belgi yakuniy xulosa uchun yetarli bo‘lmasligi mumkin. Zarur bo‘lsa, qo‘shimcha dalil to‘plang va o‘zgarishdan oldin qaytarish rejasini tayyorlang.</p>\n<h3>Vaqt taqsimoti</h3><ul><li>Konseptlarni o‘rganish: 14 daqiqa</li><li>Misollarni tahlil qilish: 11 daqiqa</li><li>Amaliy laboratoriya: 14 daqiqa</li><li>Xulosa va savollar: 6 daqiqa</li></ul>\n<h3>Dars yakuni</h3><p>O‘zingizga quyidagi savolni bering: men bu tushunchani boshqa odamga sodda misol bilan tushuntira olamanmi? Agar yo‘q bo‘lsa, asosiy terminlarni qayta ko‘rib chiqing va laboratoriyani takrorlang.</p>",
+          "duration_minutes": 44,
+          "xp": 150,
+          "order": 4,
+          "questions": [
+            {
+              "question": "Quvur, qidiruv va chiqishni yo‘naltirish mavzusida eng muhim tushuncha nima?",
+              "answer": "Shell bir buyruq chiqishini boshqasiga quvur orqali uzatishi mumkin.",
+              "xp": 10
+            },
+            {
+              "question": "grep nima uchun kerak?",
+              "answer": "grep — mavzuni tushunish va vazifani to‘g‘ri bajarishga yordam beradigan asosiy tushuncha.",
+              "xp": 10
+            },
+            {
+              "question": "Amaliy tekshiruvda nima uchun natijani qayd etish va ruxsat doirasida qolish muhim?",
+              "answer": "Natijani qayta tekshirish, dalilni saqlash va tizimga zarar yetkazmaslik uchun.",
+              "xp": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "ntfk1-modul-3",
+      "title": "Foydalanuvchilar, guruhlar va ruxsatlar",
+      "short_description": "Hisoblar, guruhlar, chmod/chown, sudo va xavfsiz huquqlar.",
+      "category": "Linux Security",
+      "order": 3,
+      "lessons": [
+        {
+          "slug": "m3-dars-1",
+          "title": "Foydalanuvchi va guruhlar modeli",
+          "short_description": "Foydalanuvchi va guruhlar modeli: tushuncha, misol, xavfsiz amaliyot va bilimni tekshirish.",
+          "full_text_html": "<h3>Dars maqsadi</h3><p>Bu dars oxirida siz foydalanuvchi va guruhlar modeli bo‘yicha asosiy tushunchalarni izohlash, oddiy vaziyatda qo‘llash va natijani dalil bilan tushuntirishni bilasiz.</p>\n<h3>Asosiy mavzular</h3><p>UID/GID; /etc/passwd; /etc/group; useradd/usermod; least privilege.</p>\n<h3>Tushuntirish</h3><p>Linux har bir jarayonni foydalanuvchi identifikatori bilan bog‘laydi. Guruhlar bir nechta foydalanuvchiga umumiy resursga tartibli kirish berishga yordam beradi. `/etc/passwd` hisoblar haqidagi ma’lumotni, `/etc/group` guruhlarni tavsiflaydi; parol xeshlari odatda alohida himoyalangan faylda saqlanadi. Eng kam vakolat tamoyiliga ko‘ra, foydalanuvchiga faqat vazifasi uchun zarur huquqlar beriladi.</p>\n<h3>Amaliy misol va tahlil</h3><p>Misolni bajarishdan oldin vazifani aniqlang: nima tekshirilmoqda, qaysi natija kutiladi va qanday holatda ishni to‘xtatish kerak? Buyruq yoki sozlamani ishlatganda uning ta’sir doirasini tekshiring. Kuzatilgan faktni taxmindan ajrating va natijani yozib boring. Agar natija kutilganidan farq qilsa, bir vaqtning o‘zida ko‘p narsani o‘zgartirmang; bitta omilni tekshirib, qayta sinang.</p>\n<h3>Amaliy laboratoriya</h3><p>Laboratoriya VM ichida oddiy foydalanuvchi va loyiha guruhi yarating, a’zolikni tekshiring; real tizimdagi hisoblarni o‘zgartirmang.</p><p><strong>Topshiriqni topshirish:</strong> ishlatilgan buyruq yoki qadamlar, kuzatilgan natija va undan chiqargan xulosangizni 3–5 jumlada yozing. Faqat izolyatsiyalangan laboratoriya yoki ruxsatli muhitdan foydalaning; real tizimdagi ma’lumotlarni o‘zgartirmang.</p>\n<h3>Ko‘p uchraydigan xatolar</h3><p>Natijani kontekstdan uzib talqin qilish, buyruqni nima qilishini tushunmasdan nusxalash va muvaffaqiyatsiz natijani qayd etmaslik eng ko‘p uchraydigan xatolardir. Xavfsizlikda bitta belgi yakuniy xulosa uchun yetarli bo‘lmasligi mumkin. Zarur bo‘lsa, qo‘shimcha dalil to‘plang va o‘zgarishdan oldin qaytarish rejasini tayyorlang.</p>\n<h3>Vaqt taqsimoti</h3><ul><li>Konseptlarni o‘rganish: 13 daqiqa</li><li>Misollarni tahlil qilish: 10 daqiqa</li><li>Amaliy laboratoriya: 13 daqiqa</li><li>Xulosa va savollar: 5 daqiqa</li></ul>\n<h3>Dars yakuni</h3><p>O‘zingizga quyidagi savolni bering: men bu tushunchani boshqa odamga sodda misol bilan tushuntira olamanmi? Agar yo‘q bo‘lsa, asosiy terminlarni qayta ko‘rib chiqing va laboratoriyani takrorlang.</p>",
+          "duration_minutes": 41,
+          "xp": 140,
+          "order": 1,
+          "questions": [
+            {
+              "question": "Foydalanuvchi va guruhlar modeli mavzusida eng muhim tushuncha nima?",
+              "answer": "Linux har bir jarayonni foydalanuvchi identifikatori bilan bog‘laydi.",
+              "xp": 10
+            },
+            {
+              "question": "UID/GID nima uchun kerak?",
+              "answer": "UID/GID — mavzuni tushunish va vazifani to‘g‘ri bajarishga yordam beradigan asosiy tushuncha.",
+              "xp": 10
+            },
+            {
+              "question": "Amaliy tekshiruvda nima uchun natijani qayd etish va ruxsat doirasida qolish muhim?",
+              "answer": "Natijani qayta tekshirish, dalilni saqlash va tizimga zarar yetkazmaslik uchun.",
+              "xp": 10
+            }
+          ]
+        },
+        {
+          "slug": "m3-dars-2",
+          "title": "Linux fayl ruxsatlari: rwx",
+          "short_description": "Linux fayl ruxsatlari: rwx: tushuncha, misol, xavfsiz amaliyot va bilimni tekshirish.",
+          "full_text_html": "<h3>Dars maqsadi</h3><p>Bu dars oxirida siz linux fayl ruxsatlari: rwx bo‘yicha asosiy tushunchalarni izohlash, oddiy vaziyatda qo‘llash va natijani dalil bilan tushuntirishni bilasiz.</p>\n<h3>Asosiy mavzular</h3><p>Owner/group/others; read/write/execute; chmod; chown; umask.</p>\n<h3>Tushuntirish</h3><p>Ruxsatlar egasi, guruh va boshqalar uchun alohida belgilanadi. Faylda `r` o‘qish, `w` yozish, `x` bajarish; katalogda esa `x` ichidan o‘tish, `r` ro‘yxatni ko‘rish, `w` yozuvlarni yaratish/o‘chirish bilan bog‘liq. `chmod 640 file` egaga o‘qish-yozish, guruhga o‘qish, boshqalarga huquq bermaydi. `chown` egani o‘zgartiradi. `777`ni odat tusida qo‘llash xavfli.</p>\n<h3>Amaliy misol va tahlil</h3><p>Misolni bajarishdan oldin vazifani aniqlang: nima tekshirilmoqda, qaysi natija kutiladi va qanday holatda ishni to‘xtatish kerak? Buyruq yoki sozlamani ishlatganda uning ta’sir doirasini tekshiring. Kuzatilgan faktni taxmindan ajrating va natijani yozib boring. Agar natija kutilganidan farq qilsa, bir vaqtning o‘zida ko‘p narsani o‘zgartirmang; bitta omilni tekshirib, qayta sinang.</p>\n<h3>Amaliy laboratoriya</h3><p>Laboratoriyada `secret.txt` uchun faqat egasi o‘qiy oladigan ruxsat o‘rnating va `ls -l` bilan isbotlang.</p><p><strong>Topshiriqni topshirish:</strong> ishlatilgan buyruq yoki qadamlar, kuzatilgan natija va undan chiqargan xulosangizni 3–5 jumlada yozing. Faqat izolyatsiyalangan laboratoriya yoki ruxsatli muhitdan foydalaning; real tizimdagi ma’lumotlarni o‘zgartirmang.</p>\n<h3>Ko‘p uchraydigan xatolar</h3><p>Natijani kontekstdan uzib talqin qilish, buyruqni nima qilishini tushunmasdan nusxalash va muvaffaqiyatsiz natijani qayd etmaslik eng ko‘p uchraydigan xatolardir. Xavfsizlikda bitta belgi yakuniy xulosa uchun yetarli bo‘lmasligi mumkin. Zarur bo‘lsa, qo‘shimcha dalil to‘plang va o‘zgarishdan oldin qaytarish rejasini tayyorlang.</p>\n<h3>Vaqt taqsimoti</h3><ul><li>Konseptlarni o‘rganish: 14 daqiqa</li><li>Misollarni tahlil qilish: 10 daqiqa</li><li>Amaliy laboratoriya: 14 daqiqa</li><li>Xulosa va savollar: 6 daqiqa</li></ul>\n<h3>Dars yakuni</h3><p>O‘zingizga quyidagi savolni bering: men bu tushunchani boshqa odamga sodda misol bilan tushuntira olamanmi? Agar yo‘q bo‘lsa, asosiy terminlarni qayta ko‘rib chiqing va laboratoriyani takrorlang.</p>",
+          "duration_minutes": 43,
+          "xp": 150,
+          "order": 2,
+          "questions": [
+            {
+              "question": "Linux fayl ruxsatlari: rwx mavzusida eng muhim tushuncha nima?",
+              "answer": "Ruxsatlar egasi, guruh va boshqalar uchun alohida belgilanadi.",
+              "xp": 10
+            },
+            {
+              "question": "Owner/group/others nima uchun kerak?",
+              "answer": "Owner/group/others — mavzuni tushunish va vazifani to‘g‘ri bajarishga yordam beradigan asosiy tushuncha.",
+              "xp": 10
+            },
+            {
+              "question": "Amaliy tekshiruvda nima uchun natijani qayd etish va ruxsat doirasida qolish muhim?",
+              "answer": "Natijani qayta tekshirish, dalilni saqlash va tizimga zarar yetkazmaslik uchun.",
+              "xp": 10
+            }
+          ]
+        },
+        {
+          "slug": "m3-dars-3",
+          "title": "Sudo, su va imtiyozlarni boshqarish",
+          "short_description": "Sudo, su va imtiyozlarni boshqarish: tushuncha, misol, xavfsiz amaliyot va bilimni tekshirish.",
+          "full_text_html": "<h3>Dars maqsadi</h3><p>Bu dars oxirida siz sudo, su va imtiyozlarni boshqarish bo‘yicha asosiy tushunchalarni izohlash, oddiy vaziyatda qo‘llash va natijani dalil bilan tushuntirishni bilasiz.</p>\n<h3>Asosiy mavzular</h3><p>sudo; su; sudoers; autentifikatsiya; audit izi.</p>\n<h3>Tushuntirish</h3><p>`sudo` belgilangan buyruqni vakolatli hisob nomidan bajaradi va odatda aniqroq audit izini beradi. `su` boshqa foydalanuvchi kontekstiga o‘tadi. `sudoers` qoidalarini faqat `visudo` orqali tahrirlash sintaksis xatosi tufayli administrator huquqini yo‘qotish xavfini kamaytiradi. Har bir foydalanuvchiga cheklanmagan sudo berish hujum oqibatini kattalashtiradi; buyruqlar doirasi imkon qadar tor bo‘lishi kerak.</p>\n<h3>Amaliy misol va tahlil</h3><p>Misolni bajarishdan oldin vazifani aniqlang: nima tekshirilmoqda, qaysi natija kutiladi va qanday holatda ishni to‘xtatish kerak? Buyruq yoki sozlamani ishlatganda uning ta’sir doirasini tekshiring. Kuzatilgan faktni taxmindan ajrating va natijani yozib boring. Agar natija kutilganidan farq qilsa, bir vaqtning o‘zida ko‘p narsani o‘zgartirmang; bitta omilni tekshirib, qayta sinang.</p>\n<h3>Amaliy laboratoriya</h3><p>`sudo -l` natijasini tushuntiring va laboratoriya foydalanuvchisi uchun nega cheklangan sudo kerakligini yozing.</p><p><strong>Topshiriqni topshirish:</strong> ishlatilgan buyruq yoki qadamlar, kuzatilgan natija va undan chiqargan xulosangizni 3–5 jumlada yozing. Faqat izolyatsiyalangan laboratoriya yoki ruxsatli muhitdan foydalaning; real tizimdagi ma’lumotlarni o‘zgartirmang.</p>\n<h3>Ko‘p uchraydigan xatolar</h3><p>Natijani kontekstdan uzib talqin qilish, buyruqni nima qilishini tushunmasdan nusxalash va muvaffaqiyatsiz natijani qayd etmaslik eng ko‘p uchraydigan xatolardir. Xavfsizlikda bitta belgi yakuniy xulosa uchun yetarli bo‘lmasligi mumkin. Zarur bo‘lsa, qo‘shimcha dalil to‘plang va o‘zgarishdan oldin qaytarish rejasini tayyorlang.</p>\n<h3>Vaqt taqsimoti</h3><ul><li>Konseptlarni o‘rganish: 15 daqiqa</li><li>Misollarni tahlil qilish: 11 daqiqa</li><li>Amaliy laboratoriya: 15 daqiqa</li><li>Xulosa va savollar: 6 daqiqa</li></ul>\n<h3>Dars yakuni</h3><p>O‘zingizga quyidagi savolni bering: men bu tushunchani boshqa odamga sodda misol bilan tushuntira olamanmi? Agar yo‘q bo‘lsa, asosiy terminlarni qayta ko‘rib chiqing va laboratoriyani takrorlang.</p>",
+          "duration_minutes": 45,
+          "xp": 160,
+          "order": 3,
+          "questions": [
+            {
+              "question": "Sudo, su va imtiyozlarni boshqarish mavzusida eng muhim tushuncha nima?",
+              "answer": "`sudo` belgilangan buyruqni vakolatli hisob nomidan bajaradi va odatda aniqroq audit izini beradi.",
+              "xp": 10
+            },
+            {
+              "question": "sudo nima uchun kerak?",
+              "answer": "sudo — mavzuni tushunish va vazifani to‘g‘ri bajarishga yordam beradigan asosiy tushuncha.",
+              "xp": 10
+            },
+            {
+              "question": "Amaliy tekshiruvda nima uchun natijani qayd etish va ruxsat doirasida qolish muhim?",
+              "answer": "Natijani qayta tekshirish, dalilni saqlash va tizimga zarar yetkazmaslik uchun.",
+              "xp": 10
+            }
+          ]
+        },
+        {
+          "slug": "m3-dars-4",
+          "title": "SUID, SGID va sticky bit",
+          "short_description": "SUID, SGID va sticky bit: tushuncha, misol, xavfsiz amaliyot va bilimni tekshirish.",
+          "full_text_html": "<h3>Dars maqsadi</h3><p>Bu dars oxirida siz suid, sgid va sticky bit bo‘yicha asosiy tushunchalarni izohlash, oddiy vaziyatda qo‘llash va natijani dalil bilan tushuntirishni bilasiz.</p>\n<h3>Asosiy mavzular</h3><p>Maxsus ruxsat bitlari; katalog xulqi; xavfsizlik auditi.</p>\n<h3>Tushuntirish</h3><p>SUID bajariladigan faylni egasining samarali UID vakolati bilan ishlatishi mumkin; SGID fayl yoki katalogga qarab guruh xulqini o‘zgartiradi; sticky bit umumiy yoziladigan katalogda foydalanuvchilarning boshqalarga tegishli fayllarni o‘chirib yuborishini cheklaydi. Bu mexanizmlar ayrim tizim vazifalari uchun kerak, ammo noto‘g‘ri sozlama imtiyozlar oshishiga olib kelishi mumkin. Auditda fayl egasi, ruxsat va paket manbasi tekshiriladi.</p>\n<h3>Amaliy misol va tahlil</h3><p>Misolni bajarishdan oldin vazifani aniqlang: nima tekshirilmoqda, qaysi natija kutiladi va qanday holatda ishni to‘xtatish kerak? Buyruq yoki sozlamani ishlatganda uning ta’sir doirasini tekshiring. Kuzatilgan faktni taxmindan ajrating va natijani yozib boring. Agar natija kutilganidan farq qilsa, bir vaqtning o‘zida ko‘p narsani o‘zgartirmang; bitta omilni tekshirib, qayta sinang.</p>\n<h3>Amaliy laboratoriya</h3><p>Faqat laboratoriya tizimida `find` yordamida SUID fayllarni ro‘yxatlang va har bir natijani darhol zaiflik deb hisoblamaslik sababini tushuntiring.</p><p><strong>Topshiriqni topshirish:</strong> ishlatilgan buyruq yoki qadamlar, kuzatilgan natija va undan chiqargan xulosangizni 3–5 jumlada yozing. Faqat izolyatsiyalangan laboratoriya yoki ruxsatli muhitdan foydalaning; real tizimdagi ma’lumotlarni o‘zgartirmang.</p>\n<h3>Ko‘p uchraydigan xatolar</h3><p>Natijani kontekstdan uzib talqin qilish, buyruqni nima qilishini tushunmasdan nusxalash va muvaffaqiyatsiz natijani qayd etmaslik eng ko‘p uchraydigan xatolardir. Xavfsizlikda bitta belgi yakuniy xulosa uchun yetarli bo‘lmasligi mumkin. Zarur bo‘lsa, qo‘shimcha dalil to‘plang va o‘zgarishdan oldin qaytarish rejasini tayyorlang.</p>\n<h3>Vaqt taqsimoti</h3><ul><li>Konseptlarni o‘rganish: 15 daqiqa</li><li>Misollarni tahlil qilish: 11 daqiqa</li><li>Amaliy laboratoriya: 15 daqiqa</li><li>Xulosa va savollar: 6 daqiqa</li></ul>\n<h3>Dars yakuni</h3><p>O‘zingizga quyidagi savolni bering: men bu tushunchani boshqa odamga sodda misol bilan tushuntira olamanmi? Agar yo‘q bo‘lsa, asosiy terminlarni qayta ko‘rib chiqing va laboratoriyani takrorlang.</p>",
+          "duration_minutes": 47,
+          "xp": 170,
+          "order": 4,
+          "questions": [
+            {
+              "question": "SUID, SGID va sticky bit mavzusida eng muhim tushuncha nima?",
+              "answer": "SUID bajariladigan faylni egasining samarali UID vakolati bilan ishlatishi mumkin; SGID fayl yoki katalogga qarab guruh xulqini o‘zgartiradi; sticky bit umumiy yoziladigan katalogda foydalanuvchilarning boshqalarga tegishli fayllarni o‘chirib yuborishini cheklaydi.",
+              "xp": 10
+            },
+            {
+              "question": "Maxsus ruxsat bitlari nima uchun kerak?",
+              "answer": "Maxsus ruxsat bitlari — mavzuni tushunish va vazifani to‘g‘ri bajarishga yordam beradigan asosiy tushuncha.",
+              "xp": 10
+            },
+            {
+              "question": "Amaliy tekshiruvda nima uchun natijani qayd etish va ruxsat doirasida qolish muhim?",
+              "answer": "Natijani qayta tekshirish, dalilni saqlash va tizimga zarar yetkazmaslik uchun.",
+              "xp": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "ntfk1-modul-4",
+      "title": "Jarayonlar, xizmatlar va paketlar",
+      "short_description": "Jarayonlar, systemd, jurnal, paket menejeri va yangilash.",
+      "category": "System Administration",
+      "order": 4,
+      "lessons": [
+        {
+          "slug": "m4-dars-1",
+          "title": "Jarayon va thread tushunchalari",
+          "short_description": "Jarayon va thread tushunchalari: tushuncha, misol, xavfsiz amaliyot va bilimni tekshirish.",
+          "full_text_html": "<h3>Dars maqsadi</h3><p>Bu dars oxirida siz jarayon va thread tushunchalari bo‘yicha asosiy tushunchalarni izohlash, oddiy vaziyatda qo‘llash va natijani dalil bilan tushuntirishni bilasiz.</p>\n<h3>Asosiy mavzular</h3><p>PID/PPID; process; thread; ps; top; signal.</p>\n<h3>Tushuntirish</h3><p>Jarayon — bajarilayotgan dastur nusxasi; thread esa jarayon ichidagi bajarilish oqimi. PID jarayonni, PPID esa ota jarayonni ko‘rsatadi. `ps` bir martalik holatni, `top` esa dinamik yuklamani ko‘rsatadi. `kill` signal yuboradi; avval muloyim tugatish, keyin zarur bo‘lsa kuchliroq signal ishlatiladi. Noma’lum jarayonni to‘xtatish xizmatni uzib qo‘yishi mumkin, shu bois avval nomi, egasi va vazifasini tekshiring.</p>\n<h3>Amaliy misol va tahlil</h3><p>Misolni bajarishdan oldin vazifani aniqlang: nima tekshirilmoqda, qaysi natija kutiladi va qanday holatda ishni to‘xtatish kerak? Buyruq yoki sozlamani ishlatganda uning ta’sir doirasini tekshiring. Kuzatilgan faktni taxmindan ajrating va natijani yozib boring. Agar natija kutilganidan farq qilsa, bir vaqtning o‘zida ko‘p narsani o‘zgartirmang; bitta omilni tekshirib, qayta sinang.</p>\n<h3>Amaliy laboratoriya</h3><p>`ps aux`, `top` va `pgrep`dan foydalanib, laboratoriyada o‘zingiz ishga tushirgan jarayonni aniqlang.</p><p><strong>Topshiriqni topshirish:</strong> ishlatilgan buyruq yoki qadamlar, kuzatilgan natija va undan chiqargan xulosangizni 3–5 jumlada yozing. Faqat izolyatsiyalangan laboratoriya yoki ruxsatli muhitdan foydalaning; real tizimdagi ma’lumotlarni o‘zgartirmang.</p>\n<h3>Ko‘p uchraydigan xatolar</h3><p>Natijani kontekstdan uzib talqin qilish, buyruqni nima qilishini tushunmasdan nusxalash va muvaffaqiyatsiz natijani qayd etmaslik eng ko‘p uchraydigan xatolardir. Xavfsizlikda bitta belgi yakuniy xulosa uchun yetarli bo‘lmasligi mumkin. Zarur bo‘lsa, qo‘shimcha dalil to‘plang va o‘zgarishdan oldin qaytarish rejasini tayyorlang.</p>\n<h3>Vaqt taqsimoti</h3><ul><li>Konseptlarni o‘rganish: 14 daqiqa</li><li>Misollarni tahlil qilish: 11 daqiqa</li><li>Amaliy laboratoriya: 14 daqiqa</li><li>Xulosa va savollar: 6 daqiqa</li></ul>\n<h3>Dars yakuni</h3><p>O‘zingizga quyidagi savolni bering: men bu tushunchani boshqa odamga sodda misol bilan tushuntira olamanmi? Agar yo‘q bo‘lsa, asosiy terminlarni qayta ko‘rib chiqing va laboratoriyani takrorlang.</p>",
+          "duration_minutes": 44,
+          "xp": 160,
+          "order": 1,
+          "questions": [
+            {
+              "question": "Jarayon va thread tushunchalari mavzusida eng muhim tushuncha nima?",
+              "answer": "Jarayon — bajarilayotgan dastur nusxasi; thread esa jarayon ichidagi bajarilish oqimi.",
+              "xp": 10
+            },
+            {
+              "question": "PID/PPID nima uchun kerak?",
+              "answer": "PID/PPID — mavzuni tushunish va vazifani to‘g‘ri bajarishga yordam beradigan asosiy tushuncha.",
+              "xp": 10
+            },
+            {
+              "question": "Amaliy tekshiruvda nima uchun natijani qayd etish va ruxsat doirasida qolish muhim?",
+              "answer": "Natijani qayta tekshirish, dalilni saqlash va tizimga zarar yetkazmaslik uchun.",
+              "xp": 10
+            }
+          ]
+        },
+        {
+          "slug": "m4-dars-2",
+          "title": "Xizmatlar va systemd",
+          "short_description": "Xizmatlar va systemd: tushuncha, misol, xavfsiz amaliyot va bilimni tekshirish.",
+          "full_text_html": "<h3>Dars maqsadi</h3><p>Bu dars oxirida siz xizmatlar va systemd bo‘yicha asosiy tushunchalarni izohlash, oddiy vaziyatda qo‘llash va natijani dalil bilan tushuntirishni bilasiz.</p>\n<h3>Asosiy mavzular</h3><p>daemon; systemctl status/start/stop; enable; journalctl.</p>\n<h3>Tushuntirish</h3><p>Xizmatlar fon rejimida ishlaydi; web-server yoki SSH kabi xizmatlar tizim ishga tushganda avtomatik boshlanishi mumkin. `systemctl status` holatni, `start/stop` joriy ishni, `enable/disable` esa yuklanishdagi avtomatik boshlanishni boshqaradi. `journalctl` systemd jurnalini o‘qiydi. Xizmatni qayta ishga tushirishdan oldin ta’sirini va bog‘liq tizimlarni baholang, ayniqsa masofadan boshqariladigan serverda.</p>\n<h3>Amaliy misol va tahlil</h3><p>Misolni bajarishdan oldin vazifani aniqlang: nima tekshirilmoqda, qaysi natija kutiladi va qanday holatda ishni to‘xtatish kerak? Buyruq yoki sozlamani ishlatganda uning ta’sir doirasini tekshiring. Kuzatilgan faktni taxmindan ajrating va natijani yozib boring. Agar natija kutilganidan farq qilsa, bir vaqtning o‘zida ko‘p narsani o‘zgartirmang; bitta omilni tekshirib, qayta sinang.</p>\n<h3>Amaliy laboratoriya</h3><p>Laboratoriya VMda mavjud xavfsiz xizmatning statusini ko‘ring va tegishli jurnal yozuvlarini toping.</p><p><strong>Topshiriqni topshirish:</strong> ishlatilgan buyruq yoki qadamlar, kuzatilgan natija va undan chiqargan xulosangizni 3–5 jumlada yozing. Faqat izolyatsiyalangan laboratoriya yoki ruxsatli muhitdan foydalaning; real tizimdagi ma’lumotlarni o‘zgartirmang.</p>\n<h3>Ko‘p uchraydigan xatolar</h3><p>Natijani kontekstdan uzib talqin qilish, buyruqni nima qilishini tushunmasdan nusxalash va muvaffaqiyatsiz natijani qayd etmaslik eng ko‘p uchraydigan xatolardir. Xavfsizlikda bitta belgi yakuniy xulosa uchun yetarli bo‘lmasligi mumkin. Zarur bo‘lsa, qo‘shimcha dalil to‘plang va o‘zgarishdan oldin qaytarish rejasini tayyorlang.</p>\n<h3>Vaqt taqsimoti</h3><ul><li>Konseptlarni o‘rganish: 15 daqiqa</li><li>Misollarni tahlil qilish: 11 daqiqa</li><li>Amaliy laboratoriya: 15 daqiqa</li><li>Xulosa va savollar: 6 daqiqa</li></ul>\n<h3>Dars yakuni</h3><p>O‘zingizga quyidagi savolni bering: men bu tushunchani boshqa odamga sodda misol bilan tushuntira olamanmi? Agar yo‘q bo‘lsa, asosiy terminlarni qayta ko‘rib chiqing va laboratoriyani takrorlang.</p>",
+          "duration_minutes": 46,
+          "xp": 170,
+          "order": 2,
+          "questions": [
+            {
+              "question": "Xizmatlar va systemd mavzusida eng muhim tushuncha nima?",
+              "answer": "Xizmatlar fon rejimida ishlaydi; web-server yoki SSH kabi xizmatlar tizim ishga tushganda avtomatik boshlanishi mumkin.",
+              "xp": 10
+            },
+            {
+              "question": "daemon nima uchun kerak?",
+              "answer": "daemon — mavzuni tushunish va vazifani to‘g‘ri bajarishga yordam beradigan asosiy tushuncha.",
+              "xp": 10
+            },
+            {
+              "question": "Amaliy tekshiruvda nima uchun natijani qayd etish va ruxsat doirasida qolish muhim?",
+              "answer": "Natijani qayta tekshirish, dalilni saqlash va tizimga zarar yetkazmaslik uchun.",
+              "xp": 10
+            }
+          ]
+        },
+        {
+          "slug": "m4-dars-3",
+          "title": "Paket menejerlari va dastur yangilash",
+          "short_description": "Paket menejerlari va dastur yangilash: tushuncha, misol, xavfsiz amaliyot va bilimni tekshirish.",
+          "full_text_html": "<h3>Dars maqsadi</h3><p>Bu dars oxirida siz paket menejerlari va dastur yangilash bo‘yicha asosiy tushunchalarni izohlash, oddiy vaziyatda qo‘llash va natijani dalil bilan tushuntirishni bilasiz.</p>\n<h3>Asosiy mavzular</h3><p>APT/DNF; repository; dependency; update/upgrade; imzo.</p>\n<h3>Tushuntirish</h3><p>Paket menejeri dastur, kutubxona va bog‘liqliklarni izchil o‘rnatadi. Repository paket manbasi bo‘lib, ishonchli manbalar va imzolar paket yaxlitligini tekshirishga yordam beradi. Yangilash xavfsizlik tuzatishlarini olib keladi, lekin katta tizimlarda oldindan zaxira va o‘zgarish rejasini talab qiladi. Tasodifiy skriptni administrator huquqida ishga tushirish o‘rniga rasmiy paket manbalaridan foydalaning.</p>\n<h3>Amaliy misol va tahlil</h3><p>Misolni bajarishdan oldin vazifani aniqlang: nima tekshirilmoqda, qaysi natija kutiladi va qanday holatda ishni to‘xtatish kerak? Buyruq yoki sozlamani ishlatganda uning ta’sir doirasini tekshiring. Kuzatilgan faktni taxmindan ajrating va natijani yozib boring. Agar natija kutilganidan farq qilsa, bir vaqtning o‘zida ko‘p narsani o‘zgartirmang; bitta omilni tekshirib, qayta sinang.</p>\n<h3>Amaliy laboratoriya</h3><p>Distributivingizni aniqlang, paketlar ro‘yxatini ko‘ring va mavjud yangilashlar haqida ma’lumot oling; o‘zgarishlarni tasdiqlashdan oldin tekshiring.</p><p><strong>Topshiriqni topshirish:</strong> ishlatilgan buyruq yoki qadamlar, kuzatilgan natija va undan chiqargan xulosangizni 3–5 jumlada yozing. Faqat izolyatsiyalangan laboratoriya yoki ruxsatli muhitdan foydalaning; real tizimdagi ma’lumotlarni o‘zgartirmang.</p>\n<h3>Ko‘p uchraydigan xatolar</h3><p>Natijani kontekstdan uzib talqin qilish, buyruqni nima qilishini tushunmasdan nusxalash va muvaffaqiyatsiz natijani qayd etmaslik eng ko‘p uchraydigan xatolardir. Xavfsizlikda bitta belgi yakuniy xulosa uchun yetarli bo‘lmasligi mumkin. Zarur bo‘lsa, qo‘shimcha dalil to‘plang va o‘zgarishdan oldin qaytarish rejasini tayyorlang.</p>\n<h3>Vaqt taqsimoti</h3><ul><li>Konseptlarni o‘rganish: 16 daqiqa</li><li>Misollarni tahlil qilish: 12 daqiqa</li><li>Amaliy laboratoriya: 16 daqiqa</li><li>Xulosa va savollar: 6 daqiqa</li></ul>\n<h3>Dars yakuni</h3><p>O‘zingizga quyidagi savolni bering: men bu tushunchani boshqa odamga sodda misol bilan tushuntira olamanmi? Agar yo‘q bo‘lsa, asosiy terminlarni qayta ko‘rib chiqing va laboratoriyani takrorlang.</p>",
+          "duration_minutes": 48,
+          "xp": 180,
+          "order": 3,
+          "questions": [
+            {
+              "question": "Paket menejerlari va dastur yangilash mavzusida eng muhim tushuncha nima?",
+              "answer": "Paket menejeri dastur, kutubxona va bog‘liqliklarni izchil o‘rnatadi.",
+              "xp": 10
+            },
+            {
+              "question": "APT/DNF nima uchun kerak?",
+              "answer": "APT/DNF — mavzuni tushunish va vazifani to‘g‘ri bajarishga yordam beradigan asosiy tushuncha.",
+              "xp": 10
+            },
+            {
+              "question": "Amaliy tekshiruvda nima uchun natijani qayd etish va ruxsat doirasida qolish muhim?",
+              "answer": "Natijani qayta tekshirish, dalilni saqlash va tizimga zarar yetkazmaslik uchun.",
+              "xp": 10
+            }
+          ]
+        },
+        {
+          "slug": "m4-dars-4",
+          "title": "Jurnallar va tizim diagnostikasi",
+          "short_description": "Jurnallar va tizim diagnostikasi: tushuncha, misol, xavfsiz amaliyot va bilimni tekshirish.",
+          "full_text_html": "<h3>Dars maqsadi</h3><p>Bu dars oxirida siz jurnallar va tizim diagnostikasi bo‘yicha asosiy tushunchalarni izohlash, oddiy vaziyatda qo‘llash va natijani dalil bilan tushuntirishni bilasiz.</p>\n<h3>Asosiy mavzular</h3><p>/var/log; journalctl; disk/xotira; uptime; dmesg.</p>\n<h3>Tushuntirish</h3><p>Jurnallar nosozlik va xavfsizlik hodisasini vaqt bo‘yicha tiklashga yordam beradi. Diagnostikani alomatdan boshlang: xizmat ishlayaptimi, resurslar yetarlimi, xatolik qachon boshlangan? `df -h` disk joyini, `free -h` xotirani, `uptime` yuklanish ko‘rsatkichini beradi. Birgina log satri sababni isbotlamasligi mumkin; vaqt, foydalanuvchi, xizmat holati va boshqa yozuvlar bilan solishtiring.</p>\n<h3>Amaliy misol va tahlil</h3><p>Misolni bajarishdan oldin vazifani aniqlang: nima tekshirilmoqda, qaysi natija kutiladi va qanday holatda ishni to‘xtatish kerak? Buyruq yoki sozlamani ishlatganda uning ta’sir doirasini tekshiring. Kuzatilgan faktni taxmindan ajrating va natijani yozib boring. Agar natija kutilganidan farq qilsa, bir vaqtning o‘zida ko‘p narsani o‘zgartirmang; bitta omilni tekshirib, qayta sinang.</p>\n<h3>Amaliy laboratoriya</h3><p>Sun’iy nosozlik ssenariysida uchta dalil yig‘ing: xizmat holati, jurnal xatosi va resurs ko‘rsatkichi.</p><p><strong>Topshiriqni topshirish:</strong> ishlatilgan buyruq yoki qadamlar, kuzatilgan natija va undan chiqargan xulosangizni 3–5 jumlada yozing. Faqat izolyatsiyalangan laboratoriya yoki ruxsatli muhitdan foydalaning; real tizimdagi ma’lumotlarni o‘zgartirmang.</p>\n<h3>Ko‘p uchraydigan xatolar</h3><p>Natijani kontekstdan uzib talqin qilish, buyruqni nima qilishini tushunmasdan nusxalash va muvaffaqiyatsiz natijani qayd etmaslik eng ko‘p uchraydigan xatolardir. Xavfsizlikda bitta belgi yakuniy xulosa uchun yetarli bo‘lmasligi mumkin. Zarur bo‘lsa, qo‘shimcha dalil to‘plang va o‘zgarishdan oldin qaytarish rejasini tayyorlang.</p>\n<h3>Vaqt taqsimoti</h3><ul><li>Konseptlarni o‘rganish: 16 daqiqa</li><li>Misollarni tahlil qilish: 12 daqiqa</li><li>Amaliy laboratoriya: 16 daqiqa</li><li>Xulosa va savollar: 7 daqiqa</li></ul>\n<h3>Dars yakuni</h3><p>O‘zingizga quyidagi savolni bering: men bu tushunchani boshqa odamga sodda misol bilan tushuntira olamanmi? Agar yo‘q bo‘lsa, asosiy terminlarni qayta ko‘rib chiqing va laboratoriyani takrorlang.</p>",
+          "duration_minutes": 50,
+          "xp": 190,
+          "order": 4,
+          "questions": [
+            {
+              "question": "Jurnallar va tizim diagnostikasi mavzusida eng muhim tushuncha nima?",
+              "answer": "Jurnallar nosozlik va xavfsizlik hodisasini vaqt bo‘yicha tiklashga yordam beradi.",
+              "xp": 10
+            },
+            {
+              "question": "/var/log nima uchun kerak?",
+              "answer": "/var/log — mavzuni tushunish va vazifani to‘g‘ri bajarishga yordam beradigan asosiy tushuncha.",
+              "xp": 10
+            },
+            {
+              "question": "Amaliy tekshiruvda nima uchun natijani qayd etish va ruxsat doirasida qolish muhim?",
+              "answer": "Natijani qayta tekshirish, dalilni saqlash va tizimga zarar yetkazmaslik uchun.",
+              "xp": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "ntfk1-modul-5",
+      "title": "Tarmoq diagnostikasi va Nmap",
+      "short_description": "Ulanishni tekshirish, portlar, xizmatlarni inventarizatsiya qilish.",
+      "category": "Network Security",
+      "order": 5,
+      "lessons": [
+        {
+          "slug": "m5-dars-1",
+          "title": "IP sozlamalari va marshrutlashni tekshirish",
+          "short_description": "IP sozlamalari va marshrutlashni tekshirish: tushuncha, misol, xavfsiz amaliyot va bilimni tekshirish.",
+          "full_text_html": "<h3>Dars maqsadi</h3><p>Bu dars oxirida siz ip sozlamalari va marshrutlashni tekshirish bo‘yicha asosiy tushunchalarni izohlash, oddiy vaziyatda qo‘llash va natijani dalil bilan tushuntirishni bilasiz.</p>\n<h3>Asosiy mavzular</h3><p>ip addr; ip route; gateway; DNS; ping.</p>\n<h3>Tushuntirish</h3><p>Diagnostika qatlamma-qatlam bajariladi: interfeysda IP bormi, marshrut bormi, gateway javob beradimi, DNS nomni yechadimi? `ping` ICMP orqali yetib borishni sinaydi, lekin javob yo‘qligi host albatta o‘chiq degani emas — ICMP bloklangan bo‘lishi mumkin. `ip route` paketlar qayerga yuborilishini ko‘rsatadi. Natijani boshqa dalillar bilan birga talqin qilish kerak.</p>\n<h3>Amaliy misol va tahlil</h3><p>Misolni bajarishdan oldin vazifani aniqlang: nima tekshirilmoqda, qaysi natija kutiladi va qanday holatda ishni to‘xtatish kerak? Buyruq yoki sozlamani ishlatganda uning ta’sir doirasini tekshiring. Kuzatilgan faktni taxmindan ajrating va natijani yozib boring. Agar natija kutilganidan farq qilsa, bir vaqtning o‘zida ko‘p narsani o‘zgartirmang; bitta omilni tekshirib, qayta sinang.</p>\n<h3>Amaliy laboratoriya</h3><p>O‘z laboratoriya VMingizda IP, default route va DNS sozlamalarini topib, tarmoq xaritasiga qo‘shing.</p><p><strong>Topshiriqni topshirish:</strong> ishlatilgan buyruq yoki qadamlar, kuzatilgan natija va undan chiqargan xulosangizni 3–5 jumlada yozing. Faqat izolyatsiyalangan laboratoriya yoki ruxsatli muhitdan foydalaning; real tizimdagi ma’lumotlarni o‘zgartirmang.</p>\n<h3>Ko‘p uchraydigan xatolar</h3><p>Natijani kontekstdan uzib talqin qilish, buyruqni nima qilishini tushunmasdan nusxalash va muvaffaqiyatsiz natijani qayd etmaslik eng ko‘p uchraydigan xatolardir. Xavfsizlikda bitta belgi yakuniy xulosa uchun yetarli bo‘lmasligi mumkin. Zarur bo‘lsa, qo‘shimcha dalil to‘plang va o‘zgarishdan oldin qaytarish rejasini tayyorlang.</p>\n<h3>Vaqt taqsimoti</h3><ul><li>Konseptlarni o‘rganish: 15 daqiqa</li><li>Misollarni tahlil qilish: 11 daqiqa</li><li>Amaliy laboratoriya: 15 daqiqa</li><li>Xulosa va savollar: 6 daqiqa</li></ul>\n<h3>Dars yakuni</h3><p>O‘zingizga quyidagi savolni bering: men bu tushunchani boshqa odamga sodda misol bilan tushuntira olamanmi? Agar yo‘q bo‘lsa, asosiy terminlarni qayta ko‘rib chiqing va laboratoriyani takrorlang.</p>",
+          "duration_minutes": 47,
+          "xp": 180,
+          "order": 1,
+          "questions": [
+            {
+              "question": "IP sozlamalari va marshrutlashni tekshirish mavzusida eng muhim tushuncha nima?",
+              "answer": "Diagnostika qatlamma-qatlam bajariladi: interfeysda IP bormi, marshrut bormi, gateway javob beradimi, DNS nomni yechadimi? `ping` ICMP orqali yetib borishni sinaydi, lekin javob yo‘qligi host albatta o‘chiq degani emas — ICMP bloklangan bo‘lishi mumkin.",
+              "xp": 10
+            },
+            {
+              "question": "ip addr nima uchun kerak?",
+              "answer": "ip addr — mavzuni tushunish va vazifani to‘g‘ri bajarishga yordam beradigan asosiy tushuncha.",
+              "xp": 10
+            },
+            {
+              "question": "Amaliy tekshiruvda nima uchun natijani qayd etish va ruxsat doirasida qolish muhim?",
+              "answer": "Natijani qayta tekshirish, dalilni saqlash va tizimga zarar yetkazmaslik uchun.",
+              "xp": 10
+            }
+          ]
+        },
+        {
+          "slug": "m5-dars-2",
+          "title": "Nmap asoslari va skanerlash etikasi",
+          "short_description": "Nmap asoslari va skanerlash etikasi: tushuncha, misol, xavfsiz amaliyot va bilimni tekshirish.",
+          "full_text_html": "<h3>Dars maqsadi</h3><p>Bu dars oxirida siz nmap asoslari va skanerlash etikasi bo‘yicha asosiy tushunchalarni izohlash, oddiy vaziyatda qo‘llash va natijani dalil bilan tushuntirishni bilasiz.</p>\n<h3>Asosiy mavzular</h3><p>Host discovery; port state; service detection; scope; ruxsat.</p>\n<h3>Tushuntirish</h3><p>Nmap tarmoq inventarizatsiyasi va himoya tekshiruvlarida ishlatiladi. `open`, `closed` va `filtered` holatlari port haqida turli ma’no beradi; `filtered` odatda filtr javobni aniqlashga to‘sqinlik qilganini bildiradi. Skanerlashdan oldin yozma ruxsat, aniq IP diapazoni, vaqt oynasi va ta’sir chegarasi belgilanadi. Faqat o‘zingizga tegishli laboratoriya yoki ruxsat berilgan muhitni tekshiring.</p>\n<h3>Amaliy misol va tahlil</h3><p>Misolni bajarishdan oldin vazifani aniqlang: nima tekshirilmoqda, qaysi natija kutiladi va qanday holatda ishni to‘xtatish kerak? Buyruq yoki sozlamani ishlatganda uning ta’sir doirasini tekshiring. Kuzatilgan faktni taxmindan ajrating va natijani yozib boring. Agar natija kutilganidan farq qilsa, bir vaqtning o‘zida ko‘p narsani o‘zgartirmang; bitta omilni tekshirib, qayta sinang.</p>\n<h3>Amaliy laboratoriya</h3><p>Faqat o‘z VMingizda Nmapning oddiy versiya/host ma’lumotini ko‘ring va natijadagi port holatlarini izohlang.</p><p><strong>Topshiriqni topshirish:</strong> ishlatilgan buyruq yoki qadamlar, kuzatilgan natija va undan chiqargan xulosangizni 3–5 jumlada yozing. Faqat izolyatsiyalangan laboratoriya yoki ruxsatli muhitdan foydalaning; real tizimdagi ma’lumotlarni o‘zgartirmang.</p>\n<h3>Ko‘p uchraydigan xatolar</h3><p>Natijani kontekstdan uzib talqin qilish, buyruqni nima qilishini tushunmasdan nusxalash va muvaffaqiyatsiz natijani qayd etmaslik eng ko‘p uchraydigan xatolardir. Xavfsizlikda bitta belgi yakuniy xulosa uchun yetarli bo‘lmasligi mumkin. Zarur bo‘lsa, qo‘shimcha dalil to‘plang va o‘zgarishdan oldin qaytarish rejasini tayyorlang.</p>\n<h3>Vaqt taqsimoti</h3><ul><li>Konseptlarni o‘rganish: 16 daqiqa</li><li>Misollarni tahlil qilish: 12 daqiqa</li><li>Amaliy laboratoriya: 16 daqiqa</li><li>Xulosa va savollar: 7 daqiqa</li></ul>\n<h3>Dars yakuni</h3><p>O‘zingizga quyidagi savolni bering: men bu tushunchani boshqa odamga sodda misol bilan tushuntira olamanmi? Agar yo‘q bo‘lsa, asosiy terminlarni qayta ko‘rib chiqing va laboratoriyani takrorlang.</p>",
+          "duration_minutes": 49,
+          "xp": 190,
+          "order": 2,
+          "questions": [
+            {
+              "question": "Nmap asoslari va skanerlash etikasi mavzusida eng muhim tushuncha nima?",
+              "answer": "Nmap tarmoq inventarizatsiyasi va himoya tekshiruvlarida ishlatiladi.",
+              "xp": 10
+            },
+            {
+              "question": "Host discovery nima uchun kerak?",
+              "answer": "Host discovery — mavzuni tushunish va vazifani to‘g‘ri bajarishga yordam beradigan asosiy tushuncha.",
+              "xp": 10
+            },
+            {
+              "question": "Amaliy tekshiruvda nima uchun natijani qayd etish va ruxsat doirasida qolish muhim?",
+              "answer": "Natijani qayta tekshirish, dalilni saqlash va tizimga zarar yetkazmaslik uchun.",
+              "xp": 10
+            }
+          ]
+        },
+        {
+          "slug": "m5-dars-3",
+          "title": "Xizmat bannerlari va xavf baholash",
+          "short_description": "Xizmat bannerlari va xavf baholash: tushuncha, misol, xavfsiz amaliyot va bilimni tekshirish.",
+          "full_text_html": "<h3>Dars maqsadi</h3><p>Bu dars oxirida siz xizmat bannerlari va xavf baholash bo‘yicha asosiy tushunchalarni izohlash, oddiy vaziyatda qo‘llash va natijani dalil bilan tushuntirishni bilasiz.</p>\n<h3>Asosiy mavzular</h3><p>service/version; banner; noto‘g‘ri xulosa; patch holati.</p>\n<h3>Tushuntirish</h3><p>Port ochiqligi xizmat mavjudligini ko‘rsatishi mumkin, ammo o‘zi zaiflik isboti emas. Banner yoki versiya ma’lumoti inventarizatsiyaga yordam beradi, lekin yashirilgan, moslashtirilgan yoki noto‘g‘ri bo‘lishi mumkin. Xavfni baholashda xizmatning biznes zarurati, tarmoqdan ko‘rinishi, autentifikatsiya, yangilanish holati va konfiguratsiyasi hisobga olinadi. Topilmalarni dalil, ta’sir va tavsiya bilan hujjatlashtirish kerak.</p>\n<h3>Amaliy misol va tahlil</h3><p>Misolni bajarishdan oldin vazifani aniqlang: nima tekshirilmoqda, qaysi natija kutiladi va qanday holatda ishni to‘xtatish kerak? Buyruq yoki sozlamani ishlatganda uning ta’sir doirasini tekshiring. Kuzatilgan faktni taxmindan ajrating va natijani yozib boring. Agar natija kutilganidan farq qilsa, bir vaqtning o‘zida ko‘p narsani o‘zgartirmang; bitta omilni tekshirib, qayta sinang.</p>\n<h3>Amaliy laboratoriya</h3><p>Laboratoriya natijasidan uchta xizmatni jadvalga yozing: port, taxminiy xizmat, tasdiqlash kerak bo‘lgan savol.</p><p><strong>Topshiriqni topshirish:</strong> ishlatilgan buyruq yoki qadamlar, kuzatilgan natija va undan chiqargan xulosangizni 3–5 jumlada yozing. Faqat izolyatsiyalangan laboratoriya yoki ruxsatli muhitdan foydalaning; real tizimdagi ma’lumotlarni o‘zgartirmang.</p>\n<h3>Ko‘p uchraydigan xatolar</h3><p>Natijani kontekstdan uzib talqin qilish, buyruqni nima qilishini tushunmasdan nusxalash va muvaffaqiyatsiz natijani qayd etmaslik eng ko‘p uchraydigan xatolardir. Xavfsizlikda bitta belgi yakuniy xulosa uchun yetarli bo‘lmasligi mumkin. Zarur bo‘lsa, qo‘shimcha dalil to‘plang va o‘zgarishdan oldin qaytarish rejasini tayyorlang.</p>\n<h3>Vaqt taqsimoti</h3><ul><li>Konseptlarni o‘rganish: 17 daqiqa</li><li>Misollarni tahlil qilish: 12 daqiqa</li><li>Amaliy laboratoriya: 17 daqiqa</li><li>Xulosa va savollar: 7 daqiqa</li></ul>\n<h3>Dars yakuni</h3><p>O‘zingizga quyidagi savolni bering: men bu tushunchani boshqa odamga sodda misol bilan tushuntira olamanmi? Agar yo‘q bo‘lsa, asosiy terminlarni qayta ko‘rib chiqing va laboratoriyani takrorlang.</p>",
+          "duration_minutes": 51,
+          "xp": 200,
+          "order": 3,
+          "questions": [
+            {
+              "question": "Xizmat bannerlari va xavf baholash mavzusida eng muhim tushuncha nima?",
+              "answer": "Port ochiqligi xizmat mavjudligini ko‘rsatishi mumkin, ammo o‘zi zaiflik isboti emas.",
+              "xp": 10
+            },
+            {
+              "question": "service/version nima uchun kerak?",
+              "answer": "service/version — mavzuni tushunish va vazifani to‘g‘ri bajarishga yordam beradigan asosiy tushuncha.",
+              "xp": 10
+            },
+            {
+              "question": "Amaliy tekshiruvda nima uchun natijani qayd etish va ruxsat doirasida qolish muhim?",
+              "answer": "Natijani qayta tekshirish, dalilni saqlash va tizimga zarar yetkazmaslik uchun.",
+              "xp": 10
+            }
+          ]
+        },
+        {
+          "slug": "m5-dars-4",
+          "title": "Tarmoq hodisasini tahlil qilish",
+          "short_description": "Tarmoq hodisasini tahlil qilish: tushuncha, misol, xavfsiz amaliyot va bilimni tekshirish.",
+          "full_text_html": "<h3>Dars maqsadi</h3><p>Bu dars oxirida siz tarmoq hodisasini tahlil qilish bo‘yicha asosiy tushunchalarni izohlash, oddiy vaziyatda qo‘llash va natijani dalil bilan tushuntirishni bilasiz.</p>\n<h3>Asosiy mavzular</h3><p>DNS/HTTP alomatlari; packet capture tushunchasi; dalil yozuvi.</p>\n<h3>Tushuntirish</h3><p>Tarmoq hodisasini tahlil qilishda savolni aniq belgilang: ulanish uzildimi, nom yechilmadimi yoki xizmat xato javob berdimi? Paket yozuvi vaqt, manba/manzil, protokol va baytlar oqimini ko‘rsatishi mumkin, ammo unda maxfiy ma’lumotlar bo‘lishi ehtimoli bor. Capture faqat ruxsatli laboratoriyada olinadi va xavfsiz saqlanadi. Hisobotda vaqt zonasi, buyruq, muhit va kuzatilgan faktlarni taxmindan ajratib yozing.</p>\n<h3>Amaliy misol va tahlil</h3><p>Misolni bajarishdan oldin vazifani aniqlang: nima tekshirilmoqda, qaysi natija kutiladi va qanday holatda ishni to‘xtatish kerak? Buyruq yoki sozlamani ishlatganda uning ta’sir doirasini tekshiring. Kuzatilgan faktni taxmindan ajrating va natijani yozib boring. Agar natija kutilganidan farq qilsa, bir vaqtning o‘zida ko‘p narsani o‘zgartirmang; bitta omilni tekshirib, qayta sinang.</p>\n<h3>Amaliy laboratoriya</h3><p>Berilgan simulyatsiya ssenariysi uchun kuzatuvlar, ehtimoliy sabablar va keyingi tekshiruvlarni uch ustunli jadvalga ajrating.</p><p><strong>Topshiriqni topshirish:</strong> ishlatilgan buyruq yoki qadamlar, kuzatilgan natija va undan chiqargan xulosangizni 3–5 jumlada yozing. Faqat izolyatsiyalangan laboratoriya yoki ruxsatli muhitdan foydalaning; real tizimdagi ma’lumotlarni o‘zgartirmang.</p>\n<h3>Ko‘p uchraydigan xatolar</h3><p>Natijani kontekstdan uzib talqin qilish, buyruqni nima qilishini tushunmasdan nusxalash va muvaffaqiyatsiz natijani qayd etmaslik eng ko‘p uchraydigan xatolardir. Xavfsizlikda bitta belgi yakuniy xulosa uchun yetarli bo‘lmasligi mumkin. Zarur bo‘lsa, qo‘shimcha dalil to‘plang va o‘zgarishdan oldin qaytarish rejasini tayyorlang.</p>\n<h3>Vaqt taqsimoti</h3><ul><li>Konseptlarni o‘rganish: 17 daqiqa</li><li>Misollarni tahlil qilish: 13 daqiqa</li><li>Amaliy laboratoriya: 17 daqiqa</li><li>Xulosa va savollar: 7 daqiqa</li></ul>\n<h3>Dars yakuni</h3><p>O‘zingizga quyidagi savolni bering: men bu tushunchani boshqa odamga sodda misol bilan tushuntira olamanmi? Agar yo‘q bo‘lsa, asosiy terminlarni qayta ko‘rib chiqing va laboratoriyani takrorlang.</p>",
+          "duration_minutes": 53,
+          "xp": 210,
+          "order": 4,
+          "questions": [
+            {
+              "question": "Tarmoq hodisasini tahlil qilish mavzusida eng muhim tushuncha nima?",
+              "answer": "Tarmoq hodisasini tahlil qilishda savolni aniq belgilang: ulanish uzildimi, nom yechilmadimi yoki xizmat xato javob berdimi? Paket yozuvi vaqt, manba/manzil, protokol va baytlar oqimini ko‘rsatishi mumkin, ammo unda maxfiy ma’lumotlar bo‘lishi ehtimoli bor.",
+              "xp": 10
+            },
+            {
+              "question": "DNS/HTTP alomatlari nima uchun kerak?",
+              "answer": "DNS/HTTP alomatlari — mavzuni tushunish va vazifani to‘g‘ri bajarishga yordam beradigan asosiy tushuncha.",
+              "xp": 10
+            },
+            {
+              "question": "Amaliy tekshiruvda nima uchun natijani qayd etish va ruxsat doirasida qolish muhim?",
+              "answer": "Natijani qayta tekshirish, dalilni saqlash va tizimga zarar yetkazmaslik uchun.",
+              "xp": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "ntfk1-modul-6",
+      "title": "Fayl almashish va masofaviy xizmatlar",
+      "short_description": "FTP/SFTP, Samba, NFS, SSH va xavfsiz konfiguratsiya.",
+      "category": "Services & Protocols",
+      "order": 6,
+      "lessons": [
+        {
+          "slug": "m6-dars-1",
+          "title": "FTP va xavfsiz fayl uzatish",
+          "short_description": "FTP va xavfsiz fayl uzatish: tushuncha, misol, xavfsiz amaliyot va bilimni tekshirish.",
+          "full_text_html": "<h3>Dars maqsadi</h3><p>Bu dars oxirida siz ftp va xavfsiz fayl uzatish bo‘yicha asosiy tushunchalarni izohlash, oddiy vaziyatda qo‘llash va natijani dalil bilan tushuntirishni bilasiz.</p>\n<h3>Asosiy mavzular</h3><p>FTP control/data; cleartext xavfi; FTPS; SFTP.</p>\n<h3>Tushuntirish</h3><p>An’anaviy FTP boshqaruv va ma’lumot uzatish kanallaridan foydalanadi; himoyasiz sozlamada login va fayl mazmuni shifrlanmagan bo‘lishi mumkin. FTPS FTPga TLS himoyasini qo‘shadi, SFTP esa SSH orqali ishlaydigan alohida protokoldir. Ularning portlari va autentifikatsiya usullari farq qiladi. Yangi tizimda uzatish paytidagi maxfiylik va server identifikatsiyasi talablariga mos protokol tanlanadi.</p>\n<h3>Amaliy misol va tahlil</h3><p>Misolni bajarishdan oldin vazifani aniqlang: nima tekshirilmoqda, qaysi natija kutiladi va qanday holatda ishni to‘xtatish kerak? Buyruq yoki sozlamani ishlatganda uning ta’sir doirasini tekshiring. Kuzatilgan faktni taxmindan ajrating va natijani yozib boring. Agar natija kutilganidan farq qilsa, bir vaqtning o‘zida ko‘p narsani o‘zgartirmang; bitta omilni tekshirib, qayta sinang.</p>\n<h3>Amaliy laboratoriya</h3><p>Uch protokolni jadvalda solishtiring: shifrlash, transport, odatiy qo‘llanish va tekshiriladigan sozlama.</p><p><strong>Topshiriqni topshirish:</strong> ishlatilgan buyruq yoki qadamlar, kuzatilgan natija va undan chiqargan xulosangizni 3–5 jumlada yozing. Faqat izolyatsiyalangan laboratoriya yoki ruxsatli muhitdan foydalaning; real tizimdagi ma’lumotlarni o‘zgartirmang.</p>\n<h3>Ko‘p uchraydigan xatolar</h3><p>Natijani kontekstdan uzib talqin qilish, buyruqni nima qilishini tushunmasdan nusxalash va muvaffaqiyatsiz natijani qayd etmaslik eng ko‘p uchraydigan xatolardir. Xavfsizlikda bitta belgi yakuniy xulosa uchun yetarli bo‘lmasligi mumkin. Zarur bo‘lsa, qo‘shimcha dalil to‘plang va o‘zgarishdan oldin qaytarish rejasini tayyorlang.</p>\n<h3>Vaqt taqsimoti</h3><ul><li>Konseptlarni o‘rganish: 16 daqiqa</li><li>Misollarni tahlil qilish: 12 daqiqa</li><li>Amaliy laboratoriya: 16 daqiqa</li><li>Xulosa va savollar: 7 daqiqa</li></ul>\n<h3>Dars yakuni</h3><p>O‘zingizga quyidagi savolni bering: men bu tushunchani boshqa odamga sodda misol bilan tushuntira olamanmi? Agar yo‘q bo‘lsa, asosiy terminlarni qayta ko‘rib chiqing va laboratoriyani takrorlang.</p>",
+          "duration_minutes": 50,
+          "xp": 200,
+          "order": 1,
+          "questions": [
+            {
+              "question": "FTP va xavfsiz fayl uzatish mavzusida eng muhim tushuncha nima?",
+              "answer": "An’anaviy FTP boshqaruv va ma’lumot uzatish kanallaridan foydalanadi; himoyasiz sozlamada login va fayl mazmuni shifrlanmagan bo‘lishi mumkin.",
+              "xp": 10
+            },
+            {
+              "question": "FTP control/data nima uchun kerak?",
+              "answer": "FTP control/data — mavzuni tushunish va vazifani to‘g‘ri bajarishga yordam beradigan asosiy tushuncha.",
+              "xp": 10
+            },
+            {
+              "question": "Amaliy tekshiruvda nima uchun natijani qayd etish va ruxsat doirasida qolish muhim?",
+              "answer": "Natijani qayta tekshirish, dalilni saqlash va tizimga zarar yetkazmaslik uchun.",
+              "xp": 10
+            }
+          ]
+        },
+        {
+          "slug": "m6-dars-2",
+          "title": "SSH orqali masofaviy boshqaruv",
+          "short_description": "SSH orqali masofaviy boshqaruv: tushuncha, misol, xavfsiz amaliyot va bilimni tekshirish.",
+          "full_text_html": "<h3>Dars maqsadi</h3><p>Bu dars oxirida siz ssh orqali masofaviy boshqaruv bo‘yicha asosiy tushunchalarni izohlash, oddiy vaziyatda qo‘llash va natijani dalil bilan tushuntirishni bilasiz.</p>\n<h3>Asosiy mavzular</h3><p>host key; parol/kalit; authorized_keys; hardening.</p>\n<h3>Tushuntirish</h3><p>SSH masofaviy terminal va xavfsiz fayl uzatish imkonini beradi. Host key server identifikatsiyasini tekshirishga yordam beradi; foydalanuvchi kaliti esa kirishni tasdiqlash vositasidir. Shaxsiy kalit maxfiy saqlanadi, parol bilan himoyalanishi mumkin va hech qachon ommaviy ulashilmaydi. Xavfsizlik uchun keraksiz hisoblarni o‘chirish, yangilash, kuchli autentifikatsiya va jurnal monitoringi muhim.</p>\n<h3>Amaliy misol va tahlil</h3><p>Misolni bajarishdan oldin vazifani aniqlang: nima tekshirilmoqda, qaysi natija kutiladi va qanday holatda ishni to‘xtatish kerak? Buyruq yoki sozlamani ishlatganda uning ta’sir doirasini tekshiring. Kuzatilgan faktni taxmindan ajrating va natijani yozib boring. Agar natija kutilganidan farq qilsa, bir vaqtning o‘zida ko‘p narsani o‘zgartirmang; bitta omilni tekshirib, qayta sinang.</p>\n<h3>Amaliy laboratoriya</h3><p>Laboratoriyada SSH konfiguratsiyasida ko‘rib chiqiladigan besh xavfsizlik bandini yozing; ishlayotgan masofaviy ulanishni tekshirmasdan o‘zgartirmang.</p><p><strong>Topshiriqni topshirish:</strong> ishlatilgan buyruq yoki qadamlar, kuzatilgan natija va undan chiqargan xulosangizni 3–5 jumlada yozing. Faqat izolyatsiyalangan laboratoriya yoki ruxsatli muhitdan foydalaning; real tizimdagi ma’lumotlarni o‘zgartirmang.</p>\n<h3>Ko‘p uchraydigan xatolar</h3><p>Natijani kontekstdan uzib talqin qilish, buyruqni nima qilishini tushunmasdan nusxalash va muvaffaqiyatsiz natijani qayd etmaslik eng ko‘p uchraydigan xatolardir. Xavfsizlikda bitta belgi yakuniy xulosa uchun yetarli bo‘lmasligi mumkin. Zarur bo‘lsa, qo‘shimcha dalil to‘plang va o‘zgarishdan oldin qaytarish rejasini tayyorlang.</p>\n<h3>Vaqt taqsimoti</h3><ul><li>Konseptlarni o‘rganish: 17 daqiqa</li><li>Misollarni tahlil qilish: 13 daqiqa</li><li>Amaliy laboratoriya: 17 daqiqa</li><li>Xulosa va savollar: 7 daqiqa</li></ul>\n<h3>Dars yakuni</h3><p>O‘zingizga quyidagi savolni bering: men bu tushunchani boshqa odamga sodda misol bilan tushuntira olamanmi? Agar yo‘q bo‘lsa, asosiy terminlarni qayta ko‘rib chiqing va laboratoriyani takrorlang.</p>",
+          "duration_minutes": 52,
+          "xp": 210,
+          "order": 2,
+          "questions": [
+            {
+              "question": "SSH orqali masofaviy boshqaruv mavzusida eng muhim tushuncha nima?",
+              "answer": "SSH masofaviy terminal va xavfsiz fayl uzatish imkonini beradi.",
+              "xp": 10
+            },
+            {
+              "question": "host key nima uchun kerak?",
+              "answer": "host key — mavzuni tushunish va vazifani to‘g‘ri bajarishga yordam beradigan asosiy tushuncha.",
+              "xp": 10
+            },
+            {
+              "question": "Amaliy tekshiruvda nima uchun natijani qayd etish va ruxsat doirasida qolish muhim?",
+              "answer": "Natijani qayta tekshirish, dalilni saqlash va tizimga zarar yetkazmaslik uchun.",
+              "xp": 10
+            }
+          ]
+        },
+        {
+          "slug": "m6-dars-3",
+          "title": "Samba va NFS orqali fayl almashish",
+          "short_description": "Samba va NFS orqali fayl almashish: tushuncha, misol, xavfsiz amaliyot va bilimni tekshirish.",
+          "full_text_html": "<h3>Dars maqsadi</h3><p>Bu dars oxirida siz samba va nfs orqali fayl almashish bo‘yicha asosiy tushunchalarni izohlash, oddiy vaziyatda qo‘llash va natijani dalil bilan tushuntirishni bilasiz.</p>\n<h3>Asosiy mavzular</h3><p>SMB/CIFS; NFS; share/export; ACL; tarmoq chegarasi.</p>\n<h3>Tushuntirish</h3><p>Samba Windows bilan mos SMB fayl almashishni, NFS esa Unix/Linux muhitida tarmoq fayl tizimini taqdim etadi. Share yoki export ruxsatlari foydalanuvchi huquqlari va tarmoq chegaralari bilan birga tekshiriladi. “Hamma uchun yozish” qulay tuyulishi mumkin, lekin fayl buzilishi va ma’lumot sizib chiqishi xavfini oshiradi. Xizmatni faqat kerakli interfeysda tinglatish va minimal ruxsat berish tavsiya etiladi.</p>\n<h3>Amaliy misol va tahlil</h3><p>Misolni bajarishdan oldin vazifani aniqlang: nima tekshirilmoqda, qaysi natija kutiladi va qanday holatda ishni to‘xtatish kerak? Buyruq yoki sozlamani ishlatganda uning ta’sir doirasini tekshiring. Kuzatilgan faktni taxmindan ajrating va natijani yozib boring. Agar natija kutilganidan farq qilsa, bir vaqtning o‘zida ko‘p narsani o‘zgartirmang; bitta omilni tekshirib, qayta sinang.</p>\n<h3>Amaliy laboratoriya</h3><p>Kichik ofis ssenariysida umumiy papka uchun kim o‘qishi, kim yozishi va qaysi tarmoqdan kira olishini belgilang.</p><p><strong>Topshiriqni topshirish:</strong> ishlatilgan buyruq yoki qadamlar, kuzatilgan natija va undan chiqargan xulosangizni 3–5 jumlada yozing. Faqat izolyatsiyalangan laboratoriya yoki ruxsatli muhitdan foydalaning; real tizimdagi ma’lumotlarni o‘zgartirmang.</p>\n<h3>Ko‘p uchraydigan xatolar</h3><p>Natijani kontekstdan uzib talqin qilish, buyruqni nima qilishini tushunmasdan nusxalash va muvaffaqiyatsiz natijani qayd etmaslik eng ko‘p uchraydigan xatolardir. Xavfsizlikda bitta belgi yakuniy xulosa uchun yetarli bo‘lmasligi mumkin. Zarur bo‘lsa, qo‘shimcha dalil to‘plang va o‘zgarishdan oldin qaytarish rejasini tayyorlang.</p>\n<h3>Vaqt taqsimoti</h3><ul><li>Konseptlarni o‘rganish: 18 daqiqa</li><li>Misollarni tahlil qilish: 13 daqiqa</li><li>Amaliy laboratoriya: 18 daqiqa</li><li>Xulosa va savollar: 7 daqiqa</li></ul>\n<h3>Dars yakuni</h3><p>O‘zingizga quyidagi savolni bering: men bu tushunchani boshqa odamga sodda misol bilan tushuntira olamanmi? Agar yo‘q bo‘lsa, asosiy terminlarni qayta ko‘rib chiqing va laboratoriyani takrorlang.</p>",
+          "duration_minutes": 54,
+          "xp": 220,
+          "order": 3,
+          "questions": [
+            {
+              "question": "Samba va NFS orqali fayl almashish mavzusida eng muhim tushuncha nima?",
+              "answer": "Samba Windows bilan mos SMB fayl almashishni, NFS esa Unix/Linux muhitida tarmoq fayl tizimini taqdim etadi.",
+              "xp": 10
+            },
+            {
+              "question": "SMB/CIFS nima uchun kerak?",
+              "answer": "SMB/CIFS — mavzuni tushunish va vazifani to‘g‘ri bajarishga yordam beradigan asosiy tushuncha.",
+              "xp": 10
+            },
+            {
+              "question": "Amaliy tekshiruvda nima uchun natijani qayd etish va ruxsat doirasida qolish muhim?",
+              "answer": "Natijani qayta tekshirish, dalilni saqlash va tizimga zarar yetkazmaslik uchun.",
+              "xp": 10
+            }
+          ]
+        },
+        {
+          "slug": "m6-dars-4",
+          "title": "Xizmatlarni himoyalash va konfiguratsiya auditi",
+          "short_description": "Xizmatlarni himoyalash va konfiguratsiya auditi: tushuncha, misol, xavfsiz amaliyot va bilimni tekshirish.",
+          "full_text_html": "<h3>Dars maqsadi</h3><p>Bu dars oxirida siz xizmatlarni himoyalash va konfiguratsiya auditi bo‘yicha asosiy tushunchalarni izohlash, oddiy vaziyatda qo‘llash va natijani dalil bilan tushuntirishni bilasiz.</p>\n<h3>Asosiy mavzular</h3><p>default sozlamalar; firewall; patch; log; zaxira.</p>\n<h3>Tushuntirish</h3><p>Xavfsiz konfiguratsiya faqat bitta parametr emas, balki qatlamli nazoratdir: xizmat faqat kerakli joyda tinglaydi, autentifikatsiya kuchli, ruxsatlar minimal, tizim yangilangan, jurnallar kuzatiladi. Zaxira nusxa tiklash sinovidan o‘tmasa, u ishonchli himoya hisoblanmaydi. O‘zgarishlarni hujjatlashtirish va avvalgi holatga qaytish rejasini saqlash xizmat uzilishi xavfini kamaytiradi.</p>\n<h3>Amaliy misol va tahlil</h3><p>Misolni bajarishdan oldin vazifani aniqlang: nima tekshirilmoqda, qaysi natija kutiladi va qanday holatda ishni to‘xtatish kerak? Buyruq yoki sozlamani ishlatganda uning ta’sir doirasini tekshiring. Kuzatilgan faktni taxmindan ajrating va natijani yozib boring. Agar natija kutilganidan farq qilsa, bir vaqtning o‘zida ko‘p narsani o‘zgartirmang; bitta omilni tekshirib, qayta sinang.</p>\n<h3>Amaliy laboratoriya</h3><p>FTP/SSH/SMB/NFS xizmatlaridan biri uchun xavf, dalil va tavsiyadan iborat mini-audit yozing.</p><p><strong>Topshiriqni topshirish:</strong> ishlatilgan buyruq yoki qadamlar, kuzatilgan natija va undan chiqargan xulosangizni 3–5 jumlada yozing. Faqat izolyatsiyalangan laboratoriya yoki ruxsatli muhitdan foydalaning; real tizimdagi ma’lumotlarni o‘zgartirmang.</p>\n<h3>Ko‘p uchraydigan xatolar</h3><p>Natijani kontekstdan uzib talqin qilish, buyruqni nima qilishini tushunmasdan nusxalash va muvaffaqiyatsiz natijani qayd etmaslik eng ko‘p uchraydigan xatolardir. Xavfsizlikda bitta belgi yakuniy xulosa uchun yetarli bo‘lmasligi mumkin. Zarur bo‘lsa, qo‘shimcha dalil to‘plang va o‘zgarishdan oldin qaytarish rejasini tayyorlang.</p>\n<h3>Vaqt taqsimoti</h3><ul><li>Konseptlarni o‘rganish: 18 daqiqa</li><li>Misollarni tahlil qilish: 14 daqiqa</li><li>Amaliy laboratoriya: 18 daqiqa</li><li>Xulosa va savollar: 8 daqiqa</li></ul>\n<h3>Dars yakuni</h3><p>O‘zingizga quyidagi savolni bering: men bu tushunchani boshqa odamga sodda misol bilan tushuntira olamanmi? Agar yo‘q bo‘lsa, asosiy terminlarni qayta ko‘rib chiqing va laboratoriyani takrorlang.</p>",
+          "duration_minutes": 56,
+          "xp": 230,
+          "order": 4,
+          "questions": [
+            {
+              "question": "Xizmatlarni himoyalash va konfiguratsiya auditi mavzusida eng muhim tushuncha nima?",
+              "answer": "Xavfsiz konfiguratsiya faqat bitta parametr emas, balki qatlamli nazoratdir: xizmat faqat kerakli joyda tinglaydi, autentifikatsiya kuchli, ruxsatlar minimal, tizim yangilangan, jurnallar kuzatiladi.",
+              "xp": 10
+            },
+            {
+              "question": "default sozlamalar nima uchun kerak?",
+              "answer": "default sozlamalar — mavzuni tushunish va vazifani to‘g‘ri bajarishga yordam beradigan asosiy tushuncha.",
+              "xp": 10
+            },
+            {
+              "question": "Amaliy tekshiruvda nima uchun natijani qayd etish va ruxsat doirasida qolish muhim?",
+              "answer": "Natijani qayta tekshirish, dalilni saqlash va tizimga zarar yetkazmaslik uchun.",
+              "xp": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "ntfk1-modul-7",
+      "title": "Rejalashtirish, arxivlash va zaxiralash",
+      "short_description": "cron, arxiv formatlari, siqish, zaxira nusxa va tiklash.",
+      "category": "Operations",
+      "order": 7,
+      "lessons": [
+        {
+          "slug": "m7-dars-1",
+          "title": "Cron va rejalashtirilgan vazifalar",
+          "short_description": "Cron va rejalashtirilgan vazifalar: tushuncha, misol, xavfsiz amaliyot va bilimni tekshirish.",
+          "full_text_html": "<h3>Dars maqsadi</h3><p>Bu dars oxirida siz cron va rejalashtirilgan vazifalar bo‘yicha asosiy tushunchalarni izohlash, oddiy vaziyatda qo‘llash va natijani dalil bilan tushuntirishni bilasiz.</p>\n<h3>Asosiy mavzular</h3><p>crontab; vaqt maydonlari; muhit; log; minimal huquq.</p>\n<h3>Tushuntirish</h3><p>Cron vazifalarni belgilangan jadval bo‘yicha ishga tushiradi. Jadval maydonlari daqiqa, soat, oy kuni, oy va hafta kunini anglatadi. Cron muhitida PATH yoki ishchi katalog terminaldagidan farq qilishi mumkin, shuning uchun skriptlarda mutlaq yo‘llar va aniq log yozuvi foydali. Rejalashtirilgan vazifa kerakli minimal hisobda ishlashi, xatolarni qayd etishi va maxfiy ma’lumotlarni logga chiqarmasligi kerak.</p>\n<h3>Amaliy misol va tahlil</h3><p>Misolni bajarishdan oldin vazifani aniqlang: nima tekshirilmoqda, qaysi natija kutiladi va qanday holatda ishni to‘xtatish kerak? Buyruq yoki sozlamani ishlatganda uning ta’sir doirasini tekshiring. Kuzatilgan faktni taxmindan ajrating va natijani yozib boring. Agar natija kutilganidan farq qilsa, bir vaqtning o‘zida ko‘p narsani o‘zgartirmang; bitta omilni tekshirib, qayta sinang.</p>\n<h3>Amaliy laboratoriya</h3><p>Har kuni laboratoriya papkasidagi hisobot nomini yozib beradigan xavfsiz cron rejasini qog‘ozda tuzing va vaqt maydonlarini izohlang.</p><p><strong>Topshiriqni topshirish:</strong> ishlatilgan buyruq yoki qadamlar, kuzatilgan natija va undan chiqargan xulosangizni 3–5 jumlada yozing. Faqat izolyatsiyalangan laboratoriya yoki ruxsatli muhitdan foydalaning; real tizimdagi ma’lumotlarni o‘zgartirmang.</p>\n<h3>Ko‘p uchraydigan xatolar</h3><p>Natijani kontekstdan uzib talqin qilish, buyruqni nima qilishini tushunmasdan nusxalash va muvaffaqiyatsiz natijani qayd etmaslik eng ko‘p uchraydigan xatolardir. Xavfsizlikda bitta belgi yakuniy xulosa uchun yetarli bo‘lmasligi mumkin. Zarur bo‘lsa, qo‘shimcha dalil to‘plang va o‘zgarishdan oldin qaytarish rejasini tayyorlang.</p>\n<h3>Vaqt taqsimoti</h3><ul><li>Konseptlarni o‘rganish: 17 daqiqa</li><li>Misollarni tahlil qilish: 13 daqiqa</li><li>Amaliy laboratoriya: 17 daqiqa</li><li>Xulosa va savollar: 7 daqiqa</li></ul>\n<h3>Dars yakuni</h3><p>O‘zingizga quyidagi savolni bering: men bu tushunchani boshqa odamga sodda misol bilan tushuntira olamanmi? Agar yo‘q bo‘lsa, asosiy terminlarni qayta ko‘rib chiqing va laboratoriyani takrorlang.</p>",
+          "duration_minutes": 53,
+          "xp": 220,
+          "order": 1,
+          "questions": [
+            {
+              "question": "Cron va rejalashtirilgan vazifalar mavzusida eng muhim tushuncha nima?",
+              "answer": "Cron vazifalarni belgilangan jadval bo‘yicha ishga tushiradi.",
+              "xp": 10
+            },
+            {
+              "question": "crontab nima uchun kerak?",
+              "answer": "crontab — mavzuni tushunish va vazifani to‘g‘ri bajarishga yordam beradigan asosiy tushuncha.",
+              "xp": 10
+            },
+            {
+              "question": "Amaliy tekshiruvda nima uchun natijani qayd etish va ruxsat doirasida qolish muhim?",
+              "answer": "Natijani qayta tekshirish, dalilni saqlash va tizimga zarar yetkazmaslik uchun.",
+              "xp": 10
+            }
+          ]
+        },
+        {
+          "slug": "m7-dars-2",
+          "title": "Arxivlash va siqish",
+          "short_description": "Arxivlash va siqish: tushuncha, misol, xavfsiz amaliyot va bilimni tekshirish.",
+          "full_text_html": "<h3>Dars maqsadi</h3><p>Bu dars oxirida siz arxivlash va siqish bo‘yicha asosiy tushunchalarni izohlash, oddiy vaziyatda qo‘llash va natijani dalil bilan tushuntirishni bilasiz.</p>\n<h3>Asosiy mavzular</h3><p>tar; gzip/gunzip; zip; arxiv va siqish farqi.</p>\n<h3>Tushuntirish</h3><p>Arxivlash ko‘p faylni bitta paketga jamlaydi; siqish esa hajmni kamaytirishga harakat qiladi. `tar` ko‘pincha katalog tuzilishini saqlash uchun ishlatiladi, `gzip` esa odatda bitta oqimni siqadi; `tar.gz` ikkalasini birlashtiradi. Siqilgan faylni ochishdan oldin manbaga ishonch va arxiv tarkibini tekshirish kerak, chunki noma’lum arxivlar kutilmagan yo‘llar yoki juda katta hajmga ega bo‘lishi mumkin.</p>\n<h3>Amaliy misol va tahlil</h3><p>Misolni bajarishdan oldin vazifani aniqlang: nima tekshirilmoqda, qaysi natija kutiladi va qanday holatda ishni to‘xtatish kerak? Buyruq yoki sozlamani ishlatganda uning ta’sir doirasini tekshiring. Kuzatilgan faktni taxmindan ajrating va natijani yozib boring. Agar natija kutilganidan farq qilsa, bir vaqtning o‘zida ko‘p narsani o‘zgartirmang; bitta omilni tekshirib, qayta sinang.</p>\n<h3>Amaliy laboratoriya</h3><p>Laboratoriya fayllarini `tar.gz` arxiviga joylang, tarkibini ro‘yxatlang va alohida katalogga qayta tiklang.</p><p><strong>Topshiriqni topshirish:</strong> ishlatilgan buyruq yoki qadamlar, kuzatilgan natija va undan chiqargan xulosangizni 3–5 jumlada yozing. Faqat izolyatsiyalangan laboratoriya yoki ruxsatli muhitdan foydalaning; real tizimdagi ma’lumotlarni o‘zgartirmang.</p>\n<h3>Ko‘p uchraydigan xatolar</h3><p>Natijani kontekstdan uzib talqin qilish, buyruqni nima qilishini tushunmasdan nusxalash va muvaffaqiyatsiz natijani qayd etmaslik eng ko‘p uchraydigan xatolardir. Xavfsizlikda bitta belgi yakuniy xulosa uchun yetarli bo‘lmasligi mumkin. Zarur bo‘lsa, qo‘shimcha dalil to‘plang va o‘zgarishdan oldin qaytarish rejasini tayyorlang.</p>\n<h3>Vaqt taqsimoti</h3><ul><li>Konseptlarni o‘rganish: 18 daqiqa</li><li>Misollarni tahlil qilish: 13 daqiqa</li><li>Amaliy laboratoriya: 18 daqiqa</li><li>Xulosa va savollar: 7 daqiqa</li></ul>\n<h3>Dars yakuni</h3><p>O‘zingizga quyidagi savolni bering: men bu tushunchani boshqa odamga sodda misol bilan tushuntira olamanmi? Agar yo‘q bo‘lsa, asosiy terminlarni qayta ko‘rib chiqing va laboratoriyani takrorlang.</p>",
+          "duration_minutes": 55,
+          "xp": 230,
+          "order": 2,
+          "questions": [
+            {
+              "question": "Arxivlash va siqish mavzusida eng muhim tushuncha nima?",
+              "answer": "Arxivlash ko‘p faylni bitta paketga jamlaydi; siqish esa hajmni kamaytirishga harakat qiladi.",
+              "xp": 10
+            },
+            {
+              "question": "tar nima uchun kerak?",
+              "answer": "tar — mavzuni tushunish va vazifani to‘g‘ri bajarishga yordam beradigan asosiy tushuncha.",
+              "xp": 10
+            },
+            {
+              "question": "Amaliy tekshiruvda nima uchun natijani qayd etish va ruxsat doirasida qolish muhim?",
+              "answer": "Natijani qayta tekshirish, dalilni saqlash va tizimga zarar yetkazmaslik uchun.",
+              "xp": 10
+            }
+          ]
+        },
+        {
+          "slug": "m7-dars-3",
+          "title": "Zaxira nusxa va tiklash strategiyasi",
+          "short_description": "Zaxira nusxa va tiklash strategiyasi: tushuncha, misol, xavfsiz amaliyot va bilimni tekshirish.",
+          "full_text_html": "<h3>Dars maqsadi</h3><p>Bu dars oxirida siz zaxira nusxa va tiklash strategiyasi bo‘yicha asosiy tushunchalarni izohlash, oddiy vaziyatda qo‘llash va natijani dalil bilan tushuntirishni bilasiz.</p>\n<h3>Asosiy mavzular</h3><p>full/incremental; RPO/RTO; shifrlash; offsite; restore test.</p>\n<h3>Tushuntirish</h3><p>Zaxira nusxaning maqsadi faqat nusxa yaratish emas, kerakli vaqtda tiklashdir. RPO qancha ma’lumot yo‘qotilishi mumkinligini, RTO xizmatni qayta tiklash uchun ruxsat etilgan vaqtni ifodalaydi. Nusxalar asosiy tizimdan alohida joyda, zarur bo‘lsa shifrlangan holda saqlanadi. Tiklash sinovi fayllar ochilishini, ruxsatlar saqlanishini va jarayon hujjatlashtirilganini tekshiradi.</p>\n<h3>Amaliy misol va tahlil</h3><p>Misolni bajarishdan oldin vazifani aniqlang: nima tekshirilmoqda, qaysi natija kutiladi va qanday holatda ishni to‘xtatish kerak? Buyruq yoki sozlamani ishlatganda uning ta’sir doirasini tekshiring. Kuzatilgan faktni taxmindan ajrating va natijani yozib boring. Agar natija kutilganidan farq qilsa, bir vaqtning o‘zida ko‘p narsani o‘zgartirmang; bitta omilni tekshirib, qayta sinang.</p>\n<h3>Amaliy laboratoriya</h3><p>Kichik ta’lim platformasi uchun RPO/RTO maqsadi va zaxira jadvalini taklif qiling.</p><p><strong>Topshiriqni topshirish:</strong> ishlatilgan buyruq yoki qadamlar, kuzatilgan natija va undan chiqargan xulosangizni 3–5 jumlada yozing. Faqat izolyatsiyalangan laboratoriya yoki ruxsatli muhitdan foydalaning; real tizimdagi ma’lumotlarni o‘zgartirmang.</p>\n<h3>Ko‘p uchraydigan xatolar</h3><p>Natijani kontekstdan uzib talqin qilish, buyruqni nima qilishini tushunmasdan nusxalash va muvaffaqiyatsiz natijani qayd etmaslik eng ko‘p uchraydigan xatolardir. Xavfsizlikda bitta belgi yakuniy xulosa uchun yetarli bo‘lmasligi mumkin. Zarur bo‘lsa, qo‘shimcha dalil to‘plang va o‘zgarishdan oldin qaytarish rejasini tayyorlang.</p>\n<h3>Vaqt taqsimoti</h3><ul><li>Konseptlarni o‘rganish: 19 daqiqa</li><li>Misollarni tahlil qilish: 14 daqiqa</li><li>Amaliy laboratoriya: 19 daqiqa</li><li>Xulosa va savollar: 8 daqiqa</li></ul>\n<h3>Dars yakuni</h3><p>O‘zingizga quyidagi savolni bering: men bu tushunchani boshqa odamga sodda misol bilan tushuntira olamanmi? Agar yo‘q bo‘lsa, asosiy terminlarni qayta ko‘rib chiqing va laboratoriyani takrorlang.</p>",
+          "duration_minutes": 57,
+          "xp": 240,
+          "order": 3,
+          "questions": [
+            {
+              "question": "Zaxira nusxa va tiklash strategiyasi mavzusida eng muhim tushuncha nima?",
+              "answer": "Zaxira nusxaning maqsadi faqat nusxa yaratish emas, kerakli vaqtda tiklashdir.",
+              "xp": 10
+            },
+            {
+              "question": "full/incremental nima uchun kerak?",
+              "answer": "full/incremental — mavzuni tushunish va vazifani to‘g‘ri bajarishga yordam beradigan asosiy tushuncha.",
+              "xp": 10
+            },
+            {
+              "question": "Amaliy tekshiruvda nima uchun natijani qayd etish va ruxsat doirasida qolish muhim?",
+              "answer": "Natijani qayta tekshirish, dalilni saqlash va tizimga zarar yetkazmaslik uchun.",
+              "xp": 10
+            }
+          ]
+        },
+        {
+          "slug": "m7-dars-4",
+          "title": "Avtomatlashtirishni tekshirish va audit izi",
+          "short_description": "Avtomatlashtirishni tekshirish va audit izi: tushuncha, misol, xavfsiz amaliyot va bilimni tekshirish.",
+          "full_text_html": "<h3>Dars maqsadi</h3><p>Bu dars oxirida siz avtomatlashtirishni tekshirish va audit izi bo‘yicha asosiy tushunchalarni izohlash, oddiy vaziyatda qo‘llash va natijani dalil bilan tushuntirishni bilasiz.</p>\n<h3>Asosiy mavzular</h3><p>exit code; stdout/stderr; idempotence; log rotation.</p>\n<h3>Tushuntirish</h3><p>Avtomatlashtirish takroran ishlaganda kutilmagan zarar yetkazmasligi kerak. Idempotent vazifa qayta bajarilganda ham yakuniy holatni buzmaydi. Skriptlar chiqish kodini tekshirishi, xatolikni qayd etishi va maxfiy qiymatlarni logga yozmasligi lozim. Loglar haddan tashqari o‘smasligi uchun aylantirish va saqlash muddati belgilanadi. Cron vazifasi ishlamay qolsa, oxirgi muvaffaqiyatli bajarilish va ruxsatlar tekshiriladi.</p>\n<h3>Amaliy misol va tahlil</h3><p>Misolni bajarishdan oldin vazifani aniqlang: nima tekshirilmoqda, qaysi natija kutiladi va qanday holatda ishni to‘xtatish kerak? Buyruq yoki sozlamani ishlatganda uning ta’sir doirasini tekshiring. Kuzatilgan faktni taxmindan ajrating va natijani yozib boring. Agar natija kutilganidan farq qilsa, bir vaqtning o‘zida ko‘p narsani o‘zgartirmang; bitta omilni tekshirib, qayta sinang.</p>\n<h3>Amaliy laboratoriya</h3><p>Bitta avtomatik vazifa uchun muvaffaqiyat mezoni, xato holati, log joyi va takror bajarish xavfini yozing.</p><p><strong>Topshiriqni topshirish:</strong> ishlatilgan buyruq yoki qadamlar, kuzatilgan natija va undan chiqargan xulosangizni 3–5 jumlada yozing. Faqat izolyatsiyalangan laboratoriya yoki ruxsatli muhitdan foydalaning; real tizimdagi ma’lumotlarni o‘zgartirmang.</p>\n<h3>Ko‘p uchraydigan xatolar</h3><p>Natijani kontekstdan uzib talqin qilish, buyruqni nima qilishini tushunmasdan nusxalash va muvaffaqiyatsiz natijani qayd etmaslik eng ko‘p uchraydigan xatolardir. Xavfsizlikda bitta belgi yakuniy xulosa uchun yetarli bo‘lmasligi mumkin. Zarur bo‘lsa, qo‘shimcha dalil to‘plang va o‘zgarishdan oldin qaytarish rejasini tayyorlang.</p>\n<h3>Vaqt taqsimoti</h3><ul><li>Konseptlarni o‘rganish: 19 daqiqa</li><li>Misollarni tahlil qilish: 14 daqiqa</li><li>Amaliy laboratoriya: 19 daqiqa</li><li>Xulosa va savollar: 8 daqiqa</li></ul>\n<h3>Dars yakuni</h3><p>O‘zingizga quyidagi savolni bering: men bu tushunchani boshqa odamga sodda misol bilan tushuntira olamanmi? Agar yo‘q bo‘lsa, asosiy terminlarni qayta ko‘rib chiqing va laboratoriyani takrorlang.</p>",
+          "duration_minutes": 59,
+          "xp": 250,
+          "order": 4,
+          "questions": [
+            {
+              "question": "Avtomatlashtirishni tekshirish va audit izi mavzusida eng muhim tushuncha nima?",
+              "answer": "Avtomatlashtirish takroran ishlaganda kutilmagan zarar yetkazmasligi kerak.",
+              "xp": 10
+            },
+            {
+              "question": "exit code nima uchun kerak?",
+              "answer": "exit code — mavzuni tushunish va vazifani to‘g‘ri bajarishga yordam beradigan asosiy tushuncha.",
+              "xp": 10
+            },
+            {
+              "question": "Amaliy tekshiruvda nima uchun natijani qayd etish va ruxsat doirasida qolish muhim?",
+              "answer": "Natijani qayta tekshirish, dalilni saqlash va tizimga zarar yetkazmaslik uchun.",
+              "xp": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "ntfk1-modul-8",
+      "title": "Linux xavfsizligi va privilege escalation asoslari",
+      "short_description": "Zaif konfiguratsiyalarni aniqlash, dalil yig‘ish va tuzatish.",
+      "category": "Defensive Security",
+      "order": 8,
+      "lessons": [
+        {
+          "slug": "m8-dars-1",
+          "title": "Privilege escalation nima va qanday oldi olinadi",
+          "short_description": "Privilege escalation nima va qanday oldi olinadi: tushuncha, misol, xavfsiz amaliyot va bilimni tekshirish.",
+          "full_text_html": "<h3>Dars maqsadi</h3><p>Bu dars oxirida siz privilege escalation nima va qanday oldi olinadi bo‘yicha asosiy tushunchalarni izohlash, oddiy vaziyatda qo‘llash va natijani dalil bilan tushuntirishni bilasiz.</p>\n<h3>Asosiy mavzular</h3><p>vertikal/gorizontal vakolat; attack surface; patch; least privilege.</p>\n<h3>Tushuntirish</h3><p>Privilege escalation foydalanuvchining dastlabki vakolatidan kengroq huquqqa ega bo‘lish holatidir. Vertikal holatda oddiy foydalanuvchi administrator darajasiga, gorizontal holatda esa boshqa foydalanuvchi resurslariga kira olishi mumkin. Sabablar orasida noto‘g‘ri ruxsatlar, eskirgan dasturlar, ortiqcha sudo huquqlari va noto‘g‘ri xizmat sozlamalari bor. Himoyada yangilash, minimal huquq, konfiguratsiya auditi va monitoring birgalikda ishlaydi.</p>\n<h3>Amaliy misol va tahlil</h3><p>Misolni bajarishdan oldin vazifani aniqlang: nima tekshirilmoqda, qaysi natija kutiladi va qanday holatda ishni to‘xtatish kerak? Buyruq yoki sozlamani ishlatganda uning ta’sir doirasini tekshiring. Kuzatilgan faktni taxmindan ajrating va natijani yozib boring. Agar natija kutilganidan farq qilsa, bir vaqtning o‘zida ko‘p narsani o‘zgartirmang; bitta omilni tekshirib, qayta sinang.</p>\n<h3>Amaliy laboratoriya</h3><p>Uchta ehtimoliy konfiguratsiya xatosini sanang va har biri uchun himoya chorasini yozing.</p><p><strong>Topshiriqni topshirish:</strong> ishlatilgan buyruq yoki qadamlar, kuzatilgan natija va undan chiqargan xulosangizni 3–5 jumlada yozing. Faqat izolyatsiyalangan laboratoriya yoki ruxsatli muhitdan foydalaning; real tizimdagi ma’lumotlarni o‘zgartirmang.</p>\n<h3>Ko‘p uchraydigan xatolar</h3><p>Natijani kontekstdan uzib talqin qilish, buyruqni nima qilishini tushunmasdan nusxalash va muvaffaqiyatsiz natijani qayd etmaslik eng ko‘p uchraydigan xatolardir. Xavfsizlikda bitta belgi yakuniy xulosa uchun yetarli bo‘lmasligi mumkin. Zarur bo‘lsa, qo‘shimcha dalil to‘plang va o‘zgarishdan oldin qaytarish rejasini tayyorlang.</p>\n<h3>Vaqt taqsimoti</h3><ul><li>Konseptlarni o‘rganish: 18 daqiqa</li><li>Misollarni tahlil qilish: 14 daqiqa</li><li>Amaliy laboratoriya: 18 daqiqa</li><li>Xulosa va savollar: 8 daqiqa</li></ul>\n<h3>Dars yakuni</h3><p>O‘zingizga quyidagi savolni bering: men bu tushunchani boshqa odamga sodda misol bilan tushuntira olamanmi? Agar yo‘q bo‘lsa, asosiy terminlarni qayta ko‘rib chiqing va laboratoriyani takrorlang.</p>",
+          "duration_minutes": 56,
+          "xp": 240,
+          "order": 1,
+          "questions": [
+            {
+              "question": "Privilege escalation nima va qanday oldi olinadi mavzusida eng muhim tushuncha nima?",
+              "answer": "Privilege escalation foydalanuvchining dastlabki vakolatidan kengroq huquqqa ega bo‘lish holatidir.",
+              "xp": 10
+            },
+            {
+              "question": "vertikal/gorizontal vakolat nima uchun kerak?",
+              "answer": "vertikal/gorizontal vakolat — mavzuni tushunish va vazifani to‘g‘ri bajarishga yordam beradigan asosiy tushuncha.",
+              "xp": 10
+            },
+            {
+              "question": "Amaliy tekshiruvda nima uchun natijani qayd etish va ruxsat doirasida qolish muhim?",
+              "answer": "Natijani qayta tekshirish, dalilni saqlash va tizimga zarar yetkazmaslik uchun.",
+              "xp": 10
+            }
+          ]
+        },
+        {
+          "slug": "m8-dars-2",
+          "title": "Xavfsiz audit: ruxsatlar, SUID va sudo",
+          "short_description": "Xavfsiz audit: ruxsatlar, SUID va sudo: tushuncha, misol, xavfsiz amaliyot va bilimni tekshirish.",
+          "full_text_html": "<h3>Dars maqsadi</h3><p>Bu dars oxirida siz xavfsiz audit: ruxsatlar, suid va sudo bo‘yicha asosiy tushunchalarni izohlash, oddiy vaziyatda qo‘llash va natijani dalil bilan tushuntirishni bilasiz.</p>\n<h3>Asosiy mavzular</h3><p>read-only tekshiruv; ruxsat konteksti; dalil; false positive.</p>\n<h3>Tushuntirish</h3><p>Auditning maqsadi ekspluatatsiya qilish emas, xavfli konfiguratsiyani ishonchli aniqlash va tuzatishdir. SUID fayl yoki sudo qoidasi o‘z-o‘zidan zaiflikni anglatmaydi: egasi, paketi, vazifasi va ruxsat konteksti tekshiriladi. Natijada topilma, dalil, ta’sir, ehtimollik va tuzatish yo‘li qayd etiladi. Tekshiruvni avval o‘qish rejimidagi buyruqlar bilan boshlash va o‘zgarishlarni alohida tasdiqlash xavfni kamaytiradi.</p>\n<h3>Amaliy misol va tahlil</h3><p>Misolni bajarishdan oldin vazifani aniqlang: nima tekshirilmoqda, qaysi natija kutiladi va qanday holatda ishni to‘xtatish kerak? Buyruq yoki sozlamani ishlatganda uning ta’sir doirasini tekshiring. Kuzatilgan faktni taxmindan ajrating va natijani yozib boring. Agar natija kutilganidan farq qilsa, bir vaqtning o‘zida ko‘p narsani o‘zgartirmang; bitta omilni tekshirib, qayta sinang.</p>\n<h3>Amaliy laboratoriya</h3><p>Laboratoriya auditi uchun topilma shablonini to‘ldiring: aktiv, kuzatuv, xavf, dalil, tavsiya.</p><p><strong>Topshiriqni topshirish:</strong> ishlatilgan buyruq yoki qadamlar, kuzatilgan natija va undan chiqargan xulosangizni 3–5 jumlada yozing. Faqat izolyatsiyalangan laboratoriya yoki ruxsatli muhitdan foydalaning; real tizimdagi ma’lumotlarni o‘zgartirmang.</p>\n<h3>Ko‘p uchraydigan xatolar</h3><p>Natijani kontekstdan uzib talqin qilish, buyruqni nima qilishini tushunmasdan nusxalash va muvaffaqiyatsiz natijani qayd etmaslik eng ko‘p uchraydigan xatolardir. Xavfsizlikda bitta belgi yakuniy xulosa uchun yetarli bo‘lmasligi mumkin. Zarur bo‘lsa, qo‘shimcha dalil to‘plang va o‘zgarishdan oldin qaytarish rejasini tayyorlang.</p>\n<h3>Vaqt taqsimoti</h3><ul><li>Konseptlarni o‘rganish: 19 daqiqa</li><li>Misollarni tahlil qilish: 14 daqiqa</li><li>Amaliy laboratoriya: 19 daqiqa</li><li>Xulosa va savollar: 8 daqiqa</li></ul>\n<h3>Dars yakuni</h3><p>O‘zingizga quyidagi savolni bering: men bu tushunchani boshqa odamga sodda misol bilan tushuntira olamanmi? Agar yo‘q bo‘lsa, asosiy terminlarni qayta ko‘rib chiqing va laboratoriyani takrorlang.</p>",
+          "duration_minutes": 58,
+          "xp": 250,
+          "order": 2,
+          "questions": [
+            {
+              "question": "Xavfsiz audit: ruxsatlar, SUID va sudo mavzusida eng muhim tushuncha nima?",
+              "answer": "Auditning maqsadi ekspluatatsiya qilish emas, xavfli konfiguratsiyani ishonchli aniqlash va tuzatishdir.",
+              "xp": 10
+            },
+            {
+              "question": "read-only tekshiruv nima uchun kerak?",
+              "answer": "read-only tekshiruv — mavzuni tushunish va vazifani to‘g‘ri bajarishga yordam beradigan asosiy tushuncha.",
+              "xp": 10
+            },
+            {
+              "question": "Amaliy tekshiruvda nima uchun natijani qayd etish va ruxsat doirasida qolish muhim?",
+              "answer": "Natijani qayta tekshirish, dalilni saqlash va tizimga zarar yetkazmaslik uchun.",
+              "xp": 10
+            }
+          ]
+        },
+        {
+          "slug": "m8-dars-3",
+          "title": "Cron, xizmatlar va yozish mumkin bo‘lgan yo‘llar auditi",
+          "short_description": "Cron, xizmatlar va yozish mumkin bo‘lgan yo‘llar auditi: tushuncha, misol, xavfsiz amaliyot va bilimni tekshirish.",
+          "full_text_html": "<h3>Dars maqsadi</h3><p>Bu dars oxirida siz cron, xizmatlar va yozish mumkin bo‘lgan yo‘llar auditi bo‘yicha asosiy tushunchalarni izohlash, oddiy vaziyatda qo‘llash va natijani dalil bilan tushuntirishni bilasiz.</p>\n<h3>Asosiy mavzular</h3><p>vazifa egasi; skript ruxsati; PATH; service config; ownership.</p>\n<h3>Tushuntirish</h3><p>Rejalashtirilgan vazifa yoki xizmat yuqori huquqda ishlasa, unga bog‘langan skript va konfiguratsiya ham himoyalangan bo‘lishi kerak. Oddiy foydalanuvchi o‘zgartira oladigan skriptni imtiyozli jarayon ishga tushirishi xavfli. PATHga bog‘liq buyruqlar kutilmagan bajarilishga sabab bo‘lishi mumkin; shu sababli mutlaq yo‘llar va egalik/ruxsatlarni tekshirish foydali. Auditda faqat topilmani yozib qolmay, biznes vazifasini buzmaydigan tuzatish ham taklif qilinadi.</p>\n<h3>Amaliy misol va tahlil</h3><p>Misolni bajarishdan oldin vazifani aniqlang: nima tekshirilmoqda, qaysi natija kutiladi va qanday holatda ishni to‘xtatish kerak? Buyruq yoki sozlamani ishlatganda uning ta’sir doirasini tekshiring. Kuzatilgan faktni taxmindan ajrating va natijani yozib boring. Agar natija kutilganidan farq qilsa, bir vaqtning o‘zida ko‘p narsani o‘zgartirmang; bitta omilni tekshirib, qayta sinang.</p>\n<h3>Amaliy laboratoriya</h3><p>Laboratoriyada sun’iy cron yozuvini tekshirib, skript egasi, yozish ruxsati va ishga tushuvchi hisobni aniqlang.</p><p><strong>Topshiriqni topshirish:</strong> ishlatilgan buyruq yoki qadamlar, kuzatilgan natija va undan chiqargan xulosangizni 3–5 jumlada yozing. Faqat izolyatsiyalangan laboratoriya yoki ruxsatli muhitdan foydalaning; real tizimdagi ma’lumotlarni o‘zgartirmang.</p>\n<h3>Ko‘p uchraydigan xatolar</h3><p>Natijani kontekstdan uzib talqin qilish, buyruqni nima qilishini tushunmasdan nusxalash va muvaffaqiyatsiz natijani qayd etmaslik eng ko‘p uchraydigan xatolardir. Xavfsizlikda bitta belgi yakuniy xulosa uchun yetarli bo‘lmasligi mumkin. Zarur bo‘lsa, qo‘shimcha dalil to‘plang va o‘zgarishdan oldin qaytarish rejasini tayyorlang.</p>\n<h3>Vaqt taqsimoti</h3><ul><li>Konseptlarni o‘rganish: 20 daqiqa</li><li>Misollarni tahlil qilish: 15 daqiqa</li><li>Amaliy laboratoriya: 20 daqiqa</li><li>Xulosa va savollar: 8 daqiqa</li></ul>\n<h3>Dars yakuni</h3><p>O‘zingizga quyidagi savolni bering: men bu tushunchani boshqa odamga sodda misol bilan tushuntira olamanmi? Agar yo‘q bo‘lsa, asosiy terminlarni qayta ko‘rib chiqing va laboratoriyani takrorlang.</p>",
+          "duration_minutes": 60,
+          "xp": 260,
+          "order": 3,
+          "questions": [
+            {
+              "question": "Cron, xizmatlar va yozish mumkin bo‘lgan yo‘llar auditi mavzusida eng muhim tushuncha nima?",
+              "answer": "Rejalashtirilgan vazifa yoki xizmat yuqori huquqda ishlasa, unga bog‘langan skript va konfiguratsiya ham himoyalangan bo‘lishi kerak.",
+              "xp": 10
+            },
+            {
+              "question": "vazifa egasi nima uchun kerak?",
+              "answer": "vazifa egasi — mavzuni tushunish va vazifani to‘g‘ri bajarishga yordam beradigan asosiy tushuncha.",
+              "xp": 10
+            },
+            {
+              "question": "Amaliy tekshiruvda nima uchun natijani qayd etish va ruxsat doirasida qolish muhim?",
+              "answer": "Natijani qayta tekshirish, dalilni saqlash va tizimga zarar yetkazmaslik uchun.",
+              "xp": 10
+            }
+          ]
+        },
+        {
+          "slug": "m8-dars-4",
+          "title": "Yakuniy amaliy loyiha: Linux serverini himoyalash",
+          "short_description": "Yakuniy amaliy loyiha: Linux serverini himoyalash: tushuncha, misol, xavfsiz amaliyot va bilimni tekshirish.",
+          "full_text_html": "<h3>Dars maqsadi</h3><p>Bu dars oxirida siz yakuniy amaliy loyiha: linux serverini himoyalash bo‘yicha asosiy tushunchalarni izohlash, oddiy vaziyatda qo‘llash va natijani dalil bilan tushuntirishni bilasiz.</p>\n<h3>Asosiy mavzular</h3><p>inventarizatsiya; risk ranking; hardening; test; hisobot.</p>\n<h3>Tushuntirish</h3><p>Yakuniy loyihada avval aktivlar ro‘yxati tuziladi: foydalanuvchilar, xizmatlar, portlar, paketlar va rejalashtirilgan vazifalar. Keyin topilmalar ta’sir va ehtimollikka ko‘ra ustuvorlashtiriladi. Tuzatishlar minimal ruxsat, keraksiz xizmatlarni o‘chirish, yangilash, kuchli autentifikatsiya va zaxira tekshiruvini qamrab olishi mumkin. Har bir o‘zgarishdan keyin xizmatning zarur funksiyasi qayta sinovdan o‘tkaziladi. Yakuniy hisobotda faktlar taxminlardan ajratilib, qayta tekshirish bosqichi ko‘rsatiladi.</p>\n<h3>Amaliy misol va tahlil</h3><p>Misolni bajarishdan oldin vazifani aniqlang: nima tekshirilmoqda, qaysi natija kutiladi va qanday holatda ishni to‘xtatish kerak? Buyruq yoki sozlamani ishlatganda uning ta’sir doirasini tekshiring. Kuzatilgan faktni taxmindan ajrating va natijani yozib boring. Agar natija kutilganidan farq qilsa, bir vaqtning o‘zida ko‘p narsani o‘zgartirmang; bitta omilni tekshirib, qayta sinang.</p>\n<h3>Amaliy laboratoriya</h3><p>O‘zingizning izolyatsiyalangan laboratoriya VMingiz bo‘yicha 5 topilma, 5 tavsiya va qayta tekshirish rejasini taqdim eting.</p><p><strong>Topshiriqni topshirish:</strong> ishlatilgan buyruq yoki qadamlar, kuzatilgan natija va undan chiqargan xulosangizni 3–5 jumlada yozing. Faqat izolyatsiyalangan laboratoriya yoki ruxsatli muhitdan foydalaning; real tizimdagi ma’lumotlarni o‘zgartirmang.</p>\n<h3>Ko‘p uchraydigan xatolar</h3><p>Natijani kontekstdan uzib talqin qilish, buyruqni nima qilishini tushunmasdan nusxalash va muvaffaqiyatsiz natijani qayd etmaslik eng ko‘p uchraydigan xatolardir. Xavfsizlikda bitta belgi yakuniy xulosa uchun yetarli bo‘lmasligi mumkin. Zarur bo‘lsa, qo‘shimcha dalil to‘plang va o‘zgarishdan oldin qaytarish rejasini tayyorlang.</p>\n<h3>Vaqt taqsimoti</h3><ul><li>Konseptlarni o‘rganish: 20 daqiqa</li><li>Misollarni tahlil qilish: 15 daqiqa</li><li>Amaliy laboratoriya: 20 daqiqa</li><li>Xulosa va savollar: 8 daqiqa</li></ul>\n<h3>Dars yakuni</h3><p>O‘zingizga quyidagi savolni bering: men bu tushunchani boshqa odamga sodda misol bilan tushuntira olamanmi? Agar yo‘q bo‘lsa, asosiy terminlarni qayta ko‘rib chiqing va laboratoriyani takrorlang.</p>",
+          "duration_minutes": 62,
+          "xp": 270,
+          "order": 4,
+          "questions": [
+            {
+              "question": "Yakuniy amaliy loyiha: Linux serverini himoyalash mavzusida eng muhim tushuncha nima?",
+              "answer": "Yakuniy loyihada avval aktivlar ro‘yxati tuziladi: foydalanuvchilar, xizmatlar, portlar, paketlar va rejalashtirilgan vazifalar.",
+              "xp": 10
+            },
+            {
+              "question": "inventarizatsiya nima uchun kerak?",
+              "answer": "inventarizatsiya — mavzuni tushunish va vazifani to‘g‘ri bajarishga yordam beradigan asosiy tushuncha.",
+              "xp": 10
+            },
+            {
+              "question": "Amaliy tekshiruvda nima uchun natijani qayd etish va ruxsat doirasida qolish muhim?",
+              "answer": "Natijani qayta tekshirish, dalilni saqlash va tizimga zarar yetkazmaslik uchun.",
+              "xp": 10
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

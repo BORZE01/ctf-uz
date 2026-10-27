@@ -1,0 +1,3111 @@
+{
+  "date": "2026-10-27T18:04:00.717Z",
+  "target": "http://localhost:3000",
+  "dir": "/home/jasur7/Desktop/ctf-uz",
+  "counts": {
+    "CRITICAL": 49,
+    "HIGH": 22,
+    "MEDIUM": 202,
+    "LOW": 34,
+    "INFO": 37
+  },
+  "score": 0,
+  "findings": [
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "auto_healer.js:2",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "clear_progress.js:3",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "clear_progress_all.js:3",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "clear_progress_path3.js:3",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "clone_and_parse_perfect.js:28",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "create_ntfk1.js:28",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "final_upsert_path1.js:28",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "fix_20_lessons.js:28",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "fix_20_lessons_final.js:28",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "fix_all_paths_questions.js:3",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "fix_all_questions.js:3",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "fix_final_schema.js:2",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "fix_lesson_count.js:2",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "fix_lesson_order.js:6",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "fix_lesson_questions.js:3",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "fix_lesson_questions_v2.js:3",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "fix_modules_link.js:2",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "fix_path_schema.js:2",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "fix_relations.js:2",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "fix_remaining_questions.js:3",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "force_clean.js:3",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "force_clear_progress.js:3",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "force_fix_all_questions.js:3",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "force_frontend_sync.js:2",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "hard_reset_progress.js:3",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "nuke_progress.js:3",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "overwrite_seeder.js:28",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "overwrite_seeder_fixed.js:28",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "reset_progress.js:2",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "seed_courses.js:5",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "seed_detailed_path1.js:4",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "seed_detailed_path1_fixed.js:3",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "seed_ntfk1_1.js:219",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "seed_ntfk1_2_public.js:319",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "seed_path1_final.js:3",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "seed_path2_linux.js:4",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "seed_path3_windows.js:3",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "seed_paths_2_3_detailed.js:3",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "seed_paths_4_to_7.js:3",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "seed_perfect_path1.js:28",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "seed_real_courses.js:4",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "super_fix.js:2",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "ultimate_clone.js:28",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "unlock_jasur7_only.js:7",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "wipe_all_path1.js:2",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "SECRET",
+      "title": "MongoDB URI (login:parol bilan) kodga yozilgan: mong…7@",
+      "where": "wipe_cache_progress.js:2",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "CMD-INJ",
+      "title": "Buyruq bajarishda foydalanuvchi kiritgan qiymat bo'lishi mumkin",
+      "where": "patch_github.js:313",
+      "detail": "`execSync('node --check ' + J`",
+      "fix": "execFile + argument massivi ishlating, kirishni oq ro'yxatdan tekshiring.",
+      "ref": "CWE-78"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "CMD-INJ",
+      "title": "Buyruq bajarishda foydalanuvchi kiritgan qiymat bo'lishi mumkin",
+      "where": "patch_github.js:314",
+      "detail": "`execSync('node --check ' + J`",
+      "fix": "execFile + argument massivi ishlating, kirishni oq ro'yxatdan tekshiring.",
+      "ref": "CWE-78"
+    },
+    {
+      "sev": "CRITICAL",
+      "id": "NPM-AUDIT",
+      "title": "npm audit: 2 ta kritik zaif paket",
+      "where": "package.json",
+      "detail": "{\"info\":0,\"low\":0,\"moderate\":7,\"high\":2,\"critical\":2,\"total\":11}",
+      "fix": "npm audit fix",
+      "ref": "CWE-1395"
+    },
+    {
+      "sev": "HIGH",
+      "id": "ENV-BAK",
+      "title": "Zaxira .env fayli mavjud: .env.bak",
+      "where": ".env.bak",
+      "detail": "Ichida haqiqiy tokenlar bo'ladi, tasodifan commit/deploy bo'lib ketishi mumkin.",
+      "fix": "O'chiring yoki papkadan tashqariga chiqaring.",
+      "ref": "CWE-538"
+    },
+    {
+      "sev": "HIGH",
+      "id": "PUB-BAK",
+      "title": "public/ ichida zaxira/dump fayl: public/login.html.bak-1792956914857",
+      "where": "public/login.html.bak-1792956914857",
+      "detail": "public/ hamma uchun ochiq.",
+      "fix": "public/ dan olib tashlang.",
+      "ref": "CWE-530"
+    },
+    {
+      "sev": "HIGH",
+      "id": "PUB-BAK",
+      "title": "public/ ichida zaxira/dump fayl: public/login.html.bak-1792957449185",
+      "where": "public/login.html.bak-1792957449185",
+      "detail": "public/ hamma uchun ochiq.",
+      "fix": "public/ dan olib tashlang.",
+      "ref": "CWE-530"
+    },
+    {
+      "sev": "HIGH",
+      "id": "MASS-ASSIGN",
+      "title": "Mass Assignment: req.body butunlay modelga berilgan (role: \"admin\" yuborib ko'tarilish mumkin)",
+      "where": "routes/admin.js:355",
+      "detail": "`findByIdAndUpdate(req.params.id, req.body`",
+      "fix": "Faqat ruxsat etilgan maydonlarni oq ro'yxat bilan oling.",
+      "ref": "CWE-915"
+    },
+    {
+      "sev": "HIGH",
+      "id": "MASS-ASSIGN",
+      "title": "Mass Assignment: req.body butunlay modelga berilgan (role: \"admin\" yuborib ko'tarilish mumkin)",
+      "where": "routes/admin.js:446",
+      "detail": "`findByIdAndUpdate(req.params.id, req.body`",
+      "fix": "Faqat ruxsat etilgan maydonlarni oq ro'yxat bilan oling.",
+      "ref": "CWE-915"
+    },
+    {
+      "sev": "HIGH",
+      "id": "MASS-ASSIGN",
+      "title": "Mass Assignment: req.body butunlay modelga berilgan (role: \"admin\" yuborib ko'tarilish mumkin)",
+      "where": "routes/admin.js:653",
+      "detail": "`Object.assign(settings, req.body`",
+      "fix": "Faqat ruxsat etilgan maydonlarni oq ro'yxat bilan oling.",
+      "ref": "CWE-915"
+    },
+    {
+      "sev": "HIGH",
+      "id": "MASS-ASSIGN",
+      "title": "Mass Assignment: req.body butunlay modelga berilgan (role: \"admin\" yuborib ko'tarilish mumkin)",
+      "where": "routes/admin.js:805",
+      "detail": "`.create(req.body)`",
+      "fix": "Faqat ruxsat etilgan maydonlarni oq ro'yxat bilan oling.",
+      "ref": "CWE-915"
+    },
+    {
+      "sev": "HIGH",
+      "id": "MASS-ASSIGN",
+      "title": "Mass Assignment: req.body butunlay modelga berilgan (role: \"admin\" yuborib ko'tarilish mumkin)",
+      "where": "routes/admin.js:819",
+      "detail": "`.create(req.body)`",
+      "fix": "Faqat ruxsat etilgan maydonlarni oq ro'yxat bilan oling.",
+      "ref": "CWE-915"
+    },
+    {
+      "sev": "HIGH",
+      "id": "NOSQL-BODY",
+      "title": "So'rov ma'lumoti to'g'ridan-to'g'ri Mongo so'roviga berilgan (NoSQL injection)",
+      "where": "routes/learn.js:570",
+      "detail": "`.updateOne({ slug: req.body.pathSlug }`",
+      "fix": "String(x) ga aylantiring yoki express-mongo-sanitize / Joi bilan tekshiring ({\"$ne\":null} hujumi).",
+      "ref": "CWE-943"
+    },
+    {
+      "sev": "HIGH",
+      "id": "DOUBLE-HASH",
+      "title": "Parol ikki marta xeshlanishi mumkin (auth.js va User.js pre-save)",
+      "where": "routes/auth.js + models/User.js",
+      "detail": "Foydalanuvchi keyin kira olmaydi.",
+      "fix": "Xeshlashni faqat bitta joyda qoldiring yoki $2 prefiksini tekshiring.",
+      "ref": "CWE-327"
+    },
+    {
+      "sev": "HIGH",
+      "id": "WEAK-OTP",
+      "title": "Tasdiqlash kodi Math.random bilan yaratilgan bo'lishi mumkin",
+      "where": "routes/auth.js",
+      "detail": "Bashorat qilinadi.",
+      "fix": "crypto.randomInt(100000, 1000000)",
+      "ref": "CWE-338"
+    },
+    {
+      "sev": "HIGH",
+      "id": "NO-AUTH-MW",
+      "title": "GET /users: oldida auth/role middleware ko'rinmayapti",
+      "where": "routes/admin.js:133",
+      "detail": "Handler to'g'ridan-to'g'ri, middleware yo'q. Ichida tekshiruv bo'lsa e'tiborsiz qoldiring.",
+      "fix": "requireAuth / requireAdmin middleware qo'shing (BOLA/BFLA).",
+      "ref": "CWE-862"
+    },
+    {
+      "sev": "HIGH",
+      "id": "NO-AUTH-MW",
+      "title": "GET /users/:id: oldida auth/role middleware ko'rinmayapti",
+      "where": "routes/admin.js:189",
+      "detail": "Handler to'g'ridan-to'g'ri, middleware yo'q. Ichida tekshiruv bo'lsa e'tiborsiz qoldiring.",
+      "fix": "requireAuth / requireAdmin middleware qo'shing (BOLA/BFLA).",
+      "ref": "CWE-862"
+    },
+    {
+      "sev": "HIGH",
+      "id": "NO-AUTH-MW",
+      "title": "PUT /users/:id: oldida auth/role middleware ko'rinmayapti",
+      "where": "routes/admin.js:199",
+      "detail": "Handler to'g'ridan-to'g'ri, middleware yo'q. Ichida tekshiruv bo'lsa e'tiborsiz qoldiring.",
+      "fix": "requireAuth / requireAdmin middleware qo'shing (BOLA/BFLA).",
+      "ref": "CWE-862"
+    },
+    {
+      "sev": "HIGH",
+      "id": "NO-AUTH-MW",
+      "title": "DELETE /users/:id: oldida auth/role middleware ko'rinmayapti",
+      "where": "routes/admin.js:229",
+      "detail": "Handler to'g'ridan-to'g'ri, middleware yo'q. Ichida tekshiruv bo'lsa e'tiborsiz qoldiring.",
+      "fix": "requireAuth / requireAdmin middleware qo'shing (BOLA/BFLA).",
+      "ref": "CWE-862"
+    },
+    {
+      "sev": "HIGH",
+      "id": "NO-AUTH-MW",
+      "title": "POST /users/:id/ban: oldida auth/role middleware ko'rinmayapti",
+      "where": "routes/admin.js:245",
+      "detail": "Handler to'g'ridan-to'g'ri, middleware yo'q. Ichida tekshiruv bo'lsa e'tiborsiz qoldiring.",
+      "fix": "requireAuth / requireAdmin middleware qo'shing (BOLA/BFLA).",
+      "ref": "CWE-862"
+    },
+    {
+      "sev": "HIGH",
+      "id": "NO-AUTH-MW",
+      "title": "POST /users/:id/verify: oldida auth/role middleware ko'rinmayapti",
+      "where": "routes/admin.js:264",
+      "detail": "Handler to'g'ridan-to'g'ri, middleware yo'q. Ichida tekshiruv bo'lsa e'tiborsiz qoldiring.",
+      "fix": "requireAuth / requireAdmin middleware qo'shing (BOLA/BFLA).",
+      "ref": "CWE-862"
+    },
+    {
+      "sev": "HIGH",
+      "id": "NO-AUTH-MW",
+      "title": "POST /assign-user-role: oldida auth/role middleware ko'rinmayapti",
+      "where": "routes/admin.js:849",
+      "detail": "Handler to'g'ridan-to'g'ri, middleware yo'q. Ichida tekshiruv bo'lsa e'tiborsiz qoldiring.",
+      "fix": "requireAuth / requireAdmin middleware qo'shing (BOLA/BFLA).",
+      "ref": "CWE-862"
+    },
+    {
+      "sev": "HIGH",
+      "id": "NO-AUTH-MW",
+      "title": "GET /users/:id/details: oldida auth/role middleware ko'rinmayapti",
+      "where": "routes/admin.js:901",
+      "detail": "Handler to'g'ridan-to'g'ri, middleware yo'q. Ichida tekshiruv bo'lsa e'tiborsiz qoldiring.",
+      "fix": "requireAuth / requireAdmin middleware qo'shing (BOLA/BFLA).",
+      "ref": "CWE-862"
+    },
+    {
+      "sev": "HIGH",
+      "id": "NO-AUTH-MW",
+      "title": "PUT /users/:id/edit: oldida auth/role middleware ko'rinmayapti",
+      "where": "routes/admin.js:909",
+      "detail": "Handler to'g'ridan-to'g'ri, middleware yo'q. Ichida tekshiruv bo'lsa e'tiborsiz qoldiring.",
+      "fix": "requireAuth / requireAdmin middleware qo'shing (BOLA/BFLA).",
+      "ref": "CWE-862"
+    },
+    {
+      "sev": "HIGH",
+      "id": "NO-AUTH-MW",
+      "title": "POST /users/:id/reset-password: oldida auth/role middleware ko'rinmayapti",
+      "where": "routes/admin.js:920",
+      "detail": "Handler to'g'ridan-to'g'ri, middleware yo'q. Ichida tekshiruv bo'lsa e'tiborsiz qoldiring.",
+      "fix": "requireAuth / requireAdmin middleware qo'shing (BOLA/BFLA).",
+      "ref": "CWE-862"
+    },
+    {
+      "sev": "HIGH",
+      "id": "NPM-AUDIT",
+      "title": "npm audit: 2 ta yuqori darajali zaif paket",
+      "where": "package.json",
+      "detail": "{\"info\":0,\"low\":0,\"moderate\":7,\"high\":2,\"critical\":2,\"total\":11}",
+      "fix": "npm audit fix",
+      "ref": "CWE-1395"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "SECRET",
+      "title": "Qotirilgan parol kodga yozilgan: pass…g'",
+      "where": "ctfuz-audit.js:387",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "SECRET",
+      "title": "Qotirilgan parol kodga yozilgan: pass…1'",
+      "where": "ctfuz-audit.js:404",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "SECRET",
+      "title": "Qotirilgan parol kodga yozilgan: pass…1'",
+      "where": "ctfuz-audit.js:405",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "SECRET",
+      "title": "Qotirilgan parol kodga yozilgan: pass…]'",
+      "where": "routes/auth.js:131",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "SECRET",
+      "title": "Qotirilgan parol kodga yozilgan: pass…]'",
+      "where": "routes/auth.js:240",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "SECRET",
+      "title": "Qotirilgan parol kodga yozilgan: pass…]'",
+      "where": "routes/auth.js:360",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "SECRET",
+      "title": "Qotirilgan parol kodga yozilgan: pass…g'",
+      "where": "tests/auth.test.js:15",
+      "detail": "Kalit kod ichida turibdi; repozitoriyga tushsa hamma ko'radi.",
+      "fix": ".env ga ko'chiring, kalitni almashtiring (revoke/rotate), git tarixidan o'chiring.",
+      "ref": "CWE-798"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "WEAK-RAND",
+      "title": "Math.random xavfsizlik uchun yaroqsiz (kod/token/flag uchun ishlatilsa)",
+      "where": "clone_and_parse_perfect.js:108",
+      "detail": "`Math.random()`",
+      "fix": "crypto.randomInt / crypto.randomBytes ishlating.",
+      "ref": "CWE-338"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "WEAK-RAND",
+      "title": "Math.random xavfsizlik uchun yaroqsiz (kod/token/flag uchun ishlatilsa)",
+      "where": "fix_20_lessons_final.js:84",
+      "detail": "`Math.random()`",
+      "fix": "crypto.randomInt / crypto.randomBytes ishlating.",
+      "ref": "CWE-338"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/js/admin-academy.js:35",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/js/admin-academy.js:40",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/js/admin-academy.js:46",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/js/admin-academy.js:49",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/js/admin-academy.js:152",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/js/admin-certificates.js:13",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/js/admin-certificates.js:75",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/js/admin-certificates.js:77",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/js/admin-certificates.js:84",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/js/admin-certificates.js:109",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/js/admin.js:25",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/js/admin.js:56",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/js/admin.js:84",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/js/app.js:61",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/js/arena-admin-override.js:9",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/js/auth.js:22",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/js/career-employer-banner.js:39",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/js/ctf-admin-editor.js:32",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/js/ctf-admin-editor.js:167",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/js/cyber-id-certs.js:63",
+      "detail": "`insertAdjacentHTML(`",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/js/icons.js:129",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/js/learn-app.js:44",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/js/learn-app.js:48",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/js/learn-app.js:220",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/js/learn-app.js:290",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/js/learn-app.js:360",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/js/preloader.js:21",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/js/profile-certificates.js:12",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/js/profile-certificates.js:22",
+      "detail": "`insertAdjacentHTML(`",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/js/profile-certificates.js:79",
+      "detail": "`insertAdjacentHTML(`",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/js/verify-logic.js:14",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/js/verify-logic.js:18",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/js/verify-logic.js:23",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/js/verify-logic.js:34",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "WEAK-RAND",
+      "title": "Math.random xavfsizlik uchun yaroqsiz (kod/token/flag uchun ishlatilsa)",
+      "where": "routes/admin-certificates.js:30",
+      "detail": "`Math.random()`",
+      "fix": "crypto.randomInt / crypto.randomBytes ishlating.",
+      "ref": "CWE-338"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "WEAK-RAND",
+      "title": "Math.random xavfsizlik uchun yaroqsiz (kod/token/flag uchun ishlatilsa)",
+      "where": "routes/auth.js:112",
+      "detail": "`Math.random()`",
+      "fix": "crypto.randomInt / crypto.randomBytes ishlating.",
+      "ref": "CWE-338"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "WEAK-RAND",
+      "title": "Math.random xavfsizlik uchun yaroqsiz (kod/token/flag uchun ishlatilsa)",
+      "where": "routes/auth.js:276",
+      "detail": "`Math.random()`",
+      "fix": "crypto.randomInt / crypto.randomBytes ishlating.",
+      "ref": "CWE-338"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "WEAK-RAND",
+      "title": "Math.random xavfsizlik uchun yaroqsiz (kod/token/flag uchun ishlatilsa)",
+      "where": "routes/auth.js:799",
+      "detail": "`Math.random()`",
+      "fix": "crypto.randomInt / crypto.randomBytes ishlating.",
+      "ref": "CWE-338"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "WEAK-RAND",
+      "title": "Math.random xavfsizlik uchun yaroqsiz (kod/token/flag uchun ishlatilsa)",
+      "where": "routes/employer.js:97",
+      "detail": "`Math.random()`",
+      "fix": "crypto.randomInt / crypto.randomBytes ishlating.",
+      "ref": "CWE-338"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "WEAK-RAND",
+      "title": "Math.random xavfsizlik uchun yaroqsiz (kod/token/flag uchun ishlatilsa)",
+      "where": "routes/learn.js:204",
+      "detail": "`Math.random()`",
+      "fix": "crypto.randomInt / crypto.randomBytes ishlating.",
+      "ref": "CWE-338"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "WEAK-RAND",
+      "title": "Math.random xavfsizlik uchun yaroqsiz (kod/token/flag uchun ishlatilsa)",
+      "where": "seed_perfect_path1.js:73",
+      "detail": "`Math.random()`",
+      "fix": "crypto.randomInt / crypto.randomBytes ishlating.",
+      "ref": "CWE-338"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "WEAK-RAND",
+      "title": "Math.random xavfsizlik uchun yaroqsiz (kod/token/flag uchun ishlatilsa)",
+      "where": "utils/fakeUsers.js:17",
+      "detail": "`Math.random()`",
+      "fix": "crypto.randomInt / crypto.randomBytes ishlating.",
+      "ref": "CWE-338"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "WEAK-RAND",
+      "title": "Math.random xavfsizlik uchun yaroqsiz (kod/token/flag uchun ishlatilsa)",
+      "where": "utils/fakeUsers.js:21",
+      "detail": "`Math.random()`",
+      "fix": "crypto.randomInt / crypto.randomBytes ishlating.",
+      "ref": "CWE-338"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "WEAK-RAND",
+      "title": "Math.random xavfsizlik uchun yaroqsiz (kod/token/flag uchun ishlatilsa)",
+      "where": "utils/notifications.js:10",
+      "detail": "`Math.random()`",
+      "fix": "crypto.randomInt / crypto.randomBytes ishlating.",
+      "ref": "CWE-338"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "WEAK-RAND",
+      "title": "Math.random xavfsizlik uchun yaroqsiz (kod/token/flag uchun ishlatilsa)",
+      "where": "utils/upload.js:59",
+      "detail": "`Math.random()`",
+      "fix": "crypto.randomInt / crypto.randomBytes ishlating.",
+      "ref": "CWE-338"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": ".backup-preloader/admin.html:561",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": ".backup-preloader/arena.html:157",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": ".backup-preloader/arena.html:183",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": ".backup-preloader/arena.html:195",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": ".backup-preloader/arena.html:300",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": ".backup-preloader/battle.html:49",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": ".backup-preloader/career.html:179",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": ".backup-preloader/career.html:199",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": ".backup-preloader/career.html:265",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": ".backup-preloader/challenge.html:51",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": ".backup-preloader/challenge.html:62",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": ".backup-preloader/challenge.html:206",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": ".backup-preloader/cyber_id.html:50",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": ".backup-preloader/cyber_id.html:63",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": ".backup-preloader/dashboard.html:222",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": ".backup-preloader/dashboard.html:240",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": ".backup-preloader/dashboard.html:258",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": ".backup-preloader/events.html:57",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": ".backup-preloader/events.html:71",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": ".backup-preloader/job.html:43",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": ".backup-preloader/job.html:57",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": ".backup-preloader/job.html:191",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": ".backup-preloader/leaderboard.html:162",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": ".backup-preloader/leaderboard.html:178",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": ".backup-preloader/leaderboard.html:209",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": ".backup-preloader/leaderboard.html:217",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": ".backup-preloader/leaderboard.html:343",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": ".backup-preloader/learn.html:72",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": ".backup-preloader/profile.html:386",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": ".backup-preloader/profile.html:595",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": ".backup-preloader/profile.html:802",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": ".backup-preloader/register.html:176",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": ".backup-preloader/register.html:192",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": ".backup-preloader/u.html:44",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": ".backup-preloader/u.html:56",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/about.html:318",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/admin-certificates.html:522",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/admin-certificates.html:537",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/admin-certificates.html:544",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/admin-certificates.html:558",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/admin-certificates.html:633",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/admin-login.html:152",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/admin-login.html:157",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/admin-login.html:169",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/admin-login.html:171",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/admin-login.html:199",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/admin.html:523",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/admin.html:542",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/admin.html:553",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/admin.html:568",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/admin.html:572",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/arena.html:170",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/arena.html:200",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/arena.html:212",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/arena.html:323",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/battle-room.html:99",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/battle-room.html:128",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/battle-room.html:230",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/battle-room.html:234",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/battle-room.html:246",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/battle.html:264",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/battle.html:279",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/battle.html:292",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/battle.html:304",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/battle.html:318",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/career-profile.html:107",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/career-profile.html:119",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/career.html:442",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/career.html:516",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/career.html:522",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/certificate-verify.html:308",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/certificate-verify.html:314",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/certificate-verify.html:318",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/challenge.html:55",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/challenge.html:66",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/challenge.html:210",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/cyber-id.html:611",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/cyber-id.html:629",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/cyber-id.html:652",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/cyber-id.html:1204",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/dashboard.html:207",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/dashboard.html:225",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/dashboard.html:243",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/employer.html:160",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/employer.html:302",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/employer.html:303",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/events.html:60",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/events.html:74",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/job.html:107",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/job.html:119",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/job.html:188",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/job.html:193",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/job.html:199",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/leaderboard.html:165",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/leaderboard.html:181",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/leaderboard.html:218",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/leaderboard.html:226",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/leaderboard.html:352",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/learn-cia.html:20",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/learn-cia.html:34",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/learn-cia.html:40",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/learn-cia.html:44",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/lesson.html:136",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/lesson.html:150",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/lesson.html:156",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/lesson.html:160",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/lesson.html:166",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/login.html:232",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/login.html:340",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/login.html:362",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/login.html:374",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/login.html:457",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/profile.html:432",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/profile.html:476",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/profile.html:495",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/profile.html:781",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/profile.html:1340",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/register.html:171",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/register.html:211",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/register.html:225",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/register.html:402",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/register.html:424",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/u.html:49",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/u.html:61",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "DOM-XSS",
+      "title": "innerHTML / document.write: ma'lumot escape qilinmasa DOM XSS",
+      "where": "public/welcome.html:343",
+      "detail": "`.innerHTML = `",
+      "fix": "textContent ishlating yoki DOMPurify bilan tozalang.",
+      "ref": "CWE-79"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "COOKIE-SECURE",
+      "title": "Session cookie da secure bayrog'i aniq berilmagan",
+      "where": "session()",
+      "detail": "",
+      "fix": "cookie: { secure: process.env.NODE_ENV === \"production\" }",
+      "ref": "CWE-614"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "COOKIE-SAMESITE",
+      "title": "sameSite berilmagan",
+      "where": "session()",
+      "detail": "CSRF xavfi.",
+      "fix": "sameSite: \"lax\"",
+      "ref": "CWE-1275"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "NO-LIMITER",
+      "title": "/forgot-password yo'lida rate limiter ko'rinmayapti",
+      "where": "routes/auth.js:670",
+      "detail": "Brute-force mumkin.",
+      "fix": "Yo'lga limiter middleware qo'shing.",
+      "ref": "CWE-307"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "NO-LIMITER",
+      "title": "/reset-password yo'lida rate limiter ko'rinmayapti",
+      "where": "routes/auth.js:690",
+      "detail": "Brute-force mumkin.",
+      "fix": "Yo'lga limiter middleware qo'shing.",
+      "ref": "CWE-307"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "BOLA",
+      "title": "ID bo'yicha ob'ekt olinmoqda, egalik tekshiruvi ko'rinmayapti (BOLA/IDOR)",
+      "where": "routes/admin.js:191",
+      "detail": "",
+      "fix": "Ob'ekt egasi = joriy foydalanuvchi ekanini tekshiring.",
+      "ref": "CWE-639"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "BOLA",
+      "title": "ID bo'yicha ob'ekt olinmoqda, egalik tekshiruvi ko'rinmayapti (BOLA/IDOR)",
+      "where": "routes/admin.js:201",
+      "detail": "",
+      "fix": "Ob'ekt egasi = joriy foydalanuvchi ekanini tekshiring.",
+      "ref": "CWE-639"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "BOLA",
+      "title": "ID bo'yicha ob'ekt olinmoqda, egalik tekshiruvi ko'rinmayapti (BOLA/IDOR)",
+      "where": "routes/admin.js:768",
+      "detail": "",
+      "fix": "Ob'ekt egasi = joriy foydalanuvchi ekanini tekshiring.",
+      "ref": "CWE-639"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "BOLA",
+      "title": "ID bo'yicha ob'ekt olinmoqda, egalik tekshiruvi ko'rinmayapti (BOLA/IDOR)",
+      "where": "routes/admin.js:904",
+      "detail": "",
+      "fix": "Ob'ekt egasi = joriy foydalanuvchi ekanini tekshiring.",
+      "ref": "CWE-639"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "BOLA",
+      "title": "ID bo'yicha ob'ekt olinmoqda, egalik tekshiruvi ko'rinmayapti (BOLA/IDOR)",
+      "where": "routes/admin.js:923",
+      "detail": "",
+      "fix": "Ob'ekt egasi = joriy foydalanuvchi ekanini tekshiring.",
+      "ref": "CWE-639"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "BOLA",
+      "title": "ID bo'yicha ob'ekt olinmoqda, egalik tekshiruvi ko'rinmayapti (BOLA/IDOR)",
+      "where": "routes/applications.js:28",
+      "detail": "",
+      "fix": "Ob'ekt egasi = joriy foydalanuvchi ekanini tekshiring.",
+      "ref": "CWE-639"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "BOLA",
+      "title": "ID bo'yicha ob'ekt olinmoqda, egalik tekshiruvi ko'rinmayapti (BOLA/IDOR)",
+      "where": "routes/arenaAdmin.js:70",
+      "detail": "",
+      "fix": "Ob'ekt egasi = joriy foydalanuvchi ekanini tekshiring.",
+      "ref": "CWE-639"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "BOLA",
+      "title": "ID bo'yicha ob'ekt olinmoqda, egalik tekshiruvi ko'rinmayapti (BOLA/IDOR)",
+      "where": "routes/battles.js:100",
+      "detail": "",
+      "fix": "Ob'ekt egasi = joriy foydalanuvchi ekanini tekshiring.",
+      "ref": "CWE-639"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "BOLA",
+      "title": "ID bo'yicha ob'ekt olinmoqda, egalik tekshiruvi ko'rinmayapti (BOLA/IDOR)",
+      "where": "routes/battles.js:226",
+      "detail": "",
+      "fix": "Ob'ekt egasi = joriy foydalanuvchi ekanini tekshiring.",
+      "ref": "CWE-639"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "BOLA",
+      "title": "ID bo'yicha ob'ekt olinmoqda, egalik tekshiruvi ko'rinmayapti (BOLA/IDOR)",
+      "where": "routes/battles.js:255",
+      "detail": "",
+      "fix": "Ob'ekt egasi = joriy foydalanuvchi ekanini tekshiring.",
+      "ref": "CWE-639"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "BOLA",
+      "title": "ID bo'yicha ob'ekt olinmoqda, egalik tekshiruvi ko'rinmayapti (BOLA/IDOR)",
+      "where": "routes/battles.js:284",
+      "detail": "",
+      "fix": "Ob'ekt egasi = joriy foydalanuvchi ekanini tekshiring.",
+      "ref": "CWE-639"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "BOLA",
+      "title": "ID bo'yicha ob'ekt olinmoqda, egalik tekshiruvi ko'rinmayapti (BOLA/IDOR)",
+      "where": "routes/career.js:76",
+      "detail": "",
+      "fix": "Ob'ekt egasi = joriy foydalanuvchi ekanini tekshiring.",
+      "ref": "CWE-639"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "BOLA",
+      "title": "ID bo'yicha ob'ekt olinmoqda, egalik tekshiruvi ko'rinmayapti (BOLA/IDOR)",
+      "where": "routes/career.js:178",
+      "detail": "",
+      "fix": "Ob'ekt egasi = joriy foydalanuvchi ekanini tekshiring.",
+      "ref": "CWE-639"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "BOLA",
+      "title": "ID bo'yicha ob'ekt olinmoqda, egalik tekshiruvi ko'rinmayapti (BOLA/IDOR)",
+      "where": "routes/learn.js:518",
+      "detail": "",
+      "fix": "Ob'ekt egasi = joriy foydalanuvchi ekanini tekshiring.",
+      "ref": "CWE-639"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "BOLA",
+      "title": "ID bo'yicha ob'ekt olinmoqda, egalik tekshiruvi ko'rinmayapti (BOLA/IDOR)",
+      "where": "routes/learn.js:560",
+      "detail": "",
+      "fix": "Ob'ekt egasi = joriy foydalanuvchi ekanini tekshiring.",
+      "ref": "CWE-639"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "BOLA",
+      "title": "ID bo'yicha ob'ekt olinmoqda, egalik tekshiruvi ko'rinmayapti (BOLA/IDOR)",
+      "where": "routes/learn.js:650",
+      "detail": "",
+      "fix": "Ob'ekt egasi = joriy foydalanuvchi ekanini tekshiring.",
+      "ref": "CWE-639"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "BOLA",
+      "title": "ID bo'yicha ob'ekt olinmoqda, egalik tekshiruvi ko'rinmayapti (BOLA/IDOR)",
+      "where": "routes/learn.js:670",
+      "detail": "",
+      "fix": "Ob'ekt egasi = joriy foydalanuvchi ekanini tekshiring.",
+      "ref": "CWE-639"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "BOLA",
+      "title": "ID bo'yicha ob'ekt olinmoqda, egalik tekshiruvi ko'rinmayapti (BOLA/IDOR)",
+      "where": "routes/users.js:475",
+      "detail": "",
+      "fix": "Ob'ekt egasi = joriy foydalanuvchi ekanini tekshiring.",
+      "ref": "CWE-639"
+    },
+    {
+      "sev": "MEDIUM",
+      "id": "NPM-AUDIT",
+      "title": "npm audit: 7 ta o'rta darajali zaif paket",
+      "where": "package.json",
+      "detail": "",
+      "fix": "npm audit fix",
+      "ref": "CWE-1395"
+    },
+    {
+      "sev": "LOW",
+      "id": "LOG-SENS",
+      "title": "Maxfiy ma'lumot logga yozilishi mumkin",
+      "where": "patch_github.js:323",
+      "detail": "`console.log('Endi .env da GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET`",
+      "fix": "Telefon, kod, token va parollarni logga chiqarmang.",
+      "ref": "CWE-532"
+    },
+    {
+      "sev": "LOW",
+      "id": "HTTP-FETCH",
+      "title": "Shifrlanmagan HTTP manzili",
+      "where": "public/js/icons.js:76",
+      "detail": "`\"http://www.w3.org`",
+      "fix": "HTTPS ishlating.",
+      "ref": "CWE-319"
+    },
+    {
+      "sev": "LOW",
+      "id": "HTTP-FETCH",
+      "title": "Shifrlanmagan HTTP manzili",
+      "where": "public/js/preloader.js:24",
+      "detail": "`\"http://www.w3.org`",
+      "fix": "HTTPS ishlating.",
+      "ref": "CWE-319"
+    },
+    {
+      "sev": "LOW",
+      "id": "LOG-SENS",
+      "title": "Maxfiy ma'lumot logga yozilishi mumkin",
+      "where": "server.js:79",
+      "detail": "`console.error('❌ SESSION_SECRET`",
+      "fix": "Telefon, kod, token va parollarni logga chiqarmang.",
+      "ref": "CWE-532"
+    },
+    {
+      "sev": "LOW",
+      "id": "LOG-SENS",
+      "title": "Maxfiy ma'lumot logga yozilishi mumkin",
+      "where": "utils/seed.js:15",
+      "detail": "`console.error('❌ ADMIN_USERNAME yoki ADMIN_PASSWORD`",
+      "fix": "Telefon, kod, token va parollarni logga chiqarmang.",
+      "ref": "CWE-532"
+    },
+    {
+      "sev": "LOW",
+      "id": "LOG-SENS",
+      "title": "Maxfiy ma'lumot logga yozilishi mumkin",
+      "where": "utils/storage.js:10",
+      "detail": "`console.error('❌ ADMIN_USERNAME yoki ADMIN_PASSWORD`",
+      "fix": "Telefon, kod, token va parollarni logga chiqarmang.",
+      "ref": "CWE-532"
+    },
+    {
+      "sev": "LOW",
+      "id": "LOG-SENS",
+      "title": "Maxfiy ma'lumot logga yozilishi mumkin",
+      "where": "utils/storage.js:13",
+      "detail": "`console.error(' ADMIN_PASSWORD`",
+      "fix": "Telefon, kod, token va parollarni logga chiqarmang.",
+      "ref": "CWE-532"
+    },
+    {
+      "sev": "LOW",
+      "id": "LOG-SENS",
+      "title": "Maxfiy ma'lumot logga yozilishi mumkin",
+      "where": "utils/telegram.js:36",
+      "detail": "`console.log('⚠️ Telegram polling vaqtincha ishlamayapti:', error.code`",
+      "fix": "Telefon, kod, token va parollarni logga chiqarmang.",
+      "ref": "CWE-532"
+    },
+    {
+      "sev": "LOW",
+      "id": "LOG-SENS",
+      "title": "Maxfiy ma'lumot logga yozilishi mumkin",
+      "where": "utils/telegram.js:65",
+      "detail": "`console.log(`✅ Telefon saqlandi: ${phone`",
+      "fix": "Telefon, kod, token va parollarni logga chiqarmang.",
+      "ref": "CWE-532"
+    },
+    {
+      "sev": "LOW",
+      "id": "LOG-SENS",
+      "title": "Maxfiy ma'lumot logga yozilishi mumkin",
+      "where": "utils/telegram.js:83",
+      "detail": "`console.log('⚠️ Xabar yuborish xatosi:', e.code`",
+      "fix": "Telefon, kod, token va parollarni logga chiqarmang.",
+      "ref": "CWE-532"
+    },
+    {
+      "sev": "LOW",
+      "id": "LOG-SENS",
+      "title": "Maxfiy ma'lumot logga yozilishi mumkin",
+      "where": "utils/telegram.js:90",
+      "detail": "`console.log(`✅ Kontakt saqlandi: ${phone`",
+      "fix": "Telefon, kod, token va parollarni logga chiqarmang.",
+      "ref": "CWE-532"
+    },
+    {
+      "sev": "LOW",
+      "id": "LOG-SENS",
+      "title": "Maxfiy ma'lumot logga yozilishi mumkin",
+      "where": "utils/telegram.js:100",
+      "detail": "`console.error('❌ VERIFY_BOT_TOKEN`",
+      "fix": "Telefon, kod, token va parollarni logga chiqarmang.",
+      "ref": "CWE-532"
+    },
+    {
+      "sev": "LOW",
+      "id": "NOOPENER",
+      "title": "target=_blank da rel=\"noopener\" yo'q",
+      "where": ".backup-preloader/admin.html:222",
+      "detail": "",
+      "fix": "rel=\"noopener noreferrer\" qo'shing.",
+      "ref": "CWE-1022"
+    },
+    {
+      "sev": "LOW",
+      "id": "NO-SRI",
+      "title": "Tashqi skriptda integrity (SRI) yo'q: https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.m",
+      "where": ".backup-preloader/dashboard.html:12",
+      "detail": "CDN buzilsa, saytingizga zararli kod kiradi.",
+      "fix": "integrity va crossorigin=\"anonymous\" qo'shing.",
+      "ref": "CWE-829"
+    },
+    {
+      "sev": "LOW",
+      "id": "HTTP-FETCH",
+      "title": "Shifrlanmagan HTTP manzili",
+      "where": ".backup-preloader/index.html:22",
+      "detail": "`'http://www.w3.org`",
+      "fix": "HTTPS ishlating.",
+      "ref": "CWE-319"
+    },
+    {
+      "sev": "LOW",
+      "id": "NOOPENER",
+      "title": "target=_blank da rel=\"noopener\" yo'q",
+      "where": ".backup-preloader/profile.html:455",
+      "detail": "",
+      "fix": "rel=\"noopener noreferrer\" qo'shing.",
+      "ref": "CWE-1022"
+    },
+    {
+      "sev": "LOW",
+      "id": "NOOPENER",
+      "title": "target=_blank da rel=\"noopener\" yo'q",
+      "where": ".backup-preloader/u.html:117",
+      "detail": "",
+      "fix": "rel=\"noopener noreferrer\" qo'shing.",
+      "ref": "CWE-1022"
+    },
+    {
+      "sev": "LOW",
+      "id": "HTTP-FETCH",
+      "title": "Shifrlanmagan HTTP manzili",
+      "where": "public/about.html:22",
+      "detail": "`'http://www.w3.org`",
+      "fix": "HTTPS ishlating.",
+      "ref": "CWE-319"
+    },
+    {
+      "sev": "LOW",
+      "id": "NOOPENER",
+      "title": "target=_blank da rel=\"noopener\" yo'q",
+      "where": "public/admin-certificates.html:607",
+      "detail": "",
+      "fix": "rel=\"noopener noreferrer\" qo'shing.",
+      "ref": "CWE-1022"
+    },
+    {
+      "sev": "LOW",
+      "id": "NOOPENER",
+      "title": "target=_blank da rel=\"noopener\" yo'q",
+      "where": "public/admin.html:125",
+      "detail": "",
+      "fix": "rel=\"noopener noreferrer\" qo'shing.",
+      "ref": "CWE-1022"
+    },
+    {
+      "sev": "LOW",
+      "id": "DUP-ID",
+      "title": "Takroriy HTML id lar: ch-title×3, ch-category×3, ch-difficulty×3, ch-points×3, ch-flag×3",
+      "where": "public/admin.html",
+      "detail": "DOM xatolari va PDF/skript muammolari.",
+      "fix": "Har bir id yagona bo'lsin.",
+      "ref": ""
+    },
+    {
+      "sev": "LOW",
+      "id": "NO-SRI",
+      "title": "Tashqi skriptda integrity (SRI) yo'q: https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/ht",
+      "where": "public/certificate-verify.html:15",
+      "detail": "CDN buzilsa, saytingizga zararli kod kiradi.",
+      "fix": "integrity va crossorigin=\"anonymous\" qo'shing.",
+      "ref": "CWE-829"
+    },
+    {
+      "sev": "LOW",
+      "id": "NO-SRI",
+      "title": "Tashqi skriptda integrity (SRI) yo'q: https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js",
+      "where": "public/cyber-id.html:13",
+      "detail": "CDN buzilsa, saytingizga zararli kod kiradi.",
+      "fix": "integrity va crossorigin=\"anonymous\" qo'shing.",
+      "ref": "CWE-829"
+    },
+    {
+      "sev": "LOW",
+      "id": "NOOPENER",
+      "title": "target=_blank da rel=\"noopener\" yo'q",
+      "where": "public/cyber-id.html:910",
+      "detail": "",
+      "fix": "rel=\"noopener noreferrer\" qo'shing.",
+      "ref": "CWE-1022"
+    },
+    {
+      "sev": "LOW",
+      "id": "NO-SRI",
+      "title": "Tashqi skriptda integrity (SRI) yo'q: https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.m",
+      "where": "public/dashboard.html:12",
+      "detail": "CDN buzilsa, saytingizga zararli kod kiradi.",
+      "fix": "integrity va crossorigin=\"anonymous\" qo'shing.",
+      "ref": "CWE-829"
+    },
+    {
+      "sev": "LOW",
+      "id": "HTTP-FETCH",
+      "title": "Shifrlanmagan HTTP manzili",
+      "where": "public/index.html:28",
+      "detail": "`'http://www.w3.org`",
+      "fix": "HTTPS ishlating.",
+      "ref": "CWE-319"
+    },
+    {
+      "sev": "LOW",
+      "id": "NO-SRI",
+      "title": "Tashqi skriptda integrity (SRI) yo'q: https://accounts.google.com/gsi/client",
+      "where": "public/login.html:278",
+      "detail": "CDN buzilsa, saytingizga zararli kod kiradi.",
+      "fix": "integrity va crossorigin=\"anonymous\" qo'shing.",
+      "ref": "CWE-829"
+    },
+    {
+      "sev": "LOW",
+      "id": "NO-SRI",
+      "title": "Tashqi skriptda integrity (SRI) yo'q: https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/ht",
+      "where": "public/profile.html:1133",
+      "detail": "CDN buzilsa, saytingizga zararli kod kiradi.",
+      "fix": "integrity va crossorigin=\"anonymous\" qo'shing.",
+      "ref": "CWE-829"
+    },
+    {
+      "sev": "LOW",
+      "id": "NOOPENER",
+      "title": "target=_blank da rel=\"noopener\" yo'q",
+      "where": "public/profile.html:580",
+      "detail": "",
+      "fix": "rel=\"noopener noreferrer\" qo'shing.",
+      "ref": "CWE-1022"
+    },
+    {
+      "sev": "LOW",
+      "id": "NO-SRI",
+      "title": "Tashqi skriptda integrity (SRI) yo'q: https://accounts.google.com/gsi/client",
+      "where": "public/register.html:340",
+      "detail": "CDN buzilsa, saytingizga zararli kod kiradi.",
+      "fix": "integrity va crossorigin=\"anonymous\" qo'shing.",
+      "ref": "CWE-829"
+    },
+    {
+      "sev": "LOW",
+      "id": "NOOPENER",
+      "title": "target=_blank da rel=\"noopener\" yo'q",
+      "where": "public/u.html:122",
+      "detail": "",
+      "fix": "rel=\"noopener noreferrer\" qo'shing.",
+      "ref": "CWE-1022"
+    },
+    {
+      "sev": "LOW",
+      "id": "BODY-LIMIT",
+      "title": "express.json uchun hajm chegarasi aniq berilmagan",
+      "where": "server.js",
+      "detail": "",
+      "fix": "express.json({ limit: \"10kb\" })",
+      "ref": "CWE-770"
+    },
+    {
+      "sev": "LOW",
+      "id": "COOKIE-HTTPONLY",
+      "title": "httpOnly aniq berilmagan (standart true, lekin aniq yozing)",
+      "where": "session()",
+      "detail": "",
+      "fix": "httpOnly: true",
+      "ref": "CWE-1004"
+    },
+    {
+      "sev": "LOW",
+      "id": "USER-ENUM",
+      "title": "Xato xabarlari foydalanuvchi mavjudligini oshkor qilishi mumkin (user enumeration)",
+      "where": "routes/auth.js",
+      "detail": "",
+      "fix": "Har doim bir xil xabar qaytaring.",
+      "ref": "CWE-204"
+    },
+    {
+      "sev": "INFO",
+      "id": "INLINE-JS",
+      "title": "Inline JS handlerlar: 24 ta (qat'iy CSP o'rnatishga to'sqinlik qiladi)",
+      "where": ".backup-preloader/admin.html",
+      "detail": "",
+      "fix": "addEventListener ga o'tkazing.",
+      "ref": ""
+    },
+    {
+      "sev": "INFO",
+      "id": "INLINE-JS",
+      "title": "Inline JS handlerlar: 9 ta (qat'iy CSP o'rnatishga to'sqinlik qiladi)",
+      "where": ".backup-preloader/arena.html",
+      "detail": "",
+      "fix": "addEventListener ga o'tkazing.",
+      "ref": ""
+    },
+    {
+      "sev": "INFO",
+      "id": "INLINE-JS",
+      "title": "Inline JS handlerlar: 1 ta (qat'iy CSP o'rnatishga to'sqinlik qiladi)",
+      "where": ".backup-preloader/battle.html",
+      "detail": "",
+      "fix": "addEventListener ga o'tkazing.",
+      "ref": ""
+    },
+    {
+      "sev": "INFO",
+      "id": "INLINE-JS",
+      "title": "Inline JS handlerlar: 8 ta (qat'iy CSP o'rnatishga to'sqinlik qiladi)",
+      "where": ".backup-preloader/career.html",
+      "detail": "",
+      "fix": "addEventListener ga o'tkazing.",
+      "ref": ""
+    },
+    {
+      "sev": "INFO",
+      "id": "INLINE-JS",
+      "title": "Inline JS handlerlar: 1 ta (qat'iy CSP o'rnatishga to'sqinlik qiladi)",
+      "where": ".backup-preloader/challenge.html",
+      "detail": "",
+      "fix": "addEventListener ga o'tkazing.",
+      "ref": ""
+    },
+    {
+      "sev": "INFO",
+      "id": "INLINE-JS",
+      "title": "Inline JS handlerlar: 1 ta (qat'iy CSP o'rnatishga to'sqinlik qiladi)",
+      "where": ".backup-preloader/cyber_id.html",
+      "detail": "",
+      "fix": "addEventListener ga o'tkazing.",
+      "ref": ""
+    },
+    {
+      "sev": "INFO",
+      "id": "INLINE-JS",
+      "title": "Inline JS handlerlar: 1 ta (qat'iy CSP o'rnatishga to'sqinlik qiladi)",
+      "where": ".backup-preloader/dashboard.html",
+      "detail": "",
+      "fix": "addEventListener ga o'tkazing.",
+      "ref": ""
+    },
+    {
+      "sev": "INFO",
+      "id": "INLINE-JS",
+      "title": "Inline JS handlerlar: 2 ta (qat'iy CSP o'rnatishga to'sqinlik qiladi)",
+      "where": ".backup-preloader/events.html",
+      "detail": "",
+      "fix": "addEventListener ga o'tkazing.",
+      "ref": ""
+    },
+    {
+      "sev": "INFO",
+      "id": "INLINE-JS",
+      "title": "Inline JS handlerlar: 1 ta (qat'iy CSP o'rnatishga to'sqinlik qiladi)",
+      "where": ".backup-preloader/job.html",
+      "detail": "",
+      "fix": "addEventListener ga o'tkazing.",
+      "ref": ""
+    },
+    {
+      "sev": "INFO",
+      "id": "INLINE-JS",
+      "title": "Inline JS handlerlar: 7 ta (qat'iy CSP o'rnatishga to'sqinlik qiladi)",
+      "where": ".backup-preloader/leaderboard.html",
+      "detail": "",
+      "fix": "addEventListener ga o'tkazing.",
+      "ref": ""
+    },
+    {
+      "sev": "INFO",
+      "id": "INLINE-JS",
+      "title": "Inline JS handlerlar: 8 ta (qat'iy CSP o'rnatishga to'sqinlik qiladi)",
+      "where": ".backup-preloader/learn.html",
+      "detail": "",
+      "fix": "addEventListener ga o'tkazing.",
+      "ref": ""
+    },
+    {
+      "sev": "INFO",
+      "id": "INLINE-JS",
+      "title": "Inline JS handlerlar: 12 ta (qat'iy CSP o'rnatishga to'sqinlik qiladi)",
+      "where": ".backup-preloader/profile.html",
+      "detail": "",
+      "fix": "addEventListener ga o'tkazing.",
+      "ref": ""
+    },
+    {
+      "sev": "INFO",
+      "id": "INLINE-JS",
+      "title": "Inline JS handlerlar: 1 ta (qat'iy CSP o'rnatishga to'sqinlik qiladi)",
+      "where": ".backup-preloader/u.html",
+      "detail": "",
+      "fix": "addEventListener ga o'tkazing.",
+      "ref": ""
+    },
+    {
+      "sev": "INFO",
+      "id": "INLINE-JS",
+      "title": "Inline JS handlerlar: 25 ta (qat'iy CSP o'rnatishga to'sqinlik qiladi)",
+      "where": "public/admin-certificates.html",
+      "detail": "",
+      "fix": "addEventListener ga o'tkazing.",
+      "ref": ""
+    },
+    {
+      "sev": "INFO",
+      "id": "INLINE-JS",
+      "title": "Inline JS handlerlar: 4 ta (qat'iy CSP o'rnatishga to'sqinlik qiladi)",
+      "where": "public/admin-login.html",
+      "detail": "",
+      "fix": "addEventListener ga o'tkazing.",
+      "ref": ""
+    },
+    {
+      "sev": "INFO",
+      "id": "INLINE-JS",
+      "title": "Inline JS handlerlar: 69 ta (qat'iy CSP o'rnatishga to'sqinlik qiladi)",
+      "where": "public/admin.html",
+      "detail": "",
+      "fix": "addEventListener ga o'tkazing.",
+      "ref": ""
+    },
+    {
+      "sev": "INFO",
+      "id": "INLINE-JS",
+      "title": "Inline JS handlerlar: 9 ta (qat'iy CSP o'rnatishga to'sqinlik qiladi)",
+      "where": "public/arena.html",
+      "detail": "",
+      "fix": "addEventListener ga o'tkazing.",
+      "ref": ""
+    },
+    {
+      "sev": "INFO",
+      "id": "INLINE-JS",
+      "title": "Inline JS handlerlar: 3 ta (qat'iy CSP o'rnatishga to'sqinlik qiladi)",
+      "where": "public/battle-room.html",
+      "detail": "",
+      "fix": "addEventListener ga o'tkazing.",
+      "ref": ""
+    },
+    {
+      "sev": "INFO",
+      "id": "INLINE-JS",
+      "title": "Inline JS handlerlar: 13 ta (qat'iy CSP o'rnatishga to'sqinlik qiladi)",
+      "where": "public/battle.html",
+      "detail": "",
+      "fix": "addEventListener ga o'tkazing.",
+      "ref": ""
+    },
+    {
+      "sev": "INFO",
+      "id": "INLINE-JS",
+      "title": "Inline JS handlerlar: 1 ta (qat'iy CSP o'rnatishga to'sqinlik qiladi)",
+      "where": "public/career-profile.html",
+      "detail": "",
+      "fix": "addEventListener ga o'tkazing.",
+      "ref": ""
+    },
+    {
+      "sev": "INFO",
+      "id": "INLINE-JS",
+      "title": "Inline JS handlerlar: 13 ta (qat'iy CSP o'rnatishga to'sqinlik qiladi)",
+      "where": "public/career.html",
+      "detail": "",
+      "fix": "addEventListener ga o'tkazing.",
+      "ref": ""
+    },
+    {
+      "sev": "INFO",
+      "id": "INLINE-JS",
+      "title": "Inline JS handlerlar: 1 ta (qat'iy CSP o'rnatishga to'sqinlik qiladi)",
+      "where": "public/certificate-verify.html",
+      "detail": "",
+      "fix": "addEventListener ga o'tkazing.",
+      "ref": ""
+    },
+    {
+      "sev": "INFO",
+      "id": "INLINE-JS",
+      "title": "Inline JS handlerlar: 1 ta (qat'iy CSP o'rnatishga to'sqinlik qiladi)",
+      "where": "public/challenge.html",
+      "detail": "",
+      "fix": "addEventListener ga o'tkazing.",
+      "ref": ""
+    },
+    {
+      "sev": "INFO",
+      "id": "INLINE-JS",
+      "title": "Inline JS handlerlar: 17 ta (qat'iy CSP o'rnatishga to'sqinlik qiladi)",
+      "where": "public/cyber-id.html",
+      "detail": "",
+      "fix": "addEventListener ga o'tkazing.",
+      "ref": ""
+    },
+    {
+      "sev": "INFO",
+      "id": "INLINE-JS",
+      "title": "Inline JS handlerlar: 1 ta (qat'iy CSP o'rnatishga to'sqinlik qiladi)",
+      "where": "public/dashboard.html",
+      "detail": "",
+      "fix": "addEventListener ga o'tkazing.",
+      "ref": ""
+    },
+    {
+      "sev": "INFO",
+      "id": "INLINE-JS",
+      "title": "Inline JS handlerlar: 10 ta (qat'iy CSP o'rnatishga to'sqinlik qiladi)",
+      "where": "public/employer.html",
+      "detail": "",
+      "fix": "addEventListener ga o'tkazing.",
+      "ref": ""
+    },
+    {
+      "sev": "INFO",
+      "id": "INLINE-JS",
+      "title": "Inline JS handlerlar: 2 ta (qat'iy CSP o'rnatishga to'sqinlik qiladi)",
+      "where": "public/events.html",
+      "detail": "",
+      "fix": "addEventListener ga o'tkazing.",
+      "ref": ""
+    },
+    {
+      "sev": "INFO",
+      "id": "INLINE-JS",
+      "title": "Inline JS handlerlar: 4 ta (qat'iy CSP o'rnatishga to'sqinlik qiladi)",
+      "where": "public/job.html",
+      "detail": "",
+      "fix": "addEventListener ga o'tkazing.",
+      "ref": ""
+    },
+    {
+      "sev": "INFO",
+      "id": "INLINE-JS",
+      "title": "Inline JS handlerlar: 7 ta (qat'iy CSP o'rnatishga to'sqinlik qiladi)",
+      "where": "public/leaderboard.html",
+      "detail": "",
+      "fix": "addEventListener ga o'tkazing.",
+      "ref": ""
+    },
+    {
+      "sev": "INFO",
+      "id": "INLINE-JS",
+      "title": "Inline JS handlerlar: 1 ta (qat'iy CSP o'rnatishga to'sqinlik qiladi)",
+      "where": "public/learn-cia.html",
+      "detail": "",
+      "fix": "addEventListener ga o'tkazing.",
+      "ref": ""
+    },
+    {
+      "sev": "INFO",
+      "id": "INLINE-JS",
+      "title": "Inline JS handlerlar: 4 ta (qat'iy CSP o'rnatishga to'sqinlik qiladi)",
+      "where": "public/learn.html",
+      "detail": "",
+      "fix": "addEventListener ga o'tkazing.",
+      "ref": ""
+    },
+    {
+      "sev": "INFO",
+      "id": "INLINE-JS",
+      "title": "Inline JS handlerlar: 2 ta (qat'iy CSP o'rnatishga to'sqinlik qiladi)",
+      "where": "public/lesson.html",
+      "detail": "",
+      "fix": "addEventListener ga o'tkazing.",
+      "ref": ""
+    },
+    {
+      "sev": "INFO",
+      "id": "INLINE-JS",
+      "title": "Inline JS handlerlar: 4 ta (qat'iy CSP o'rnatishga to'sqinlik qiladi)",
+      "where": "public/login.html",
+      "detail": "",
+      "fix": "addEventListener ga o'tkazing.",
+      "ref": ""
+    },
+    {
+      "sev": "INFO",
+      "id": "INLINE-JS",
+      "title": "Inline JS handlerlar: 21 ta (qat'iy CSP o'rnatishga to'sqinlik qiladi)",
+      "where": "public/profile.html",
+      "detail": "",
+      "fix": "addEventListener ga o'tkazing.",
+      "ref": ""
+    },
+    {
+      "sev": "INFO",
+      "id": "INLINE-JS",
+      "title": "Inline JS handlerlar: 1 ta (qat'iy CSP o'rnatishga to'sqinlik qiladi)",
+      "where": "public/register.html",
+      "detail": "",
+      "fix": "addEventListener ga o'tkazing.",
+      "ref": ""
+    },
+    {
+      "sev": "INFO",
+      "id": "INLINE-JS",
+      "title": "Inline JS handlerlar: 1 ta (qat'iy CSP o'rnatishga to'sqinlik qiladi)",
+      "where": "public/u.html",
+      "detail": "",
+      "fix": "addEventListener ga o'tkazing.",
+      "ref": ""
+    },
+    {
+      "sev": "INFO",
+      "id": "NO-SERVER",
+      "title": "Dinamik tekshiruv o'tkazilmadi: server javob bermadi",
+      "where": "http://localhost:3000",
+      "detail": "fetch failed",
+      "fix": "Serverni ishga tushirib qayta urinib ko'ring.",
+      "ref": ""
+    }
+  ]
+}
