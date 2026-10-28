@@ -34,7 +34,31 @@
     </div>
 </div>
 
-<script src="/js/api.js"></script>
+<script src="/js/api.js">
+async function buyHint(challengeId, hintIndex, cost) {
+    const ok = confirm("Maslahatni (Hint " + (hintIndex + 1) + ") " + cost + " XP evaziga ochishni xohlaysizmi?\n\nSizning balansingizdan " + cost + " ball chegiriladi.");
+    if (!ok) return;
+
+    try {
+        const res = await fetch("/api/challenges/" + challengeId + "/hints/buy", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify({ hintIndex })
+        });
+        const data = await res.json();
+        if (!data.success) {
+            alert(data.message || "Xatolik yuz berdi");
+            return;
+        }
+        alert("🎉 " + (data.message || "Maslahat muvaffaqiyatli ochildi!"));
+        window.location.reload();
+    } catch (e) {
+        alert("Server bilan boglanishda xatolik yuz berdi!");
+    }
+}
+
+</script>
 <script src="/js/guard.js"></script>
 <script>
 let challengeId = null;
@@ -96,13 +120,41 @@ async function loadChallenge() {
 
             ${c.hints && c.hints.length > 0 ? `
                 <div style="margin-bottom: 24px;">
-                    <h4 style="margin-bottom: 12px; color: var(--warning);">💡 Maslahatlar</h4>
-                    ${c.hints.map((h, i) => `
-                        <details style="margin-bottom: 8px; padding: 12px 16px; background: rgba(245,185,66,0.05); border-radius: 8px; cursor: pointer;">
-                            <summary style="color: var(--warning); font-weight: 600; font-size: 0.85rem;">Hint ${i + 1}</summary>
-                            <p style="color: var(--text-secondary); margin-top: 8px; padding-left: 8px;">${h}</p>
-                        </details>
-                    `).join('')}
+                    <h4 style="margin-bottom: 12px; color: var(--warning); display: flex; align-items: center; gap: 8px;">
+                        💡 Maslahatlar (Ishoralar)
+                    </h4>
+                    ${c.hints.map((h, i) => {
+                        const hintText = typeof h === 'object' ? (h.text || '') : h;
+                        const cost = i === 0 ? Math.round((c.points || 100) * 0.20) : (i === 1 ? Math.round((c.points || 100) * 0.40) : Math.round((c.points || 100) * 0.50));
+                        const isUnlocked = h.isUnlocked || (hintText && hintText !== 'LOCKED' && hintText !== 'HIDDEN' && hintText !== '');
+                        
+                        if (isUnlocked) {
+                            return `
+                            <div style="margin-bottom: 10px; padding: 14px 18px; background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 10px;">
+                                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+                                    <span style="color: #10B981; font-weight: 700; font-size: 0.85rem;">🔓 Hint ${i + 1} (Ochilgan)</span>
+                                    <span style="font-size: 0.75rem; color: var(--text-muted);">-${cost} XP</span>
+                                </div>
+                                <p style="color: var(--text-primary); margin: 0; line-height: 1.6; font-size: 0.9rem;">${escapeHtml(hintText)}</p>
+                            </div>`;
+                        } else {
+                            return `
+                            <div style="margin-bottom: 10px; padding: 14px 18px; background: rgba(245, 158, 11, 0.05); border: 1px dashed rgba(245, 158, 11, 0.35); border-radius: 10px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+                                <div>
+                                    <div style="color: var(--warning); font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; gap: 6px;">
+                                        🔒 Hint ${i + 1}
+                                        <span style="font-size: 0.7rem; background: rgba(245,158,11,0.15); color: #F59E0B; padding: 2px 6px; border-radius: 4px;">Qulflangan</span>
+                                    </div>
+                                    <div style="color: var(--text-secondary); font-size: 0.78rem; margin-top: 3px;">
+                                        Narxi: <strong style="color: #F59E0B;">${cost} XP</strong> (${i === 0 ? '-20%' : (i === 1 ? '-40%' : '-50%')})
+                                    </div>
+                                </div>
+                                <button onclick="buyHint('${c._id || c.id}', ${i}, ${cost})" class="btn btn-warning btn-sm" style="background: #F59E0B; color: #000; font-weight: 700; padding: 7px 16px; border-radius: 8px; cursor: pointer; border: none; transition: 0.2s;">
+                                    ⚡ Ochish (${cost} XP)
+                                </button>
+                            </div>`;
+                        }
+                    }).join('')}
                 </div>
             ` : ''}
         </div>

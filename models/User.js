@@ -66,7 +66,8 @@ const userSchema = new mongoose.Schema({
     // ══════════════════════════════════════════
     // STATISTIKA
     // ══════════════════════════════════════════
-    score: { type: Number, default: 0, index: true },
+    score: { type: Number, default: 0 },
+    unlockedHints: [{ challengeId: mongoose.Schema.Types.ObjectId, hintIndex: Number }],
     xp: { type: Number, default: 0 },
     cyberLevel: { type: Number, default: 1, index: true },
 

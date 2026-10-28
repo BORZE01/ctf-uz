@@ -208,4 +208,42 @@ router.post('/:id/submit', async (req, res) => {
     }
 });
 
+
+// Hint sotib olish API
+router.post('/:id/hints/buy', protect, async (req, res) => {
+    try {
+        const { hintIndex } = req.body;
+        const challenge = await Challenge.findById(req.params.id);
+        if (!challenge || !challenge.hints || !challenge.hints[hintIndex]) {
+            return res.status(404).json({ success: false, message: 'Hint topilmadi' });
+        }
+
+        const user = await User.findById(req.user.id);
+        
+        // Oldin sotib olinganmi?
+        const alreadyUnlocked = user.unlockedHints.some(uh => uh.challengeId.toString() === challenge._id.toString() && uh.hintIndex === parseInt(hintIndex));
+        if (alreadyUnlocked) {
+            return res.json({ success: true, text: challenge.hints[hintIndex].text });
+        }
+
+        // Narxni hisoblash (Challenge points ning foizi)
+        // 0-hint (1-hint) = 20%, 1-hint (2-hint) = 40% 
+        const percentage = hintIndex === 0 ? 0.20 : 0.40;
+        const cost = Math.floor(challenge.points * percentage);
+
+        if (user.score < cost) {
+            return res.status(400).json({ success: false, message: `Yeterli ball yo'q. Hint narxi: ${cost} ball` });
+        }
+
+        // Ballni yechish va hintni ochish
+        user.score -= cost;
+        user.unlockedHints.push({ challengeId: challenge._id, hintIndex: parseInt(hintIndex) });
+        await user.save();
+
+        res.json({ success: true, text: challenge.hints[hintIndex].text, newScore: user.score });
+    } catch (err) {
+        res.status(500).json({ success: false, message: 'Server xatosi' });
+    }
+});
+
 module.exports = router;
