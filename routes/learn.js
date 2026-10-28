@@ -532,7 +532,7 @@ router.delete('/academy/paths/:id', requireStrictAdmin, async (req, res) => {
         if (p) {
             const mods = await Module.find({ pathSlug: p.slug });
             for (const m of mods) {
-                const less = await Lesson.find({ moduleSlug: m.slug });
+                const less = await Lesson.find({ moduleSlug: m.slug }).sort({ order: 1 });
                 for (const l of less) {
                     await Question.deleteMany({ lessonId: l._id });
                 }
@@ -580,7 +580,7 @@ router.delete('/academy/modules/:id', requireStrictAdmin, async (req, res) => {
         const mod = await Module.findByIdAndDelete(req.params.id);
         if (mod) {
             await LearningPath.updateMany({}, { $pull: { moduleSlugs: mod.slug } });
-            const less = await Lesson.find({ moduleSlug: mod.slug });
+            const less = await Lesson.find({ moduleSlug: mod.slug }).sort({ order: 1 });
             for (const l of less) {
                 await Question.deleteMany({ lessonId: l._id });
             }
