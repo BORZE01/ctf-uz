@@ -253,7 +253,7 @@ function renderLeaderboard(users) {
             : (u.username[0] || '?').toUpperCase();
 
         return `
-        <div class="leaderboard-row ${i < 3 ? 'top-' + (i + 1) : ''}" style="transition: all 0.3s;">
+        <a href="/u/${escapeHtml(u.username)}" class="leaderboard-row" ${i < 3 ? 'top-' + (i + 1) : ''}" style="transition: all 0.3s;">
             <div class="leaderboard-rank" style="display: flex; align-items: center; justify-content: center;">${rankIcon}</div>
             
             <div class="leaderboard-user">
@@ -284,10 +284,9 @@ function renderLeaderboard(users) {
                     </div>
                 </div>
             </div>
-            
             <div class="leaderboard-score">${(u.score || 0).toLocaleString()}</div>
             <div class="leaderboard-solved">${u.cyberLevel || 1}</div>
-        </div>
+        </a>
         `;
     }).join('');
 }
