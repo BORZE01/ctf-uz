@@ -84,7 +84,10 @@ router.get('/:id', async (req, res) => {
                 difficulty: challenge.difficulty,
                 points: challenge.points,
                 solves: challenge.solves || 0,
-                hints: (challenge.hints || []).map(h => h.text || h),
+                hints: (challenge.hints || []).map((h, i) => {
+                    const isUnlocked = user.unlockedHints && user.unlockedHints.some(uh => uh.challengeId.toString() === challenge._id.toString() && uh.hintIndex === i);
+                    return isUnlocked ? (h.text || h) : "LOCKED";
+                }),
                 evidence: challenge.evidence || [],
                 file: challenge.file,
                 fileName: challenge.fileName,
@@ -210,40 +213,50 @@ router.post('/:id/submit', async (req, res) => {
 
 
 // Hint sotib olish API
-router.post('/:id/hints/buy', protect, async (req, res) => {
+
+// Hint sotib olish API
+router.post('/:id/hints/buy', async (req, res) => {
     try {
+        if (!req.session || !req.session.user) {
+            return res.status(401).json({ success: false, message: "Kirish kerak" });
+        }
+        
         const { hintIndex } = req.body;
+        const index = parseInt(hintIndex);
         const challenge = await Challenge.findById(req.params.id);
-        if (!challenge || !challenge.hints || !challenge.hints[hintIndex]) {
+        
+        if (!challenge || !challenge.hints || !challenge.hints[index]) {
             return res.status(404).json({ success: false, message: 'Hint topilmadi' });
         }
 
-        const user = await User.findById(req.user.id);
+        const user = await User.findById(req.session.user.id);
+        if (!user.unlockedHints) user.unlockedHints = [];
         
-        // Oldin sotib olinganmi?
-        const alreadyUnlocked = user.unlockedHints.some(uh => uh.challengeId.toString() === challenge._id.toString() && uh.hintIndex === parseInt(hintIndex));
+        const alreadyUnlocked = user.unlockedHints.some(uh => uh.challengeId.toString() === challenge._id.toString() && uh.hintIndex === index);
+        const rawHint = challenge.hints[index];
+        const hintText = typeof rawHint === 'object' ? rawHint.text : rawHint;
+
         if (alreadyUnlocked) {
-            return res.json({ success: true, text: challenge.hints[hintIndex].text });
+            return res.json({ success: true, text: hintText, message: "Allaqachon ochilgan" });
         }
 
-        // Narxni hisoblash (Challenge points ning foizi)
-        // 0-hint (1-hint) = 20%, 1-hint (2-hint) = 40% 
-        const percentage = hintIndex === 0 ? 0.20 : 0.40;
-        const cost = Math.floor(challenge.points * percentage);
+        const percentage = index === 0 ? 0.20 : 0.40;
+        const cost = Math.floor((challenge.points || 100) * percentage);
 
-        if (user.score < cost) {
-            return res.status(400).json({ success: false, message: `Yeterli ball yo'q. Hint narxi: ${cost} ball` });
+        if ((user.score || 0) < cost) {
+            return res.status(400).json({ success: false, message: `Yeterli ball yo'q. Hint narxi: ${cost} XP` });
         }
 
-        // Ballni yechish va hintni ochish
         user.score -= cost;
-        user.unlockedHints.push({ challengeId: challenge._id, hintIndex: parseInt(hintIndex) });
+        user.unlockedHints.push({ challengeId: challenge._id, hintIndex: index });
         await user.save();
 
-        res.json({ success: true, text: challenge.hints[hintIndex].text, newScore: user.score });
+        res.json({ success: true, text: hintText, message: "Muvaffaqiyatli sotib olindi!" });
     } catch (err) {
+        console.error('Hint buy xatosi:', err.message);
         res.status(500).json({ success: false, message: 'Server xatosi' });
     }
 });
 
 module.exports = router;
+

@@ -58,9 +58,101 @@ async function buyHint(challengeId, hintIndex, cost) {
     }
 }
 
+
+function renderHints(challenge) {
+    if (!challenge.hints || challenge.hints.length === 0) return "";
+    let out = '<div style="margin-bottom: 24px;"><h4 style="margin-bottom: 12px; color: var(--warning);">💡 Maslahatlar (Ishoralar)</h4>';
+    
+    challenge.hints.forEach((h, i) => {
+        const text = typeof h === 'object' ? (h.text || '') : h;
+        const rate = i === 0 ? 0.20 : (i === 1 ? 0.40 : 0.50);
+        const cost = Math.round((challenge.points || 100) * rate);
+        const isUnlocked = h.isUnlocked || (text !== 'LOCKED' && text !== 'HIDDEN' && text !== '');
+        
+        if (isUnlocked) {
+            out += '<div style="margin-bottom: 10px; padding: 14px 18px; background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 10px;">';
+            out += '<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">';
+            out += '<span style="color: #10B981; font-weight: 700; font-size: 0.85rem;">🔓 Hint ' + (i + 1) + ' (Ochilgan)</span>';
+            out += '<span style="font-size: 0.75rem; color: var(--text-muted);">-' + cost + ' XP</span></div>';
+            out += '<p style="color: var(--text-primary); margin: 0; line-height: 1.6; font-size: 0.9rem;">' + text + '</p></div>';
+        } else {
+            const perc = i === 0 ? "-20%" : (i === 1 ? "-40%" : "-50%");
+            out += '<div style="margin-bottom: 10px; padding: 14px 18px; background: rgba(245, 158, 11, 0.05); border: 1px dashed rgba(245, 158, 11, 0.35); border-radius: 10px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">';
+            out += '<div><div style="color: var(--warning); font-weight: 700; font-size: 0.85rem;">🔒 Hint ' + (i + 1) + ' <span style="font-size: 0.7rem; background: rgba(245,158,11,0.15); color: #F59E0B; padding: 2px 6px; border-radius: 4px;">Qulflangan</span></div>';
+            out += '<div style="color: var(--text-secondary); font-size: 0.78rem; margin-top: 3px;">Narxi: <strong style="color: #F59E0B;">' + cost + ' XP</strong> (' + perc + ')</div></div>';
+            out += '<button onclick="buyHint(\'' + (challenge._id || challenge.id) + '\', ' + i + ', ' + cost + ')" class="btn btn-warning btn-sm" style="background: #F59E0B; color: #000; font-weight: 700; padding: 7px 16px; border-radius: 8px; cursor: pointer; border: none;">⚡ Ochish (' + cost + ' XP)</button></div>';
+        }
+    });
+    
+    out += '</div>';
+    return out;
+}
+
+async function buyHint(challengeId, hintIndex, cost) {
+    if (!confirm("Maslahatni (Hint " + (hintIndex + 1) + ") " + cost + " XP evaziga ochishni xohlaysizmi?\n\nBalansingizdan " + cost + " ball chegiriladi.")) return;
+    try {
+        const res = await fetch("/api/challenges/" + challengeId + "/hints/buy", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify({ hintIndex })
+        });
+        const data = await res.json();
+        if (!data.success) return alert(data.message || "Xatolik yuz berdi");
+        alert("🎉 " + (data.message || "Maslahat muvaffaqiyatli ochildi!"));
+        window.location.reload();
+    } catch (e) {
+        alert("Server bilan boglanishda xatolik yuz berdi!");
+    }
+}
+
 </script>
 <script src="/js/guard.js"></script>
 <script>
+
+window.escapeHtml = window.escapeHtml || function(text) {
+    if (!text) return "";
+    return String(text).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+};
+
+window.renderHints = function(challenge) {
+    if (!challenge || !challenge.hints || challenge.hints.length === 0) return "";
+    let out = '<div style="margin-bottom: 24px;"><h4 style="margin-bottom: 12px; color: var(--warning);">💡 Maslahatlar (Ishoralar)</h4>';
+    challenge.hints.forEach((h, i) => {
+        const text = typeof h === 'object' ? (h.text || '') : h;
+        const rate = i === 0 ? 0.20 : (i === 1 ? 0.40 : 0.50);
+        const cost = Math.round((challenge.points || 100) * rate);
+        const isUnlocked = h.isUnlocked || (text && text !== 'LOCKED' && text !== 'HIDDEN');
+        
+        if (isUnlocked) {
+            out += '<div style="margin-bottom: 10px; padding: 14px 18px; background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 10px;"><div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;"><span style="color: #10B981; font-weight: 700; font-size: 0.85rem;">🔓 Hint ' + (i + 1) + ' (Ochilgan)</span><span style="font-size: 0.75rem; color: var(--text-muted);">-' + cost + ' XP</span></div><p style="color: var(--text-primary); margin: 0; line-height: 1.6; font-size: 0.9rem;">' + window.escapeHtml(text) + '</p></div>';
+        } else {
+            const perc = i === 0 ? "-20%" : (i === 1 ? "-40%" : "-50%");
+            out += '<div style="margin-bottom: 10px; padding: 14px 18px; background: rgba(245, 158, 11, 0.05); border: 1px dashed rgba(245, 158, 11, 0.35); border-radius: 10px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;"><div><div style="color: var(--warning); font-weight: 700; font-size: 0.85rem;">🔒 Hint ' + (i + 1) + ' <span style="font-size: 0.7rem; background: rgba(245,158,11,0.15); color: #F59E0B; padding: 2px 6px; border-radius: 4px;">Qulflangan</span></div><div style="color: var(--text-secondary); font-size: 0.78rem; margin-top: 3px;">Narxi: <strong style="color: #F59E0B;">' + cost + ' XP</strong> (' + perc + ')</div></div><button onclick="window.buyHint(\'' + (challenge._id || challenge.id) + '\', ' + i + ', ' + cost + ')" class="btn btn-warning btn-sm" style="background: #F59E0B; color: #000; font-weight: 700; padding: 7px 16px; border-radius: 8px; cursor: pointer; border: none;">⚡ Ochish (' + cost + ' XP)</button></div>';
+        }
+    });
+    out += '</div>';
+    return out;
+};
+
+window.buyHint = async function(challengeId, hintIndex, cost) {
+    if (!confirm("Maslahatni (Hint " + (hintIndex + 1) + ") " + cost + " XP evaziga ochishni xohlaysizmi?\n\nBalansingizdan " + cost + " ball chegiriladi.")) return;
+    try {
+        const res = await fetch("/api/challenges/" + challengeId + "/hints/buy", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify({ hintIndex })
+        });
+        const data = await res.json();
+        if (!data.success) return alert(data.message || "Xatolik yuz berdi");
+        alert("🎉 " + (data.message || "Maslahat muvaffaqiyatli ochildi!"));
+        window.location.reload();
+    } catch (e) {
+        alert("Server bilan boglanishda xatolik yuz berdi!");
+    }
+};
+
 let challengeId = null;
 
 async function loadChallenge() {
@@ -118,45 +210,7 @@ async function loadChallenge() {
                 <p style="color: var(--text-secondary); line-height: 1.8;">${c.objective || 'Maqsad ko\'rsatilmagan'}</p>
             </div>
 
-            ${c.hints && c.hints.length > 0 ? `
-                <div style="margin-bottom: 24px;">
-                    <h4 style="margin-bottom: 12px; color: var(--warning); display: flex; align-items: center; gap: 8px;">
-                        💡 Maslahatlar (Ishoralar)
-                    </h4>
-                    ${c.hints.map((h, i) => {
-                        const hintText = typeof h === 'object' ? (h.text || '') : h;
-                        const cost = i === 0 ? Math.round((c.points || 100) * 0.20) : (i === 1 ? Math.round((c.points || 100) * 0.40) : Math.round((c.points || 100) * 0.50));
-                        const isUnlocked = h.isUnlocked || (hintText && hintText !== 'LOCKED' && hintText !== 'HIDDEN' && hintText !== '');
-                        
-                        if (isUnlocked) {
-                            return `
-                            <div style="margin-bottom: 10px; padding: 14px 18px; background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 10px;">
-                                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
-                                    <span style="color: #10B981; font-weight: 700; font-size: 0.85rem;">🔓 Hint ${i + 1} (Ochilgan)</span>
-                                    <span style="font-size: 0.75rem; color: var(--text-muted);">-${cost} XP</span>
-                                </div>
-                                <p style="color: var(--text-primary); margin: 0; line-height: 1.6; font-size: 0.9rem;">${escapeHtml(hintText)}</p>
-                            </div>`;
-                        } else {
-                            return `
-                            <div style="margin-bottom: 10px; padding: 14px 18px; background: rgba(245, 158, 11, 0.05); border: 1px dashed rgba(245, 158, 11, 0.35); border-radius: 10px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
-                                <div>
-                                    <div style="color: var(--warning); font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; gap: 6px;">
-                                        🔒 Hint ${i + 1}
-                                        <span style="font-size: 0.7rem; background: rgba(245,158,11,0.15); color: #F59E0B; padding: 2px 6px; border-radius: 4px;">Qulflangan</span>
-                                    </div>
-                                    <div style="color: var(--text-secondary); font-size: 0.78rem; margin-top: 3px;">
-                                        Narxi: <strong style="color: #F59E0B;">${cost} XP</strong> (${i === 0 ? '-20%' : (i === 1 ? '-40%' : '-50%')})
-                                    </div>
-                                </div>
-                                <button onclick="buyHint('${c._id || c.id}', ${i}, ${cost})" class="btn btn-warning btn-sm" style="background: #F59E0B; color: #000; font-weight: 700; padding: 7px 16px; border-radius: 8px; cursor: pointer; border: none; transition: 0.2s;">
-                                    ⚡ Ochish (${cost} XP)
-                                </button>
-                            </div>`;
-                        }
-                    }).join('')}
-                </div>
-            ` : ''}
+            ${window.renderHints(c)}
         </div>
 
         ${(c.file || (c.evidence && c.evidence.length > 0)) ? `
@@ -191,7 +245,34 @@ async function loadChallenge() {
                 <div style="padding: 20px; background: rgba(22,163,74,0.1); border: 1px solid rgba(22,163,74,0.3); border-radius: 12px; text-align: center;">
                     <div style="font-size: 3rem; margin-bottom: 12px;">🎉</div>
                     <h3 style="color: var(--success); margin-bottom: 8px;">Siz bu challengeni yechgansiz!</h3>
-                    <p style="color: var(--text-secondary); font-size: 0.85rem;">+${c.points} XP allaqachon qo'shilgan</p>
+                    ${(() => {
+        let spentXP = 0;
+        if (c.hints && c.hints.length > 0) {
+            c.hints.forEach((h, i) => {
+                const text = typeof h === 'object' ? (h.text || '') : h;
+                const isUnlocked = h.isUnlocked || (text && text !== 'LOCKED' && text !== 'HIDDEN');
+                if (isUnlocked) {
+                    const rate = i === 0 ? 0.20 : (i === 1 ? 0.40 : 0.50);
+                    spentXP += Math.round((c.points || 100) * rate);
+                }
+            });
+        }
+        const netXP = (c.points || 100) - spentXP;
+        
+        let ui = '<div style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.8; text-align: left; background: rgba(0,0,0,0.2); padding: 16px; border-radius: 8px; display: inline-block; margin-top: 10px; min-width: 240px;">';
+        ui += '<div style="display: flex; justify-content: space-between; gap: 24px;"><span>Asosiy ball:</span> <strong style="color: #10B981;">+' + (c.points||100) + ' XP</strong></div>';
+        
+        if (spentXP > 0) {
+            ui += '<div style="display: flex; justify-content: space-between; gap: 24px; border-bottom: 1px dashed rgba(255,255,255,0.15); padding-bottom: 8px; margin-bottom: 8px;"><span>Ishlatilgan ishoralar:</span> <strong style="color: #EF4444;">-' + spentXP + ' XP</strong></div>';
+        } else {
+            ui += '<div style="margin-top: 8px;"></div>';
+        }
+        
+        ui += '<div style="display: flex; justify-content: space-between; gap: 24px; font-size: 1.15rem;"><span style="color: #fff;">Sof yutuq:</span> <strong style="color: #3B82F6;">+' + netXP + ' XP</strong></div>';
+        ui += '</div>';
+        
+        return ui;
+    })()}
                 </div>
             ` : `
                 <div class="input-group">
