@@ -166,7 +166,7 @@ router.post('/:id/submit', async (req, res) => {
             user.solvedChallenges.push(challenge._id);
 
             // Level hisoblash
-            user.cyberLevel = Math.floor(user.xp / 500) + 1;
+            user.cyberLevel = Math.floor((user.xp || 0) / 1000) + 1;
 
             await user.save();
 

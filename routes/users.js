@@ -102,7 +102,7 @@ router.get('/profile', async (req, res) => {
                 levelProgress: levelInfo.progress,
                 levelStartXP: levelInfo.levelStartXP,
                 nextLevelXP: levelInfo.nextLevelXP,
-                cyberLevel: user.cyberLevel || 1,
+                cyberLevel: user.cyberLevel || 1 || 1,
                 rank,
                 globalRank,
                 regionRank,
