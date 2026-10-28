@@ -12,6 +12,8 @@ const moduleSchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now }
 });
 
+moduleSchema.pre(/^find/, function() { this.sort({ order: 1 }); });
+
 const lessonSchema = new mongoose.Schema({
     moduleSlug: { type: String, required: true, index: true },
     slug: { type: String, required: true, lowercase: true, trim: true },
@@ -25,6 +27,8 @@ const lessonSchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now }
 });
 lessonSchema.index({ moduleSlug: 1, slug: 1 }, { unique: true });
+
+lessonSchema.pre(/^find/, function() { this.sort({ order: 1 }); });
 
 const questionSchema = new mongoose.Schema({
     lessonId: { type: mongoose.Schema.Types.ObjectId, ref: 'Lesson', required: true, index: true },
