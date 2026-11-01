@@ -1,4 +1,21 @@
 const express = require('express');
+
+// --- Google reCAPTCHA funksiyasi ---
+async function verifyRecaptcha(token) {
+    if (!token) return false;
+    try {
+        const response = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({ secret: process.env.RECAPTCHA_SECRET_KEY, response: token })
+        });
+        const data = await response.json();
+        return data.success === true;
+    } catch (err) {
+        return false;
+    }
+}
+
 const bcrypt = require('bcryptjs');
 const QRCode = require('qrcode');
 const router = express.Router();
@@ -301,6 +318,14 @@ router.post('/login', loginLimiter, async (req, res) => {
             return res.status(400).json({ success: false, message: "Barcha maydonlarni to'ldiring" });
         }
 
+        
+        // reCAPTCHA tekshiruvi
+        const captchaToken = req.body.captchaToken;
+        const isHuman = await verifyRecaptcha(captchaToken);
+        if (!isHuman) {
+            return res.status(400).json({ success: false, message: "reCAPTCHA: Iltimos, robot emasligingizni tasdiqlang!" });
+        }
+        
         const identifier = `${req.ip}-${username}`;
         if (isAccountLocked(identifier)) {
             return res.status(429).json({

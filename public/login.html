@@ -49,6 +49,7 @@
     }
 </style>
 
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
 
@@ -99,6 +100,7 @@
                 <input type="password" id="login-pass" placeholder=" " required>
                 <label>Parol</label>
             </div>
+            <div class="g-recaptcha" data-sitekey="6LfSbgsuAAAAAFyhwdqva0QusLf72D5xcKmDEoOD" style="margin-bottom: 20px; display: flex; justify-content: center;"></div>
             <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; display: inline-flex; align-items: center; justify-content: center; gap: 8px;">
                 Kirish
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -208,7 +210,7 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'x-csrf-token': csrfData.csrfToken },
             credentials: 'include',
-            body: JSON.stringify({ username, password })
+            body: JSON.stringify({ username, password, captchaToken: typeof grecaptcha !== "undefined" ? grecaptcha.getResponse() : "" })
         });
         const data = await res.json();
 
@@ -224,10 +226,12 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
                 setTimeout(() => { window.location.href = redirect; }, 500);
             }
         } else {
-            msg.className = 'msg-box error'; msg.innerText = data.message || 'Xato';
+            if(window.grecaptcha) grecaptcha.reset();
+                msg.className; msg.innerText = data.message || 'Xato';
         }
     } catch (err) {
-        msg.className = 'msg-box error'; msg.innerText = 'Ulanish xatosi';
+        if(window.grecaptcha) grecaptcha.reset();
+                msg.className; msg.innerText = 'Ulanish xatosi';
     } finally {
         btn.disabled = false; btn.innerHTML = `Kirish <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`;
     }
