@@ -128,7 +128,7 @@ function render() {
     document.getElementById('battleContent').innerHTML = `
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
             <h1 style="font-family: Manrope; font-size: 1.6rem; font-weight: 900;">
-                ⚔️ Battle #${b.id.slice(-6)}
+                <i data-lucide="swords" class="icon-arena"></i> Battle #${b.id.slice(-6)}
             </h1>
             ${isActive ? `
                 <div style="font-family: JetBrains Mono; font-weight: 700; font-size: 1.2rem; color:#EF4444;">
@@ -136,7 +136,7 @@ function render() {
                 </div>
             ` : isCompleted ? `
                 <span style="padding: 6px 16px; background: rgba(16, 185, 129, 0.15); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 999px; font-weight: 700; font-size: 0.85rem;">
-                    ✅ TUGADI
+                    <i data-lucide="check-circle" class="icon-success"></i> TUGADI
                 </span>
             ` : ''}
         </div>
@@ -186,9 +186,9 @@ function renderChallenge(c, isActive) {
     
     let statusClass = '';
     let statusText = '';
-    if (solvedMe) { statusClass = 'solved-me'; statusText = '✅ Siz yechdingiz'; }
-    else if (solvedOther) { statusClass = 'solved-opponent'; statusText = '❌ Raqib yechdi'; }
-    else if (isActive) { statusText = '⏳ Kutilmoqda'; }
+    if (solvedMe) { statusClass = 'solved-me'; statusText = '<i data-lucide="check-circle" class="icon-success"></i> Siz yechdingiz'; }
+    else if (solvedOther) { statusClass = 'solved-opponent'; statusText = '<i data-lucide="x-circle" class="icon-error"></i> Raqib yechdi'; }
+    else if (isActive) { statusText = '<i data-lucide="hourglass" class="icon-wait"></i> Kutilmoqda'; }
     else { statusText = 'Yopiq'; }
 
     return `
@@ -243,10 +243,10 @@ async function submitFlag(challengeId) {
         const data = await res.json();
 
         if (data.correct) {
-            msg.innerHTML = '<span style="color:#10B981;">✅ ' + esc(data.message) + '</span>';
+            msg.innerHTML = '<span style="color:#10B981;"><i data-lucide="check-circle" class="icon-success"></i> ' + esc(data.message) + '</span>';
             setTimeout(() => loadBattle(), 800);
         } else {
-            msg.innerHTML = '<span style="color:#EF4444;">❌ ' + esc(data.message) + '</span>';
+            msg.innerHTML = '<span style="color:#EF4444;"><i data-lucide="x-circle" class="icon-error"></i> ' + esc(data.message) + '</span>';
         }
     } catch (e) {
         msg.innerHTML = '<span style="color:#EF4444;">Ulanish xatosi</span>';
@@ -279,5 +279,7 @@ window.addEventListener('load', async () => {
     refreshInterval = setInterval(loadBattle, 5000);
 });
 </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>lucide.createIcons();</script>
 </body>
 </html>

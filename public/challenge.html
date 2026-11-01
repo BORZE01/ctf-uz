@@ -72,7 +72,7 @@ function renderHints(challenge) {
         if (isUnlocked) {
             out += '<div style="margin-bottom: 10px; padding: 14px 18px; background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 10px;">';
             out += '<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">';
-            out += '<span style="color: #10B981; font-weight: 700; font-size: 0.85rem;">🔓 Hint ' + (i + 1) + ' (Ochilgan)</span>';
+            out += '<span style="color: #10B981; font-weight: 700; font-size: 0.85rem;"><i data-lucide="unlock" class="icon-auth"></i> Hint ' + (i + 1) + ' (Ochilgan)</span>';
             out += '<span style="font-size: 0.75rem; color: var(--text-muted);">-' + cost + ' XP</span></div>';
             out += '<p style="color: var(--text-primary); margin: 0; line-height: 1.6; font-size: 0.9rem;">' + text + '</p></div>';
         } else {
@@ -125,7 +125,7 @@ window.renderHints = function(challenge) {
         const isUnlocked = h.isUnlocked || (text && text !== 'LOCKED' && text !== 'HIDDEN');
         
         if (isUnlocked) {
-            out += '<div style="margin-bottom: 10px; padding: 14px 18px; background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 10px;"><div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;"><span style="color: #10B981; font-weight: 700; font-size: 0.85rem;">🔓 Hint ' + (i + 1) + ' (Ochilgan)</span><span style="font-size: 0.75rem; color: var(--text-muted);">-' + cost + ' XP</span></div><p style="color: var(--text-primary); margin: 0; line-height: 1.6; font-size: 0.9rem;">' + window.escapeHtml(text) + '</p></div>';
+            out += '<div style="margin-bottom: 10px; padding: 14px 18px; background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 10px;"><div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;"><span style="color: #10B981; font-weight: 700; font-size: 0.85rem;"><i data-lucide="unlock" class="icon-auth"></i> Hint ' + (i + 1) + ' (Ochilgan)</span><span style="font-size: 0.75rem; color: var(--text-muted);">-' + cost + ' XP</span></div><p style="color: var(--text-primary); margin: 0; line-height: 1.6; font-size: 0.9rem;">' + window.escapeHtml(text) + '</p></div>';
         } else {
             const perc = i === 0 ? "-20%" : (i === 1 ? "-40%" : "-50%");
             out += '<div style="margin-bottom: 10px; padding: 14px 18px; background: rgba(245, 158, 11, 0.05); border: 1px dashed rgba(245, 158, 11, 0.35); border-radius: 10px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;"><div><div style="color: var(--warning); font-weight: 700; font-size: 0.85rem;">🔒 Hint ' + (i + 1) + ' <span style="font-size: 0.7rem; background: rgba(245,158,11,0.15); color: #F59E0B; padding: 2px 6px; border-radius: 4px;">Qulflangan</span></div><div style="color: var(--text-secondary); font-size: 0.78rem; margin-top: 3px;">Narxi: <strong style="color: #F59E0B;">' + cost + ' XP</strong> (' + perc + ')</div></div><button onclick="window.buyHint(\'' + (challenge._id || challenge.id) + '\', ' + i + ', ' + cost + ')" class="btn btn-warning btn-sm" style="background: #F59E0B; color: #000; font-weight: 700; padding: 7px 16px; border-radius: 8px; cursor: pointer; border: none;">⚡ Ochish (' + cost + ' XP)</button></div>';
@@ -170,7 +170,7 @@ async function loadChallenge() {
     if (!res.success) {
         document.getElementById('challenge-content').innerHTML = `
             <div class="card-glass" style="padding: 60px; text-align: center;">
-                <h2 style="color: var(--error); margin-bottom: 16px;">❌ Challenge topilmadi</h2>
+                <h2 style="color: var(--error); margin-bottom: 16px;"><i data-lucide="x-circle" class="icon-error"></i> Challenge topilmadi</h2>
                 <a href="/arena" class="active" class="btn btn-primary">Arenaga qaytish</a>
             </div>
         `;
@@ -190,7 +190,7 @@ async function loadChallenge() {
                     <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
                         <span class="badge badge-${c.category.toLowerCase()}">${c.category}</span>
                         <span class="badge badge-${c.difficulty.toLowerCase()}">${c.difficulty}</span>
-                        ${c.solved ? '<span class="badge badge-easy">✅ YECHILGAN</span>' : ''}
+                        ${c.solved ? '<span class="badge badge-easy"><i data-lucide="check-circle" class="icon-success"></i> YECHILGAN</span>' : ''}
                     </div>
                     <h1 style="margin: 0;">${c.title}</h1>
                 </div>
@@ -206,7 +206,7 @@ async function loadChallenge() {
             </div>
 
             <div style="margin-bottom: 24px;">
-                <h4 style="margin-bottom: 12px; color: var(--uz-blue);">🎯 Objective</h4>
+                <h4 style="margin-bottom: 12px; color: var(--uz-blue);"><i data-lucide="target" class="icon-aim"></i> Objective</h4>
                 <p style="color: var(--text-secondary); line-height: 1.8;">${c.objective || 'Maqsad ko\'rsatilmagan'}</p>
             </div>
 
@@ -304,7 +304,7 @@ async function submitFlag() {
 
     if (!flag) {
         msg.className = 'msg-box error';
-        msg.innerText = '❌ Flagni kiriting';
+        msg.innerText = '<i data-lucide="x-circle" class="icon-error"></i> Flagni kiriting';
         return;
     }
 
@@ -316,15 +316,15 @@ async function submitFlag() {
 
         if (res.success) {
             msg.className = 'msg-box success';
-            msg.innerText = '✅ ' + res.message;
+            msg.innerText = '<i data-lucide="check-circle" class="icon-success"></i> ' + res.message;
             setTimeout(() => loadChallenge(), 1500);
         } else {
             msg.className = 'msg-box error';
-            msg.innerText = '❌ ' + res.message;
+            msg.innerText = '<i data-lucide="x-circle" class="icon-error"></i> ' + res.message;
         }
     } catch (err) {
         msg.className = 'msg-box error';
-        msg.innerText = '❌ Ulanish xatosi';
+        msg.innerText = '<i data-lucide="x-circle" class="icon-error"></i> Ulanish xatosi';
     } finally {
         btn.disabled = false;
         btn.innerText = 'Flagni yuborish →';
@@ -352,5 +352,7 @@ window.addEventListener('load', async () => {
 
 </script>
     <script src="/js/preloader.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>lucide.createIcons();</script>
 </body>
 </html>

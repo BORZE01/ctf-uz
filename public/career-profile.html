@@ -146,11 +146,11 @@ document.addEventListener("DOMContentLoaded", async () => {
                             </div>
                             <h3 style="font-family: Manrope; font-weight: 800; font-size: 1.2rem; color: #F1F5F9; margin-bottom: 6px;">${job.title}</h3>
                             <div style="color: #94A3B8; font-size: 0.85rem; margin-bottom: 16px; display: flex; align-items: center; gap: 6px;">
-                                🏢 ${job.company}
+                                <i data-lucide="building" class="icon-company"></i> ${job.company}
                             </div>
                             <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;">
                                 <span class="tag">${job.type}</span>
-                                <span class="tag salary">💰 ${job.salary}</span>
+                                <span class="tag salary"><i data-lucide="coins" class="icon-money"></i> ${job.salary}</span>
                             </div>
                         </div>
                         <a href="/job?id=${job.id}" class="btn btn-secondary" style="width: 100%; justify-content: center;">Batafsil & Ariza</a>
@@ -164,5 +164,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 </script>
 <script src="/js/preloader.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>lucide.createIcons();</script>
 </body>
 </html>

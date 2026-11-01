@@ -389,7 +389,7 @@ function renderBattleCard(b) {
                 </a>
             ` : isMyInvite ? `
                 <div style="text-align: center; color: var(--text3); font-size: 0.8rem; padding: 12px; background: rgba(245, 185, 66, 0.05); border-radius: 10px;">
-                    ⏳ Raqib javobini kutmoqda...
+                    <i data-lucide="hourglass" class="icon-wait"></i> Raqib javobini kutmoqda...
                 </div>
             ` : ''}
         </div>
@@ -443,7 +443,7 @@ async function loadHistory() {
                                         ${b.scores.mine} : ${b.scores.opponent}
                                     </div>
                                     <div style="font-size: 0.72rem; color: var(--text3);">
-                                        ${won ? '🏆 G\'alaba' : draw ? '🤝 Durang' : '❌ Mag\'lubiyat'}
+                                        ${won ? '<i data-lucide="trophy" class="icon-award"></i> G\'alaba' : draw ? '🤝 Durang' : '<i data-lucide="x-circle" class="icon-error"></i> Mag\'lubiyat'}
                                     </div>
                                 </div>
                                 
@@ -576,13 +576,13 @@ async function createBattle() {
         const data = await res.json();
 
         if (data.success) {
-            msg.innerHTML = '<span style="color:#10B981;">✅ ' + esc(data.message) + '</span>';
+            msg.innerHTML = '<span style="color:#10B981;"><i data-lucide="check-circle" class="icon-success"></i> ' + esc(data.message) + '</span>';
             setTimeout(() => {
                 closeCreateModal();
                 loadBattles();
             }, 1500);
         } else {
-            msg.innerHTML = '<span style="color:#EF4444;">❌ ' + esc(data.message) + '</span>';
+            msg.innerHTML = '<span style="color:#EF4444;"><i data-lucide="x-circle" class="icon-error"></i> ' + esc(data.message) + '</span>';
         }
     } catch (e) {
         msg.innerHTML = '<span style="color:#EF4444;">Ulanish xatosi</span>';
@@ -640,6 +640,8 @@ document.getElementById('createModal').addEventListener('click', (e) => {
     if (e.target.id === 'createModal') closeCreateModal();
 });
 </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>lucide.createIcons();</script>
 </body>
 </html>
 

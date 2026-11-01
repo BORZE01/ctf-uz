@@ -52,15 +52,15 @@
     <div id="emp-main-wrapper" style="display:none;">
     
     <div style="margin-bottom: 24px;">
-        <h1 style="color: #fff; font-family: Manrope; font-size: 2.2rem; margin-bottom: 8px;">🏢 Ish beruvchi kabineti</h1>
+        <h1 style="color: #fff; font-family: Manrope; font-size: 2.2rem; margin-bottom: 8px;"><i data-lucide="building" class="icon-company"></i> Ish beruvchi kabineti</h1>
         <p style="color: #94A3B8;">Vakansiyalaringizni boshqaring, nomzodlarni ko'rib chiqing va jamoangizni kengaytiring.</p>
         <div id="company-status-badge" style="margin-top: 12px; display: inline-block; padding: 6px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: bold;"></div>
     </div>
 
     <div style="display: flex; gap: 16px; border-bottom: 1px solid rgba(74,127,255,0.2); margin-bottom: 24px;">
         <button class="tab-btn active" onclick="switchTab('dashboard')">📊 Dashboard</button>
-        <button class="tab-btn" onclick="switchTab('profile')">🏢 Kompaniya Profili</button>
-        <button class="tab-btn" onclick="switchTab('jobs')">💼 Vakansiyalar</button>
+        <button class="tab-btn" onclick="switchTab('profile')"><i data-lucide="building" class="icon-company"></i> Kompaniya Profili</button>
+        <button class="tab-btn" onclick="switchTab('jobs')"><i data-lucide="briefcase" class="icon-job"></i> Vakansiyalar</button>
         <button class="tab-btn" onclick="switchTab('apps')">📄 Arizalar</button>
     </div>
 
@@ -335,7 +335,7 @@ async function saveProfile() {
         
         if (data.success) {
             btn.style.background = "linear-gradient(135deg, #10B981, #059669)";
-            btn.innerText = "✅ " + data.message;
+            btn.innerText = "<i data-lucide="check-circle" class="icon-success"></i> " + data.message;
             setTimeout(() => {
                 btn.style.background = "";
                 btn.innerText = originalText;
@@ -408,6 +408,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>lucide.createIcons();</script>
 </body>
 </html>
 

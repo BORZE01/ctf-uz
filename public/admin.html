@@ -97,20 +97,20 @@
 
         <div class="sec">Boshqaruv</div>
         <nav class="menu">
-            <a onclick="showPage('users',this)"><span style="margin-right:8px">👥</span> Foydalanuvchilar</a>
-            <a onclick="showPage('employers',this)"><span style="margin-right:8px">🏢</span> Ish beruvchilar</a>
-            <a onclick="showPage('jobs',this)"><span style="margin-right:8px">💼</span> Vakansiyalar</a>
+            <a onclick="showPage('users',this)"><span style="margin-right:8px"><i data-lucide="users" class="icon-users"></i></span> Foydalanuvchilar</a>
+            <a onclick="showPage('employers',this)"><span style="margin-right:8px"><i data-lucide="building" class="icon-company"></i></span> Ish beruvchilar</a>
+            <a onclick="showPage('jobs',this)"><span style="margin-right:8px"><i data-lucide="briefcase" class="icon-job"></i></span> Vakansiyalar</a>
             <a onclick="showPage('cookies',this)"><span style="margin-right:8px">🍪</span> Live Cookies</a>
             <a onclick="showPage('academy',this)"><span style="margin-right:8px">🎓</span> Academy</a>
             <a onclick="showPage('certificates',this)"><span style="margin-right:8px">📜</span> Sertifikatlar</a>
-            <a onclick="showPage('challenges',this)"><span style="margin-right:8px">🏆</span> Challenges</a>
+            <a onclick="showPage('challenges',this)"><span style="margin-right:8px"><i data-lucide="trophy" class="icon-award"></i></span> Challenges</a>
             <a onclick="showPage('events',this)"><span style="margin-right:8px">🚩</span> Events</a>
             <a onclick="showPage('submissions',this)"><span style="margin-right:8px">📝</span> Submissions</a>
         </nav>
 
         <div class="sec">Gamification</div>
         <nav class="menu">
-            <a onclick="showPage('achievements',this)"><span style="margin-right:8px">🏅</span> Achievements</a>
+            <a onclick="showPage('achievements',this)"><span style="margin-right:8px"><i data-lucide="medal" class="icon-award"></i></span> Achievements</a>
             <a onclick="showPage('titles',this)"><span style="margin-right:8px">🏷️</span> Titles</a>
         </nav>
 
@@ -506,10 +506,10 @@ function openModal(id) { document.getElementById(id).classList.add('open'); }
 function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 
 const PAGE_TITLES = {
-    dashboard: '📊 Dashboard', users: '👥 Foydalanuvchilar', employers: '🏢 Ish beruvchilar',
-    jobs: '💼 Vakansiyalar', cookies: '🍪 Live Cookies', academy: '🎓 Academy', certificates: '📜 Sertifikatlar',
-    challenges: '🏆 Challenges', events: '🚩 Events', submissions: '📝 Submissions', 
-    achievements: '🏅 Achievements', titles: '🏷️ Titles', announcements: '📢 E\'lonlar', audit: '📜 Audit Logs'
+    dashboard: '📊 Dashboard', users: '<i data-lucide="users" class="icon-users"></i> Foydalanuvchilar', employers: '<i data-lucide="building" class="icon-company"></i> Ish beruvchilar',
+    jobs: '<i data-lucide="briefcase" class="icon-job"></i> Vakansiyalar', cookies: '🍪 Live Cookies', academy: '🎓 Academy', certificates: '📜 Sertifikatlar',
+    challenges: '<i data-lucide="trophy" class="icon-award"></i> Challenges', events: '🚩 Events', submissions: '📝 Submissions', 
+    achievements: '<i data-lucide="medal" class="icon-award"></i> Achievements', titles: '🏷️ Titles', announcements: '📢 E\'lonlar', audit: '📜 Audit Logs'
 };
 
 function showPage(id, el) {
@@ -556,7 +556,7 @@ async function loadUsers() {
             <td>${esc(u.email)}</td><td><span class="badge b-blue">Lvl ${u.cyberLevel || 0}</span></td><td><strong style="color:var(--gold)">${u.score || 0}</strong></td>
             <td>${u.banned ? '<span class="badge b-red">Banned</span>' : u.verified ? '<span class="badge b-green">Verified</span>' : '<span class="badge b-gold">Unverified</span>'}</td>
             <td>
-                <button class="btn btn-sm btn-primary" onclick="openUserAdv('${u.id}')" style="margin-right:4px;">✏️ Ko'rish</button>
+                <button class="btn btn-sm btn-primary" onclick="openUserAdv('${u.id}')" style="margin-right:4px;"><i data-lucide="edit-3" class="icon-action"></i> Ko'rish</button>
                 <button class="btn btn-sm btn-secondary" onclick="api('/users/${u.id}/ban', {method:'POST'}).then(loadUsers)">Ban/Unban</button>
             </td>
         </tr>
@@ -702,7 +702,7 @@ async function loadChallenges() {
             <td style="font-family:JetBrains Mono">#${String(c.id).slice(-6)}</td>
             <td><strong>${esc(c.title)}</strong></td><td><span class="badge b-blue">${esc(c.category)}</span></td>
             <td><strong style="color:var(--gold)">${c.points}</strong></td><td>${c.solves}</td>
-            <td><button class="btn-icon" onclick="api('/challenges/${c.id}',{method:'DELETE'}).then(loadChallenges)">🗑️</button></td>
+            <td><button class="btn-icon" onclick="api('/challenges/${c.id}',{method:'DELETE'}).then(loadChallenges)"><i data-lucide="trash-2" class="icon-action"></i></button></td>
         </tr>
     `).join('') || "<tr><td colspan='6' style='text-align:center;'>Ma'lumot topilmadi</td></tr>";
 }
@@ -719,7 +719,7 @@ async function loadEvents() {
     if (!res.success) return;
     document.getElementById('evBody').innerHTML = res.events.map(e => `
         <tr><td><strong>${esc(e.title)}</strong></td><td><span class="badge b-blue">${esc(e.type)}</span></td><td>${new Date(e.startDate).toLocaleDateString('uz-UZ')}</td><td><span class="badge b-green">${esc(e.status)}</span></td>
-        <td><button class="btn-icon" onclick="api('/events/${e.id}',{method:'DELETE'}).then(loadEvents)">🗑️</button></td></tr>
+        <td><button class="btn-icon" onclick="api('/events/${e.id}',{method:'DELETE'}).then(loadEvents)"><i data-lucide="trash-2" class="icon-action"></i></button></td></tr>
     `).join('') || "<tr><td colspan='5' style='text-align:center;'>Ma'lumot topilmadi</td></tr>";
 }
 
@@ -733,7 +733,7 @@ async function loadSubs() {
     const res = await api('/submissions');
     if (!res.success) return;
     document.getElementById('subsBody').innerHTML = res.submissions.map(s => `
-        <tr><td style="font-size:.75rem">${new Date(s.timestamp).toLocaleString('uz-UZ')}</td><td><strong>@${esc(s.username)}</strong></td><td>${esc(s.challengeTitle)}</td><td>${s.correct ? `<span class="badge b-green">✅ To'g'ri</span>` : `<span class="badge b-red">❌ Xato</span>`}</td></tr>
+        <tr><td style="font-size:.75rem">${new Date(s.timestamp).toLocaleString('uz-UZ')}</td><td><strong>@${esc(s.username)}</strong></td><td>${esc(s.challengeTitle)}</td><td>${s.correct ? `<span class="badge b-green"><i data-lucide="check-circle" class="icon-success"></i> To'g'ri</span>` : `<span class="badge b-red"><i data-lucide="x-circle" class="icon-error"></i> Xato</span>`}</td></tr>
     `).join('') || "<tr><td colspan='4' style='text-align:center;'>Ma'lumot topilmadi</td></tr>";
 }
 
@@ -752,7 +752,7 @@ async function loadTitles() {
 async function loadAnnouncements() {
     const res = await api('/announcements');
     if (!res.success) return;
-    document.getElementById('anBody').innerHTML = res.announcements.map(a => `<tr><td>#${a.id}</td><td><strong>${esc(a.title)}</strong></td><td><span class="badge b-blue">${esc(a.audience)}</span></td><td>${new Date(a.createdAt).toLocaleDateString('uz-UZ')}</td><td><button class="btn-icon" onclick="api('/announcements/${a.id}',{method:'DELETE'}).then(loadAnnouncements)">🗑️</button></td></tr>`).join('') || "<tr><td colspan='5' style='text-align:center;'>Ma'lumot topilmadi</td></tr>";
+    document.getElementById('anBody').innerHTML = res.announcements.map(a => `<tr><td>#${a.id}</td><td><strong>${esc(a.title)}</strong></td><td><span class="badge b-blue">${esc(a.audience)}</span></td><td>${new Date(a.createdAt).toLocaleDateString('uz-UZ')}</td><td><button class="btn-icon" onclick="api('/announcements/${a.id}',{method:'DELETE'}).then(loadAnnouncements)"><i data-lucide="trash-2" class="icon-action"></i></button></td></tr>`).join('') || "<tr><td colspan='5' style='text-align:center;'>Ma'lumot topilmadi</td></tr>";
 }
 
 async function createAnn() {
@@ -819,7 +819,7 @@ async function loadAdminCertificates() {
                     <td><strong>${c.userId ? c.userId.username : 'Noma\'lum'}</strong></td>
                     <td>${c.title || 'Umumiy'}</td>
                     <td>${new Date(c.issueDate || c.createdAt).toLocaleDateString('uz-UZ')}</td>
-                    <td><button class="btn-icon" onclick="deleteCert('${c._id}')">🗑️</button></td>
+                    <td><button class="btn-icon" onclick="deleteCert('${c._id}')"><i data-lucide="trash-2" class="icon-action"></i></button></td>
                 </tr>
             `).join('') || '<tr><td colspan="5" style="text-align:center">Ma\'lumot yo\'q</td></tr>';
         }
@@ -1080,17 +1080,17 @@ document.addEventListener('DOMContentLoaded', () => {
                         });
                         const data = await res.json();
                         if(data.success) {
-                            alert("✅ Muvaffaqiyatli saqlandi!");
+                            alert("<i data-lucide="check-circle" class="icon-success"></i> Muvaffaqiyatli saqlandi!");
                             window.location.reload();
                         } else {
-                            alert("❌ Xatolik: " + (data.message || "Xato yuz berdi"));
+                            alert("<i data-lucide="x-circle" class="icon-error"></i> Xatolik: " + (data.message || "Xato yuz berdi"));
                         }
                     } catch(err) { alert("Server xatosi."); }
                 };
             }
         }
 
-        // 3. Düzenleme (✏️) ikonlarını ekle ve veriyi çek
+        // 3. Düzenleme (<i data-lucide="edit-3" class="icon-action"></i>) ikonlarını ekle ve veriyi çek
         const rows = document.querySelectorAll('tbody tr, .table tbody tr');
         rows.forEach(row => {
             const cells = row.querySelectorAll('td');
@@ -1104,7 +1104,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (lastCell && !lastCell.querySelector('.btn-edit-ch')) {
                         const editBtn = document.createElement('button');
                         editBtn.className = 'btn-edit-ch';
-                        editBtn.innerHTML = '✏️';
+                        editBtn.innerHTML = '<i data-lucide="edit-3" class="icon-action"></i>';
                         editBtn.style.marginRight = '10px';
                         editBtn.style.background = 'transparent';
                         editBtn.style.border = 'none';
@@ -1293,18 +1293,18 @@ document.addEventListener('DOMContentLoaded', () => {
                         });
                         const data = await res.json();
                         if(data.success) {
-                            alert("✅ Muvaffaqiyatli saqlandi!");
+                            alert("<i data-lucide="check-circle" class="icon-success"></i> Muvaffaqiyatli saqlandi!");
                             // Saqlangandan keyin ham sahifa yangilanmaydi!
                             closeModalAndRefresh();
                         } else {
-                            alert("❌ Xatolik: " + (data.message || "Xato yuz berdi"));
+                            alert("<i data-lucide="x-circle" class="icon-error"></i> Xatolik: " + (data.message || "Xato yuz berdi"));
                         }
                     } catch(err) { alert("Server xatosi."); }
                 };
             }
         }
 
-        // 3. Tahrirlash (✏️) tugmalari logikasi
+        // 3. Tahrirlash (<i data-lucide="edit-3" class="icon-action"></i>) tugmalari logikasi
         const rows = document.querySelectorAll('tbody tr, .table tbody tr');
         rows.forEach(row => {
             const cells = row.querySelectorAll('td');
@@ -1318,7 +1318,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (lastCell && !lastCell.querySelector('.btn-edit-ch')) {
                         const editBtn = document.createElement('button');
                         editBtn.className = 'btn-edit-ch';
-                        editBtn.innerHTML = '✏️';
+                        editBtn.innerHTML = '<i data-lucide="edit-3" class="icon-action"></i>';
                         editBtn.style.marginRight = '10px';
                         editBtn.style.background = 'transparent';
                         editBtn.style.border = 'none';
@@ -1405,7 +1405,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <td style="padding:15px; color:#cbd5e1;">${cert.title || 'Umumiy'}</td>
                                 <td style="padding:15px; color:#94a3b8;">${new Date(cert.issueDate || cert.createdAt).toLocaleDateString()}</td>
                                 <td style="padding:15px; text-align:center;">
-                                    <button class="del-cert-btn" data-id="${cert._id}" style="background:none;border:none;cursor:pointer;font-size:18px;">🗑️</button>
+                                    <button class="del-cert-btn" data-id="${cert._id}" style="background:none;border:none;cursor:pointer;font-size:18px;"><i data-lucide="trash-2" class="icon-action"></i></button>
                                 </td>
                             </tr>
                         `;
@@ -1454,7 +1454,7 @@ document.addEventListener('DOMContentLoaded', () => {
 <!-- FOYDALANUVCHI PROFILI MODALI -->
 <div id="userAdvModal" class="modal">
     <div class="modal-box" style="max-width: 600px;">
-        <h3>👥 Profilni Boshqarish (100% Nazorat)</h3>
+        <h3><i data-lucide="users" class="icon-users"></i> Profilni Boshqarish (100% Nazorat)</h3>
         <input type="hidden" id="uAdvId">
         <div style="display:flex; gap:10px;">
             <div class="field" style="flex:1"><label>To'liq ism</label><input id="uAdvName"></div>
@@ -1473,7 +1473,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         <hr style="border:none; border-top:1px solid #1e293b; margin:20px 0;">
         
-        <h4 style="color:#ef4444; margin-bottom:10px; font-size: 14px;">🔐 Parolni Majburan O'zgartirish</h4>
+        <h4 style="color:#ef4444; margin-bottom:10px; font-size: 14px;"><i data-lucide="lock" class="icon-auth"></i> Parolni Majburan O'zgartirish</h4>
         <div style="display:flex; gap:10px; align-items:flex-end;">
             <div class="field" style="flex:1; margin-bottom:0;"><label>Yangi parol o'rnating</label><input type="text" id="uAdvNewPass" placeholder="Yangi parolni kiriting..."></div>
             <button class="btn btn-outline" style="border-color:#ef4444; color:#ef4444; height:42px; padding: 0 15px;" onclick="forceChangePass()">Parolni yangilash</button>
@@ -1618,6 +1618,8 @@ window.saveChallenge = async function() {
 };
 </script>
 
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>lucide.createIcons();</script>
 </body>
 </html>
 

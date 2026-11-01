@@ -146,11 +146,11 @@ document.addEventListener("DOMContentLoaded", async () => {
                             </div>
                             <h3 style="font-family: Manrope; font-weight: 800; font-size: 1.2rem; color: #F1F5F9; margin-bottom: 6px;">${job.title}</h3>
                             <div style="color: #94A3B8; font-size: 0.85rem; margin-bottom: 16px; display: flex; align-items: center; gap: 6px;">
-                                🏢 ${job.company}
+                                <i data-lucide="building" class="icon-company"></i> ${job.company}
                             </div>
                             <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;">
                                 <span class="tag">${job.type}</span>
-                                <span class="tag salary">💰 ${job.salary}</span>
+                                <span class="tag salary"><i data-lucide="coins" class="icon-money"></i> ${job.salary}</span>
                             </div>
                         </div>
                         <a href="/job?id=${job.id}" class="btn btn-secondary" style="width: 100%; justify-content: center;">Batafsil & Ariza</a>
@@ -185,7 +185,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Avvalroq ariza yuborilganini tekshirish
         const appliedJobs = JSON.parse(localStorage.getItem('appliedJobs') || '[]');
         if (appliedJobs.includes(String(jobId))) {
-            actionContainer.innerHTML = `<div style="width:100%; padding:14px; background:rgba(16,185,129,0.1); color:#10B981; border:1px solid #10B981; border-radius:12px; font-weight:bold; text-align:center;">✅ Arizangiz ko'rib chiqilmoqda</div>`;
+            actionContainer.innerHTML = `<div style="width:100%; padding:14px; background:rgba(16,185,129,0.1); color:#10B981; border:1px solid #10B981; border-radius:12px; font-weight:bold; text-align:center;"><i data-lucide="check-circle" class="icon-success"></i> Arizangiz ko'rib chiqilmoqda</div>`;
             return;
         }
 
@@ -196,7 +196,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const user = data.user;
         if (user.role === 'admin' || user.role === 'super_admin' || user.role === 'employer') {
-            actionContainer.innerHTML = '<button onclick="window.location.href=\'/employer\'" style="width:100%; padding:14px; background:linear-gradient(135deg, #8B5CF6, #6D28D9); color:#fff; border:none; border-radius:12px; font-weight:bold; cursor:pointer;">🏢 Ish beruvchi paneli</button>';
+            actionContainer.innerHTML = '<button onclick="window.location.href=\'/employer\'" style="width:100%; padding:14px; background:linear-gradient(135deg, #8B5CF6, #6D28D9); color:#fff; border:none; border-radius:12px; font-weight:bold; cursor:pointer;"><i data-lucide="building" class="icon-company"></i> Ish beruvchi paneli</button>';
         } else {
             actionContainer.innerHTML = `<button onclick="window.submitApplication('${jobId}')" id="apply-btn" style="width:100%; padding:14px; background:linear-gradient(135deg, #10B981, #059669); color:#fff; border:none; border-radius:12px; font-weight:bold; cursor:pointer; font-size:1rem;">📄 Ariza topshirish</button>`;
         }
@@ -225,11 +225,13 @@ window.submitApplication = async function(jobId) {
 
     const actionContainer = document.getElementById('dynamic-action-container');
     if(actionContainer) {
-        actionContainer.innerHTML = `<div style="width:100%; padding:14px; background:rgba(16,185,129,0.1); color:#10B981; border:1px solid #10B981; border-radius:12px; font-weight:bold; text-align:center;">✅ Arizangiz ko'rib chiqilmoqda</div>`;
+        actionContainer.innerHTML = `<div style="width:100%; padding:14px; background:rgba(16,185,129,0.1); color:#10B981; border:1px solid #10B981; border-radius:12px; font-weight:bold; text-align:center;"><i data-lucide="check-circle" class="icon-success"></i> Arizangiz ko'rib chiqilmoqda</div>`;
     }
     alert("Arizangiz muvaffaqiyatli qabul qilindi!");
 };
 </script>
 
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>lucide.createIcons();</script>
 </body>
 </html>

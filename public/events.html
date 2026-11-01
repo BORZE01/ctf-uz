@@ -84,8 +84,8 @@ async function loadEvents() {
                     </div>
                     <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 12px;">${e.description}</p>
                     <div style="display: flex; gap: 20px; font-size: 0.8rem; color: var(--text-muted); font-family: JetBrains Mono;">
-                        <span>📅 ${startDate}</span>
-                        <span>👥 ${e.participants} participants</span>
+                        <span><i data-lucide="calendar" class="icon-date"></i> ${startDate}</span>
+                        <span><i data-lucide="users" class="icon-users"></i> ${e.participants} participants</span>
                     </div>
                 </div>
                 <div>
@@ -103,5 +103,7 @@ async function joinEvent(id) {
 }
 </script>
     <script src="/js/preloader.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>lucide.createIcons();</script>
 </body>
 </html>

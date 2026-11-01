@@ -17,7 +17,7 @@ async function submitAnswer(questionId, uiIndex) {
     if(!userAnswer) return;
 
     // Tugmani "Kutilmoqda..." ga o'zgartirish
-    feedbackEl.innerHTML = "⏳ Tekshirilmoqda...";
+    feedbackEl.innerHTML = "<i data-lucide="hourglass" class="icon-wait"></i> Tekshirilmoqda...";
     feedbackEl.style.color = "#94a3b8";
 
     try {
@@ -31,13 +31,13 @@ async function submitAnswer(questionId, uiIndex) {
 
         if (data.success) {
             // To'g'ri topilsa yashil belgi va inputni qulflash
-            feedbackEl.innerHTML = `✅ ${data.message}`;
+            feedbackEl.innerHTML = `<i data-lucide="check-circle" class="icon-success"></i> ${data.message}`;
             feedbackEl.style.color = "#00ff9c";
             inputEl.disabled = true;
             inputEl.style.borderColor = "#00ff9c";
         } else {
             // Noto'g'ri bo'lsa qizil xatolik
-            feedbackEl.innerHTML = `❌ ${data.message}`;
+            feedbackEl.innerHTML = `<i data-lucide="x-circle" class="icon-error"></i> ${data.message}`;
             feedbackEl.style.color = "#ef4444";
         }
     } catch (e) {

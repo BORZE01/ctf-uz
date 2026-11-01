@@ -18,7 +18,7 @@
         
         <div style="text-align: center; margin-bottom: 32px;">
             <div style="width: 70px; height: 70px; margin: 0 auto 16px; background: linear-gradient(135deg, #EF4444, #7C3AED); border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 0 40px rgba(239,68,68,0.3);">
-                🛡️
+                <i data-lucide="shield" class="icon-shield"></i>
             </div>
             <h2 style="font-family: Manrope; margin-bottom: 8px;">ADMIN PANEL</h2>
             <p style="color: var(--text-secondary); font-size: 0.85rem;">
@@ -36,7 +36,7 @@
                 <label>Parol</label>
             </div>
             <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; background: linear-gradient(135deg, #EF4444, #7C3AED); border: none;">
-                🛡️ Kirish
+                <i data-lucide="shield" class="icon-shield"></i> Kirish
             </button>
         </form>
 
@@ -59,7 +59,7 @@ document.getElementById('admin-login-form').addEventListener('submit', async (e)
 
     if (!username || !password) {
         msg.className = 'msg-box error';
-        msg.innerText = '❌ Barcha maydonlarni to\'ldiring';
+        msg.innerText = '<i data-lucide="x-circle" class="icon-error"></i> Barcha maydonlarni to\'ldiring';
         return;
     }
 
@@ -78,19 +78,19 @@ document.getElementById('admin-login-form').addEventListener('submit', async (e)
 
         if (data.success) {
             msg.className = 'msg-box success';
-            msg.innerText = '✅ ' + data.message;
+            msg.innerText = '<i data-lucide="check-circle" class="icon-success"></i> ' + data.message;
             setTimeout(() => window.location.href = '/admin', 800);
         } else {
             msg.className = 'msg-box error';
-            msg.innerText = '❌ ' + data.message;
+            msg.innerText = '<i data-lucide="x-circle" class="icon-error"></i> ' + data.message;
             btn.disabled = false;
-            btn.innerText = '🛡️ Kirish';
+            btn.innerText = '<i data-lucide="shield" class="icon-shield"></i> Kirish';
         }
     } catch (err) {
         msg.className = 'msg-box error';
-        msg.innerText = '❌ Ulanish xatosi';
+        msg.innerText = '<i data-lucide="x-circle" class="icon-error"></i> Ulanish xatosi';
         btn.disabled = false;
-        btn.innerText = '🛡️ Kirish';
+        btn.innerText = '<i data-lucide="shield" class="icon-shield"></i> Kirish';
     }
 });
 
@@ -183,11 +183,11 @@ window.loadPendingEmployers = async function() {
         });
         const data = await res.json();
         if (data.success) { 
-            if(msg) { msg.style.color = '#10B981'; msg.innerText = '✅ ' + data.message; }
+            if(msg) { msg.style.color = '#10B981'; msg.innerText = '<i data-lucide="check-circle" class="icon-success"></i> ' + data.message; }
             else alert(data.message);
             window.loadPendingEmployers(); 
         } else { 
-            if(msg) { msg.style.color = '#EF4444'; msg.innerText = '❌ ' + data.message; }
+            if(msg) { msg.style.color = '#EF4444'; msg.innerText = '<i data-lucide="x-circle" class="icon-error"></i> ' + data.message; }
             else alert(data.message);
         }
     } catch(e) { if(msg) { msg.style.color = '#EF4444'; msg.innerText = "Xatolik yuz berdi."; } }
@@ -256,7 +256,7 @@ window.manageEmployerRole = async function(roleType) {
     
     if(!username) {
         msgBox.style.color = '#EF4444';
-        msgBox.innerHTML = '❌ Username kiriting!';
+        msgBox.innerHTML = '<i data-lucide="x-circle" class="icon-error"></i> Username kiriting!';
         return;
     }
     
@@ -277,15 +277,15 @@ window.manageEmployerRole = async function(roleType) {
         
         if (data.success) {
             msgBox.style.color = '#10B981';
-            msgBox.innerHTML = '✅ ' + data.message;
+            msgBox.innerHTML = '<i data-lucide="check-circle" class="icon-success"></i> ' + data.message;
             if(typeof loadPendingEmployers === 'function') loadPendingEmployers();
         } else {
             msgBox.style.color = '#EF4444';
-            msgBox.innerHTML = '❌ ' + (data.message || 'Xatolik');
+            msgBox.innerHTML = '<i data-lucide="x-circle" class="icon-error"></i> ' + (data.message || 'Xatolik');
         }
     } catch(e) {
         msgBox.style.color = '#EF4444';
-        msgBox.innerHTML = "❌ Tarmoq xatosi yoki API topilmadi. Serverni qayta yurgizing.";
+        msgBox.innerHTML = "<i data-lucide="x-circle" class="icon-error"></i> Tarmoq xatosi yoki API topilmadi. Serverni qayta yurgizing.";
     }
 };
 
@@ -293,5 +293,7 @@ window.manageEmployerRole = async function(roleType) {
 async function manageEmployerRole(role) { return window.manageEmployerRole(role); }
 </script>
 
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>lucide.createIcons();</script>
 </body>
 </html>

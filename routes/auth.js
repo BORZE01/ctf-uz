@@ -4,14 +4,17 @@ const express = require('express');
 async function verifyRecaptcha(token) {
     if (!token) return false;
     try {
+        const secretKey = process.env.RECAPTCHA_SECRET_KEY || '6LfSbgsuAAAAAFM4vHmM6EAVXYObICe7RDwIiz3F';
         const response = await fetch('https://www.google.com/recaptcha/api/siteverify', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: new URLSearchParams({ secret: process.env.RECAPTCHA_SECRET_KEY, response: token })
+            body: new URLSearchParams({ secret: secretKey, response: token })
         });
         const data = await response.json();
+        console.log('Google reCAPTCHA javobi:', data);
         return data.success === true;
     } catch (err) {
+        console.error('reCAPTCHA xatosi:', err);
         return false;
     }
 }
@@ -320,7 +323,8 @@ router.post('/login', loginLimiter, async (req, res) => {
 
         
         // reCAPTCHA tekshiruvi
-        const captchaToken = req.body.captchaToken;
+        const captchaToken = req.body.captchaToken || req.body["g-recaptcha-response"];
+        console.log("Frontenddan kelgan token:", captchaToken ? "MUVAFFAQIYATLI KELDI" : "BOM-BOSH");
         const isHuman = await verifyRecaptcha(captchaToken);
         if (!isHuman) {
             return res.status(400).json({ success: false, message: "reCAPTCHA: Iltimos, robot emasligingizni tasdiqlang!" });

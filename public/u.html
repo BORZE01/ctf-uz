@@ -48,7 +48,7 @@ async function loadPublicProfile() {
     if (!data.success) {
         document.getElementById('public-profile').innerHTML = `
             <div class="card-glass" style="padding: 60px; text-align: center;">
-                <h2 style="color: var(--error);">❌ Foydalanuvchi topilmadi</h2>
+                <h2 style="color: var(--error);"><i data-lucide="x-circle" class="icon-error"></i> Foydalanuvchi topilmadi</h2>
                 <a href="/" class="btn btn-primary" style="margin-top: 20px;">Bosh sahifa</a>
             </div>
         `;
@@ -85,14 +85,14 @@ async function loadPublicProfile() {
                     <div class="stat-mini-label">Yechilgan</div>
                 </div>
                 <div class="stat-mini">
-                    <div class="stat-mini-value">${u.streak}🔥</div>
+                    <div class="stat-mini-value">${u.streak}<i data-lucide="flame" class="icon-fire"></i></div>
                     <div class="stat-mini-label">Streak</div>
                 </div>
             </div>
 
             <!-- SKILLS -->
             <div style="padding: 24px; background: rgba(37,99,235,0.05); border-radius: 16px; margin-bottom: 24px;">
-                <h3 style="font-family: Manrope; font-weight: 800; margin-bottom: 20px;">🧠 Ko'nikmalar</h3>
+                <h3 style="font-family: Manrope; font-weight: 800; margin-bottom: 20px;"><i data-lucide="brain" class="icon-skill"></i> Ko'nikmalar</h3>
                 ${Object.entries(u.skills).map(([key, val]) => `
                     <div class="skill-bar">
                         <div class="skill-name">${key.charAt(0).toUpperCase() + key.slice(1)}</div>
@@ -105,7 +105,7 @@ async function loadPublicProfile() {
             <!-- ACHIEVEMENTS -->
             ${u.achievements.length > 0 ? `
                 <div style="padding: 24px; background: rgba(37,99,235,0.05); border-radius: 16px; margin-bottom: 24px;">
-                    <h3 style="font-family: Manrope; font-weight: 800; margin-bottom: 20px;">🏆 Yutuqlar (${u.achievements.length})</h3>
+                    <h3 style="font-family: Manrope; font-weight: 800; margin-bottom: 20px;"><i data-lucide="trophy" class="icon-award"></i> Yutuqlar (${u.achievements.length})</h3>
                     <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 12px;">
                         ${u.achievements.map(a => `
                             <div style="text-align: center; padding: 12px; background: var(--surface); border-radius: 8px;">
@@ -119,9 +119,9 @@ async function loadPublicProfile() {
 
             <!-- LINKS -->
             <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
-                ${u.github ? `<a href="https://github.com/${u.github}" target="_blank" class="btn btn-secondary">🐙 GitHub</a>` : ''}
-                ${u.telegram ? `<a href="https://t.me/${u.telegram}" target="_blank" class="btn btn-secondary">💬 Telegram</a>` : ''}
-                ${u.website ? `<a href="${u.website}" target="_blank" class="btn btn-secondary">🌐 Website</a>` : ''}
+                ${u.github ? `<a href="https://github.com/${u.github}" target="_blank" class="btn btn-secondary"><i data-lucide="github" class="icon-social"></i> GitHub</a>` : ''}
+                ${u.telegram ? `<a href="https://t.me/${u.telegram}" target="_blank" class="btn btn-secondary"><i data-lucide="message-circle" class="icon-social"></i> Telegram</a>` : ''}
+                ${u.website ? `<a href="${u.website}" target="_blank" class="btn btn-secondary"><i data-lucide="globe" class="icon-web"></i> Website</a>` : ''}
             </div>
         </div>
     `;
@@ -130,5 +130,7 @@ async function loadPublicProfile() {
 window.addEventListener('load', loadPublicProfile);
 </script>
     <script src="/js/preloader.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>lucide.createIcons();</script>
 </body>
 </html>

@@ -794,3 +794,21 @@ h4 { font-size: 1.25rem; }
 .girih-bg { pointer-events: none !important; }
 #preloader { pointer-events: none !important; }
 .preloader, #preloader.hidden, .preloader.hidden { pointer-events: none !important; display: none !important; }
+
+/* Lucide Icons uchun moslashtirilgan CSS */
+i[data-lucide] {
+    display: inline-block;
+    vertical-align: middle;
+    width: 1.2em;
+    height: 1.2em;
+    margin-right: 6px;
+    margin-bottom: 2px;
+}
+.icon-success { color: #10B981; }
+.icon-error { color: #EF4444; }
+.icon-wait, .icon-time { color: #F59E0B; }
+.icon-award, .icon-star, .icon-fire { color: #FBBF24; }
+.icon-auth, .icon-shield { color: #8B5CF6; }
+.icon-tech, .icon-web, .icon-launch { color: #3B82F6; }
+.icon-action { color: #94A3B8; cursor: pointer; }
+.icon-action:hover { color: #fff; }

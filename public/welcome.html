@@ -146,7 +146,7 @@
         </p>
         
         <div class="welcome-buttons">
-            <a href="/login" class="btn btn-primary btn-lg">🔐 Kirish</a>
+            <a href="/login" class="btn btn-primary btn-lg"><i data-lucide="lock" class="icon-auth"></i> Kirish</a>
             <a href="/register" class="btn btn-secondary btn-lg">📝 Ro'yxatdan o'tish</a>
         </div>
     </div>
@@ -184,7 +184,7 @@
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 60px;">
         <div class="step-card fade-in-up">
             <div class="step-number">1</div>
-            <h3 style="font-family: Manrope; font-weight: 700; margin-bottom: 12px;">🎯 Challenge yechish</h3>
+            <h3 style="font-family: Manrope; font-weight: 700; margin-bottom: 12px;"><i data-lucide="target" class="icon-aim"></i> Challenge yechish</h3>
             <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.7;">
                 Real-world cyber incidents va missiyalarda ishtirok eting
             </p>
@@ -200,7 +200,7 @@
         
         <div class="step-card fade-in-up">
             <div class="step-number">3</div>
-            <h3 style="font-family: Manrope; font-weight: 700; margin-bottom: 12px;">⚔️ Battle Arena</h3>
+            <h3 style="font-family: Manrope; font-weight: 700; margin-bottom: 12px;"><i data-lucide="swords" class="icon-arena"></i> Battle Arena</h3>
             <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.7;">
                 Boshqa foydalanuvchilar bilan 1v1 bellashing
             </p>
@@ -208,7 +208,7 @@
         
         <div class="step-card fade-in-up">
             <div class="step-number">4</div>
-            <h3 style="font-family: Manrope; font-weight: 700; margin-bottom: 12px;">💼 Ish imkoniyatlari</h3>
+            <h3 style="font-family: Manrope; font-weight: 700; margin-bottom: 12px;"><i data-lucide="briefcase" class="icon-job"></i> Ish imkoniyatlari</h3>
             <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.7;">
                 Kompaniyalar sizning profilingizni ko'rib, ishga taklif qiladi
             </p>
@@ -237,7 +237,7 @@
                         Dashboardni ko'rish uchun tizimga kiring yoki ro'yxatdan o'ting
                     </p>
                     <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
-                        <a href="/login" class="btn btn-primary">🔐 Kirish</a>
+                        <a href="/login" class="btn btn-primary"><i data-lucide="lock" class="icon-auth"></i> Kirish</a>
                         <a href="/register" class="btn btn-secondary">📝 Ro'yxatdan o'tish</a>
                     </div>
                 </div>
@@ -246,7 +246,7 @@
             <!-- BLURRED PREVIEW CONTENT -->
             <div class="blur-content">
                 <h1 style="margin-bottom: 8px;">Xayrli kun, <span style="color: var(--uz-blue);">Foydalanuvchi</span></h1>
-                <p style="color: var(--text-secondary); margin-bottom: 32px;">Cyber Level 12 • ⭐ Expert</p>
+                <p style="color: var(--text-secondary); margin-bottom: 32px;">Cyber Level 12 • <i data-lucide="star" class="icon-star"></i> Expert</p>
 
                 <div class="stats-grid">
                     <div class="stat-card">
@@ -262,7 +262,7 @@
                         <div class="stat-label">Battle Rating</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-value">7🔥</div>
+                        <div class="stat-value">7<i data-lucide="flame" class="icon-fire"></i></div>
                         <div class="stat-label">Streak</div>
                     </div>
                 </div>
@@ -293,7 +293,7 @@
                     </div>
 
                     <div class="card-glass">
-                        <h3 style="margin-bottom: 20px;">🎯 Keyingi missiya</h3>
+                        <h3 style="margin-bottom: 20px;"><i data-lucide="target" class="icon-aim"></i> Keyingi missiya</h3>
                         <span class="badge badge-web" style="margin-bottom: 12px;">Web</span>
                         <h4 style="margin-bottom: 8px;">Cyber Ministry Incident #042</h4>
                         <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 20px;">
@@ -308,7 +308,7 @@
 
     <!-- CTA SECTION -->
     <div class="card-glass fade-in-up" style="padding: 60px 40px; text-align: center; background: linear-gradient(135deg, rgba(37,99,235,0.1), rgba(124,58,237,0.1)); border: 1px solid rgba(74,127,255,0.3);">
-        <div style="font-size: 3rem; margin-bottom: 16px;">🚀</div>
+        <div style="font-size: 3rem; margin-bottom: 16px;"><i data-lucide="rocket" class="icon-launch"></i></div>
         <h2 style="font-family: Manrope; font-size: 2rem; font-weight: 900; letter-spacing: -1px; margin-bottom: 16px;">
             Hoziroq boshlang
         </h2>
@@ -318,7 +318,7 @@
         </p>
         <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
             <a href="/register" class="btn btn-primary btn-lg">📝 Hoziroq ro'yxatdan o'tish</a>
-            <a href="/arena" class="btn btn-secondary btn-lg">🏆 Arenani ko'rish</a>
+            <a href="/arena" class="btn btn-secondary btn-lg"><i data-lucide="trophy" class="icon-award"></i> Arenani ko'rish</a>
         </div>
     </div>
 
@@ -345,5 +345,7 @@
     });
 </script>
 
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>lucide.createIcons();</script>
 </body>
 </html>

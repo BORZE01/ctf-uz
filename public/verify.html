@@ -140,13 +140,13 @@ document.getElementById('verify-btn').addEventListener('click', async () => {
 
     if (!email) {
         msg.className = 'msg-box error';
-        msg.innerText = '❌ Email topilmadi. Qayta ro\'yxatdan o\'ting.';
+        msg.innerText = '<i data-lucide="x-circle" class="icon-error"></i> Email topilmadi. Qayta ro\'yxatdan o\'ting.';
         return;
     }
 
     if (code.length !== 6) {
         msg.className = 'msg-box error';
-        msg.innerText = '❌ Kod 6 xonali bo\'lishi kerak';
+        msg.innerText = '<i data-lucide="x-circle" class="icon-error"></i> Kod 6 xonali bo\'lishi kerak';
         return;
     }
 
@@ -158,18 +158,18 @@ document.getElementById('verify-btn').addEventListener('click', async () => {
 
         if (res.success) {
             msg.className = 'msg-box success';
-            msg.innerText = '✅ ' + res.message;
+            msg.innerText = '<i data-lucide="check-circle" class="icon-success"></i> ' + res.message;
             sessionStorage.removeItem('pendingEmail');
             setTimeout(() => window.location.href = '/dashboard', 1200);
         } else {
             msg.className = 'msg-box error';
-            msg.innerText = '❌ ' + res.message;
+            msg.innerText = '<i data-lucide="x-circle" class="icon-error"></i> ' + res.message;
             inputs.forEach(i => { i.value = ''; i.classList.remove('filled'); });
             inputs[0].focus();
         }
     } catch (err) {
         msg.className = 'msg-box error';
-        msg.innerText = '❌ Ulanish xatosi';
+        msg.innerText = '<i data-lucide="x-circle" class="icon-error"></i> Ulanish xatosi';
     } finally {
         btn.disabled = false;
         btn.innerText = 'Tasdiqlash →';
@@ -184,7 +184,7 @@ document.getElementById('resend-btn').addEventListener('click', async () => {
 
     if (!email) {
         msg.className = 'msg-box error';
-        msg.innerText = '❌ Email topilmadi';
+        msg.innerText = '<i data-lucide="x-circle" class="icon-error"></i> Email topilmadi';
         return;
     }
 
@@ -196,14 +196,14 @@ document.getElementById('resend-btn').addEventListener('click', async () => {
 
         if (res.success) {
             msg.className = 'msg-box success';
-            msg.innerText = '✅ ' + res.message;
+            msg.innerText = '<i data-lucide="check-circle" class="icon-success"></i> ' + res.message;
         } else {
             msg.className = 'msg-box error';
-            msg.innerText = '❌ ' + res.message;
+            msg.innerText = '<i data-lucide="x-circle" class="icon-error"></i> ' + res.message;
         }
     } catch (err) {
         msg.className = 'msg-box error';
-        msg.innerText = '❌ Ulanish xatosi';
+        msg.innerText = '<i data-lucide="x-circle" class="icon-error"></i> Ulanish xatosi';
     } finally {
         btn.disabled = false;
         btn.innerText = 'Kodni qayta yuborish';
@@ -214,5 +214,7 @@ document.getElementById('resend-btn').addEventListener('click', async () => {
 inputs[0].focus();
 </script>
     <script src="/js/preloader.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>lucide.createIcons();</script>
 </body>
 </html>
