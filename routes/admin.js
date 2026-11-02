@@ -930,4 +930,89 @@ router.post('/users/:id/reset-password', async (req, res) => {
 });
 // --- END ADVANCED USER PROFILE ROUTES ---
 
+
+// --- ADMIN USER EDIT API ---
+router.put('/users/:id', async (req, res) => {
+    try {
+        const User = require('../models/User');
+        const { name, username, email, phone, location, score, level } = req.body;
+        const user = await User.findByIdAndUpdate(req.params.id, {
+            $set: { name, username, email, phone, location, score, level }
+        }, { new: true });
+        if (!user) return res.status(404).json({ success: false, message: 'Foydalanuvchi topilmadi' });
+        res.json({ success: true, message: 'Ma\'lumotlar muvaffaqiyatli saqlandi' });
+    } catch (err) {
+        res.status(500).json({ success: false, message: 'Server xatosi' });
+    }
+});
+
+router.post('/users/:id', async (req, res) => {
+    try {
+        const User = require('../models/User');
+        const { name, username, email, phone, location, score, level } = req.body;
+        const user = await User.findByIdAndUpdate(req.params.id, {
+            $set: { name, username, email, phone, location, score, level }
+        }, { new: true });
+        if (!user) return res.status(404).json({ success: false, message: 'Foydalanuvchi topilmadi' });
+        res.json({ success: true, message: 'Ma\'lumotlar muvaffaqiyatli saqlandi' });
+    } catch (err) {
+        res.status(500).json({ success: false, message: 'Server xatosi' });
+    }
+});
+
+router.put('/users/:id/password', async (req, res) => {
+    try {
+        const User = require('../models/User');
+        const bcrypt = require('bcryptjs');
+        if(!req.body.password || req.body.password.length < 6) {
+            return res.status(400).json({ success: false, message: 'Parol kamida 6 ta belgidan iborat bolishi kerak' });
+        }
+        const hash = await bcrypt.hash(req.body.password, 12);
+        await User.findByIdAndUpdate(req.params.id, { password: hash });
+        res.json({ success: true, message: 'Parol muvaffaqiyatli yangilandi' });
+    } catch(err) {
+        res.status(500).json({ success: false, message: 'Server xatosi' });
+    }
+});
+// --- END ADMIN USER EDIT API ---
+
+
+// --- ADMIN USER EDIT ---
+const updateHandler = async (req, res) => {
+    try {
+        const User = require('../models/User');
+        await User.findByIdAndUpdate(req.params.id, req.body);
+        res.json({ success: true, message: "Ma'lumotlar muvaffaqiyatli saqlandi!" });
+    } catch (e) {
+        res.status(500).json({ success: false, message: "Server xatosi" });
+    }
+};
+
+const passwordHandler = async (req, res) => {
+    try {
+        if(!req.body.password || req.body.password.length < 6) {
+            return res.status(400).json({ success: false, message: "Parol kamida 6 ta belgi bo'lishi kerak" });
+        }
+        const User = require('../models/User');
+        const bcrypt = require('bcryptjs');
+        const hash = await bcrypt.hash(req.body.password, 12);
+        await User.findByIdAndUpdate(req.params.id, { password: hash });
+        res.json({ success: true, message: "Parol muvaffaqiyatli yangilandi!" });
+    } catch (e) {
+        res.status(500).json({ success: false, message: "Server xatosi" });
+    }
+};
+
+// Hem tekil (user) hem çoğul (users) ve hem PUT hem POST isteklerini destekle
+router.put('/users/:id', updateHandler);
+router.put('/user/:id', updateHandler);
+router.post('/users/:id', updateHandler);
+router.post('/user/:id', updateHandler);
+
+router.put('/users/:id/password', passwordHandler);
+router.put('/user/:id/password', passwordHandler);
+router.post('/users/:id/password', passwordHandler);
+router.post('/user/:id/password', passwordHandler);
+// --- END ADMIN USER EDIT ---
+
 module.exports = router;
