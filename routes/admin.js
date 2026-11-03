@@ -68,7 +68,7 @@ router.get('/stats', async (req, res) => {
             lastActive: { $gte: new Date(now - onlineThreshold) }
         });
 
-        const topUsersRaw = await User.find({ verified: true })
+        const topUsersRaw = await User.find({ verified: true }).select('-password -twoFactorSecret -backupCodes')
             .sort({ score: -1 })
             .limit(10)
             .select('username name avatar score cyberLevel solvedChallenges')
@@ -148,7 +148,7 @@ router.get('/users', async (req, res) => {
             ];
         }
 
-        const users = await User.find(query)
+        const users = await User.find(query).select('-password -twoFactorSecret -backupCodes')
             .select('-password -backupCodes')
             .sort({ createdAt: -1 })
             .limit(500)
@@ -198,7 +198,7 @@ router.get('/users/:id', async (req, res) => {
 
 router.put('/users/:id', async (req, res) => {
     try {
-        const u = await User.findById(req.params.id);
+        const u = await User.findById(req.params.id).select('-password -twoFactorSecret -backupCodes');
         if (!u) return res.status(404).json({ success: false, message: "Topilmadi" });
 
         const before = { role: u.role, score: u.score };
@@ -244,7 +244,7 @@ router.delete('/users/:id', async (req, res) => {
 
 router.post('/users/:id/ban', async (req, res) => {
     try {
-        const u = await User.findById(req.params.id);
+        const u = await User.findById(req.params.id).select('-password -twoFactorSecret -backupCodes');
         if (!u) return res.status(404).json({ success: false, message: "Topilmadi" });
 
         u.banned = !u.banned;
@@ -263,7 +263,7 @@ router.post('/users/:id/ban', async (req, res) => {
 
 router.post('/users/:id/verify', async (req, res) => {
     try {
-        const u = await User.findById(req.params.id);
+        const u = await User.findById(req.params.id).select('-password -twoFactorSecret -backupCodes');
         if (!u) return res.status(404).json({ success: false, message: "Topilmadi" });
 
         u.verified = !u.verified;
@@ -901,7 +901,7 @@ router.put('/jobs/:id/moderate', async (req, res) => {
 router.get('/users/:id/details', async (req, res) => {
     try {
         const User = require('../models/User');
-        const user = await User.findById(req.params.id);
+        const user = await User.findById(req.params.id).select('-password -twoFactorSecret -backupCodes');
         res.json({success: true, user});
     } catch(e) { res.status(500).json({success: false, message: e.message}); }
 });
@@ -920,7 +920,7 @@ router.put('/users/:id/edit', async (req, res) => {
 router.post('/users/:id/reset-password', async (req, res) => {
     try {
         const User = require('../models/User');
-        const user = await User.findById(req.params.id);
+        const user = await User.findById(req.params.id).select('-password -twoFactorSecret -backupCodes');
         if(!user) return res.status(404).json({success: false, message: "Foydalanuvchi topilmadi"});
         
         user.password = req.body.newPassword;
