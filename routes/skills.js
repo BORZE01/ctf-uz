@@ -4,12 +4,12 @@ const { skillCategories, users, challenges, submissions } = require('../utils/st
 const { calculateSkillScores } = require('../utils/scoring');
 
 // === BARCHA SKILL KATEGORIYALAR ===
-router.get('/categories', (req, res) => {
+router.get('/categories', async (req, res) => {
     res.json({ success: true, categories: skillCategories });
 });
 
 // === FOYDALANUVCHI SKILLS ===
-router.get('/my', (req, res) => {
+router.get('/my', async (req, res) => {
     if (!req.session.user) return res.status(401).json({ success: false, message: "Avval tizimga kiring" });
 
     const user = users.find(u => u.id === req.session.user.id);
@@ -20,7 +20,7 @@ router.get('/my', (req, res) => {
 });
 
 // === TOP SPECIALISTS ===
-router.get('/top/:skill', (req, res) => {
+router.get('/top/:skill', async (req, res) => {
     const { skill } = req.params;
     const topUsers = users
         .map(u => ({
