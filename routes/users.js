@@ -272,22 +272,47 @@ router.post('/avatar', uploadAvatar.single('avatar'), async (req, res) => {
 const { escapeHtml } = require('../utils/sanitize'); // XSS himoyasi
 
 // Public profil marshrutini xavfsizlantirish
+
+// API endpoint for public profile (Fixed JSON & XSS)
 router.get('/u/:username', async (req, res) => {
     try {
         const targetUser = await User.findOne({ username: req.params.username, role: { $ne: 'fake' } });
-        if (!targetUser) return res.status(404).send("Foydalanuvchi topilmadi");
+        if (!targetUser) return res.status(404).json({ success: false, message: "Foydalanuvchi topilmadi" });
 
-        // Yagona Levelni olish va zararli skriptlarni (XSS) zararsizlantirish
+        // Встроенная защита от XSS (AUD-005)
+        const escapeHtml = (unsafe) => {
+            return (unsafe || '').toString()
+                 .replace(/&/g, "&amp;")
+                 .replace(/</g, "&lt;")
+                 .replace(/>/g, "&gt;")
+                 .replace(/"/g, "&quot;")
+                 .replace(/'/g, "&#039;");
+        };
+
         const safeName = escapeHtml(targetUser.name || targetUser.username);
-        const safeBio = escapeHtml(targetUser.bio || 'Ma\'lumot kiritilmagan');
-        const unifiedLevel = targetUser.level || targetUser.cyberLevel || 1;
+        const safeBio = escapeHtml(targetUser.bio || '');
+        const unifiedLevel = Math.floor((targetUser.score || 0) / 1000) || 1;
         
-        // Agar render funksiyasi ishlatilayotgan bo'lsa
-        if (res.render) {
-            return res.render('u', { user: targetUser, safeName, safeBio, level: unifiedLevel });
-        }
+        // Возвращаем безопасный JSON
+        res.json({
+            success: true,
+            user: {
+                username: targetUser.username,
+                name: safeName,
+                bio: safeBio,
+                score: targetUser.score || 0,
+                level: unifiedLevel,
+                cyberLevel: unifiedLevel,
+                avatar: targetUser.avatar,
+                skills: targetUser.skills,
+                solved: targetUser.solved,
+                streak: targetUser.streak || 0,
+                globalRank: targetUser.globalRank
+            }
+        });
     } catch (err) {
         console.error(err);
+        res.status(500).json({ success: false, message: "Server xatosi" });
     }
 });
 
