@@ -268,68 +268,29 @@ router.post('/avatar', uploadAvatar.single('avatar'), async (req, res) => {
 // ══════════════════════════════════════════
 // GET /u/:username — Public profil
 // ══════════════════════════════════════════
+
+const { escapeHtml } = require('../utils/sanitize'); // XSS himoyasi
+
+// Public profil marshrutini xavfsizlantirish
 router.get('/u/:username', async (req, res) => {
     try {
-        const user = await User.findOne({ 
-            username: req.params.username.toLowerCase() 
-        });
+        const targetUser = await User.findOne({ username: req.params.username, role: { $ne: 'fake' } });
+        if (!targetUser) return res.status(404).send("Foydalanuvchi topilmadi");
 
-        if (!user) {
-            return res.status(404).json({ 
-                success: false, 
-                message: "Foydalanuvchi topilmadi" 
-            });
+        // Yagona Levelni olish va zararli skriptlarni (XSS) zararsizlantirish
+        const safeName = escapeHtml(targetUser.name || targetUser.username);
+        const safeBio = escapeHtml(targetUser.bio || 'Ma\'lumot kiritilmagan');
+        const unifiedLevel = targetUser.level || targetUser.cyberLevel || 1;
+        
+        // Agar render funksiyasi ishlatilayotgan bo'lsa
+        if (res.render) {
+            return res.render('u', { user: targetUser, safeName, safeBio, level: unifiedLevel });
         }
-
-        const levelInfo = getLevelProgress(user.xp || 0);
-        const rank = getUserRank(user.score || 0);
-        const skills = await calculateSkillScores(user);
-
-        const globalRank = await User.countDocuments({
-            score: { $gt: user.score },
-            verified: true
-        }) + 1;
-
-        res.json({
-            success: true,
-            profile: {
-                username: user.username,
-                name: user.name,
-                avatar: user.avatar,
-                bio: user.bio,
-                region: user.region,
-                city: user.city,
-                title: user.title,
-                github: user.github,
-                telegram: user.telegram,
-                website: user.website,
-                score: user.score || 0,
-                xp: user.xp || 0,
-                level: levelInfo.level,
-                levelProgress: levelInfo.progress,
-                globalRank,
-                skills,
-                solvedCount: (user.solvedChallenges || []).length,
-                battleRating: user.battleRating || 1000,
-                streak: user.streak || 0,
-                achievements: user.achievements || [],
-                openToOpportunities: user.openToOpportunities || false,
-                preferredRoles: user.preferredRoles || [],
-                createdAt: user.createdAt
-            }
-        });
     } catch (err) {
-        console.error('Public profil xatosi:', err);
-        res.status(500).json({ 
-            success: false, 
-            message: "Server xatosi: " + err.message 
-        });
+        console.error(err);
     }
 });
 
-// ══════════════════════════════════════════
-// GET /all — Leaderboard uchun (fake userlar ham)
-// ══════════════════════════════════════════
 router.get('/all', async (req, res) => {
     try {
         const users = await User.find({ verified: true })
