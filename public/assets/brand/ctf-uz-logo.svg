@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 56" width="240" height="56" fill="none">
+  <defs>
+    <linearGradient id="cyberGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3B82F6"/>
+      <stop offset="100%" stop-color="#22D3EE"/>
+    </linearGradient>
+    <linearGradient id="shieldBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#101A2B"/>
+      <stop offset="100%" stop-color="#080D18"/>
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="48" height="48" rx="12" fill="url(#shieldBg)" stroke="url(#cyberGrad)" stroke-width="2.5"/>
+  <path d="M31 12L17 30H27L25 44L39 26H29L31 12Z" fill="url(#cyberGrad)"/>
+  <text x="66" y="38" font-family="'Manrope', 'Inter', sans-serif" font-weight="800" font-size="30" fill="#F1F5F9" letter-spacing="1">CTF<tspan fill="#22D3EE">.UZ</tspan></text>
+</svg>

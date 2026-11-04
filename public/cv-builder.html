@@ -1,16 +1,51 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-    <meta charset="UTF-8">
-    <title>CTF.UZ</title>
-    <link rel="stylesheet" href="/css/preloader.css">
+  <meta charset="UTF-8">
+  <title>Cyber CV Builder — CTF.UZ</title>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" sizes="64x64" href="/assets/favicon-64.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="/assets/icon-192.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#3B82F6">
+  <meta property="og:image" content="/assets/ctf-uz-banner.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Manrope:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/design-system.css">
+
 </head>
-<body>
-    <h1>Tez orada...</h1>
-    <a href="/career">Karyera bo'limiga qaytish</a>
-    <script src="/js/preloader.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script>lucide.createIcons();</script>
-    <script src="/js/ai-assistant.js"></script>
+<body style="background:var(--bg);color:var(--text-primary);font-family:'Inter',sans-serif;min-height:100vh;display:flex;flex-direction:column;margin:0;">
+  <header class="header" style="padding:16px 24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+    <a href="/" class="brand-logo"><img src="/assets/brand/ctf-uz-logo.svg" alt="CTF.UZ"></a>
+    <a href="/career.html" class="btn btn-secondary" style="text-decoration:none;padding:8px 16px;border-radius:8px;border:1px solid var(--border);color:var(--text-primary);">← Karyeraga qaytish</a>
+  </header>
+  <main style="flex:1;display:flex;align-items:center;justify-content:center;padding:24px;">
+    <div style="max-width:520px;width:100%;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:40px;text-align:center;">
+      <img src="/assets/brand/ctf-uz-mark.svg" alt="CTF.UZ" style="width:64px;height:64px;margin-bottom:16px;">
+      <h1 style="font-family:'Manrope',sans-serif;font-size:1.8rem;margin:0 0 12px;">Cyber CV Builder</h1>
+      <p style="color:var(--text-muted);line-height:1.6;margin-bottom:24px;">Kiberxavfsizlik mutaxassislari uchun avtomatik rezyume va portfolio generatori yakuniy sinovdan o'tmoqda.</p>
+      <a href="/dashboard.html" style="display:inline-block;background:var(--primary);color:#fff;padding:12px 24px;border-radius:10px;text-decoration:none;font-weight:600;">Asosiy panelga o'tish</a>
+    </div>
+  </main>
+  
+<footer class="ctf-global-footer">
+  <div class="ctf-global-footer__inner">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <img src="/assets/brand/ctf-uz-logo.svg" alt="CTF.UZ" style="height:28px;">
+      <span>© 2026 CTF.UZ. Barcha huquqlar himoyalangan.</span>
+    </div>
+    <div class="ctf-global-footer__links">
+      <a href="/about.html">Biz haqimizda</a>
+      <a href="/arena.html">Arena</a>
+      <a href="/learn.html">Akademiya</a>
+      <a href="/leaderboard.html">Reyting</a>
+      <a href="/career.html">Karyera</a>
+    </div>
+  </div>
+</footer>
+<script src="/js/brand-ui.js"></script>
+
 </body>
 </html>

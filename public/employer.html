@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
     <title>Ish beruvchi Paneli - CTF.UZ</title>
     <link rel="stylesheet" href="/css/design-system.css">
@@ -16,6 +17,11 @@
         th { color: #94A3B8; font-size: 0.85rem; text-transform: uppercase; }
         input, select, textarea { width: 100%; padding: 12px; background: #060B18; border: 1px solid rgba(74,127,255,0.3); border-radius: 8px; color: #fff; margin-bottom: 16px; outline: none; }
     </style>
+
+  <link rel="icon" type="image/png" sizes="64x64" href="/assets/favicon-64.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="/assets/icon-192.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#3B82F6">
 </head>
 <body>
 <div class="girih-bg"></div>
@@ -411,6 +417,24 @@ document.addEventListener('DOMContentLoaded', () => {
     <script src="https://unpkg.com/lucide@latest"></script>
     <script>lucide.createIcons();</script>
     <script src="/js/ai-assistant.js"></script>
+
+<footer class="ctf-global-footer">
+  <div class="ctf-global-footer__inner">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <img src="/assets/brand/ctf-uz-logo.svg" alt="CTF.UZ" style="height:28px;">
+      <span>© 2026 CTF.UZ. Barcha huquqlar himoyalangan.</span>
+    </div>
+    <div class="ctf-global-footer__links">
+      <a href="/about.html">Biz haqimizda</a>
+      <a href="/arena.html">Arena</a>
+      <a href="/learn.html">Akademiya</a>
+      <a href="/leaderboard.html">Reyting</a>
+      <a href="/career.html">Karyera</a>
+    </div>
+  </div>
+</footer>
+<script src="/js/brand-ui.js"></script>
+
 </body>
 </html>
 

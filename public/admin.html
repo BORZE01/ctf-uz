@@ -81,6 +81,17 @@
     #cookiesBody td:nth-child(6) { word-break: break-word; white-space: normal; min-width: 180px; font-size: 0.85rem; color: #94a3b8; }
 </style>
 
+
+  <link rel="icon" type="image/png" sizes="64x64" href="/assets/favicon-64.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="/assets/icon-192.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#3B82F6">
+<style>
+      @media (max-width: 900px) {
+        .layout { grid-template-columns: 1fr !important; }
+        .sidebar { position: relative !important; height: auto !important; width: 100% !important; border-right: none !important; border-bottom: 1px solid var(--border); }
+      }
+    </style>
 </head>
 <body>
 <div class="layout">
@@ -1621,6 +1632,7 @@ window.saveChallenge = async function() {
     <script src="https://unpkg.com/lucide@latest"></script>
     <script>lucide.createIcons();</script>
     <script src="/js/ai-assistant.js"></script>
+<script src="/js/brand-ui.js"></script>
 </body>
 </html>
 

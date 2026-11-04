@@ -776,14 +776,7 @@ h4 { font-size: 1.25rem; }
     --border: rgba(74,127,255,0.12);
 }
 
-[data-theme="light"] {
-    --bg-primary: #F4F7FB;
-    --bg-secondary: #FFFFFF;
-    --bg-card: #FFFFFF;
-    --text-primary: #0B1220;
-    --text-secondary: #64748B;
-    --border: rgba(37,99,235,0.15);
-}
+
 }
 /* OVERLAY CLICKS FIX */
 .girih-bg { pointer-events: none !important; }
@@ -812,3 +805,182 @@ i[data-lucide] {
 .icon-tech, .icon-web, .icon-launch { color: #3B82F6; }
 .icon-action { color: #94A3B8; cursor: pointer; }
 .icon-action:hover { color: #fff; }
+
+
+/* === CTF.UZ UNIFIED BRAND TOKENS & FIXES === */
+:root {
+  --bg: #080D18;
+  --surface: #101A2B;
+  --surface-raised: #17243A;
+  --border: rgba(148, 163, 184, 0.16);
+  --text: #F1F5F9;
+  --text-primary: #F1F5F9;
+  --text2: #CBD5E1;
+  --text-secondary: #CBD5E1;
+  --text3: #94A3B8;
+  --text-muted: #94A3B8;
+  --primary: #3B82F6;
+  --uz-blue: #3B82F6;
+  --blue-l: #60A5FA;
+  --uz-blue-light: #60A5FA;
+  --accent: #22D3EE;
+  --accent-cyan: #22D3EE;
+  --success: #10B981;
+  --warning: #F59E0B;
+  --danger: #EF4444;
+}
+
+[data-theme="light"] {
+  --bg: #F8FAFC;
+  --surface: #FFFFFF;
+  --surface-raised: #F1F5F9;
+  --border: rgba(15, 23, 42, 0.12);
+  --text: #0F172A;
+  --text-primary: #0F172A;
+  --text2: #334155;
+  --text-secondary: #334155;
+  --text3: #64748B;
+  --text-muted: #64748B;
+}
+
+/* D-21: Accessibility Focus Visible */
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 2px solid var(--accent-cyan) !important;
+  outline-offset: 2px !important;
+}
+
+/* Brand Logo Component */
+.brand-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: 1.35rem;
+  color: var(--text-primary);
+}
+.brand-logo img {
+  height: 36px;
+  width: auto;
+  display: block;
+}
+
+/* D-03: Mobile Hamburger & Drawer */
+.mobile-nav-toggle {
+  display: none;
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  border-radius: 8px;
+  padding: 8px 10px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+@media (max-width: 900px) {
+  .mobile-nav-toggle { display: inline-flex !important; }
+  header .nav, .header .nav, nav.nav {
+    display: none !important;
+    position: fixed;
+    top: 68px;
+    left: 16px;
+    right: 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 9999;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+  }
+  header .nav.nav-open, .header .nav.nav-open, nav.nav.nav-open {
+    display: flex !important;
+  }
+}
+
+/* D-12 & D-23: Events Card & Certificate Responsive */
+@media (max-width: 768px) {
+  .event-card-responsive {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+    padding: 20px !important;
+  }
+  .cert-preview-wrapper {
+    overflow-x: auto;
+    max-width: 100%;
+  }
+}
+
+/* D-07: Global Unified Footer */
+.ctf-global-footer {
+  margin-top: 64px;
+  padding: 32px 24px;
+  border-top: 1px solid var(--border);
+  background: rgba(8, 13, 24, 0.9);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+.ctf-global-footer__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+.ctf-global-footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.ctf-global-footer__links a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.ctf-global-footer__links a:hover {
+  color: var(--accent-cyan);
+}
+
+
+/* --- FOOTER POSITION FIX --- */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+}
+body > :not(footer):not(header):not(nav):not(script):not(style) {
+  flex: 1 0 auto;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.ctf-global-footer {
+  flex-shrink: 0;
+  margin-top: auto;
+}
+/* --------------------------- */
+
+
+/* --- KENGAYTIRILGAN DESKTOP FIX --- */
+div[style*="max-width: 400px"], 
+div[style*="width: 25%"], 
+div[style*="width: 30%"],
+form[action*="login"], 
+form[action*="register"] {
+    width: 100% !important;
+    max-width: 450px !important;
+    min-width: 350px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+main, .main-content, .layout, .container {
+    width: 100%;
+    box-sizing: border-box;
+}
+/* ---------------------------------- */

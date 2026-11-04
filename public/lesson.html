@@ -14,7 +14,7 @@
         .progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: #10B981; width: 0%; z-index: 9999; transition: width 0.1s; }
         
         .lesson-container { max-width: 1200px; margin: 0 auto; padding: 32px 20px; display: grid; grid-template-columns: 280px 1fr; gap: 32px; align-items: start; position: relative; z-index: 2; }
-        @media(max-width: 900px) { .lesson-container { grid-template-columns: 1fr; } .lesson-sidebar { display: none; } }
+        @media(max-width: 900px) { .lesson-container { grid-template-columns: 1fr; } .lesson-sidebar { display: block; width: 100%; margin-bottom: 16px; } }
         
         /* Arena & Learn card dizayni bilan 100% bir xil qilingan sidebar va main-content */
         .lesson-sidebar { background: rgba(15,22,41,0.8); border: 1px solid rgba(74,127,255,0.15); border-radius: 16px; padding: 24px; position: sticky; top: 100px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
@@ -58,6 +58,11 @@
         
         .nav-buttons { display: flex; justify-content: space-between; margin-top: 48px; padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.05); }
     </style>
+
+  <link rel="icon" type="image/png" sizes="64x64" href="/assets/favicon-64.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="/assets/icon-192.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#3B82F6">
 </head>
 <body>
     <div class="girih-bg"></div>
@@ -263,5 +268,23 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <script>lucide.createIcons();</script>
     <script src="/js/ai-assistant.js"></script>
+
+<footer class="ctf-global-footer">
+  <div class="ctf-global-footer__inner">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <img src="/assets/brand/ctf-uz-logo.svg" alt="CTF.UZ" style="height:28px;">
+      <span>© 2026 CTF.UZ. Barcha huquqlar himoyalangan.</span>
+    </div>
+    <div class="ctf-global-footer__links">
+      <a href="/about.html">Biz haqimizda</a>
+      <a href="/arena.html">Arena</a>
+      <a href="/learn.html">Akademiya</a>
+      <a href="/leaderboard.html">Reyting</a>
+      <a href="/career.html">Karyera</a>
+    </div>
+  </div>
+</footer>
+<script src="/js/brand-ui.js"></script>
+
 </body>
 </html>

@@ -120,6 +120,11 @@
         #error-box { display: none; text-align: center; padding: 60px; background: #0A1020; border: 1px solid rgba(239,68,68,0.3); border-radius: 16px; margin: 40px auto; max-width: 600px; }
         #loading-box { text-align: center; padding: 80px; color: #94a3b8; font-size: 18px; }
     </style>
+
+  <link rel="icon" type="image/png" sizes="64x64" href="/assets/favicon-64.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="/assets/icon-192.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#3B82F6">
 </head>
 <body>
 <div class="girih-bg"></div>
@@ -179,7 +184,7 @@
                                 </div>
                                 <div class="cert-meta">
                                     CERTIFICATE ID<br>
-                                    <strong id="c-id">CTF-UZ-XXXXXX</strong><br>
+                                    <strong id="c-id">CTF.UZ-XXXXXX</strong><br>
                                     DATE OF ISSUE: <strong id="c-date">YYYY-MM-DD</strong>
                                 </div>
                             </div>
@@ -332,5 +337,23 @@ document.addEventListener('DOMContentLoaded', () => {
     <script src="https://unpkg.com/lucide@latest"></script>
     <script>lucide.createIcons();</script>
     <script src="/js/ai-assistant.js"></script>
+
+<footer class="ctf-global-footer">
+  <div class="ctf-global-footer__inner">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <img src="/assets/brand/ctf-uz-logo.svg" alt="CTF.UZ" style="height:28px;">
+      <span>© 2026 CTF.UZ. Barcha huquqlar himoyalangan.</span>
+    </div>
+    <div class="ctf-global-footer__links">
+      <a href="/about.html">Biz haqimizda</a>
+      <a href="/arena.html">Arena</a>
+      <a href="/learn.html">Akademiya</a>
+      <a href="/leaderboard.html">Reyting</a>
+      <a href="/career.html">Karyera</a>
+    </div>
+  </div>
+</footer>
+<script src="/js/brand-ui.js"></script>
+
 </body>
 </html>
