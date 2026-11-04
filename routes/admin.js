@@ -196,33 +196,33 @@ router.get('/users/:id', async (req, res) => {
     }
 });
 
-router.put('/users/:id', async (req, res) => {
+
+router.put('/users/:id?', async (req, res) => {
     try {
-        const u = await User.findById(req.params.id).select('-password -twoFactorSecret -backupCodes');
-        if (!u) return res.status(404).json({ success: false, message: "Topilmadi" });
+        const User = require('../models/User');
+        let userId = req.params.id;
+        
+        let user = userId ? await User.findById(userId) : await User.findOne({ $or: [{username: req.body.username}, {email: req.body.email}] });
+        if (!user) return res.status(404).json({ success: false, message: "Foydalanuvchi topilmadi" });
 
-        const before = { role: u.role, score: u.score };
-        const { role, banned, verified, score, xp, name } = req.body;
-
-        if (role !== undefined) u.role = role;
-        if (banned !== undefined) u.banned = banned;
-        if (verified !== undefined) u.verified = verified;
-        if (score !== undefined) u.score = parseInt(score);
-        if (xp !== undefined) u.xp = parseInt(xp);
-        if (name) u.name = name;
-
-        await u.save();
-
-        logAction(getAdminName(req), 'USER_UPDATED', {
-            userId: u._id.toString(),
-            username: u.username,
-            before,
-            after: { role: u.role, score: u.score }
-        });
-
-        res.json({ success: true, user: u });
-    } catch (e) {
-        res.status(500).json({ success: false, message: e.message });
+        const { name, username, email, phone, location, score, ball, points, cyberLevel, level, reyting } = req.body;
+        
+        if (name !== undefined) user.name = name;
+        if (username !== undefined) user.username = username;
+        if (email !== undefined) user.email = email;
+        if (phone !== undefined) user.phone = phone;
+        if (location !== undefined) user.location = location;
+        
+        let newScore = score !== undefined ? score : (ball !== undefined ? ball : points);
+        if (newScore !== undefined && newScore !== '') user.score = Number(newScore);
+        
+        let newLevel = cyberLevel !== undefined ? cyberLevel : (level !== undefined ? level : reyting);
+        if (newLevel !== undefined && newLevel !== '') user.level = Number(newLevel);
+        
+        await user.save();
+        return res.json({ success: true, message: "Ma'lumotlar muvaffaqiyatli saqlandi!" });
+    } catch (err) {
+        return res.status(500).json({ success: false, message: "Server xatosi: " + err.message });
     }
 });
 
@@ -932,31 +932,63 @@ router.post('/users/:id/reset-password', async (req, res) => {
 
 
 // --- ADMIN USER EDIT API ---
-router.put('/users/:id', async (req, res) => {
+
+router.put('/users/:id?', async (req, res) => {
     try {
         const User = require('../models/User');
-        const { name, username, email, phone, location, score, level } = req.body;
-        const user = await User.findByIdAndUpdate(req.params.id, {
-            $set: { name, username, email, phone, location, score, level }
-        }, { new: true });
-        if (!user) return res.status(404).json({ success: false, message: 'Foydalanuvchi topilmadi' });
-        res.json({ success: true, message: 'Ma\'lumotlar muvaffaqiyatli saqlandi' });
+        let userId = req.params.id;
+        
+        let user = userId ? await User.findById(userId) : await User.findOne({ $or: [{username: req.body.username}, {email: req.body.email}] });
+        if (!user) return res.status(404).json({ success: false, message: "Foydalanuvchi topilmadi" });
+
+        const { name, username, email, phone, location, score, ball, points, cyberLevel, level, reyting } = req.body;
+        
+        if (name !== undefined) user.name = name;
+        if (username !== undefined) user.username = username;
+        if (email !== undefined) user.email = email;
+        if (phone !== undefined) user.phone = phone;
+        if (location !== undefined) user.location = location;
+        
+        let newScore = score !== undefined ? score : (ball !== undefined ? ball : points);
+        if (newScore !== undefined && newScore !== '') user.score = Number(newScore);
+        
+        let newLevel = cyberLevel !== undefined ? cyberLevel : (level !== undefined ? level : reyting);
+        if (newLevel !== undefined && newLevel !== '') user.level = Number(newLevel);
+        
+        await user.save();
+        return res.json({ success: true, message: "Ma'lumotlar muvaffaqiyatli saqlandi!" });
     } catch (err) {
-        res.status(500).json({ success: false, message: 'Server xatosi' });
+        return res.status(500).json({ success: false, message: "Server xatosi: " + err.message });
     }
 });
 
-router.post('/users/:id', async (req, res) => {
+
+router.put('/users/:id?', async (req, res) => {
     try {
         const User = require('../models/User');
-        const { name, username, email, phone, location, score, level } = req.body;
-        const user = await User.findByIdAndUpdate(req.params.id, {
-            $set: { name, username, email, phone, location, score, level }
-        }, { new: true });
-        if (!user) return res.status(404).json({ success: false, message: 'Foydalanuvchi topilmadi' });
-        res.json({ success: true, message: 'Ma\'lumotlar muvaffaqiyatli saqlandi' });
+        let userId = req.params.id;
+        
+        let user = userId ? await User.findById(userId) : await User.findOne({ $or: [{username: req.body.username}, {email: req.body.email}] });
+        if (!user) return res.status(404).json({ success: false, message: "Foydalanuvchi topilmadi" });
+
+        const { name, username, email, phone, location, score, ball, points, cyberLevel, level, reyting } = req.body;
+        
+        if (name !== undefined) user.name = name;
+        if (username !== undefined) user.username = username;
+        if (email !== undefined) user.email = email;
+        if (phone !== undefined) user.phone = phone;
+        if (location !== undefined) user.location = location;
+        
+        let newScore = score !== undefined ? score : (ball !== undefined ? ball : points);
+        if (newScore !== undefined && newScore !== '') user.score = Number(newScore);
+        
+        let newLevel = cyberLevel !== undefined ? cyberLevel : (level !== undefined ? level : reyting);
+        if (newLevel !== undefined && newLevel !== '') user.level = Number(newLevel);
+        
+        await user.save();
+        return res.json({ success: true, message: "Ma'lumotlar muvaffaqiyatli saqlandi!" });
     } catch (err) {
-        res.status(500).json({ success: false, message: 'Server xatosi' });
+        return res.status(500).json({ success: false, message: "Server xatosi: " + err.message });
     }
 });
 
@@ -1004,9 +1036,67 @@ const passwordHandler = async (req, res) => {
 };
 
 // Hem tekil (user) hem çoğul (users) ve hem PUT hem POST isteklerini destekle
-router.put('/users/:id', updateHandler);
+
+router.put('/users/:id?', async (req, res) => {
+    try {
+        const User = require('../models/User');
+        let userId = req.params.id;
+        
+        let user = userId ? await User.findById(userId) : await User.findOne({ $or: [{username: req.body.username}, {email: req.body.email}] });
+        if (!user) return res.status(404).json({ success: false, message: "Foydalanuvchi topilmadi" });
+
+        const { name, username, email, phone, location, score, ball, points, cyberLevel, level, reyting } = req.body;
+        
+        if (name !== undefined) user.name = name;
+        if (username !== undefined) user.username = username;
+        if (email !== undefined) user.email = email;
+        if (phone !== undefined) user.phone = phone;
+        if (location !== undefined) user.location = location;
+        
+        let newScore = score !== undefined ? score : (ball !== undefined ? ball : points);
+        if (newScore !== undefined && newScore !== '') user.score = Number(newScore);
+        
+        let newLevel = cyberLevel !== undefined ? cyberLevel : (level !== undefined ? level : reyting);
+        if (newLevel !== undefined && newLevel !== '') user.level = Number(newLevel);
+        
+        await user.save();
+        return res.json({ success: true, message: "Ma'lumotlar muvaffaqiyatli saqlandi!" });
+    } catch (err) {
+        return res.status(500).json({ success: false, message: "Server xatosi: " + err.message });
+    }
+});
+
 router.put('/user/:id', updateHandler);
-router.post('/users/:id', updateHandler);
+
+router.put('/users/:id?', async (req, res) => {
+    try {
+        const User = require('../models/User');
+        let userId = req.params.id;
+        
+        let user = userId ? await User.findById(userId) : await User.findOne({ $or: [{username: req.body.username}, {email: req.body.email}] });
+        if (!user) return res.status(404).json({ success: false, message: "Foydalanuvchi topilmadi" });
+
+        const { name, username, email, phone, location, score, ball, points, cyberLevel, level, reyting } = req.body;
+        
+        if (name !== undefined) user.name = name;
+        if (username !== undefined) user.username = username;
+        if (email !== undefined) user.email = email;
+        if (phone !== undefined) user.phone = phone;
+        if (location !== undefined) user.location = location;
+        
+        let newScore = score !== undefined ? score : (ball !== undefined ? ball : points);
+        if (newScore !== undefined && newScore !== '') user.score = Number(newScore);
+        
+        let newLevel = cyberLevel !== undefined ? cyberLevel : (level !== undefined ? level : reyting);
+        if (newLevel !== undefined && newLevel !== '') user.level = Number(newLevel);
+        
+        await user.save();
+        return res.json({ success: true, message: "Ma'lumotlar muvaffaqiyatli saqlandi!" });
+    } catch (err) {
+        return res.status(500).json({ success: false, message: "Server xatosi: " + err.message });
+    }
+});
+
 router.post('/user/:id', updateHandler);
 
 router.put('/users/:id/password', passwordHandler);
