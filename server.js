@@ -231,6 +231,7 @@ const locationRoutes = require('./routes/locations');
 const notificationRoutes = require('./routes/notifications');
 const writeupRoutes = require('./routes/writeups');
 
+app.use('/api', csrfProtection);
 app.use('/api', apiLimiter);
 
 
@@ -273,7 +274,7 @@ app.use('/api/writeups', writeupRoutes);
 app.get('/api/csrf-token', csrfTokenEndpoint);
 
 // CSRF protection
-app.use('/api', csrfProtection);
+
 
 // Admin API
 app.use('/api/arena-admin', require('./routes/arenaAdmin'));

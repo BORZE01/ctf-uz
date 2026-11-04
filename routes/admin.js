@@ -1,5 +1,30 @@
 const express = require('express');
 const router = express.Router();
+
+// --- STRICT RBAC MIDDLEWARE (FIXED) ---
+router.use((req, res, next) => {
+    let userRole = 'user';
+    // Sessiya va brauzer tokenni tekshirishning xavfsiz usuli
+    if (req.user && req.user.role) userRole = req.user.role;
+    else if (req.session && req.session.user && req.session.user.role) userRole = req.session.user.role;
+    else if (req.session && req.session.admin) userRole = 'super_admin'; 
+    
+    const targetRole = req.body?.role;
+    const hierarchy = { 'super_admin': 3, 'admin': 2, 'organizer': 2, 'moderator': 1, 'user': 0 };
+
+    if (hierarchy[userRole] === undefined || hierarchy[userRole] < 1) {
+        return res.status(403).json({ success: false, message: "Kritik xato: Ruxsat etilmagan kirish." });
+    }
+
+    if (['PUT', 'POST', 'PATCH'].includes(req.method) && targetRole) {
+        if (userRole !== 'super_admin') {
+            return res.status(403).json({ success: false, message: "Kritik xato: Faqat Super Admin rollarni boshqarishi mumkin!" });
+        }
+    }
+    next();
+});
+// --------------------------------------
+
 const path = require('path');
 const fs = require('fs');
 const {
@@ -75,7 +100,7 @@ router.get('/stats', async (req, res) => {
             .lean();
 
         const categoryStats = await Promise.all(
-            ['Web', 'Pwn', 'Reverse', 'Crypto', 'Forensics', 'OSINT'].map(async (cat) => {
+            ['Web', 'Pwn', 'Reverse', 'Crypto', 'Forensics', 'OSINT', 'Stego', 'Misc'].map(async (cat) => {
                 const count = await Challenge.countDocuments({ category: cat });
                 const solvesAgg = await Challenge.aggregate([
                     { $match: { category: cat } },

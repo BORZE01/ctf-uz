@@ -284,4 +284,18 @@ userSchema.methods.toPublic = function() {
     };
 };
 
+
+// --- Level Sinxronizatsiyasi ---
+userSchema.pre('save', function(next) {
+    if (this.isModified('score') || this.isModified('ball') || this.isModified('points')) {
+        const currentScore = this.score || this.ball || this.points || 0;
+        // Formula: Har 100 ball = 1 level
+        const calculatedLevel = Math.floor(currentScore / 100) + 1;
+        this.level = calculatedLevel;
+        this.cyberLevel = calculatedLevel;
+    }
+    next();
+});
+// ------------------------------
+
 module.exports = mongoose.model('User', userSchema);

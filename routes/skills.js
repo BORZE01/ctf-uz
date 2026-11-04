@@ -15,7 +15,7 @@ router.get('/my', (req, res) => {
     const user = users.find(u => u.id === req.session.user.id);
     if (!user) return res.status(404).json({ success: false, message: "Topilmadi" });
 
-    const skills = calculateSkillScores(user, challenges, submissions);
+    const skills = await calculateSkillScores(user, challenges, submissions);
     res.json({ success: true, skills });
 });
 
