@@ -61,7 +61,7 @@ async function loadPublicProfile() {
     }
 
     const u = data.profile;
-    const location = [u.region, u.city].filter(Boolean).join(' · ') || 'Noma\'lum';
+    const location = [(u && u.region ? u.region : "Noma'lum"), (u && u.city ? u.city : "")].filter(Boolean).join(' · ') || 'Noma\'lum';
 
     document.getElementById('public-profile').innerHTML = `
         <div class="card-glass fade-in-up" style="padding: 40px;">

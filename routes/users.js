@@ -279,6 +279,33 @@ router.get('/u/:username', async (req, res) => {
         const targetUser = await User.findOne({ username: req.params.username, role: { $ne: 'fake' } });
         if (!targetUser) return res.status(404).json({ success: false, message: "Foydalanuvchi topilmadi" });
 
+        const escapeHtml = (unsafe) => {
+            return (unsafe || '').toString().replace(/[&<>"']/g, m => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'}[m]));
+        };
+
+        const userData = {
+            username: targetUser.username,
+            name: escapeHtml(targetUser.name || targetUser.username),
+            bio: escapeHtml(targetUser.bio || ''),
+            score: targetUser.score || 0,
+            level: Math.floor((targetUser.score || 0) / 1000) || 1,
+            cyberLevel: Math.floor((targetUser.score || 0) / 1000) || 1,
+            avatar: targetUser.avatar || '',
+            skills: targetUser.skills || {},
+            solved: targetUser.solved || [],
+            streak: targetUser.streak || 0,
+            globalRank: targetUser.globalRank || 0,
+            region: targetUser.region || targetUser.viloyat || "Toshkent",
+            city: targetUser.city || targetUser.shahar || "Noma'lum"
+        };
+
+        res.json({ success: true, user: userData, data: userData });
+    } catch (err) {
+        res.status(500).json({ success: false, message: "Server xatosi" });
+    }
+});
+        if (!targetUser) return res.status(404).json({ success: false, message: "Foydalanuvchi topilmadi" });
+
         // Встроенная защита от XSS (AUD-005)
         const escapeHtml = (unsafe) => {
             return (unsafe || '').toString()
