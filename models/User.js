@@ -2,6 +2,9 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
+    isPremium: { type: Boolean, default: false },
+    premiumUntil: { type: Date, default: null },
+    premiumPlan: { type: String, default: 'free' },
     // ══════════════════════════════════════════
     // ASOSIY MA'LUMOTLAR
     // ══════════════════════════════════════════

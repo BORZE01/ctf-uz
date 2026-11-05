@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { requireAuth } = require('../middleware/auth');
 const mongoose = require('mongoose');
 const Job = require('../models/Job');
 const Employer = require('../models/Employer');
@@ -45,14 +46,14 @@ router.get('/jobs', async (req, res) => {
             .lean();
 
         // Faqat tasdiqlangan kompaniyalar
-        const verified = jobs.filter(j => 
+        const verified = jobs.filter(j =>
             j.employerId && j.employerId.verificationStatus === 'verified'
         );
 
-        res.json({ 
-            success: true, 
-            jobs: verified, 
-            total: verified.length 
+        res.json({
+            success: true,
+            jobs: verified,
+            total: verified.length
         });
     } catch (e) {
         console.error('GET /api/career/jobs xatosi:', e);
@@ -67,9 +68,9 @@ router.get('/jobs/:id', async (req, res) => {
     try {
         // MongoDB ObjectId tekshirish
         if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-            return res.status(400).json({ 
-                success: false, 
-                message: 'Xato ID format' 
+            return res.status(400).json({
+                success: false,
+                message: 'Xato ID format'
             });
         }
 
@@ -78,9 +79,9 @@ router.get('/jobs/:id', async (req, res) => {
             .lean();
 
         if (!job) {
-            return res.status(404).json({ 
-                success: false, 
-                message: 'Vakansiya topilmadi' 
+            return res.status(404).json({
+                success: false,
+                message: 'Vakansiya topilmadi'
             });
         }
 
@@ -98,10 +99,10 @@ router.get('/jobs/:id', async (req, res) => {
         // Views count
         await Job.updateOne({ _id: job._id }, { $inc: { viewsCount: 1 } });
 
-        res.json({ 
-            success: true, 
-            job, 
-            match 
+        res.json({
+            success: true,
+            job,
+            match
         });
     } catch (e) {
         console.error('GET /api/career/jobs/:id xatosi:', e);
@@ -116,9 +117,9 @@ router.get('/recommendations', async (req, res) => {
     try {
         const user = await getCurrentUser(req);
         if (!user) {
-            return res.status(401).json({ 
-                success: false, 
-                message: 'Kirish kerak' 
+            return res.status(401).json({
+                success: false,
+                message: 'Kirish kerak'
             });
         }
 
@@ -127,7 +128,7 @@ router.get('/recommendations', async (req, res) => {
             .limit(50)
             .lean();
 
-        const validJobs = jobs.filter(j => 
+        const validJobs = jobs.filter(j =>
             j.employerId && j.employerId.verificationStatus === 'verified'
         );
 
@@ -162,31 +163,31 @@ router.post('/jobs/:id/apply', async (req, res) => {
     try {
         const user = await getCurrentUser(req);
         if (!user) {
-            return res.status(401).json({ 
-                success: false, 
-                message: 'Kirish kerak' 
+            return res.status(401).json({
+                success: false,
+                message: 'Kirish kerak'
             });
         }
 
         if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-            return res.status(400).json({ 
-                success: false, 
-                message: 'Xato ID' 
+            return res.status(400).json({
+                success: false,
+                message: 'Xato ID'
             });
         }
 
         const job = await Job.findById(req.params.id).populate('employerId');
         if (!job) {
-            return res.status(404).json({ 
-                success: false, 
-                message: 'Vakansiya topilmadi' 
+            return res.status(404).json({
+                success: false,
+                message: 'Vakansiya topilmadi'
             });
         }
 
         if (job.status !== 'published') {
-            return res.status(400).json({ 
-                success: false, 
-                message: 'Bu vakansiya aktiv emas' 
+            return res.status(400).json({
+                success: false,
+                message: 'Bu vakansiya aktiv emas'
             });
         }
 
@@ -197,17 +198,17 @@ router.post('/jobs/:id/apply', async (req, res) => {
         });
 
         if (existing) {
-            return res.status(400).json({ 
-                success: false, 
-                message: 'Siz allaqachon ariza yuborgansiz' 
+            return res.status(400).json({
+                success: false,
+                message: 'Siz allaqachon ariza yuborgansiz'
             });
         }
 
         // O'z vakansiyasiga ariza yubormasin
         if (job.employerId.ownerUserId.toString() === user._id.toString()) {
-            return res.status(400).json({ 
-                success: false, 
-                message: 'O\'z vakansiyangizga ariza yubora olmaysiz' 
+            return res.status(400).json({
+                success: false,
+                message: 'O\'z vakansiyangizga ariza yubora olmaysiz'
             });
         }
 
@@ -284,9 +285,9 @@ router.post('/jobs/:id/save', async (req, res) => {
         try {
             SavedJob = require('../models/SavedJob');
         } catch (e) {
-            return res.status(501).json({ 
-                success: false, 
-                message: 'Saqlash funksiyasi hozircha mavjud emas' 
+            return res.status(501).json({
+                success: false,
+                message: 'Saqlash funksiyasi hozircha mavjud emas'
             });
         }
 
@@ -297,25 +298,66 @@ router.post('/jobs/:id/save', async (req, res) => {
 
         if (existing) {
             await SavedJob.deleteOne({ _id: existing._id });
-            res.json({ 
-                success: true, 
-                saved: false, 
-                message: 'Saqlanganlardan olib tashlandi' 
+            res.json({
+                success: true,
+                saved: false,
+                message: 'Saqlanganlardan olib tashlandi'
             });
         } else {
-            await SavedJob.create({ 
-                userId: user._id, 
-                jobId: req.params.id 
+            await SavedJob.create({
+                userId: user._id,
+                jobId: req.params.id
             });
-            res.json({ 
-                success: true, 
-                saved: true, 
-                message: 'Saqlandi' 
+            res.json({
+                success: true,
+                saved: true,
+                message: 'Saqlandi'
             });
         }
     } catch (e) {
         console.error('POST /api/career/jobs/:id/save xatosi:', e);
         res.status(500).json({ success: false, message: e.message });
+    }
+});
+
+
+
+
+// Mukammal va xatosiz Ariza (Apply) marshruti
+router.post('/jobs/:id/apply', requireAuth, async (req, res) => {
+    try {
+        const jobId = req.params.id;
+        const { coverLetter } = req.body;
+        
+        // E'lonlar takrorlanmasligi uchun Model nomlarini maxsus o'zgartirib chaqiramiz
+        const JobModel = require('../models/Job');
+        const AppModel = require('../models/Application');
+        
+        const job = await JobModel.findById(jobId);
+        if (!job) {
+            return res.status(404).json({ success: false, message: "Vakansiya topilmadi." });
+        }
+        
+        // Takroriy arizalarni tekshirish
+        const existingApp = await AppModel.findOne({ jobId: job._id, applicantId: req.user._id });
+        if (existingApp) {
+            return res.status(400).json({ success: false, message: "Siz bu vakansiyaga allaqachon ariza yuborgansiz!" });
+        }
+        
+        // Yangi ariza yaratish (Professor so'ragan barcha maydonlar bilan)
+        const newApp = new AppModel({
+            jobId: job._id,
+            employerId: job.employerId || job.employer || null,
+            applicantId: req.user._id,
+            coverLetter: coverLetter || '',
+            status: 'submitted'
+        });
+        
+        await newApp.save();
+        return res.status(200).json({ success: true, message: "Arizangiz muvaffaqiyatli yuborildi!" });
+    } catch (e) {
+        console.error("Apply xatosi:", e);
+        return res.status(500).json({ success: false, message: e.message });
     }
 });
 

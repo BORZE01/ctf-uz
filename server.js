@@ -94,7 +94,7 @@ app.use(session({
     }),
     cookie: {
         httpOnly: true,
-        secure: false,
+        secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',
         maxAge: (parseInt(process.env.SESSION_TTL_DAYS) || 7) * 24 * 60 * 60 * 1000
     }
@@ -117,8 +117,8 @@ const mongoose = require('mongoose');
 app.use(async (req, res, next) => {
     try {
         // Statik fayllarni o'tkazib yuborish
-        if (req.path.startsWith('/css/') || 
-            req.path.startsWith('/js/') || 
+        if (req.path.startsWith('/css/') ||
+            req.path.startsWith('/js/') ||
             req.path.startsWith('/assets/') ||
             req.path.startsWith('/uploads/') ||
             req.path.match(/\.(css|js|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf)$/)) {
@@ -135,18 +135,18 @@ app.use(async (req, res, next) => {
 
         const cookie = req.headers.cookie || '';
         const Visitor = require('./models/Visitor');
-        
+
         const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'N/A';
         const userAgent = (req.headers['user-agent'] || '').slice(0, 200);
         const sessionId = req.sessionID || null;
         const userId = req.session?.user?.id || null;
         const username = req.session?.user?.username || null;
-        
+
         // SessionId bo'lmasa — IP+UA bo'yicha
-        const query = sessionId 
+        const query = sessionId
             ? { sessionId: sessionId }
             : { ip: ip, userAgent: userAgent, userId: null };
-        
+
         await Visitor.findOneAndUpdate(
             query,
             {
@@ -214,6 +214,9 @@ const { csrfTokenEndpoint, csrfProtection } = require('./middleware/csrf');
 // ══════════════════════════════════════════
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/users');
+const premiumRoute = require('./routes/premium');
+app.use('/', premiumRoute);
+
 const cyberIdRoutes = require('./routes/cyberId');
 const certificateRoutes = require('./routes/certificates');
 const employerRoutes = require('./routes/employer');
@@ -319,19 +322,19 @@ app.get('/api/certificates/verify/:certId', async (req, res) => {
     try {
         const certId = req.params.certId.toUpperCase();
         const User = require('./models/User'); // Model papkasi to'g'riligiga ishonch
-        
+
         // Sertifikat ID orqali egasini topamiz
         const user = await User.findOne({ 'certificates.certId': certId });
-        
+
         if (!user) {
             return res.json({ success: false, message: "Kechirasiz, bunday ID raqamli sertifikat bazadan topilmadi." });
         }
-        
+
         // Foydalanuvchining aynan qidirilayotgan sertifikatini ajratib olamiz
         const cert = user.certificates.find(c => c.certId === certId);
-        
-        res.json({ 
-            success: true, 
+
+        res.json({
+            success: true,
             certificate: {
                 certId: cert.certId,
                 courseName: cert.courseName,
@@ -418,13 +421,7 @@ app.use((err, req, res, next) => {
             console.log('⚠️ Seed xatosi:', e.message);
         }
 
-        try {
-            const { seedFakeUsers, startLiveUpdates } = require('./utils/fakeUsers');
-            await seedFakeUsers(20);
-            startLiveUpdates();
-        } catch (e) {
-            console.log('⚠️ Fake users xatosi:', e.message);
-        }
+
 
         try {
             const { startCron } = require('./utils/cron');

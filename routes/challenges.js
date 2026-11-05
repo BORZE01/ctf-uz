@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { requireAuth } = require('../middleware/auth');
 const mongoose = require('mongoose');
 const Challenge = require('../models/Challenge');
 const User = require('../models/User');
@@ -59,13 +60,13 @@ router.get('/:id', async (req, res) => {
 
         // ID validatsiya
         if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-            return res.status(400).json({ 
-                success: false, 
-                message: 'Challenge topilmadi (eski ID)' 
+            return res.status(400).json({
+                success: false,
+                message: 'Challenge topilmadi (eski ID)'
             });
         }
 
-        const challenge = await Challenge.findById(req.params.id).lean();
+        const challenge = await Challenge.findOne({ _id: req.params.id, status: 'live' }).lean();
         if (!challenge) {
             return res.status(404).json({ success: false, message: 'Challenge topilmadi' });
         }
@@ -105,133 +106,63 @@ router.get('/:id', async (req, res) => {
 // ══════════════════════════════════════════
 // FLAG SUBMIT
 // ══════════════════════════════════════════
-router.post('/:id/submit', async (req, res) => {
+router.post('/:id/submit', requireAuth, async (req, res) => {
     try {
-        if (!req.session || !req.session.user) {
-            return res.status(401).json({ success: false, message: "Kirish kerak" });
-        }
-
-        // ═══ ID VALIDATSIYA ═══
-        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-            return res.status(400).json({ 
-                success: false, 
-                message: 'Challenge topilmadi. Sahifani yangilang va Arena orqali qayta kiring.' 
-            });
-        }
-
         const { flag } = req.body;
-        if (!flag || !flag.trim()) {
-            return res.status(400).json({ success: false, message: 'Flag kiritilmadi' });
+        const challenge = await Challenge.findOne({ _id: req.params.id, status: 'live' });
+
+        if (!challenge) return res.status(404).json({ success: false, message: "Masala topilmadi yoki yopiq" });
+
+        // Foydalanuvchi buni oldin yechganmi?
+        if (req.user.solved && req.user.solved.includes(challenge._id.toString())) {
+            return res.status(400).json({ success: false, message: "Siz bu masalani allaqachon yechgansiz!" });
         }
 
-        const challenge = await Challenge.findById(req.params.id);
-        if (!challenge) {
-            return res.status(404).json({ success: false, message: 'Challenge topilmadi' });
-        }
+        if (challenge.flag === flag) {
+            // Atomik yangilash (Faqatgina solved ro'yxatida bo'lmasa ball qo'shiladi)
+            const updatedUser = await User.findOneAndUpdate(
+                { _id: req.user._id, solved: { $ne: challenge._id.toString() } },
+                {
+                    $push: { solved: challenge._id.toString() },
+                    $inc: { score: challenge.points }
+                },
+                { new: true }
+            );
 
-        const user = await User.findById(req.session.user.id);
-        if (!user) {
-            return res.status(404).json({ success: false, message: 'Foydalanuvchi topilmadi' });
-        }
+            if (!updatedUser) {
+                return res.status(400).json({ success: false, message: "Siz bu masalani allaqachon yechgansiz!" });
+            }
 
-        // Allaqachon yechilganmi?
-        const alreadySolved = (user.solvedChallenges || [])
-            .some(id => id.toString() === challenge._id.toString());
+            // Challenge solves sonini oshirish
+            await Challenge.findByIdAndUpdate(challenge._id, { $inc: { solves: 1 } });
 
-        if (alreadySolved) {
-            return res.json({ 
-                success: false, 
-                message: 'Siz bu challengeni allaqachon yechgansiz',
-                correct: false 
-            });
-        }
-
-        // Flag tekshirish
-        const isCorrect = flag.trim() === challenge.flag;
-
-        // Submission yozish
-        await Submission.create({
-            userId: user._id,
-            challengeId: challenge._id,
-            flag: flag.trim(),
-            correct: isCorrect,
-            timestamp: new Date()
-        });
-
-        if (isCorrect) {
-            // Ball qo'shish
-            user.score = (user.score || 0) + challenge.points;
-            user.xp = (user.xp || 0) + challenge.points;
-            user.solvedChallenges = user.solvedChallenges || [];
-            user.solvedChallenges.push(challenge._id);
-
-            // Level hisoblash
-            user.cyberLevel = Math.floor((user.xp || 0) / 1000) + 1;
-
-            await user.save();
-
-            // Challenge solves
-            challenge.solves = (challenge.solves || 0) + 1;
-            await challenge.save();
-
-            // Activity
-            try {
-                await Activity.create({
-                    userId: user._id,
-                    type: 'solve',
-                    title: `Challengeni yechdi: ${challenge.title}`,
-                    points: challenge.points,
-                    timestamp: new Date()
-                });
-            } catch (e) {}
-
-            // Telegram admin
-            try {
-                await sendSolveToAdmin(user.username, challenge.title, challenge.points);
-            } catch (e) {}
-
-            res.json({
-                success: true,
-                correct: true,
-                message: `To'g'ri! +${challenge.points} ball`,
-                points: challenge.points,
-                newScore: user.score,
-                newLevel: user.cyberLevel
-            });
+            return res.json({ success: true, message: "Flag to'g'ri!", score: updatedUser.score });
         } else {
-            res.json({
-                success: true,
-                correct: false,
-                message: 'Noto\'g\'ri flag'
-            });
+            return res.status(400).json({ success: false, message: "Noto'g'ri flag!" });
         }
-    } catch (e) {
-        console.error('Submit xatosi:', e.message);
-        res.status(500).json({ success: false, message: e.message });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, message: "Server xatosi" });
     }
 });
 
-
-// Hint sotib olish API
-
-// Hint sotib olish API
 router.post('/:id/hints/buy', async (req, res) => {
     try {
         if (!req.session || !req.session.user) {
             return res.status(401).json({ success: false, message: "Kirish kerak" });
         }
-        
+
         const { hintIndex } = req.body;
         const index = parseInt(hintIndex);
-        const challenge = await Challenge.findById(req.params.id);
-        
+        const challenge = await Challenge.findOne({ _id: req.params.id, status: 'live' });
+
         if (!challenge || !challenge.hints || !challenge.hints[index]) {
             return res.status(404).json({ success: false, message: 'Hint topilmadi' });
         }
 
         const user = await User.findById(req.session.user.id);
         if (!user.unlockedHints) user.unlockedHints = [];
-        
+
         const alreadyUnlocked = user.unlockedHints.some(uh => uh.challengeId.toString() === challenge._id.toString() && uh.hintIndex === index);
         const rawHint = challenge.hints[index];
         const hintText = typeof rawHint === 'object' ? rawHint.text : rawHint;

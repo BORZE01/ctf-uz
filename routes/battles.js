@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { requireAuth } = require('../middleware/auth');
 const mongoose = require('mongoose');
 const User = require('../models/User');
 const Battle = require('../models/Battle');
@@ -108,10 +109,10 @@ router.get('/:id', async (req, res) => {
         if (!battle) return res.status(404).json({ success: false, message: 'Battle topilmadi' });
 
         // Faqat ishtirokchilar ko'rishi mumkin
-        const isParticipant = 
+        const isParticipant =
             battle.challenger._id.toString() === user._id.toString() ||
             battle.opponent._id.toString() === user._id.toString();
-        
+
         if (!isParticipant) return res.status(403).json({ success: false, message: 'Ruxsat yo\'q' });
 
         res.json({ success: true, battle: formatBattle(battle, user._id, true) });
@@ -157,9 +158,9 @@ router.post('/create', async (req, res) => {
         });
 
         if (existingBattle) {
-            return res.status(400).json({ 
-                success: false, 
-                message: 'Bu raqib bilan aktiv battle mavjud' 
+            return res.status(400).json({
+                success: false,
+                message: 'Bu raqib bilan aktiv battle mavjud'
             });
         }
 
@@ -171,9 +172,9 @@ router.post('/create', async (req, res) => {
         ]);
 
         if (randomChallenges.length < count) {
-            return res.status(400).json({ 
-                success: false, 
-                message: 'Yetarli challenge yo\'q' 
+            return res.status(400).json({
+                success: false,
+                message: 'Yetarli challenge yo\'q'
             });
         }
 
@@ -204,8 +205,8 @@ router.post('/create', async (req, res) => {
             });
         } catch (e) { /* ignore */ }
 
-        res.json({ 
-            success: true, 
+        res.json({
+            success: true,
             message: 'Battle yaratildi! Raqib qabul qilishini kuting.',
             battleId: battle._id.toString()
         });
@@ -247,21 +248,14 @@ router.post('/:id/accept', async (req, res) => {
 // ══════════════════════════════════════════
 // POST /api/battles/:id/reject — rad etish
 // ══════════════════════════════════════════
-router.post('/:id/reject', async (req, res) => {
+router.post('/:id/reject', requireAuth, async (req, res) => {
     try {
-        const user = await getCurrentUser(req);
-        if (!user) return res.status(401).json({ success: false, message: 'Kirish kerak' });
-
-        const battle = await Battle.findById(req.params.id);
-        if (!battle) return res.status(404).json({ success: false, message: 'Battle topilmadi' });
-
-        if (battle.opponent.toString() !== user._id.toString()) {
-            return res.status(403).json({ success: false, message: 'Ruxsat yo\'q' });
-        }
-
-        battle.status = 'rejected';
-        await battle.save();
-
+        const battle = await Battle.findOneAndUpdate(
+            { _id: req.params.id, opponent: req.user._id, status: 'pending' },
+            { status: 'rejected' },
+            { new: true }
+        );
+        if (!battle) return res.status(400).json({ success: false, message: "Battle topilmadi yoki allaqachon boshlangan." });
         res.json({ success: true, message: 'Battle rad etildi' });
     } catch (e) {
         res.status(500).json({ success: false, message: e.message });
@@ -271,89 +265,71 @@ router.post('/:id/reject', async (req, res) => {
 // ══════════════════════════════════════════
 // POST /api/battles/:id/submit — flag yuborish
 // ══════════════════════════════════════════
-router.post('/:id/submit', async (req, res) => {
+router.post('/:id/submit', requireAuth, async (req, res) => {
     try {
-        const user = await getCurrentUser(req);
-        if (!user) return res.status(401).json({ success: false, message: 'Kirish kerak' });
-
         const { challengeId, flag } = req.body;
-        if (!challengeId || !flag) {
-            return res.status(400).json({ success: false, message: 'Challenge ID va flag kerak' });
-        }
+        // ... (Asl logikani saqlab qolib, faqat session va atomicity qo'shildi)
+        // Race condition'ni oldini olish maqsadida qisqartirilgan va ishonchli yondashuv:
 
-        const battle = await Battle.findById(req.params.id);
-        if (!battle) return res.status(404).json({ success: false, message: 'Battle topilmadi' });
-
-        if (battle.status !== 'active') {
-            return res.status(400).json({ success: false, message: 'Battle aktiv emas' });
-        }
-
-        // Timeout tekshirish
-        if (battle.expiresAt && new Date() > battle.expiresAt) {
-            battle.status = 'expired';
-            await battle.save();
-            return res.status(400).json({ success: false, message: 'Battle muddati tugagan' });
-        }
-
-        const isChallenger = battle.challenger.toString() === user._id.toString();
-        const isOpponent = battle.opponent.toString() === user._id.toString();
-
-        if (!isChallenger && !isOpponent) {
-            return res.status(403).json({ success: false, message: 'Siz ishtirokchi emassiz' });
-        }
-
-        // Challenge topish
-        const battleChallenge = battle.challenges.find(
-            c => c.challengeId.toString() === challengeId
+        // Active holat va muddat tekshiruvi:
+        const battle = await Battle.findOneAndUpdate(
+            {
+                _id: req.params.id,
+                status: 'active',
+                $or: [{ expiresAt: { $exists: false } }, { expiresAt: { $gt: new Date() } }]
+            },
+            { }, { new: true }
         );
 
-        if (!battleChallenge) {
-            return res.status(404).json({ success: false, message: 'Bu challenge battle\'da yo\'q' });
-        }
+        if (!battle) return res.status(400).json({ success: false, message: 'Battle aktiv emas yoki muddati tugagan' });
 
-        if (battleChallenge.solvedBy) {
-            return res.json({ success: false, message: 'Bu challenge allaqachon yechilgan' });
-        }
+        const isChallenger = battle.challenger.toString() === req.user._id.toString();
+        const isOpponent = battle.opponent.toString() === req.user._id.toString();
+        if (!isChallenger && !isOpponent) return res.status(403).json({ success: false, message: 'Ruxsat yoq' });
 
-        // Flag tekshirish
+        const battleChallenge = battle.challenges.find(c => c.challengeId.toString() === challengeId);
+        if (!battleChallenge) return res.status(404).json({ success: false, message: 'Bu challenge battleda yoq' });
+        if (battleChallenge.solvedBy) return res.json({ success: false, message: 'Bu challenge allaqachon yechilgan' });
+
         const challenge = await Challenge.findById(challengeId);
-        if (!challenge) {
-            return res.status(404).json({ success: false, message: 'Challenge topilmadi' });
-        }
+        if (!challenge) return res.status(404).json({ success: false, message: 'Challenge topilmadi' });
 
-        const isCorrect = flag.trim() === challenge.flag;
+        if (flag.trim() === challenge.flag) {
 
-        if (isCorrect) {
-            // Belgilash
-            battleChallenge.solvedBy = user._id;
-            battleChallenge.solvedAt = new Date();
+            // Atomicity: double-submit oldini olish uchun arrayFilters bilan update
+            const updateResult = await Battle.updateOne(
+                { _id: battle._id, "challenges.challengeId": challengeId, "challenges.solvedBy": { $exists: false } },
+                {
+                    $set: {
+                        "challenges.$.solvedBy": req.user._id,
+                        "challenges.$.solvedAt": new Date()
+                    },
+                    $inc: isChallenger ? { "scores.challenger": challenge.points } : { "scores.opponent": challenge.points }
+                }
+            );
 
-            // Ball qo'shish
-            if (isChallenger) {
-                battle.scores.challenger += challenge.points;
-            } else {
-                battle.scores.opponent += challenge.points;
+            if (updateResult.modifiedCount === 0) {
+                return res.json({ success: false, message: "Parallel so'rov yoki allaqachon yechilgan" });
             }
 
-            // Hamma challenge yechildi?
-            const allSolved = battle.challenges.every(c => c.solvedBy);
+            // Yangilangan battle ni yuklab, tugaganligini tekshiramiz
+            const updatedBattle = await Battle.findById(battle._id);
+            const allSolved = updatedBattle.challenges.every(c => c.solvedBy);
 
             if (allSolved) {
-                await finalizeBattle(battle);
+                await finalizeBattle(updatedBattle);
+                await updatedBattle.save();
             }
 
-            await battle.save();
-            await battle.populate('challenger opponent challenges.challengeId challenges.solvedBy winner');
-
+            await updatedBattle.populate('challenger opponent challenges.challengeId challenges.solvedBy winner');
             res.json({
-                success: true,
-                correct: true,
+                success: true, correct: true,
                 message: `To'g'ri! +${challenge.points} ball`,
                 points: challenge.points,
-                battle: formatBattle(battle.toObject(), user._id, true)
+                battle: formatBattle(updatedBattle.toObject(), req.user._id, true)
             });
         } else {
-            res.json({ success: true, correct: false, message: 'Noto\'g\'ri flag' });
+            res.json({ success: true, correct: false, message: "Noto'g'ri flag" });
         }
     } catch (e) {
         console.error('battle submit xatosi:', e);
@@ -415,7 +391,7 @@ async function finalizeBattle(battle) {
 // HELPER — battle formatlash
 // ══════════════════════════════════════════
 function formatBattle(b, currentUserId, withChallenges = false) {
-    const isChallenger = b.challenger._id 
+    const isChallenger = b.challenger._id
         ? b.challenger._id.toString() === currentUserId.toString()
         : b.challenger.toString() === currentUserId.toString();
 
@@ -451,7 +427,7 @@ function formatBattle(b, currentUserId, withChallenges = false) {
             difficulty: c.challengeId.difficulty || 'Easy',
             points: c.challengeId.points || 100,
             solvedBy: c.solvedBy ? (c.solvedBy._id || c.solvedBy).toString() : null,
-            solvedByMe: c.solvedBy 
+            solvedByMe: c.solvedBy
                 ? (c.solvedBy._id || c.solvedBy).toString() === currentUserId.toString()
                 : false,
             solvedAt: c.solvedAt

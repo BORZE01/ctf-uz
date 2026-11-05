@@ -274,19 +274,22 @@ const { escapeHtml } = require('../utils/sanitize'); // XSS himoyasi
 // Public profil marshrutini xavfsizlantirish
 
 // API endpoint for public profile (Fixed JSON & XSS)
+
+
+// Public profil marshruti
 router.get('/u/:username', async (req, res) => {
     try {
         const targetUser = await User.findOne({ username: req.params.username, role: { $ne: 'fake' } });
         if (!targetUser) return res.status(404).json({ success: false, message: "Foydalanuvchi topilmadi" });
 
-        const escapeHtml = (unsafe) => {
+        const safeEscapeHtml = (unsafe) => {
             return (unsafe || '').toString().replace(/[&<>"']/g, m => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'}[m]));
         };
 
         const userData = {
             username: targetUser.username,
-            name: escapeHtml(targetUser.name || targetUser.username),
-            bio: escapeHtml(targetUser.bio || ''),
+            name: safeEscapeHtml(targetUser.name || targetUser.username),
+            bio: safeEscapeHtml(targetUser.bio || ''),
             score: targetUser.score || 0,
             level: Math.floor((targetUser.score || 0) / 1000) || 1,
             cyberLevel: Math.floor((targetUser.score || 0) / 1000) || 1,
@@ -301,243 +304,8 @@ router.get('/u/:username', async (req, res) => {
 
         res.json({ success: true, user: userData, data: userData });
     } catch (err) {
-        res.status(500).json({ success: false, message: "Server xatosi" });
-    }
-});
-        if (!targetUser) return res.status(404).json({ success: false, message: "Foydalanuvchi topilmadi" });
-
-        // Встроенная защита от XSS (AUD-005)
-        const escapeHtml = (unsafe) => {
-            return (unsafe || '').toString()
-                 .replace(/&/g, "&amp;")
-                 .replace(/</g, "&lt;")
-                 .replace(/>/g, "&gt;")
-                 .replace(/"/g, "&quot;")
-                 .replace(/'/g, "&#039;");
-        };
-
-        const safeName = escapeHtml(targetUser.name || targetUser.username);
-        const safeBio = escapeHtml(targetUser.bio || '');
-        const unifiedLevel = Math.floor((targetUser.score || 0) / 1000) || 1;
-        
-        // Возвращаем безопасный JSON
-        res.json({
-            success: true,
-            user: {
-                username: targetUser.username,
-                name: safeName,
-                bio: safeBio,
-                score: targetUser.score || 0,
-                level: unifiedLevel,
-                cyberLevel: unifiedLevel,
-                avatar: targetUser.avatar,
-                skills: targetUser.skills,
-                solved: targetUser.solved,
-                streak: targetUser.streak || 0,
-                globalRank: targetUser.globalRank
-            }
-        });
-    } catch (err) {
         console.error(err);
         res.status(500).json({ success: false, message: "Server xatosi" });
-    }
-});
-
-router.get('/all', async (req, res) => {
-    try {
-        const users = await User.find({ verified: true })
-            .sort({ score: -1 })
-            .limit(100)
-            .select('name username avatar score cyberLevel region city isFake')
-            .lean();
-
-        const result = users.map(u => ({
-            id: u._id.toString(),
-            name: u.name,
-            username: u.username,
-            avatar: u.avatar,
-            score: u.score || 0,
-            cyberLevel: u.cyberLevel || 1,
-            region: u.region,
-            city: u.city,
-            isFake: u.isFake || false,
-            rank: getUserRank(u.score || 0)
-        }));
-
-        res.json({ 
-            success: true, 
-            users: result, 
-            total: result.length 
-        });
-    } catch (err) {
-        console.error('GET /all xatosi:', err);
-        res.status(500).json({ 
-            success: false, 
-            message: "Server xatosi: " + err.message 
-        });
-    }
-});
-
-// ══════════════════════════════════════════
-// GET /talent — Recruiter uchun
-// ══════════════════════════════════════════
-router.get('/talent', async (req, res) => {
-    try {
-        if (!req.session || !req.session.user) {
-            return res.status(401).json({ 
-                success: false, 
-                message: "Kirish kerak" 
-            });
-        }
-
-        const currentUser = await findCurrentUser(req);
-        if (!currentUser) {
-            return res.status(401).json({ 
-                success: false, 
-                message: "Sessiya eskirgan" 
-            });
-        }
-
-        const { role, skill, minLevel } = req.query;
-
-        let query = { 
-            openToOpportunities: true, 
-            isFake: { $ne: true },
-            verified: true
-        };
-
-        if (role) query.preferredRoles = role;
-        if (minLevel) query.cyberLevel = { $gte: parseInt(minLevel) };
-
-        const users = await User.find(query)
-            .limit(50)
-            .select('name username avatar cyberLevel region city score solvedChallenges battleRating preferredRoles')
-            .lean();
-
-        const results = await Promise.all(users.map(async u => ({
-            username: u.username,
-            name: u.name,
-            avatar: u.avatar,
-            cyberLevel: u.cyberLevel,
-            region: u.region,
-            city: u.city,
-            score: u.score,
-            skills: await calculateSkillScores(u),
-            solvedCount: (u.solvedChallenges || []).length,
-            battleRating: u.battleRating,
-            preferredRoles: u.preferredRoles
-        })));
-
-        let filtered = results;
-        if (skill) {
-            filtered = results.filter(r => {
-                const skillKey = skill.toLowerCase();
-                return Object.entries(r.skills).some(([k, v]) =>
-                    k.toLowerCase().includes(skillKey) && v >= 30
-                );
-            });
-        }
-
-        res.json({ success: true, talent: filtered });
-    } catch (err) {
-        console.error('Talent xatosi:', err);
-        res.status(500).json({ 
-            success: false, 
-            message: "Server xatosi: " + err.message 
-        });
-    }
-});
-
-// ══════════════════════════════════════════
-// GET /stats/:id — Foydalanuvchi statistikasi
-// ══════════════════════════════════════════
-router.get('/stats/:id', async (req, res) => {
-    try {
-        if (!req.session || !req.session.user) {
-            return res.status(401).json({ 
-                success: false, 
-                message: "Kirish kerak" 
-            });
-        }
-
-        const currentUser = await findCurrentUser(req);
-        if (!currentUser) {
-            return res.status(401).json({ 
-                success: false, 
-                message: "Sessiya eskirgan" 
-            });
-        }
-
-        const isAdmin = ['admin', 'super_admin'].includes(currentUser.role);
-        const isSelf = currentUser._id.toString() === req.params.id;
-
-        if (!isAdmin && !isSelf) {
-            return res.status(403).json({ 
-                success: false, 
-                message: "Ruxsat yo'q" 
-            });
-        }
-
-        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-            return res.status(400).json({ 
-                success: false, 
-                message: "Noto'g'ri ID" 
-            });
-        }
-
-        const user = await User.findById(req.params.id);
-        if (!user) {
-            return res.status(404).json({ 
-                success: false, 
-                message: "Foydalanuvchi topilmadi" 
-            });
-        }
-
-        let totalSubmissions = 0;
-        let correctSubmissions = 0;
-        try {
-            const Submission = require('../models/Submission');
-            totalSubmissions = await Submission.countDocuments({ userId: user._id });
-            correctSubmissions = await Submission.countDocuments({ 
-                userId: user._id, 
-                correct: true 
-            });
-        } catch (e) {}
-
-        const skills = await calculateSkillScores(user);
-        const levelInfo = getLevelProgress(user.xp || 0);
-
-        res.json({
-            success: true,
-            stats: {
-                userId: user._id.toString(),
-                username: user.username,
-                name: user.name,
-                score: user.score || 0,
-                xp: user.xp || 0,
-                level: levelInfo.level,
-                skills,
-                solvedCount: (user.solvedChallenges || []).length,
-                totalSubmissions,
-                correctSubmissions,
-                successRate: totalSubmissions > 0 
-                    ? Math.round((correctSubmissions / totalSubmissions) * 100) 
-                    : 0,
-                achievements: user.achievements || [],
-                battleRating: user.battleRating || 1000,
-                battleWins: user.battleWins || 0,
-                battleLosses: user.battleLosses || 0,
-                streak: user.streak || 0,
-                createdAt: user.createdAt,
-                lastActive: user.lastActive
-            }
-        });
-    } catch (err) {
-        console.error('Stats xatosi:', err);
-        res.status(500).json({ 
-            success: false, 
-            message: "Server xatosi: " + err.message 
-        });
     }
 });
 
