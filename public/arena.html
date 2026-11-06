@@ -25,6 +25,18 @@ document.addEventListener("DOMContentLoaded", () => {
   <link rel="apple-touch-icon" sizes="192x192" href="/assets/icon-192.png">
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#3B82F6">
+
+
+
+
+<style>
+.arena-labs-section{margin:26px 0 42px;padding:26px;border:1px solid rgba(70,133,255,.2);border-radius:22px;background:linear-gradient(135deg,rgba(13,27,49,.94),rgba(7,13,27,.94));box-shadow:0 18px 55px rgba(0,0,0,.16)}
+.arena-labs-heading{display:flex;justify-content:space-between;align-items:flex-end;gap:22px;margin-bottom:22px}.arena-eyebrow{font:800 .68rem Inter,sans-serif;letter-spacing:2px;color:#48c9ff;display:flex;align-items:center;gap:9px}.arena-live-dot{width:7px;height:7px;border-radius:50%;background:#35e0a1;box-shadow:0 0 12px #35e0a1}.arena-labs-heading h2{font:900 1.8rem Manrope,sans-serif;margin:8px 0 5px}.arena-labs-heading h2 span{color:#48c9ff}.arena-labs-heading p{margin:0;color:var(--text-secondary);max-width:650px;font-size:.9rem}.arena-labs-note{font-size:.76rem;color:#a9bdd5;border:1px solid rgba(107,153,211,.2);border-radius:999px;padding:9px 13px;white-space:nowrap}.arena-labs-note span{color:#48c9ff;margin-right:6px}.arena-labs-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}.arena-lab-card{position:relative;overflow:hidden;text-align:left;border:1px solid rgba(101,151,219,.18);border-radius:16px;padding:19px;background:linear-gradient(155deg,rgba(23,42,69,.92),rgba(10,19,35,.96));transition:transform .2s,border-color .2s,box-shadow .2s;cursor:pointer;color:inherit}.arena-lab-card:hover{transform:translateY(-3px);border-color:rgba(56,189,248,.6);box-shadow:0 12px 34px rgba(0,0,0,.22)}.arena-lab-card:focus-visible{outline:2px solid #38bdf8;outline-offset:3px}.arena-lab-icon{width:43px;height:43px;border-radius:12px;display:grid;place-items:center;background:rgba(39,151,255,.14);color:#51caff;font-size:1.35rem;margin-bottom:15px}.arena-lab-tags{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px}.arena-lab-tag{font-size:.64rem;font-weight:800;letter-spacing:.5px;border-radius:6px;padding:4px 7px;background:rgba(66,153,225,.12);color:#92caff}.arena-lab-tag.solved{background:rgba(16,185,129,.13);color:#4adea6}.arena-lab-card h3{font:800 1.05rem Manrope,sans-serif;margin:0 0 7px}.arena-lab-card p{color:#9db0c9;font-size:.8rem;line-height:1.55;min-height:49px;margin:0 0 16px}.arena-lab-card-foot{display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(126,164,210,.12);padding-top:13px;font-size:.73rem;color:#9db0c9}.arena-lab-card-foot strong{color:#53caff}.arena-lab-skeleton{height:208px;border-radius:16px;background:linear-gradient(100deg,rgba(40,60,88,.35) 20%,rgba(68,98,138,.2) 38%,rgba(40,60,88,.35) 60%);background-size:200% 100%;animation:arenaShimmer 1.5s infinite}.arena-sim-disclaimer{margin-top:15px;color:#8095b0;font-size:.68rem;letter-spacing:.25px}.arena-labs-empty{grid-column:1/-1;border:1px dashed rgba(110,150,200,.25);border-radius:14px;padding:24px;text-align:center;color:#92a7c2}
+@keyframes arenaShimmer{to{background-position-x:-200%}}
+@media(max-width:900px){.arena-labs-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.arena-labs-heading{align-items:flex-start;flex-direction:column}.arena-labs-note{white-space:normal}}
+@media(max-width:600px){.arena-labs-section{padding:17px;margin-top:18px}.arena-labs-grid{grid-template-columns:1fr}.arena-lab-card p{min-height:0}.arena-labs-heading h2{font-size:1.5rem}}
+</style>
+
 </head>
 <body>
 
@@ -39,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
         <div class="logo-text">CTF<span>.UZ</span></div>
     </a>
-    
+
     <nav class="nav">
         <a href="/dashboard">Dashboard</a>
         <a href="/arena" class="active">Arena</a>
@@ -74,6 +86,21 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
         </div>
     </div>
+
+    <section class="arena-labs-section" aria-labelledby="arena-labs-title">
+        <div class="arena-labs-heading">
+            <div>
+                <div class="arena-eyebrow"><span class="arena-live-dot"></span> INTERACTIVE CYBER RANGE</div>
+                <h2 id="arena-labs-title">Arena <span>Labs</span></h2>
+                <p>Terminalga kiring, targetni o‘rganing va real ssenariyga yaqin xavfsiz simulyatsiyada mashq qiling.</p>
+            </div>
+            <div class="arena-labs-note"><span>⌘</span> Har bir foydalanuvchi uchun alohida lab sessiyasi</div>
+        </div>
+        <div id="arena-labs-grid" class="arena-labs-grid">
+            <div class="arena-lab-skeleton"></div><div class="arena-lab-skeleton"></div><div class="arena-lab-skeleton"></div>
+        </div>
+        <div class="arena-sim-disclaimer">LAB SIMULATOR · Buyruqlar faqat CTF.UZ simulyatorida qayta ishlanadi, server operatsion tizimida bajarilmaydi.</div>
+    </section>
 
     <div style="display: flex; gap: 8px; margin-bottom: 32px; flex-wrap: wrap;" id="filter-bar">
         <button class="btn btn-primary btn-sm" onclick="filterChallenges('all', this)">Barchasi</button>
@@ -166,24 +193,24 @@ async function loadChallenges() {
     try {
         const res = await fetch('/api/challenges', { credentials: 'include' });
         const data = await res.json();
-        
+
         if (!data.success) {
             if (data.message && data.message.includes('Kirish')) {
                 window.location.replace('/welcome');
                 return;
             }
-            document.getElementById('challenges-list').innerHTML = 
+            document.getElementById('challenges-list').innerHTML =
                 '<div style="grid-column: 1/-1; text-align: center; padding: 60px; color: var(--text-muted);">Challenges yuklanmadi</div>';
             return;
         }
-        
+
         allChallenges = data.challenges || [];
-        
+
         // Stats
         const solved = allChallenges.filter(c => c.solved).length;
         document.getElementById('stat-solved').innerText = solved;
         document.getElementById('stat-total').innerText = allChallenges.length;
-        
+
         renderChallenges('all');
     } catch (e) {
         console.error('loadChallenges xatosi:', e);
@@ -195,9 +222,9 @@ async function loadChallenges() {
 // ══════════════════════════════════════════
 function renderChallenges(cat) {
     const list = document.getElementById('challenges-list');
-let filtered = cat === 'all' 
-    ? allChallenges 
-    : allChallenges.filter(c => 
+let filtered = cat === 'all'
+    ? allChallenges
+    : allChallenges.filter(c =>
         (c.category || '').toLowerCase() === cat.toLowerCase()
     );
 
@@ -217,12 +244,12 @@ let filtered = cat === 'all'
     list.innerHTML = filtered.map(c => {
         const categoryClass = (c.category || 'web').toLowerCase();
         const difficultyClass = (c.difficulty || 'easy').toLowerCase();
-        
+
         return `
-        <div class="challenge-card ${c.solved ? 'solved' : ''} fade-in-up" 
-             onclick="window.location.href='/challenge?id=${c.id}'" 
+        <div class="challenge-card ${c.solved ? 'solved' : ''} fade-in-up"
+             onclick="window.location.href='/challenge?id=${c.id}'"
              style="cursor:pointer; position: relative; overflow: hidden;">
-            
+
             ${c.solved ? `
                 <div style="position: absolute; top: 12px; right: 12px; width: 24px; height: 24px; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
                     <svg class="icon icon-check" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;">
@@ -230,7 +257,7 @@ let filtered = cat === 'all'
                     </svg>
                 </div>
             ` : ''}
-            
+
             <div class="challenge-header">
                 <div>
                     <div class="challenge-title">${escapeHtml(c.title)}</div>
@@ -242,7 +269,7 @@ let filtered = cat === 'all'
                     ${c.points} XP
                 </div>
             </div>
-            
+
             <div class="challenge-meta">
                 <span class="badge badge-${categoryClass}">${escapeHtml(c.category || 'Web')}</span>
                 <span class="badge badge-${difficultyClass}">${escapeHtml(c.difficulty || 'Easy')}</span>
@@ -255,12 +282,12 @@ let filtered = cat === 'all'
                     </span>
                 ` : ''}
             </div>
-            
+
             <div class="challenge-story">${escapeHtml(c.story || 'Tavsif yo\'q')}</div>
-            
+
             <div class="challenge-footer">
                 <span style="color: var(--text-muted); font-size: 0.75rem; display: flex; align-items: center; gap: 6px;">
-                    ${c.solved 
+                    ${c.solved
                         ? `<svg class="icon icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;"><polyline points="20 6 9 17 4 12"/></svg> Yechilgan`
                         : `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Yechilmagan`
                     }
@@ -278,6 +305,35 @@ let filtered = cat === 'all'
 }
 
 // ══════════════════════════════════════════
+// INTERACTIVE ARENA LABS
+// ══════════════════════════════════════════
+async function loadArenaLabs() {
+    const grid = document.getElementById('arena-labs-grid');
+    if (!grid) return;
+    try {
+        const response = await fetch('/api/arena-labs/catalog', { credentials: 'include', cache: 'no-store' });
+        const data = await response.json();
+        if (!response.ok || !data.success) throw new Error(data.message || 'Lab katalogi yuklanmadi');
+        const icons = { 'linux-privesc': '⌘', 'windows-privesc': '▣', 'uac-bypass': '◈' };
+        grid.innerHTML = (data.labs || []).map(lab => `
+            <button class="arena-lab-card" type="button" onclick="window.location.href='/arena/lab/${encodeURIComponent(lab.slug)}'">
+                <div class="arena-lab-icon">${icons[lab.slug] || '⌘'}</div>
+                <div class="arena-lab-tags">
+                    <span class="arena-lab-tag">${escapeHtml(lab.category)}</span>
+                    <span class="arena-lab-tag">${escapeHtml(lab.difficulty)}</span>
+                    ${lab.solved ? '<span class="arena-lab-tag solved">✓ YECHILGAN</span>' : ''}
+                </div>
+                <h3>${escapeHtml(lab.title)}</h3>
+                <p>${escapeHtml(lab.description)}</p>
+                <div class="arena-lab-card-foot"><span>${escapeHtml(lab.os)} · ${lab.durationMinutes} min</span><strong>${lab.points} XP →</strong></div>
+            </button>`).join('') || '<div class="arena-labs-empty">Hozircha interaktiv laboratoriyalar yo‘q.</div>';
+    } catch (error) {
+        grid.innerHTML = '<div class="arena-labs-empty">Interaktiv lablar yuklanmadi. Sahifani yangilang.</div>';
+        console.error('loadArenaLabs:', error);
+    }
+}
+
+// ══════════════════════════════════════════
 // FILTER
 // ══════════════════════════════════════════
 function filterChallenges(cat, el) {
@@ -289,7 +345,7 @@ function filterChallenges(cat, el) {
     // Bosilgan tugmaga active qo'shish
     el.classList.remove('btn-secondary');
     el.classList.add('btn-primary');
-    
+
     // Filter qilish
     renderChallenges(cat);
 }
@@ -322,7 +378,7 @@ window.addEventListener('load', async () => {
             window.location.replace('/welcome');
             return;
         }
-        
+
         const authLink = document.getElementById('auth-link');
         if (authLink) {
             authLink.innerHTML = `<img src="${authData.user.avatar || '/assets/default-avatar.svg'}" style="width:22px;height:22px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-right:6px;border:1px solid #2563EB;" onerror="this.src='/assets/default-avatar.svg'">${authData.user.username}`;
@@ -331,8 +387,9 @@ window.addEventListener('load', async () => {
         window.location.replace('/welcome');
         return;
     }
-    
+
     loadChallenges();
+    loadArenaLabs();
 });
 </script>
     <script src="/js/preloader.js"></script>
@@ -356,6 +413,9 @@ window.addEventListener('load', async () => {
   </div>
 </footer>
 <script src="/js/brand-ui.js"></script>
+
+
+
 
 
 
