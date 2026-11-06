@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#07111f">
+  <title>Arena Lab — CTF.UZ</title>
+  <link rel="stylesheet" href="/css/design-system.css">
+  <link rel="stylesheet" href="/css/animations.css">
+  <link rel="stylesheet" href="/css/modern-ui.css">
+  <link rel="stylesheet" href="/css/preloader.css">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--lab-bg:#07111f;--lab-panel:#0b1728;--lab-panel2:#0e1e33;--lab-border:rgba(114,155,208,.18);--lab-muted:#91a7c2;--lab-cyan:#42c8ff;--lab-green:#39d99a;--lab-red:#fb7185}
+    body{background:radial-gradient(ellipse at 12% 0%,rgba(20,87,160,.18),transparent 32%),var(--lab-bg);min-height:100vh}
+    .lab-shell{max-width:1440px;margin:0 auto;padding:30px 28px 60px}
+    .lab-topline{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:22px}.lab-back{color:#a8bdd7;text-decoration:none;font-size:.85rem}.lab-back:hover{color:#fff}.lab-status{display:flex;align-items:center;gap:8px;color:#9bb0c9;font:700 .68rem 'JetBrains Mono',monospace;letter-spacing:1px}.lab-dot{width:8px;height:8px;border-radius:100%;background:#64748b}.lab-dot.live{background:var(--lab-green);box-shadow:0 0 12px var(--lab-green)}
+    .lab-hero{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:23px}.lab-kicker{color:var(--lab-cyan);font:800 .68rem 'JetBrains Mono',monospace;letter-spacing:2px}.lab-hero h1{font:900 clamp(1.7rem,3vw,2.5rem) Manrope,sans-serif;margin:8px 0}.lab-hero p{color:var(--lab-muted);max-width:720px;margin:0;line-height:1.65;font-size:.9rem}.lab-badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}.lab-badge{border:1px solid var(--lab-border);border-radius:999px;padding:6px 10px;color:#afc4dd;font-size:.68rem;font-weight:700}.lab-badge.points{color:#fbbf24;border-color:rgba(251,191,36,.25)}
+    .lab-controls{display:flex;gap:9px;flex-wrap:wrap}.lab-btn{border:1px solid var(--lab-border);border-radius:10px;padding:10px 15px;background:#14263d;color:#dbeafe;font-weight:800;font-size:.77rem;cursor:pointer;transition:.18s}.lab-btn:hover{border-color:#42c8ff;transform:translateY(-1px)}.lab-btn.primary{background:linear-gradient(135deg,#087db5,#1654b7);border-color:transparent;color:white}.lab-btn.danger{color:#fecdd3;border-color:rgba(251,113,133,.25);background:rgba(127,29,29,.18)}.lab-btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+    .lab-layout{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(280px,.75fr);gap:18px;align-items:start}.terminal-card,.side-card{border:1px solid var(--lab-border);border-radius:17px;background:linear-gradient(160deg,rgba(15,31,52,.98),rgba(8,18,32,.98));overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.18)}
+    .terminal-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 16px;background:rgba(3,9,18,.62);border-bottom:1px solid var(--lab-border)}.term-title{display:flex;align-items:center;gap:10px;font:700 .77rem 'JetBrains Mono',monospace;color:#d8e8fb}.term-lights{display:flex;gap:5px}.term-lights i{width:8px;height:8px;border-radius:50%;background:#fb7185}.term-lights i:nth-child(2){background:#fbbf24}.term-lights i:nth-child(3){background:#34d399}.term-target{font:600 .65rem 'JetBrains Mono',monospace;color:#86a1c2}
+    .terminal-output{height:490px;overflow:auto;padding:18px;background:linear-gradient(rgba(4,10,18,.94),rgba(4,10,18,.98));font:500 .79rem/1.75 'JetBrains Mono',monospace;color:#c4d4e7;white-space:pre-wrap;overflow-wrap:anywhere}.term-row{min-height:1.4em}.term-prompt{color:#48dca0}.term-command{color:#f1f7ff}.term-system{color:#82a6cc}.term-error{color:#fb9aa8}.term-success{color:#55e6aa}
+    .terminal-input-wrap{display:flex;align-items:center;gap:9px;padding:13px 15px;border-top:1px solid var(--lab-border);background:#081321}.terminal-prompt{color:#46d99b;font:700 .76rem 'JetBrains Mono',monospace;white-space:nowrap}.terminal-input{min-width:0;flex:1;background:transparent;border:0;outline:0;color:#f2f8ff;font:500 .8rem 'JetBrains Mono',monospace}.terminal-input::placeholder{color:#617b99}.terminal-input:disabled{opacity:.45}.term-send{border:1px solid rgba(66,200,255,.25);border-radius:8px;background:rgba(14,116,168,.22);color:#6bd5ff;padding:8px 12px;font-weight:800;cursor:pointer}.terminal-foot{padding:9px 15px;background:#07111e;border-top:1px solid var(--lab-border);color:#718aa8;font:500 .63rem 'JetBrains Mono',monospace;display:flex;justify-content:space-between;gap:10px}
+    .side-stack{display:grid;gap:15px}.side-card{padding:17px}.side-title{display:flex;align-items:center;justify-content:space-between;margin:0 0 13px;font:800 .91rem Manrope,sans-serif;color:#edf5ff}.side-title small{font:700 .62rem 'JetBrains Mono',monospace;color:#7492b5}.machine-row{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid rgba(125,158,199,.1);font-size:.74rem}.machine-row:last-child{border:0}.machine-row span{color:#849dbb}.machine-row strong{color:#dcecff;text-align:right}.machine-row strong.green{color:#45dda2}.objective-list{list-style:none;padding:0;margin:0;display:grid;gap:11px}.objective-list li{display:flex;gap:9px;color:#a8bdd4;font-size:.76rem;line-height:1.45}.objective-index{flex:none;width:21px;height:21px;border:1px solid rgba(66,200,255,.27);border-radius:7px;display:grid;place-items:center;color:#50caff;font:700 .65rem 'JetBrains Mono',monospace}.objective-list li.done{color:#65e6b0}.objective-list li.done .objective-index{color:#071a13;background:#39d99a;border-color:#39d99a}.flag-form{display:grid;gap:9px}.flag-input{width:100%;box-sizing:border-box;border:1px solid rgba(112,150,196,.25);background:#071321;border-radius:9px;padding:11px 12px;color:#e8f3ff;outline:none;font:500 .75rem 'JetBrains Mono',monospace}.flag-input:focus{border-color:#42c8ff}.flag-message{min-height:18px;font-size:.71rem;color:#9fb2ca;line-height:1.4}.flag-message.good{color:#4adea6}.flag-message.bad{color:#fb9aa8}.lab-warning{border:1px solid rgba(251,191,36,.18);background:rgba(120,75,8,.1);border-radius:10px;padding:11px;color:#b8a77f;font-size:.67rem;line-height:1.55}.lab-loading{color:#8ca4c1;text-align:center;padding:35px}.lab-not-found{max-width:650px;margin:70px auto;text-align:center;border:1px solid var(--lab-border);border-radius:18px;padding:32px;background:var(--lab-panel)}
+    @media(max-width:980px){.lab-layout{grid-template-columns:1fr}.terminal-output{height:420px}.side-stack{grid-template-columns:repeat(2,minmax(0,1fr))}.side-card:last-child{grid-column:1/-1}}
+    @media(max-width:620px){.lab-shell{padding:20px 13px 40px}.lab-hero{align-items:flex-start;flex-direction:column}.lab-controls{width:100%}.lab-btn{flex:1}.terminal-output{height:360px;padding:13px;font-size:.73rem}.terminal-input-wrap{padding:11px 9px}.terminal-prompt{font-size:.65rem}.side-stack{grid-template-columns:1fr}.side-card:last-child{grid-column:auto}.lab-topline{align-items:flex-start;flex-direction:column}}
+  </style>
+</head>
+<body>
+  <div class="lab-shell">
+    <div class="lab-topline">
+      <a class="lab-back" href="/arena">← Arena sahifasiga qaytish</a>
+      <div class="lab-status"><span class="lab-dot" id="status-dot"></span><span id="status-text">MACHINE STOPPED</span><span id="timer-label"></span></div>
+    </div>
+    <div id="lab-loading" class="lab-loading">Lab ma’lumotlari yuklanmoqda...</div>
+    <div id="lab-content" hidden>
+      <section class="lab-hero">
+        <div>
+          <div class="lab-kicker">CTF.UZ / ARENA LABS / <span id="lab-category">LAB</span></div>
+          <h1 id="lab-title">Arena Lab</h1>
+          <p id="lab-description"></p>
+          <div class="lab-badges"><span class="lab-badge" id="lab-difficulty"></span><span class="lab-badge" id="lab-os"></span><span class="lab-badge points" id="lab-points"></span></div>
+        </div>
+        <div class="lab-controls">
+          <button class="lab-btn primary" id="start-btn" type="button">▶ Start Machine</button>
+          <button class="lab-btn" id="restart-btn" type="button" hidden>↻ Reset Run</button>
+          <button class="lab-btn danger" id="stop-btn" type="button" disabled>Ⅱ Pause &amp; Save</button>
+        </div>
+      </section>
+      <div class="lab-layout">
+        <section class="terminal-card" aria-label="Terminal simulyatori">
+          <div class="terminal-head"><div class="term-title"><span class="term-lights"><i></i><i></i><i></i></span> CTFUZ-KALI — TERMINAL</div><div class="term-target" id="terminal-target">TARGET: OFFLINE</div></div>
+          <div class="terminal-output" id="terminal-output" role="log" aria-live="polite"><div class="term-system">Machine ishga tushirish uchun Start Machine tugmasini bosing.</div></div>
+          <form class="terminal-input-wrap" id="command-form">
+            <span class="terminal-prompt" id="terminal-prompt">kali@ctfuz:~$</span>
+            <input class="terminal-input" id="command-input" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="180" placeholder="Buyruq kiriting..." disabled aria-label="Terminal buyrug‘i">
+            <button class="term-send" type="submit" id="send-btn" disabled>RUN ↵</button>
+          </form>
+          <div class="terminal-foot"><span>SIMULATED SHELL · SERVER-SAVED HISTORY</span><span id="command-count">0 / 600 commands</span></div>
+        </section>
+        <aside class="side-stack">
+          <section class="side-card">
+            <h2 class="side-title">Machine details <small>INSTANCE</small></h2>
+            <div class="machine-row"><span>Attack box</span><strong>Kali Linux (sim.)</strong></div>
+            <div class="machine-row"><span>Target OS</span><strong id="detail-os">—</strong></div>
+            <div class="machine-row"><span>Target IP</span><strong id="detail-target">—</strong></div>
+            <div class="machine-row"><span>Runtime</span><strong id="detail-runtime">60 min</strong></div>
+            <div class="machine-row"><span>Access</span><strong id="detail-access">Not connected</strong></div>
+          </section>
+          <section class="side-card">
+            <h2 class="side-title">Mission objectives <small>TASKS</small></h2>
+            <ol class="objective-list" id="objective-list"></ol>
+          </section>
+          <section class="side-card">
+            <h2 class="side-title">Submit flag <small>VALIDATION</small></h2>
+            <form class="flag-form" id="flag-form">
+              <input class="flag-input" id="flag-input" type="text" maxlength="120" placeholder="CTFUZ{...}" autocomplete="off" spellcheck="false" disabled>
+              <button class="lab-btn primary" id="submit-flag-btn" type="submit" disabled>Flagni tekshirish</button>
+              <div class="flag-message" id="flag-message" aria-live="polite">Flag faqat lab maqsadiga erishilgandan keyin qabul qilinadi.</div>
+            </form>
+          </section>
+          <div class="lab-warning"><strong>Izolyatsiya haqida:</strong> bu bosqichda terminal komandalarining oldindan belgilangan natijalarini simulyatsiya qiladi. U host buyruqlarini, haqiqiy Kali/Windows VM’ni yoki tarmoq exploitlarini ishga tushirmaydi. Real VM runner keyingi bosqichda alohida infratuzilma talab qiladi.</div>
+        </aside>
+      </div>
+    </div>
+    <div id="lab-not-found" class="lab-not-found" hidden><h2>Lab topilmadi</h2><p style="color:#91a7c2">Arena katalogidan mavjud laboratoriyani tanlang.</p><a class="lab-btn" href="/arena">Arena’ga qaytish</a></div>
+  </div>
+  <script>
+    const slug = decodeURIComponent(location.pathname.split('/').filter(Boolean).pop() || '');
+    let lab = null, sessionId = null, csrfToken = '', expiresAt = null, timerHandle = null;
+    let commandCount = 0, isPaused = false, frozenRemainingMs = 0, shellCommandHistory = [], historyCursor = 0;
+    const $ = id => document.getElementById(id);
+    const out = $('terminal-output');
+
+    function addLine(text, cls='') {
+      const row = document.createElement('div'); row.className = `term-row ${cls}`;
+      row.textContent = String(text ?? ''); out.appendChild(row); out.scrollTop = out.scrollHeight;
+    }
+    function addOutputBlock(text) {
+      String(text ?? '').split('\n').forEach(line => addLine(line, /muvaffaq|success|root|high integrity|system token/i.test(line) ? 'term-success' : ''));
+    }
+    function updateObjectives(done=[]) {
+      const items = $('objective-list').querySelectorAll('li');
+      items.forEach((li, index) => {
+        const completed = Boolean(done[index]);
+        li.classList.toggle('done', completed);
+        const badge = li.querySelector('.objective-index');
+        if (badge) badge.textContent = completed ? '✓' : String(index + 1).padStart(2, '0');
+      });
+    }
+    function updateAccess(state={}) {
+      const label = state.elevated ? (slug === 'uac-bypass' ? 'High Integrity' : 'Elevated') : state.connected ? 'Target connected' : 'Kali ready';
+      $('detail-access').textContent = label;
+      $('detail-access').className = state.elevated ? 'green' : '';
+      $('terminal-prompt').textContent = state.currentPrompt || $('terminal-prompt').textContent;
+      updateObjectives(state.objectivesCompleted || []);
+    }
+    function setStatus(running, label, paused=false) {
+      isPaused = paused;
+      $('status-dot').classList.toggle('live', !!running);
+      $('status-text').textContent = label || (running ? 'MACHINE RUNNING' : 'MACHINE STOPPED');
+      $('start-btn').hidden = !!running;
+      $('start-btn').textContent = paused ? '▶ Resume Machine' : '▶ Start Machine';
+      $('restart-btn').hidden = !sessionId;
+      $('stop-btn').disabled = !running;
+      $('command-input').disabled = !running;
+      $('send-btn').disabled = !running;
+      $('flag-input').disabled = !running;
+      $('submit-flag-btn').disabled = !running;
+      $('terminal-target').textContent = running ? `TARGET: ${lab.target}` : paused ? `TARGET: PAUSED · ${lab.target}` : 'TARGET: OFFLINE';
+    }
+    function updateTimer() {
+      if (!expiresAt && !isPaused) { $('timer-label').textContent = ''; return; }
+      const remain = isPaused ? frozenRemainingMs : Math.max(0, new Date(expiresAt).getTime() - Date.now());
+      const m = Math.floor(remain / 60000), s = Math.floor((remain % 60000) / 1000);
+      $('timer-label').textContent = `· ${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+      if (!remain && !isPaused) {
+        clearInterval(timerHandle); setStatus(false, 'MACHINE EXPIRED');
+        $('detail-access').textContent = 'Runtime expired';
+        addLine('Lab vaqti tugadi. Terminal tarixi saqlangan. Yangi run boshlash mumkin.', 'term-error');
+      }
+    }
+    async function api(url, method='GET', body) {
+      const headers = { 'Content-Type': 'application/json' };
+      if (method !== 'GET' && method !== 'HEAD') headers['x-csrf-token'] = csrfToken;
+      const res = await fetch(url, { method, credentials:'include', cache:'no-store', headers, body: body ? JSON.stringify(body) : undefined });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) { const error = new Error(data.message || `HTTP ${res.status}`); error.status = res.status; throw error; }
+      return data;
+    }
+    function renderTerminalHistory(history=[]) {
+      out.replaceChildren(); shellCommandHistory = [];
+      for (const item of history) {
+        if (item.kind === 'clear') { out.replaceChildren(); continue; }
+        if (item.kind === 'command' && item.command) {
+          addLine(`${item.prompt || 'trainee@target:$'} ${item.command}`, 'term-command');
+          shellCommandHistory.push(item.command);
+        }
+        if (item.output) addOutputBlock(item.output);
+      }
+      historyCursor = shellCommandHistory.length;
+      out.scrollTop = out.scrollHeight;
+    }
+    function restoreSession(session) {
+      sessionId = session.id;
+      expiresAt = session.expiresAt;
+      commandCount = Number(session.commandCount || 0);
+      $('command-count').textContent = `${commandCount} / 600 commands`;
+      $('terminal-prompt').textContent = session.currentPrompt || 'kali@ctfuz:~$';
+      renderTerminalHistory(session.terminalHistory || []);
+      updateAccess({ ...(session.state || {}), currentPrompt: session.currentPrompt });
+      const isRunning = session.status === 'running';
+      const paused = session.status === 'paused' || session.status === 'stopped';
+      frozenRemainingMs = Number(session.remainingMs || 0);
+      setStatus(isRunning, isRunning ? 'MACHINE RUNNING · RESTORED' : paused ? 'MACHINE PAUSED · SAVED' : session.status === 'completed' ? 'LAB COMPLETED' : session.status === 'expired' ? 'MACHINE EXPIRED' : 'MACHINE STOPPED', paused);
+      if (isRunning || paused) {
+        $('detail-access').textContent = session.state?.elevated ? (slug === 'uac-bypass' ? 'High Integrity' : 'Elevated') : session.state?.connected ? 'Target connected' : 'Kali ready';
+        $('detail-access').className = session.state?.elevated ? 'green' : '';
+        if (isRunning) { clearInterval(timerHandle); updateTimer(); timerHandle = setInterval(updateTimer, 1000); }
+        else updateTimer();
+      } else {
+        $('detail-access').textContent = session.status === 'completed' ? 'Lab completed' : session.status === 'expired' ? 'Runtime expired' : 'Not connected';
+        $('flag-message').textContent = session.status === 'completed' ? 'Lab yakunlangan. Yangi run boshlashingiz mumkin; XP takror berilmaydi.' : 'Oldingi terminal tarixi saqlangan. Yangi run boshlashingiz mumkin.';
+      }
+    }
+    async function initialize() {
+      try {
+        const auth = await fetch('/api/auth/me', { credentials:'include', cache:'no-store' });
+        if (!auth.ok) { location.replace('/welcome'); return; }
+        const tokenData = await api('/api/csrf-token'); csrfToken = tokenData.csrfToken;
+        const catalog = await api('/api/arena-labs/catalog');
+        lab = (catalog.labs || []).find(item => item.slug === slug);
+        $('lab-loading').hidden = true;
+        if (!lab) { $('lab-not-found').hidden = false; return; }
+        $('lab-content').hidden = false;
+        $('lab-title').textContent = lab.title;
+        $('lab-category').textContent = lab.category.toUpperCase();
+        $('lab-description').textContent = lab.description;
+        $('lab-difficulty').textContent = lab.difficulty;
+        $('lab-os').textContent = lab.os;
+        $('lab-points').textContent = `${lab.points} XP`;
+        $('detail-os').textContent = lab.os;
+        $('detail-target').textContent = lab.target;
+        $('detail-runtime').textContent = `${lab.durationMinutes} min`;
+        $('objective-list').replaceChildren(...lab.objectives.map((objective, i) => {
+          const li = document.createElement('li'); const n = document.createElement('span'); n.className='objective-index'; n.textContent=String(i+1).padStart(2,'0'); const t=document.createElement('span'); t.textContent=objective; li.append(n,t); return li;
+        }));
+        if (lab.solved) $('flag-message').textContent = 'Bu lab avval yechilgan. Qayta mashq qilishingiz mumkin, lekin XP takror berilmaydi.';
+        const active = await api(`/api/arena-labs/${encodeURIComponent(slug)}/active`);
+        if (active.session) restoreSession(active.session);
+      } catch (error) {
+        $('lab-loading').textContent = error.status === 401 ? 'Tizimga kirish talab qilinadi.' : 'Labni yuklashda xatolik. Sahifani yangilang.';
+        if (error.status === 401) location.replace('/welcome');
+      }
+    }
+    async function startMachine(restart=false) {
+      $('start-btn').disabled = true; $('restart-btn').disabled = true;
+      try {
+        const data = await api(`/api/arena-labs/${encodeURIComponent(slug)}/start`, 'POST', { restart });
+        restoreSession(data.session);
+        if (!data.session.terminalHistory?.length && data.output) addOutputBlock(data.output);
+        if (data.alreadySolved) $('flag-message').textContent = 'Bu xona avval yechilgan — qayta ball berilmaydi.';
+        if (data.resumed) addLine('Saqlangan lab sessiyasi davom ettirildi.', 'term-system');
+        $('command-input').focus();
+      } catch (error) { addLine(error.message, 'term-error'); }
+      finally { $('start-btn').disabled = false; $('restart-btn').disabled = false; }
+    }
+    async function sendCommand(command) {
+      if (!sessionId || !command.trim() || $('send-btn').disabled) return;
+      const promptBefore = $('terminal-prompt').textContent;
+      $('command-input').value = ''; $('send-btn').disabled = true;
+      try {
+        const data = await api(`/api/arena-labs/sessions/${sessionId}/command`, 'POST', { command });
+        if (data.output === '[CLEAR]') out.replaceChildren();
+        else {
+          addLine(`${promptBefore} ${command}`, 'term-command');
+          if (data.output) addOutputBlock(data.output);
+        }
+        shellCommandHistory.push(command); historyCursor = shellCommandHistory.length;
+        $('terminal-prompt').textContent = data.prompt;
+        commandCount = data.commandCount; $('command-count').textContent = `${commandCount} / 600 commands`;
+        updateAccess({ ...data.state, currentPrompt: data.prompt });
+      } catch (error) {
+        addLine(error.message, 'term-error');
+        if ([409,410,404].includes(error.status)) {
+          clearInterval(timerHandle);
+          try { const active=await api(`/api/arena-labs/${encodeURIComponent(slug)}/active`); if(active.session) restoreSession(active.session); } catch (_) {}
+        }
+      } finally { $('send-btn').disabled = $('command-input').disabled; if (!$('command-input').disabled) $('command-input').focus(); }
+    }
+    async function stopMachine() {
+      if (!sessionId) return;
+      $('stop-btn').disabled = true;
+      try {
+        const data = await api(`/api/arena-labs/sessions/${sessionId}/stop`, 'POST', {});
+        clearInterval(timerHandle); frozenRemainingMs = Number(data.remainingMs || 0);
+        setStatus(false, 'MACHINE PAUSED · SAVED', true); updateTimer();
+        addLine('Lab pauza qilindi. Progress va terminal tarixi saqlandi.', 'term-system');
+      } catch (error) { addLine(error.message, 'term-error'); $('stop-btn').disabled = false; }
+    }
+
+    $('start-btn').addEventListener('click', () => startMachine(false));
+    $('restart-btn').addEventListener('click', () => {
+      if (confirm('Yangi lab run boshlansa, joriy mashina progressi reset bo‘ladi. Eski sessiya tarixi saqlanadi. Davom etasizmi?')) startMachine(true);
+    });
+    $('stop-btn').addEventListener('click', stopMachine);
+    $('command-form').addEventListener('submit', e => { e.preventDefault(); sendCommand($('command-input').value); });
+    $('command-input').addEventListener('keydown', e => {
+      if (e.key === 'ArrowUp' && shellCommandHistory.length) {
+        e.preventDefault(); historyCursor = Math.max(0, historyCursor - 1); $('command-input').value = shellCommandHistory[historyCursor] || '';
+      } else if (e.key === 'ArrowDown' && shellCommandHistory.length) {
+        e.preventDefault(); historyCursor = Math.min(shellCommandHistory.length, historyCursor + 1); $('command-input').value = shellCommandHistory[historyCursor] || '';
+      } else if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'l') {
+        e.preventDefault(); sendCommand('clear');
+      }
+    });
+    $('flag-form').addEventListener('submit', async e => {
+      e.preventDefault(); const message = $('flag-message'); message.className='flag-message'; message.textContent='Flag tekshirilmoqda...';
+      try {
+        const data = await api(`/api/arena-labs/sessions/${sessionId}/submit`, 'POST', { flag:$('flag-input').value });
+        message.className='flag-message good'; message.textContent=data.message; addLine(data.message, 'term-success');
+        if (data.success) { setStatus(false, 'LAB COMPLETED'); clearInterval(timerHandle); $('restart-btn').hidden=false; updateObjectives([true,true,true,true]); }
+      } catch(error) { message.className='flag-message bad'; message.textContent=error.message; }
+    });
+    initialize();
+  </script>
+</body>
+</html>

@@ -272,6 +272,7 @@ app.use('/api/teams', teamRoutes);
 app.use('/api/locations', locationRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/writeups', writeupRoutes);
+app.use('/api/arena-labs', require('./routes/arenaLabs'));
 
 // CSRF token
 app.get('/api/csrf-token', csrfTokenEndpoint);
@@ -302,6 +303,11 @@ publicPages.forEach(page => {
     app.get(`/${page}`, (req, res) => {
         res.sendFile(path.join(__dirname, 'public', `${page}.html`));
     });
+});
+
+// Arena Labs simulator page
+app.get('/arena/lab/:slug', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'arena-lab.html'));
 });
 
 // Battle live room
