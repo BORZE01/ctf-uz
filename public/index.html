@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CTF.UZ — O'zbekistonning birinchi milliy CTF platformasi</title>
     <link rel="stylesheet" href="/css/preloader.css">
+    <link rel="stylesheet" href="/css/home-animations.css">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
@@ -226,6 +227,45 @@
 
 <section class="hero">
     <div class="hero-bg"></div>
+    <div class="hero-visual" aria-hidden="true">
+        <svg class="hero-emblem" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="emblem-stroke" x1="92" y1="68" x2="412" y2="432" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#4A7FFF"/>
+                    <stop offset="1" stop-color="#22D3EE"/>
+                </linearGradient>
+                <radialGradient id="emblem-glow">
+                    <stop stop-color="#2563EB" stop-opacity=".3"/>
+                    <stop offset="1" stop-color="#2563EB" stop-opacity="0"/>
+                </radialGradient>
+            </defs>
+            <circle class="emblem-halo" cx="250" cy="250" r="220" fill="url(#emblem-glow)"/>
+            <circle class="emblem-orbit emblem-orbit-outer" cx="250" cy="250" r="204" stroke="#4A7FFF" stroke-opacity=".24" stroke-dasharray="2 12"/>
+            <circle class="emblem-orbit emblem-orbit-inner" cx="250" cy="250" r="168" stroke="#22D3EE" stroke-opacity=".2" stroke-dasharray="1 9"/>
+            <defs>
+                <radialGradient id="emblem-shatter-gradient" cx="250" cy="250" r="155" gradientUnits="userSpaceOnUse">
+                    <stop offset="0" stop-color="black"/>
+                    <stop offset=".45" stop-color="black"/>
+                    <stop offset="1" stop-color="white"/>
+                </radialGradient>
+                <mask id="emblem-shatter-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="500" height="500">
+                    <rect width="500" height="500" fill="url(#emblem-shatter-gradient)"/>
+                </mask>
+            </defs>
+            <g id="emblem-original">
+                <g id="emblem-artwork">
+                    <path class="emblem-shield" d="M250 76L383 126V237C383 328 327 390 250 431C173 390 117 328 117 237V126L250 76Z" stroke="url(#emblem-stroke)" stroke-width="3"/>
+                    <path d="M250 106L355 145V237C355 307 313 358 250 394C187 358 145 307 145 237V145L250 106Z" stroke="#4A7FFF" stroke-opacity=".28" stroke-width="1.5"/>
+                    <path class="emblem-mark" d="M271 157L205 263H246L229 336L296 225H255L271 157Z" fill="url(#emblem-stroke)"/>
+                </g>
+            </g>
+            <g class="emblem-fragments" aria-hidden="true"></g>
+            <circle class="emblem-node emblem-node-one" cx="250" cy="46" r="5" fill="#22D3EE"/>
+            <circle class="emblem-node emblem-node-two" cx="429" cy="250" r="4" fill="#4A7FFF"/>
+            <circle class="emblem-node emblem-node-three" cx="71" cy="250" r="4" fill="#22D3EE"/>
+        </svg>
+        <div class="hero-visual-label"><span></span> CTF.UZ // SECURE ARENA</div>
+    </div>
     <div class="hero-content">
         <div class="hero-eyebrow">
             O'zingizni sinab ko'ring.<br>
@@ -401,7 +441,7 @@
 
 <section class="section" style="padding-top:0;">
     <div class="events-header">
-        <h2>Faol musobaqalar</h2>
+        <h2>So‘nggi musobaqalar</h2>
         <a href="/events">
             Barchasi
             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;">
@@ -409,7 +449,7 @@
             </svg>
         </a>
     </div>
-    <p class="section-subtitle" style="margin:0 0 32px 0;text-align:left;">Hozirgi va kelgusi CTF musobaqalari</p>
+    <p class="section-subtitle" style="margin:0 0 32px 0;text-align:left;">Yakunlangan musobaqalar va arxivdagi ma’lumotlar</p>
 
     <div class="events-grid">
         <div class="event-card">
@@ -433,7 +473,7 @@
                     <span class="event-tag">Online</span>
                 </div>
                 <div class="event-info">
-                    <span>2026-04-25 → 2026-05-02</span>
+                    <span>Yakunlangan · 2026-04-25 → 2026-05-02</span>
                 </div>
                 <div class="event-participants">
                     <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -441,12 +481,12 @@
                     </svg>
                     Ishtirokchilar: 84
                 </div>
-                <button class="event-btn">
-                    Ishtirok etish
+                <a href="/events" class="event-btn" aria-label="CTF.UZ Quals 2026 arxivini ko‘rish">
+                    Arxivni ko‘rish
                     <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M5 12h14M12 5l7 7-7 7"/>
                     </svg>
-                </button>
+                </a>
             </div>
         </div>
 
@@ -475,7 +515,7 @@
                     <span class="event-tag">Onsite</span>
                 </div>
                 <div class="event-info">
-                    <span>2026-05-15 → 2026-05-18</span>
+                    <span>Yakunlangan · 2026-05-15 → 2026-05-18</span>
                 </div>
                 <div class="event-participants">
                     <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -483,12 +523,12 @@
                     </svg>
                     Ishtirokchilar: 52
                 </div>
-                <button class="event-btn">
-                    Batafsil
+                <a href="/events" class="event-btn" aria-label="O‘zbekiston Cyber Challenge 2026 arxivini ko‘rish">
+                    Arxivni ko‘rish
                     <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M5 12h14M12 5l7 7-7 7"/>
                     </svg>
-                </button>
+                </a>
             </div>
         </div>
 
@@ -516,7 +556,7 @@
                     <span class="event-tag">Online</span>
                 </div>
                 <div class="event-info">
-                    <span>2026-04-26 → 2026-05-05</span>
+                    <span>Yakunlangan · 2026-04-26 → 2026-05-05</span>
                 </div>
                 <div class="event-participants">
                     <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -524,12 +564,12 @@
                     </svg>
                     Ishtirokchilar: 128
                 </div>
-                <button class="event-btn">
-                    Batafsil
+                <a href="/events" class="event-btn" aria-label="CTF.UZ Rookie arxivini ko‘rish">
+                    Arxivni ko‘rish
                     <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M5 12h14M12 5l7 7-7 7"/>
                     </svg>
-                </button>
+                </a>
             </div>
         </div>
     </div>
@@ -658,10 +698,9 @@
 </footer>
 
 <script src="/js/preloader.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script>lucide.createIcons();</script>
-    <script src="/js/ai-assistant.js"></script>
+<script src="/js/ai-assistant.js"></script>
 <script src="/js/brand-ui.js"></script>
+<script src="/js/home-animations.js"></script>
 
 
 
