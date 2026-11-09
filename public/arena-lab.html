@@ -113,6 +113,7 @@
       $('detail-access').textContent = label;
       $('detail-access').className = state.elevated ? 'green' : '';
       $('terminal-prompt').textContent = state.currentPrompt || $('terminal-prompt').textContent;
+      $('command-input').type = $('terminal-prompt').textContent === 'Password:' ? 'password' : 'text';
       updateObjectives(state.objectivesCompleted || []);
     }
     function setStatus(running, label, paused=false) {
@@ -228,15 +229,17 @@
     async function sendCommand(command) {
       if (!sessionId || !command.trim() || $('send-btn').disabled) return;
       const promptBefore = $('terminal-prompt').textContent;
+      const isPasswordInput = promptBefore === 'Password:';
       $('command-input').value = ''; $('send-btn').disabled = true;
       try {
         const data = await api(`/api/arena-labs/sessions/${sessionId}/command`, 'POST', { command });
         if (data.output === '[CLEAR]') out.replaceChildren();
         else {
-          addLine(`${promptBefore} ${command}`, 'term-command');
+          addLine(`${promptBefore} ${isPasswordInput ? '********' : command}`, 'term-command');
           if (data.output) addOutputBlock(data.output);
         }
-        shellCommandHistory.push(command); historyCursor = shellCommandHistory.length;
+        if (!isPasswordInput) { shellCommandHistory.push(command); historyCursor = shellCommandHistory.length; }
+        $('command-input').type = data.prompt === 'Password:' ? 'password' : 'text';
         $('terminal-prompt').textContent = data.prompt;
         commandCount = data.commandCount; $('command-count').textContent = `${commandCount} / 600 commands`;
         updateAccess({ ...data.state, currentPrompt: data.prompt });

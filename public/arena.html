@@ -314,7 +314,7 @@ async function loadArenaLabs() {
         const response = await fetch('/api/arena-labs/catalog', { credentials: 'include', cache: 'no-store' });
         const data = await response.json();
         if (!response.ok || !data.success) throw new Error(data.message || 'Lab katalogi yuklanmadi');
-        const icons = { 'linux-privesc': '⌘', 'windows-privesc': '▣', 'uac-bypass': '◈' };
+        const icons = { 'linux-privesc': '⌘', 'codenest-linux-privesc': '⌁', 'windows-privesc': '▣', 'uac-bypass': '◈' };
         grid.innerHTML = (data.labs || []).map(lab => `
             <button class="arena-lab-card" type="button" onclick="window.location.href='/arena/lab/${encodeURIComponent(lab.slug)}'">
                 <div class="arena-lab-icon">${icons[lab.slug] || '⌘'}</div>

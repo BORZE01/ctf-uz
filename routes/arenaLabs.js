@@ -195,7 +195,8 @@ router.post('/:slug/start', async (req, res) => {
       serviceInspected: false, aclInspected: false,
       uacDefaultConfigured: false, uacDelegateConfigured: false,
       enumerated: false, exploitPrepared: false,
-      cwd: '/home/trainee', previousCwd: '', objectivesCompleted: [false, false, false, false]
+      cwd: '/home/trainee', previousCwd: '', objectivesCompleted: [false, false, false, false],
+      ...(lab.slug === 'codenest-linux-privesc' ? { codenest: { currentUser: 'kali', pendingAuth: '', cwd: '/home/kali' } } : {})
     };
     const banner = `CTF.UZ Arena Labs\n${lab.title} | ${lab.os}\nAttack box: ${lab.attackBox}\nTarget: ${lab.target}\n\nBu xavfsiz terminal simulyatsiyasi. Buyruqlar server operatsion tizimida bajarilmaydi.\nBoshlash uchun: ${lab.connectionCommand}\nYordam: help`;
     const session = await ArenaLabSession.create({
@@ -228,6 +229,7 @@ router.post('/sessions/:sessionId/command', async (req, res) => {
     const lab = LABS[session.labSlug];
     if (!lab) return res.status(404).json({ success: false, message: 'Lab konfiguratsiyasi topilmadi.' });
     const stateBefore = session.state.toObject ? session.state.toObject() : session.state;
+    const isCodenestPasswordInput = Boolean(stateBefore.codenest && stateBefore.codenest.pendingAuth);
     const promptBefore = promptFor(lab, stateBefore);
     let result;
     if (raw.trim().toLowerCase() === 'history') {
@@ -245,7 +247,7 @@ router.post('/sessions/:sessionId/command', async (req, res) => {
     const isClear = result.output === '[CLEAR]';
     appendHistory(session, {
       kind: isClear ? 'clear' : 'command',
-      command: raw.trim(),
+      command: isCodenestPasswordInput ? '********' : raw.trim(),
       output: isClear ? '' : result.output,
       prompt: promptBefore
     });

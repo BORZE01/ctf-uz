@@ -1,5 +1,6 @@
 const crypto = require('crypto');
 const path = require('path');
+const { executeCodenestCommand, promptForCodenest } = require('./codenestLinuxEngine');
 
 const LABS = Object.freeze({
   'linux-privesc': {
@@ -9,6 +10,19 @@ const LABS = Object.freeze({
     description: 'Linux tizimini tekshiring, sudo noto‘g‘ri konfiguratsiyasini toping va laboratoriya targetida root darajasiga chiqing.',
     objectives: ['Target mashinaga ulaning', 'Foydalanuvchi va sudo ruxsatlarini tekshiring', 'Noto‘g‘ri sozlangan find ruxsatidan foydalaning', 'Root flagni o‘qing va topshiring'],
     connectionCommand: 'ssh trainee@10.10.10.10'
+  },
+  'codenest-linux-privesc': {
+    slug: 'codenest-linux-privesc', title: 'CodeNest LinuxPrivEsc Lab', category: 'Linux', difficulty: 'Intermediate',
+    points: 400, durationMinutes: 75, os: 'Ubuntu Server 22.04.5 LTS (x86_64)', attackBox: 'Kali Linux (Host-only simulation)',
+    target: '192.168.56.101', skill: 'linux',
+    description: 'Nmap bilan targetni aniqlang, SSH credential audit qiling, student → devuser lateral movement bajaring va sudo find, writable cron yoki SUID PATH hijack yo‘llaridan biri bilan root flagni oling. To‘liq izolyatsiyalangan virtual terminal simulyatsiyasi.',
+    objectives: [
+      '192.168.56.0/24 tarmog‘ini skanerlang, SSH 22/tcp servis versiyasini aniqlang va student sifatida targetga kiring',
+      'Flag1.txt faylini find bilan toping, backup.sh ichidagi credentialni aniqlang, su orqali devuser’ga o‘ting va Flag2’ni o‘qing',
+      'sudo find, 2 daqiqalik writable cron yoki backup_tool SUID PATH hijack yo‘llaridan biri orqali root huquqini oling',
+      '/root/Flag3.txt faylini o‘qing va dinamik flagni topshiring'
+    ],
+    connectionCommand: 'nmap 192.168.56.0/24'
   },
   'windows-privesc': {
     slug: 'windows-privesc', title: 'Windows PrivEsc', category: 'Windows', difficulty: 'Intermediate',
@@ -36,6 +50,7 @@ function expectedFlag(sessionId, slug) {
 }
 
 function promptFor(lab, state) {
+  if (lab.slug === 'codenest-linux-privesc') return promptForCodenest(state);
   if (!state.connected) return 'kali@ctfuz:~$';
   if (lab.slug === 'linux-privesc') {
     const user = state.elevated ? 'root' : 'trainee';
@@ -131,6 +146,9 @@ function executeLabCommand(lab, sessionId, state, rawCommand) {
   if (!command) return { output: '', state: next, prompt: promptFor(lab, next) };
   if (command.length > 180) return { output: 'Xato: buyruq 180 belgidan oshmasligi kerak.', state: next, prompt: promptFor(lab, next) };
   if (/\u0000|[\r\n]/.test(command)) return { output: 'Xato: bitta buyruq yuboring.', state: next, prompt: promptFor(lab, next) };
+  if (lab.slug === 'codenest-linux-privesc') {
+    return executeCodenestCommand(lab, sessionId, state, command, expectedFlag);
+  }
 
   const local = {
     help: 'Kali: help, clear, history, pwd, ls, cd, whoami, hostname, ip a, ip route, ping, nmap, ssh yoki xfreerdp.\nLinux target: id, uname -a, cat, grep, find, sudo -l, getcap, ps aux, ss -tulpn.\nWindows target: whoami /all, systeminfo, dir, type, sc qc, sc config, sc start, icacls, reg query, reg add, start fodhelper.exe.',
